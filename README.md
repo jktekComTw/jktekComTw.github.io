@@ -1,2 +1,0 @@
-# jktekComTw.github.io
-homepage
