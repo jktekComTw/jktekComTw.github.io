@@ -2,105 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <title>JKTek</title>
 
 <!-- CSS (load bootstrap from a CDN) -->
 <!-- <link rel="stylesheet" src="/stylesheets/bootstrap.css"> -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="all.css"> 
 <!-- <script src="/javascripts/jquery.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
 <!-- <script src="/jquery/jquery.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-<style>
-  body { padding-top:50px; }
-  .v-line1{
-    border-left: thick solid #000;
-    height:100%;
-    left: 1%;
-    position: absolute;
-  }
-  .v-line2{
-    border-left: thick solid #000;
-    height:100%;
-    left: 15%;
-    position: absolute;
-  }
-</style>
-
-
 </head>
-<body class="container">
+<script>
+  $(document).ready(function() {
+   $('.showmenu').on('click',  function(e){
+      e.preventDefault();
+      $('body').toggleClass('menu-show');
+   });
+  });
+</script>
 
-<header>
-  <!-- <div data-spy=”affix” class="my-affix-div"> -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- <a class="navbar-brand" href="/">EJS Is Fun</a> -->
-    
-    
-    <!-- <ul class="navbar-nav mr-auto"> -->
-    <!-- <br> -->
-    <!-- <br> -->
-    <!-- <ul>
-      <li class="nav-item">
-    
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-    
-        <a class="nav-link" href="/">About</a>
-      </li>
-    </ul> -->
-</nav>
-<!-- </div> -->
-</header>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="logo"></div>
+      <ul class="menu">
+          <li><a href="projects.html">作品/Projects</a></li>
+          <li><a href="#">選單二</a></li>
+          <li><a href="#">選單三</a></li>
+          <li><a href="#">選單四</a></li>
+          <li><a href="#">選單五</a></li>
+          <li><a href="#" target="_blank">選單六</a></li>
+          <li><a href="#">選單七</a></li>
+      </ul>
+      <a href="#" class="showmenu">menu</a>
+    </div>
 
-<main>
-  <div class="v-line1">
-    <ul>
-      <li>
-        <a href=projects.html><h2>作品/Project</h2></a>
-      </li>
-    </ul>
-  </div>
 
-  <div class="v-line2">
-    <!-- <ul>
-      <li>
-        <a href=projects.html><h2>作品/Project</h2></a>
-      </li>
-    </ul> -->
-  </div>
+    <div class="content">
 
-  <div class="jumbotron" style="right: 80%;">
-    <h1>昭群科技</h1>
-    <p>Welcome to JiaoKun Technology Company
-    </p>
-  </div>
+      <div class="jumbotron">
+        <h1>昭群科技</h1>
+        <p>Welcome to JiaoKun Technology Company
+        </p>
+      </div>
   <!-- for mongodb atlas document manipulation -->
-  <script src="/javascripts/DbAndDom_manipulate.js"></script>
+  <!-- <script src="/javascripts/DbAndDom_manipulate.js"></script> -->
   
 
-  <div>
-    <ul>
-      <li>負責人 馬嘉鴻/Carlos Ma</li>
-      <li>手機號碼/Mobile +886-919155809</li>
-      <li>公司電話(市話) 07-3310-277</li>
-      <li>公司傳真 07-3310-217</li>
-      <li>公司地址 806 高雄市前鎮區一心一路243號10樓/10F., No. 243, Yixin 1st Rd., Qianzhen Dist., Kaohsiung City 806 , Taiwan</li>
-      <li>公司官網網址 <a href="https://jktekcomtw.github.io">https://jktekcomtw.github.io</a></li>
-      <li>EMAIL:<a href="mailto:chiahungma@mail.jktek.com.tw">聯絡我們/Contact Us</a></li>
-      <li>統一編號 92145088</li>
-      <li>
-        營業項目 GNU/Linux嵌入式系統軟韌體開發, 馬達變頻器電路與程式開發, 網頁程式開發, 手機APP開發, 生產品質管理教育訓練, 機構設計, 資訊系統管理, 數位電路設計
-        <!-- <ul>
-          <li></li>
-        </ul> -->
-      </li>
+    <div>
+      <ul>
+        <li>負責人 馬嘉鴻/Carlos Ma</li>
+        <li>手機號碼/Mobile +886-919155809</li>
+        <li>公司電話(市話) 07-3310-277</li>
+        <li>公司傳真 07-3310-217</li>
+        <li>公司地址 806 高雄市前鎮區一心一路243號10樓/10F., No. 243, Yixin 1st Rd., Qianzhen Dist., Kaohsiung City 806 , Taiwan</li>
+        <li>公司官網網址 <a href="https://jktekcomtw.github.io">https://jktekcomtw.github.io</a></li>
+        <li>EMAIL:<a href="mailto:chiahungma@mail.jktek.com.tw">聯絡我們/Contact Us</a></li>
+        <li>統一編號 92145088</li>
+        <li>
+          營業項目 GNU/Linux嵌入式系統軟韌體開發, 馬達變頻器電路與程式開發, 網頁程式開發, 手機APP開發, 生產品質管理教育訓練, 機構設計, 資訊系統管理, 數位電路設計
+          <!-- <ul>
+            <li></li>
+          </ul> -->
+        </li>
 
-      
-    </ul>
+        
+      </ul>
+    </div>
   </div>
-</main>
+</body>
 <br><br><br><br><br><br><br>
 
 
@@ -109,5 +81,5 @@
   <p class="text-center text-muted">&copy; Copyright 2022 Chiahung Ma</p>
 </footer>
 
-</body>
+<!-- </body> -->
 </html>
