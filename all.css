@@ -46,10 +46,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-body{
-  background: #e07c0a;
-  color: #030303;
-}
 a{
   color: #69CA62;
   text-decoration: none;
@@ -81,13 +77,6 @@ a{
   color: #070707;
   padding: 1em;
   text-decoration: none;
-}
-.content{
-  padding: 1em;
-  line-height: 1.8;
-}
-.content p{
-  margin-bottom: 1em;
 }
 /*在PC上隱藏漢堡選單按鈕*/
 .showmenu{
@@ -129,7 +118,7 @@ a{
   }
   /*jQ點擊後動態在 body 加上 class */
   .menu-show .menu{
-    max-height: 500px
+    max-height: 1000px
   }
 }
 
