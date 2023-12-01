@@ -24,11 +24,11 @@
     function calculate(){
         let input=Number($("#value4fib").val());
         // input=input.parseInt();
-        var wasmModule = new WebAssembly.Module(wasmCode);
-        var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
-        log(wasmInstance.exports.fibonacci(input));
+        // var wasmModule = new WebAssembly.Module(wasmCode);
+        // var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
+        // log(wasmInstance.exports.fibonacci(input));
 
-        $("#output4fib").val(wasmInstance.exports.fibonacci(input));
+        $("#output4fib").val(input);
     
     }
 
