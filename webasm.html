@@ -5,19 +5,19 @@
   </head>
   <body>
     <script>
-    const importObj = {
-        env: {
-            log: n => console.log(n)
-        }
-    };
+    // const importObj = {
+    //     env: {
+    //         log: n => console.log(n)
+    //     }
+    // };
 
-    WebAssembly.instantiateStreaming(fetch('program.wasm'), importObj)
-               .then(prog => {
-                   console.log(prog.instance.exports.fibonacci(10)); 
-               });
-    // var wasmModule = new WebAssembly.Module(wasmCode);
-    // var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
-    // log(wasmInstance.exports.fibonacci(10));
+    // WebAssembly.instantiateStreaming(fetch('program.wasm'), importObj)
+    //            .then(prog => {
+    //                console.log(prog.instance.exports.fibonacci(10)); 
+    //            });
+    var wasmModule = new WebAssembly.Module(wasmCode);
+    var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
+    log(wasmInstance.exports.fibonacci(10));
 
     </script>
   </body>
