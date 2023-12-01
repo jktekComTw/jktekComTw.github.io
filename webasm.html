@@ -10,28 +10,28 @@
     output for fib:<input type="text" id="output4fib">
 
     <script>
-    // const importObj = {
-    //     env: {
-    //         log: n => console.log(n)
-    //     }
-    // };
-
-    // WebAssembly.instantiateStreaming(fetch('program.wasm'), importObj)
-    //            .then(prog => {
-    //                console.log(prog.instance.exports.fibonacci(10)); 
-    //            });
     
-    var wasmModule = new WebAssembly.Module(wasmCode);
-    var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
-
+    
+    // var wasmModule = new WebAssembly.Module(wasmCode);
+    // var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
+    // log(wasmInstance.exports.fibonacci(input));    
 
     function calculate(){
         let input=Number($("#value4fib").val());
         // input=input.parseInt();
-        
-        // log(wasmInstance.exports.fibonacci(input));
+        const importObj = {
+        env: {
+            log: n => console.log(n)
+            }
+        };
 
-        $("#output4fib").val(wasmInstance.exports.fibonacci(input));
+        WebAssembly.instantiateStreaming(fetch('program.wasm'), importObj)
+        .then(prog => {
+            console.log(prog.instance.exports.fibonacci(input)); 
+        });  
+        
+
+        $("#output4fib").val(prog.instance.exports.fibonacci(input));
     
     }
 
