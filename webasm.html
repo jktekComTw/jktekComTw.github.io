@@ -2,8 +2,13 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
   </head>
   <body>
+
+    input value for fib function:<input type="text" id="value4fib">&nbsp;&nbsp;<button id="calculate" onclick="calculate()">calculate</button><br><br>
+    output for fib:<input type="text" id="output4fib">
+
     <script>
     // const importObj = {
     //     env: {
@@ -15,9 +20,20 @@
     //            .then(prog => {
     //                console.log(prog.instance.exports.fibonacci(10)); 
     //            });
-    var wasmModule = new WebAssembly.Module(wasmCode);
-    var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
-    log(wasmInstance.exports.fibonacci(10));
+
+    function calculate(){
+        let input=Number($("#value4fib").val());
+        // input=input.parseInt();
+        var wasmModule = new WebAssembly.Module(wasmCode);
+        var wasmInstance = new WebAssembly.Instance(wasmModule, wasmImports);
+        log(wasmInstance.exports.fibonacci(input));
+
+        $("#output4fib").val(wasmInstance.exports.fibonacci(input));
+    
+    }
+
+
+    
 
     </script>
   </body>
