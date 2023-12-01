@@ -28,7 +28,7 @@
         WebAssembly.instantiateStreaming(fetch('./program.wasm'), importObj)
         .then(prog => {
             let output=prog.instance.exports.fibonacci(input);
-            log(output);
+            console.log(output);
             $("#output4fib").val(output);
         });  
     }
