@@ -1,105 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<title>JKTek</title>
+    <meta charset="UTF-8">
+    <title>45 Degree Diagonal Division</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
-<!-- CSS (load bootstrap from a CDN) -->
-<!-- <link rel="stylesheet" src="/stylesheets/bootstrap.css"> -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet" href="all.css"> 
-<!-- <script src="/javascripts/jquery.js"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-<!-- <script src="/jquery/jquery.js"></script> -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-<style>
-      /* Set outer border color */
-      body {
-        border: 80px solid #FFA500;
-        margin: 0;
-        padding: 0;
-      }
-      /* Set gradient background */
-      .content {
-        height: 100vh;
-        background: linear-gradient(to bottom left, #808080, #FFFFFF);
-      }
-      .showmenu{
-        height: 30vh;
-        background: linear-gradient(to bottom left, #808080, #FFFFFF);
-      }
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbars */
+        }
+        .diagonal-background {
+            width: 100%;
+            height: 100%;
+            /* Create a 45-degree gradient with three color sections */
+            background: linear-gradient(
+                135deg, /* 45-degree angle */
+                orange 15%, /* Orange for the first third */
+                silver 15% 85%, /* Silver for the middle third */
+                orange 15% /* Orange for the last third */
+            );
+        }
+        .container {
+            display: flex; /* Use flexbox to align children horizontally */
+        }
+        .box {
+            flex: 1; /* Each box will take an equal amount of space */
+            border: 0px solid #000; /* Just for visual distinction */
+            padding: 10px; /* Some padding around the content */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        ul {
+        list-style-type: none; /* Remove default list styling */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+        ul li {
+            /* display: inline-block; Align list items horizontally */
+            margin-right: 20px; /* Add space between items, if desired */
+            /* Other styles can be added here (e.g., padding, border, etc.) */
+            padding-left: 150px;
+        }
     </style>
 </head>
-<script>
-  $(document).ready(function() {
-   $('.showmenu').on('click',  function(e){
-      e.preventDefault();
-      $('body').toggleClass('menu-show');
-   });
-  });
-</script>
-
 <body>
-  <div class="container-fluid content">
-    <div class="header">
-      <div class="logo"><img src="logo_podogi.png" alt="name" width="110" height="100"/></div>
-      <br><br>
-      <ul class="menu">
-          <li><a href="#">About Us</a></li>
-          <li><a href="projects.html">Projects/web app</a></li>
-          <li><a href="#">Project/foc motor drive</a></li>
-          <!-- <li><a href="#">選單四</a></li>
-          <li><a href="#">選單五</a></li>
-          <li><a href="#" target="_blank">選單六</a></li>
-          <li><a href="#">選單七</a></li> -->
-      </ul>
-      <a href="#" class="showmenu">menu</a>
-    </div>
-
-	
-    <div class="content">
-
-      <div class="jumbotron">
-        <h1> &nbsp; &nbsp;昭群科技</h1>
-        <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Welcome to JiaoKun Technology
-        </p>
-      </div>
-  <!-- for mongodb atlas document manipulation -->
-  <!-- <script src="/javascripts/DbAndDom_manipulate.js"></script> -->
-  <br<br>
-
-      <div>
-      <ul>
-        <li>負責人 馬嘉鴻/Carlos Ma</li>
-        <li>手機號碼/Mobile &nbsp;+886-919155809</li>
-        <li>公司電話(市話)/Phone &nbsp;+886-7-8228276</li>
-      
-        <li>公司地址 &nbsp;830051 高雄市鳳山區龍成路92-2號3樓</li>
-        <li>Address: &nbsp;3F.,No. 92-2, Longchen Rd., Fengshan Dist., Kaohsiung City 830051 , Taiwan(R.O.C)</li>
-        <li>公司官網網址 &nbsp;<a href="https://jktekcomtw.github.io">https://jktekcomtw.github.io</a></li>
-        <li>EMAIL: &nbsp;<a href="mailto:chiahungma@mail.jktek.com.tw">聯絡我們/Contact Us</a></li>
-        <li>統一編號/VAT ID: &nbsp;tw92145088</li>
-        <li>
-          營業項目 GNU/Linux嵌入式系統軟韌體開發, 馬達變頻器電路與程式開發, 電力電子產品設計,網頁程式開發, 手機APP開發, 生產品質管理教育訓練, 機構設計, 資訊系統管理, 數位電路設計
-          
-        </li>
-	<li>
-	Services: GNU/Linux Embedded system dev.(RTOS), AC motor FOC dev., Power Electronics Products Design, Web dev., APP dev., Mechanism 3D design, Digital IC design. 
-	</li>
+    <div class="diagonal-background">
+        <!-- The background is divided into three diagonal sections at a 45-degree angle -->
+        <div class="container">
+            <div class="logo">
+                <img src="capy.jpg" alt="name" width="110" height="100"/>
+            </div>
+            <div>
+                <h1 style="text-align: center;"> &nbsp; &nbsp;昭群科技</h1>
+              <h2> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Welcome to JiaoKun Technology
+              </h2>
+            </div>
+            <div class="box" style="text-align: right;"><b>
+                <ul class="menu">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="projects.html">Projects/web app</a></li>
+                    <li><a href="#">Project/foc motor drive</a></li>
+                    
+                </ul>
+                <!-- <a href="#" class="showmenu">menu</a> --></b>
+            </div>
+        </div>
         
-      </ul>
-      </div>
+        <!-- for mongodb atlas document manipulation -->
+        <!-- <script src="/javascripts/DbAndDom_manipulate.js"></script> -->
+        
+      
+            <div style="text-align: left;">
+            <br><br><br><br><br><br>
+            <!-- &nbsp; &nbsp; &nbsp; -->
+            <ul>
+              <li>負責人 馬嘉鴻/Carlos Ma</li>
+              <li>手機號碼/Mobile &nbsp;+886-919155809</li>
+              <li>公司電話(市話)/Phone &nbsp;+886-7-8228276</li>
+            
+              <li>公司地址 &nbsp;830051 高雄市鳳山區龍成路92-2號3樓</li>
+              <li>Address: &nbsp;3F.,No. 92-2, Longchen Rd., Fengshan Dist., Kaohsiung City 830051 , Taiwan(R.O.C)</li>
+              <li>公司官網網址 &nbsp;<a href="https://jktekcomtw.github.io">https://jktekcomtw.github.io</a></li>
+              <li>EMAIL: &nbsp;<a href="mailto:chiahungma@mail.jktek.com.tw">聯絡我們/Contact Us</a></li>
+              <li>統一編號/VAT ID: &nbsp;tw92145088</li>
+              <li>
+                營業項目:<br> <ul><li>GNU/Linux嵌入式系統軟韌體開發</li><li>馬達變頻器電路與程式開發</li><li>電力電子產品設計</li><li>網頁程式開發, 手機APP開發</li><li>機構設計, 資訊系統管理</li><li>數位電路設計</li></ul>
+              </li><br>
+              <li>
+                Services: GNU/Linux and RTOS Embedded system dev., AC motor FOC dev., Power Electronics Products Design, Web dev., APP dev., Mechanism 3D design, Digital IC design. 
+              </li><br>
+              
+            </ul>
+            </div>
+          </div>
     </div>
-  </div>
 </body>
-
-
-<footer>
-  <p class="text-center text-muted">&copy; Copyright 2022 Chiahung Ma</p>
-</footer>
-
-<!-- </body> -->
 </html>
