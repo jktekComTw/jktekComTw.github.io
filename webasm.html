@@ -3,6 +3,22 @@
   <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+    <style>
+  	body {
+    	background-color: #222;
+    	color: #fff;
+    	font-family: monospace;
+  	}
+  	pre {
+    	background-color: #333;
+    	padding: 20px;
+    	border-radius: 10px;
+    	overflow-x: auto;
+  	}
+  	code {
+    	color: #ccc;
+  	}
+</style>
   </head>
   <body>
 
@@ -17,6 +33,50 @@
       <li>https://wasdk.github.io/WasmFiddle/</li>
       <li>https://medium.com/@itsems/webgl%E6%98%AF%E4%BB%80%E9%BA%BC-b2fcdabe74ba</li>
     </ul>
+    
+    <p>below is another vesuon fib serials with dynamic programming, and will implement it into webAssembly later.</p>
+    <pre><code>
+	#include <stdio.h>
+
+	long fib(int i);
+
+	int main()
+	{
+    
+    		long oput=fib(30);
+    		printf("%ld",oput);
+    		return 0;
+	}
+
+
+	long output[1000]={0};
+
+	long fib(int i){
+    		long result;
+    
+    		result=output[i];
+    
+    
+    		if(i==0){
+        		result=0;
+    		}
+    		else if(i==1){
+        		result=1;
+    		}
+    		else{
+        		if(output[i]!=0){
+            			return output[i];   //use the fib caculated
+            
+        		}else{
+            			result=(fib(i-2)+fib(i-1));    
+        		}
+        
+    		}	
+    		output[i]=result;
+    		return result;
+	}
+    </code></pre>
+
     <script>
     
     
