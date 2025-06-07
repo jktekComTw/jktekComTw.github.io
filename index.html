@@ -5,100 +5,225 @@
     <title>JiaoKun Technology/昭群科技</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
     <style>
         body, html {
             height: 100%;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
+        
         .diagonal-background {
             width: 100%;
-            height: 100%;
-            /* Create a 45-degree gradient with three color sections */
+            min-height: 100vh;
             background: linear-gradient(
-                135deg, /* 45-degree angle */
-                orange 15%, /* Orange for the first third */
-                silver 15% 85%, /* Silver for the middle third */
-                orange 15% /* Orange for the last third */
+                135deg,
+                orange 15%,
+                silver 15% 85%,
+                orange 85%
             );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .container {
-            display: flex; /* Use flexbox to align children horizontally */
+        
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        .box {
-            flex: 1; /* Each box will take an equal amount of space */
-            border: 0px solid #000; /* Just for visual distinction */
-            padding: 10px; /* Some padding around the content */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        
+        .logo {
+            display: flex;
+            align-items: center;
         }
-        ul {
-        list-style-type: none; /* Remove default list styling */
-            margin: 0; /* Remove default margin */
-            padding-left: 100px; /* Remove default padding */
+        
+        .logo img {
+            width: 110px;
+            height: 100px;
+            border-radius: 10px;
         }
-        ul li {
-            /* display: inline-block; Align list items horizontally */
-            margin-right: 20px; /* Add space between items, if desired */
-            /* Other styles can be added here (e.g., padding, border, etc.) */
-            padding-left: 150px;
+        
+        .title-section {
+            text-align: center;
+        }
+        
+        .title-section h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+        
+        .title-section h2 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #555;
+        }
+        
+        .navigation {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .navigation a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .navigation a:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .main-content {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-info {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .contact-info > li {
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .contact-info > li:last-child {
+            border-bottom: none;
+        }
+        
+        .services-list {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .services-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .services-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #ff6600;
+            font-weight: bold;
+        }
+        
+        .contact-info a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .header-section {
+                flex-direction: column;
+            }
+            
+            .title-section h1 {
+                font-size: 2em;
+            }
+            
+            .title-section h2 {
+                font-size: 1.2em;
+            }
+            
+            .main-content {
+                margin: 20px;
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="diagonal-background">
-        <!-- The background is divided into three diagonal sections at a 45-degree angle -->
-        <div class="container">
+        <div class="header-section">
             <div class="logo">
-                <img src="capy.jpg" alt="name" width="110" height="100"/>
+                <img src="capy.jpg" alt="JiaoKun Technology Logo"/>
             </div>
-            <div>
-                <h1 style="text-align: center;"> &nbsp; &nbsp;昭群科技</h1>
-              <h2> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Welcome to JiaoKun Technology
-              </h2>
-            </div>
-            <div class="box" style="text-align: right;"><b>
-                <ul class="menu">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="projects.html">Projects/web app</a></li>
-                    <li><a href="#">Project/foc motor drive</a></li>
-                    
-                </ul>
-                <!-- <a href="#" class="showmenu">menu</a> --></b>
+            <div class="title-section">
+                <h1>昭群科技</h1>
+                <h2>Welcome to JiaoKun Technology</h2>
             </div>
         </div>
         
-        <!-- for mongodb atlas document manipulation -->
-        <!-- <script src="/javascripts/DbAndDom_manipulate.js"></script> -->
+        <div class="navigation">
+            <a href="#">About Us</a>
+            <a href="projects.html">Projects/Web App</a>
+            <a href="#">Project/FOC Motor Drive</a>
+        </div>
         
-      
-            <div style="text-align: left;">
-            <br><br><br><br><br><br>
-            <!-- &nbsp; &nbsp; &nbsp; -->
-            <ul>
-              <li>負責人: 馬嘉鴻/Carlos Ma</li>
-              <li>手機號碼/Mobile: &nbsp;+886-919-155-809</li>
-              <li>公司電話/Phone: &nbsp;+886-971-853-169</li>
-            
-              <li>公司地址: &nbsp;830051 高雄市鳳山區龍成路92-2號</li>
-              <li>Address: &nbsp;No. 92-2, Longchen Rd., Fengshan Dist., Kaohsiung City 830051 , Taiwan(R.O.C)</li>
-              <li>公司官網網址: &nbsp;<a href="https://jktekcomtw.github.io">https://jktekcomtw.github.io</a></li>
-              <li>EMAIL: &nbsp;<a href="mailto:chma@jktek.com.tw">聯絡我們/Contact Us</a></li>
-              <li>統一編號/VAT ID: &nbsp;96782262</li>
-              <li>
-                營業項目:<br> <ul><li>GNU/Linux嵌入式系統軟韌體開發</li><li>馬達變頻器電路與程式開發</li><li>電力電子產品設計</li><li>網頁程式開發, 手機APP開發</li><li>機構設計, 資訊系統管理</li><li>數位電路設計</li></ul>
-              </li><br>
-              <li>
-                Services:<br><ul> <li>GNU/Linux and RTOS Embedded system dev.</li><li>AC motor FOC dev.</li><li>Power Electronics Products Design</li><li>Web dev., APP dev.</li><li>Mechanism 3D design</li><li>Digital IC design</li></ul> 
-              </li><br>
-              
+        <div class="main-content">
+            <ul class="contact-info">
+                <li><strong>負責人:</strong> 馬嘉鴻/Carlos Ma</li>
+                <li><strong>手機號碼/Mobile:</strong> +886-919-155-809</li>
+                <li><strong>公司電話/Phone:</strong> +886-971-853-169</li>
+                <li><strong>公司地址:</strong> 830051 高雄市鳳山區龍成路92-2號</li>
+                <li><strong>Address:</strong> No. 92-2, Longchen Rd., Fengshan Dist., Kaohsiung City 830051, Taiwan(R.O.C)</li>
+                <li><strong>公司官網網址:</strong> <a href="https://jktekcomtw.github.io">https://jktekcomtw.github.io</a></li>
+                <li><strong>EMAIL:</strong> <a href="mailto:chma@jktek.com.tw">聯絡我們/Contact Us</a></li>
+                <li><strong>統一編號/VAT ID:</strong> 96782262</li>
+                <li>
+                    <strong>營業項目:</strong>
+                    <ul class="services-list">
+                        <li>GNU/Linux嵌入式系統軟韌體開發</li>
+                        <li>馬達變頻器電路與程式開發</li>
+                        <li>電力電子產品設計</li>
+                        <li>網頁程式開發, 手機APP開發</li>
+                        <li>機構設計, 資訊系統管理</li>
+                        <li>數位電路設計</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Services:</strong>
+                    <ul class="services-list">
+                        <li>GNU/Linux and RTOS Embedded system dev.</li>
+                        <li>AC motor FOC dev.</li>
+                        <li>Power Electronics Products Design</li>
+                        <li>Web dev., APP dev.</li>
+                        <li>Mechanism 3D design</li>
+                        <li>Digital IC design</li>
+                    </ul>
+                </li>
             </ul>
-            </div>
-          </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; Copyright 2022 Chiahung Ma</p>
+        </div>
     </div>
 </body>
-<footer>
-	<p class="text-center text-muted">&copy; Copyright 2022 Chiahung Ma</p> 
-  </footer>
 </html>
