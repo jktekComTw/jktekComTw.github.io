@@ -1,97 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-<title>JKTek</title>
-
-<!-- CSS (load bootstrap from a CDN) -->
-<!-- <link rel="stylesheet" src="/stylesheets/bootstrap.css"> -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
-<!-- <script src="/javascripts/jquery.js"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
-<!-- <script src="/jquery/jquery.js"></script> -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-<style>
-  body { padding-top:50px; }
-  .v-line{
-    border-left: thick solid #000;
-    height:100%;
-    left: 50%;
-    position: absolute;
-  }
-</style>
-
-
+    <meta charset="UTF-8">
+    <title>About Us - JiaoKun Technology/昭群科技</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .diagonal-background {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(
+                135deg,
+                orange 15%,
+                silver 15% 85%,
+                orange 85%
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 110px;
+            height: 100px;
+            border-radius: 10px;
+        }
+        
+        .title-section {
+            text-align: center;
+        }
+        
+        .title-section h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+        
+        .title-section h2 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #555;
+        }
+        
+        .navigation {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .navigation a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .navigation a:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .navigation a.active {
+            background: rgba(255, 102, 0, 0.8);
+            color: white;
+        }
+        
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hamburger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 250px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            transition: color 0.3s;
+        }
+        
+        .mobile-menu a:hover {
+            color: #ff6600;
+        }
+        
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+        
+        .article-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .article-content h1 {
+            color: #ff6600;
+            border-bottom: 3px solid #ff6600;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .article-content h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .article-content h3 {
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .article-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .article-content ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        .article-content li {
+            margin-bottom: 8px;
+        }
+        
+        .article-content strong {
+            color: #ff6600;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .header-section {
+                flex-direction: column;
+            }
+            
+            .title-section h1 {
+                font-size: 2em;
+            }
+            
+            .title-section h2 {
+                font-size: 1.2em;
+            }
+            
+            .article-content {
+                margin: 20px;
+                padding: 25px;
+            }
+            
+            .navigation {
+                display: none;
+            }
+            
+            .hamburger-menu {
+                display: block;
+            }
+            
+            .mobile-menu.open {
+                display: block;
+            }
+            
+            .menu-overlay.open {
+                display: block;
+            }
+        }
+    </style>
 </head>
-<body class="container">
-
-<header>
-  <!-- <div data-spy=”affix” class="my-affix-div"> -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- <a class="navbar-brand" href="/">EJS Is Fun</a> -->
-    
-    
-    <!-- <ul class="navbar-nav mr-auto"> -->
-    <!-- <br> -->
-    <!-- <br> -->
-    <!-- <ul>
-      <li class="nav-item">
-    
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-    
-        <a class="nav-link" href="/">About</a>
-      </li>
-    </ul> -->
-</nav>
-<!-- </div> -->
-</header>
-
-<main>
-  
-  <div class="jumbotron">
-    <h1>昭群科技</h1>
-    <p>Welcome to JiaoKun Technology Company
-    </p>
-  </div>
-  <!-- for mongodb atlas document manipulation -->
-  <script src="/javascripts/DbAndDom_manipulate.js"></script>
-  
-
-  <div>
-    <!-- <ul>
-      <li><h2>Projects:</h2></li>
-        <ul>
-            <li><h3>國立臺灣海洋大學2022軟體工程教材設計</h3></li>
+<body>
+    <div class="diagonal-background">
+        <div class="header-section">
+            <div class="logo">
+                <img src="capy.jpg" alt="JiaoKun Technology Logo"/>
+            </div>
+            <div class="title-section">
+                <h1>昭群科技</h1>
+                <h2>JiaoKun Technology</h2>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <a href="index.html">Home</a>
+            <a href="#" class="active">About Us</a>
+            <a href="projects.html">Projects/Web App</a>
+            <a href="#">Project/FOC Motor Drive</a>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html" onclick="closeMobileMenu()">Home</a>
+            <a href="#" onclick="closeMobileMenu()">About Us</a>
+            <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
+            <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
+        </div>
+        
+        <div class="article-content">
+            <h1>About JiaoKun Technology (昭群科技)</h1>
+            
+            <h2>Our Story</h2>
+            <p>JiaoKun Technology, established in Taiwan, represents the convergence of innovation and engineering excellence in the heart of Kaohsiung. Founded and led by <strong>Carlos Ma (馬嘉鴻)</strong>, our company has positioned itself as a trusted partner for businesses seeking cutting-edge technological solutions across multiple domains.</p>
+            
+            <p>Located in Fengshan District, Kaohsiung City, we serve as a bridge between traditional engineering practices and modern technological demands, delivering comprehensive solutions that drive industrial advancement and digital transformation.</p>
+            
+            <h2>Our Mission</h2>
+            <p>At JiaoKun Technology, we are committed to empowering businesses through innovative technology solutions. Our mission is to provide world-class embedded systems, power electronics, and digital solutions that enhance operational efficiency, reduce costs, and accelerate time-to-market for our clients' products and services.</p>
+            
+            <h2>Core Expertise</h2>
+            
+            <h3>Embedded Systems Development</h3>
+            <p>Our team specializes in <strong>GNU/Linux and RTOS embedded system development</strong>, creating robust, scalable solutions for industrial applications. We leverage open-source technologies to deliver cost-effective, customizable systems that meet the most demanding performance requirements.</p>
+            
+            <h3>Motor Control & Power Electronics</h3>
+            <p>We excel in <strong>AC motor FOC (Field-Oriented Control) development</strong> and <strong>motor inverter circuit design</strong>. Our expertise in power electronics enables us to create efficient, reliable motor control systems for industrial automation, renewable energy, and transportation applications.</p>
+            
+            <h3>Digital Innovation</h3>
+            <p>Our comprehensive <strong>power electronics product design</strong> services cover everything from concept to production, ensuring optimal performance and reliability. We combine theoretical knowledge with practical engineering experience to deliver solutions that exceed industry standards.</p>
+            
+            <h3>Software Development</h3>
+            <p>We provide end-to-end <strong>web development and mobile APP development</strong> services, creating user-friendly interfaces and robust backend systems. Our development approach focuses on scalability, security, and user experience.</p>
+            
+            <h3>Engineering Design</h3>
+            <p>Our <strong>mechanism 3D design</strong> capabilities enable us to transform concepts into tangible products. We utilize advanced CAD tools and simulation software to optimize designs for manufacturability and performance.</p>
+            
+            <h3>Digital Circuit Design</h3>
+            <p>We offer specialized <strong>digital IC design</strong> services, developing custom integrated circuits that meet specific application requirements while optimizing for power consumption and performance.</p>
+            
+            <h2>Our Approach</h2>
+            
+            <h3>Innovation-Driven Solutions</h3>
+            <p>We stay at the forefront of technological advancement, continuously exploring emerging technologies and methodologies to provide our clients with competitive advantages.</p>
+            
+            <h3>Quality Assurance</h3>
+            <p>Every project undergoes rigorous testing and validation processes to ensure reliability, performance, and compliance with international standards.</p>
+            
+            <h3>Customer-Centric Service</h3>
+            <p>We believe in building long-term partnerships with our clients, providing ongoing support and maintenance to ensure sustained success.</p>
+            
+            <h3>Agile Development</h3>
+            <p>Our development methodology emphasizes flexibility, rapid prototyping, and iterative improvement, allowing us to respond quickly to changing requirements and market conditions.</p>
+            
+            <h2>Industry Applications</h2>
+            <p>Our solutions serve diverse industries including:</p>
             <ul>
-                <li><a href="https://youtu.be/i6wyojh9ipw">
-                CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part1)</a></li>
-                <li><a href="https://youtu.be/QS7Q4xLmSFY">
-                CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part2)
-                </a></li>
-                <li><a href="https://youtu.be/Ge1wKiyhiok">
-                CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part3)
-                </a></li>
-                <li>PS.請以1.25倍速觀看 因為我聲音頻率比較低沉</li>
+                <li><strong>Industrial Automation</strong>: Motor control systems, embedded controllers, and process optimization</li>
+                <li><strong>Renewable Energy</strong>: Power conversion systems and grid integration solutions</li>
+                <li><strong>Transportation</strong>: Electric vehicle components and charging infrastructure</li>
+                <li><strong>Consumer Electronics</strong>: Mobile applications and IoT devices</li>
+                <li><strong>Manufacturing</strong>: Process control systems and quality assurance tools</li>
             </ul>
-        </ul>
-      </li>
-
-      
-    </ul> -->
-    <p>
-      JiaoKun Technology is a comapny set on November, 2022 in Kaohsiung, Taiwan. We recruited engineers that focus on mechanism, 
-    </p>
-  </div>
-</main>
-<br><br><br><br><br><br><br>
-
-
-
-<footer>
-  <p class="text-center text-muted">&copy; Copyright 2022 Chiahung Ma</p>
-</footer>
-
+            
+            <h2>Why Choose JiaoKun Technology?</h2>
+            
+            <h3>Technical Excellence</h3>
+            <p>Our team combines deep theoretical knowledge with extensive practical experience, ensuring solutions that are both innovative and reliable.</p>
+            
+            <h3>Comprehensive Services</h3>
+            <p>From initial concept to final implementation, we provide end-to-end services that eliminate the need for multiple vendors.</p>
+            
+            <h3>Local Expertise, Global Standards</h3>
+            <p>Based in Taiwan's technology hub, we understand local market dynamics while maintaining international quality standards.</p>
+            
+            <h3>Proven Track Record</h3>
+            <p>Years of successful project delivery across diverse industries demonstrate our capability to handle complex technical challenges.</p>
+            
+            <h2>Our Commitment</h2>
+            <p>JiaoKun Technology is committed to sustainable development and responsible innovation. We prioritize energy-efficient designs, environmentally conscious manufacturing processes, and solutions that contribute to a more sustainable future.</p>
+            
+            <p>We invest continuously in our team's professional development, ensuring we remain current with the latest technologies, industry standards, and best practices.</p>
+            
+            <h2>Looking Forward</h2>
+            <p>As we continue to grow, JiaoKun Technology remains focused on expanding our capabilities and deepening our expertise. We are constantly exploring new technologies such as artificial intelligence, machine learning, and advanced materials to provide even more sophisticated solutions to our clients.</p>
+            
+            <p>Our vision is to become the premier technology partner for businesses seeking to leverage cutting-edge engineering solutions for competitive advantage and sustainable growth.</p>
+            
+            <hr style="margin: 30px 0; border: 1px solid #ddd;">
+            
+            <h2 style="color: #ff6600; text-align: center;">Ready to Transform Your Ideas into Reality?</h2>
+            <p style="text-align: center; font-size: 1.1em;"><strong>Contact us today to discuss how JiaoKun Technology can help you achieve your technological goals. Our team of experts is ready to provide customized solutions that drive your business forward.</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; Copyright 2022 Chiahung Ma</p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            
+            mobileMenu.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
+        }
+        
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            
+            mobileMenu.classList.remove('open');
+            menuOverlay.classList.remove('open');
+        }
+        
+        // Close menu when clicking outside or pressing escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+    </script>
 </body>
 </html>
