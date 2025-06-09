@@ -28,6 +28,51 @@
             align-items: center;
             padding: 20px;
             box-sizing: border-box;
+            position: relative;
+        }
+        
+        /* 🍔 HAMBURGER MENU POSITIONED TOP RIGHT */
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger-menu:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+        
+        .hamburger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 5px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        
+        /* Hamburger animation when open */
+        .hamburger-menu.open span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger-menu.open span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger-menu.open span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
         }
         
         .header-section {
@@ -88,30 +133,12 @@
             background: rgba(255, 255, 255, 0.9);
         }
         
-        .hamburger-menu span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: #333;
-            margin: 5px 0;
-            transition: 0.3s;
-        }
-        
-        .hamburger-menu span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: #333;
-            margin: 5px 0;
-            transition: 0.3s;
-        }
-        
         .mobile-menu {
             display: none;
             position: fixed;
             top: 0;
             right: 0;
-            width: 250px;
+            width: 280px;
             height: 100vh;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -153,6 +180,12 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .menu-overlay.open {
+            opacity: 1;
         }
         
         .main-content {
@@ -222,8 +255,27 @@
                 font-size: 2em;
             }
             
+            /* Show hamburger menu on mobile */
+            .hamburger-menu {
+                display: block;
+            }
+            
+            /* Adjust hamburger position for mobile */
+            .hamburger-menu {
+                top: 15px;
+                right: 15px;
+                padding: 15px;
+            }
+            
+            .hamburger-menu span {
+                width: 30px;
+                height: 4px;
+                margin: 6px 0;
+            }
+            
             .header-section {
                 flex-direction: column;
+                margin-top: 60px; /* Add space for hamburger menu */
             }
             
             .title-section h1 {
@@ -240,12 +292,9 @@
                 font-size: 1em; /* This inherits the doubled body font size */
             }
             
+            /* Hide desktop navigation */
             .navigation {
                 display: none;
-            }
-            
-            .hamburger-menu {
-                display: block;
             }
             
             .mobile-menu.open {
@@ -275,10 +324,34 @@
                 margin-top: 60px;
             }
         }
+        
+        /* Additional responsive adjustments for very small screens */
+        @media (max-width: 480px) {
+            .hamburger-menu {
+                top: 10px;
+                right: 10px;
+                padding: 12px;
+            }
+            
+            .mobile-menu {
+                width: 100%;
+            }
+            
+            .header-section {
+                margin-top: 70px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="diagonal-background">
+        <!-- 🍔 HAMBURGER MENU BUTTON - NOW IN TOP RIGHT -->
+        <button class="hamburger-menu" id="hamburgerBtn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
         <div class="header-section">
             <div class="logo">
                 <img src="capy.jpg" alt="JiaoKun Technology Logo"/>
@@ -292,87 +365,4 @@
         <div class="navigation">
             <a href="aboutus.html">About Us</a>
             <a href="projects.html">Projects/Web App</a>
-            <a href="#">Project/FOC Motor Drive</a>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <button class="hamburger-menu" onclick="toggleMobileMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        
-        <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
-        
-        <div class="mobile-menu" id="mobileMenu">
-            <a href="aboutus.html" onclick="closeMobileMenu()">About Us</a>
-            <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
-            <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
-        </div>
-        
-        <div class="main-content">
-            <ul class="contact-info">
-                <li><strong>負責人:</strong> 馬嘉鴻/Carlos Ma</li>
-                <li><strong>手機號碼/Mobile:</strong> +886-919-155-809</li>
-                <li><strong>公司電話/Phone:</strong> +886-971-853-169</li>
-                <li><strong>公司地址:</strong> 830051 高雄市鳳山區龍成路92-2號</li>
-                <li><strong>Address:</strong> No. 92-2, Longchen Rd., Fengshan Dist., Kaohsiung City 830051, Taiwan(R.O.C)</li>
-                <li><strong>公司官網網址:</strong> <a href="https://jktekcomtw.github.io">https://jktekcomtw.github.io</a></li>
-                <li><strong>EMAIL:</strong> <a href="mailto:chma@jktek.com.tw">聯絡我們/Contact Us</a></li>
-                <li><strong>統一編號/VAT ID:</strong> 96782262</li>
-                <li>
-                    <strong>營業項目:</strong>
-                    <ul class="services-list">
-                        <li>GNU/Linux嵌入式系統軟韌體開發</li>
-                        <li>馬達變頻器電路與程式開發</li>
-                        <li>電力電子產品設計</li>
-                        <li>網頁程式開發, 手機APP開發</li>
-                        <li>機構設計, 資訊系統管理</li>
-                        <li>數位電路設計</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Services:</strong>
-                    <ul class="services-list">
-                        <li>GNU/Linux and RTOS Embedded system dev.</li>
-                        <li>AC motor FOC dev.</li>
-                        <li>Power Electronics Products Design</li>
-                        <li>Web dev., APP dev.</li>
-                        <li>Mechanism 3D design</li>
-                        <li>Digital IC design</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        
-        <div class="footer">
-            <p>&copy; Copyright 2022 Chiahung Ma</p>
-        </div>
-    </div>
-    
-    <script>
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuOverlay = document.getElementById('menuOverlay');
-            
-            mobileMenu.classList.toggle('open');
-            menuOverlay.classList.toggle('open');
-        }
-        
-        function closeMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuOverlay = document.getElementById('menuOverlay');
-            
-            mobileMenu.classList.remove('open');
-            menuOverlay.classList.remove('open');
-        }
-        
-        // Close menu when clicking outside or pressing escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeMobileMenu();
-            }
-        });
-    </script>
-</body>
-</html>
+            <a href="#">Proje
