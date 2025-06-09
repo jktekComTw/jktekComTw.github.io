@@ -223,22 +223,58 @@
             font-size: 0.9em;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1000px) {
+            /* Double the base font size for mobile */
+            body {
+                font-size: 2em;
+            }
+            
             .header-section {
                 flex-direction: column;
             }
             
             .title-section h1 {
-                font-size: 2em;
+                font-size: 4em; /* Doubled from 2em */
             }
             
             .title-section h2 {
-                font-size: 1.2em;
+                font-size: 2.4em; /* Doubled from 1.2em */
             }
             
             .article-content {
                 margin: 20px;
-                padding: 25px;
+                padding: 40px;
+                font-size: 1em; /* This inherits the doubled body font size */
+            }
+            
+            .article-content h1 {
+                font-size: 2em; /* Doubled */
+            }
+            
+            .article-content h2 {
+                font-size: 3em; /* Doubled from 1.5em */
+                margin-top: 40px; /* Increased spacing */
+                margin-bottom: 20px;
+            }
+            
+            .article-content h3 {
+                font-size: 2.4em; /* Doubled from 1.2em */
+                margin-top: 30px; /* Increased spacing */
+                margin-bottom: 15px;
+            }
+            
+            .article-content p {
+                margin-bottom: 20px; /* Increased spacing */
+                line-height: 1.8; /* Better line spacing for larger text */
+            }
+            
+            .article-content ul {
+                margin-bottom: 20px;
+                padding-left: 30px; /* More padding for larger text */
+            }
+            
+            .article-content li {
+                margin-bottom: 12px; /* More spacing for list items */
             }
             
             .navigation {
@@ -247,6 +283,13 @@
             
             .hamburger-menu {
                 display: block;
+                padding: 15px; /* Larger touch target */
+            }
+            
+            .hamburger-menu span {
+                width: 30px; /* Larger hamburger lines */
+                height: 4px;
+                margin: 6px 0;
             }
             
             .mobile-menu.open {
@@ -255,6 +298,21 @@
             
             .menu-overlay.open {
                 display: block;
+            }
+            
+            .mobile-menu {
+                width: 300px; /* Wider menu for larger text */
+                padding: 100px 30px 30px; /* More padding */
+            }
+            
+            .mobile-menu a {
+                font-size: 1.2em; /* Larger mobile menu text */
+                padding: 20px 0; /* More padding for easier touch */
+            }
+            
+            .footer {
+                font-size: 1em; /* Doubled footer text */
+                margin-top: 60px;
             }
         }
     </style>
