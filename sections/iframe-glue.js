@@ -78,6 +78,14 @@
     });
   });
 
+  // Cross-iframe link: <a data-cross-frame="ch4" data-cross-target="shannon-cheat">
+  document.querySelectorAll('a[data-cross-frame][data-cross-target]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      parent.postMessage({ type: 'cross-iframe-jump', frame: a.dataset.crossFrame, id: a.dataset.crossTarget }, '*');
+    });
+  });
+
   // Handle TOC sub-link clicks for symbols sub-targets (in-iframe scroll for [data-target])
   document.querySelectorAll('a[data-target]').forEach(function(a) {
     a.addEventListener('click', function(e) {

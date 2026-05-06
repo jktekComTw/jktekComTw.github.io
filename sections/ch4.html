@@ -193,7 +193,7 @@
     <p style="font-size:0.85rem;color:var(--fg2);"><strong>Decoder vs MUX.</strong> A decoder generates all $2^n$ minterms; a MUX <em>uses</em> minterms internally to select among inputs. Equivalently: a MUX is built from a decoder + AND gates + a big OR. So decoders are the building block; <b style="color:#3a5998;">MUXes and demuxes are decoder-based variants</b> — read-direction (MUX, $2^n$→1) vs. write-direction (demux, 1→$2^n$).</p>
     </details>
 
-    <details class="sol-note" style="margin-top:0.8rem;"><summary>Shannon's Expansion — cheat sheet</summary>
+    <details class="sol-note" id="shannon-cheat" style="margin-top:0.8rem;"><summary>Shannon's Expansion — cheat sheet</summary>
 
     <p>Shannon's expansion theorem decomposes any Boolean function on a chosen variable into two simpler "cofactor" pieces. It's the algebraic foundation of MUX-based logic synthesis, BDDs, and recursive function analysis.</p>
 
