@@ -489,6 +489,36 @@ window.addEventListener('message', function(e) {
       var state = iframeState.get(id);
       if (state) state.cachedHeight = heightStr;
     }
+  } else if (d.type === 'cross-iframe-jump') {
+    var f = document.getElementById('iframe-' + d.frame);
+    if (!f) return;
+    var ensure = (typeof ensureLoaded === 'function') ? ensureLoaded(f) : Promise.resolve();
+    ensure.then(function() {
+      if (!f.contentWindow) return;
+      var rid = 'cij' + Date.now() + '-' + Math.floor(Math.random()*1000);
+      function onCijReply(ev) {
+        var r = ev.data || {};
+        if (r.type !== 'element-position' || r.requestId !== rid) return;
+        window.removeEventListener('message', onCijReply);
+        var iframeTop = window.scrollY + f.getBoundingClientRect().top;
+        var targetY = iframeTop + r.offsetTop - 80;
+        var startY = window.scrollY;
+        var dist = targetY - startY;
+        var duration = Math.min(900, Math.max(400, Math.abs(dist)/3));
+        var startT = performance.now();
+        function step(now) {
+          var t = Math.min(1, (now-startT)/duration);
+          var ease = t<0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+          window.scrollTo(0, startY + dist*ease);
+          if (t<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        f.contentWindow.postMessage({ type: 'highlight', id: d.id }, '*');
+      }
+      window.addEventListener('message', onCijReply);
+      try { f.contentWindow.postMessage({ type: 'find-element', id: d.id, requestId: rid }, '*'); } catch (err) {}
+      setTimeout(function() { window.removeEventListener('message', onCijReply); }, 2500);
+    });
   } else if (d.type === 'jump-to-solution' || d.type === 'jump-to-exercise') {
     var num = d.num;
     var targetId, candidateFrames;
@@ -636,29 +666,29 @@ document.addEventListener('DOMContentLoaded', function() {
 </nav>
 
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch2" src="sections/ch2.html?v=1778090255" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch2" src="sections/ch2.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch3" src="sections/ch3.html?v=1778092501" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch3" src="sections/ch3.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch4" src="sections/ch4.html?v=1778101065" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch4" src="sections/ch4.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch5" src="sections/ch5.html?v=1778093693" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch5" src="sections/ch5.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch6" src="sections/ch6.html?v=1778035512" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch6" src="sections/ch6.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch7" src="sections/ch7.html?v=1778101499" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch7" src="sections/ch7.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch8" src="sections/ch8.html?v=1778096918" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch8" src="sections/ch8.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-ch9" src="sections/ch9.html?v=1778096188" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-ch9" src="sections/ch9.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="ch-divider"></div>
 <div class="section-wrap-bg2">
-<iframe class="section-iframe" id="iframe-practice-extra" src="sections/practice-extra.html?v=1778096188" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-practice-extra" src="sections/practice-extra.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 </div>
 <div class="ch-divider"></div>
-<iframe class="section-iframe" id="iframe-symbols" src="sections/symbols.html?v=1777978526" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-symbols" src="sections/symbols.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 <div class="section-wrap-bg2">
-<iframe class="section-iframe" id="iframe-solutions" src="sections/solutions.html?v=1778097280" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<iframe class="section-iframe" id="iframe-solutions" src="sections/solutions.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
 </div>
 <footer>
   <p>Study Guide for <em>Fundamentals of Digital Logic with Verilog Design, 3rd Edition</em> — Brown &amp; Vranesic</p>
