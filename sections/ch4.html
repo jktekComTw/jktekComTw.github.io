@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 4 — Combinational Building Blocks</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError:false });"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-light.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/verilog.min.js"></script>
+<link rel="stylesheet" href="common.css?v=1778085575">
+</head>
+<body>
+<section class="chapter-section" id="ch4">
+  <div class="ch-header">
+    <span class="ch-num" style="color:var(--ch4)">04</span>
+    <span class="ch-title">Combinational-Circuit Building Blocks</span>
+  </div>
+  <div id="brief-ch4" class="brief" style="border-left: 3px solid var(--ch4);">
+    <p>This chapter presents the standard combinational building blocks used everywhere in digital design. Multiplexers are covered in depth, including their use for implementing arbitrary logic functions via Shannon's expansion theorem. Decoders (including demultiplexers) and encoders (binary and priority) are discussed as fundamental address-translation and selection circuits. Code converters (e.g., BCD to 7-segment display) and arithmetic comparison circuits (magnitude comparators) are also presented. The major Verilog section introduces the conditional operator (<code>?:</code>), <code>if-else</code> statements, the <code>case</code> statement, <code>for</code> loops, the full set of Verilog operators, the <code>generate</code> construct, and tasks/functions — essentially all the Verilog constructs needed for combinational circuit description.</p>
+    <div class="topics-list">
+      <span>Multiplexers</span>
+      <span>Shannon's Expansion</span>
+      <span>Decoders / Demux</span>
+      <span>Encoders / Priority</span>
+      <span>Code Converters</span>
+      <span>Comparators</span>
+      <span>Verilog if-else / case</span>
+      <span>Verilog for / generate</span>
+    </div>
+
+    <details class="sol-note" style="margin-top:0.8rem;"><summary>Decoder vs demultiplexer — interactive demo</summary>
+    <p>A <strong>decoder</strong> takes an $n$-bit input and asserts exactly <em>one</em> of its $2^n$ outputs. A <strong>demultiplexer (demux)</strong> takes one data line plus an $n$-bit select and routes the data to one of $2^n$ outputs (the others stay at 0). The two circuits share an internal structure — a demux is just a decoder whose data-line gates each output.</p>
+
+    <style>
+    .ddemo { font-family:'JetBrains Mono', monospace; font-size:0.88rem; }
+    .ddemo input[type=radio], .ddemo input[type=checkbox] { display:none; }
+    .ddemo label.btn {
+      display:inline-block; padding:0.3rem 0.7rem; margin:0.2rem 0.3rem 0.2rem 0;
+      border:1px solid var(--border); border-radius:5px; cursor:pointer;
+      background:var(--card); color:var(--fg); user-select:none; transition:all 0.15s;
+    }
+    .ddemo label.btn:hover { border-color:#c04040; color:#c04040; }
+    .ddemo input:checked + label.btn { background:#c04040; color:#fff; border-color:#c04040; }
+    .ddemo .row { margin:0.4rem 0; }
+    .ddemo .out-line { padding:0.25rem 0.6rem; border-radius:4px; margin:0.18rem 0; display:inline-block; min-width:6rem;
+                       background:var(--bg2); color:var(--fg2); }
+    .ddemo .active { background:#c04040; color:#fff; font-weight:700; }
+    .ddemo .panel { background:var(--bg2); border-radius:6px; padding:0.8rem 1rem; margin:0.4rem 0; }
+    /* Decoder: 4 radios drive 4 outputs */
+    #dec-i0:checked ~ .panel .out-y0 { background:#c04040; color:#fff; font-weight:700; }
+    #dec-i1:checked ~ .panel .out-y1 { background:#c04040; color:#fff; font-weight:700; }
+    #dec-i2:checked ~ .panel .out-y2 { background:#c04040; color:#fff; font-weight:700; }
+    #dec-i3:checked ~ .panel .out-y3 { background:#c04040; color:#fff; font-weight:700; }
+    /* Demux: 4 selects × 1 enable; output = enable AND (selected line) */
+    #dmx-i0:checked ~ .panel .o0 { background:#3a5998; color:#fff; font-weight:700; }
+    #dmx-i1:checked ~ .panel .o1 { background:#3a5998; color:#fff; font-weight:700; }
+    #dmx-i2:checked ~ .panel .o2 { background:#3a5998; color:#fff; font-weight:700; }
+    #dmx-i3:checked ~ .panel .o3 { background:#3a5998; color:#fff; font-weight:700; }
+    /* When data=0, dim all outputs */
+    #dmx-data:not(:checked) ~ .panel .o0,
+    #dmx-data:not(:checked) ~ .panel .o1,
+    #dmx-data:not(:checked) ~ .panel .o2,
+    #dmx-data:not(:checked) ~ .panel .o3 { background:var(--bg2); color:var(--fg2); font-weight:400; }
+    #dmx-data:not(:checked) ~ .panel .data-led { color:#888; }
+    #dmx-data:checked ~ .panel .data-led { color:#3a5998; font-weight:700; }
+    </style>
+
+    <h4 style="margin:0.6rem 0 0.3rem;font-size:0.95rem;">2-to-4 Decoder</h4>
+    <div class="ddemo">
+      <input type="radio" name="dec" id="dec-i0" checked>
+      <input type="radio" name="dec" id="dec-i1">
+      <input type="radio" name="dec" id="dec-i2">
+      <input type="radio" name="dec" id="dec-i3">
+      <div class="row">
+        Input $w_1 w_0$:
+        <label for="dec-i0" class="btn">00</label>
+        <label for="dec-i1" class="btn">01</label>
+        <label for="dec-i2" class="btn">10</label>
+        <label for="dec-i3" class="btn">11</label>
+      </div>
+      <div class="panel">
+        <span class="out-line out-y0">y₀ = 1 when 00</span>
+        <span class="out-line out-y1">y₁ = 1 when 01</span>
+        <span class="out-line out-y2">y₂ = 1 when 10</span>
+        <span class="out-line out-y3">y₃ = 1 when 11</span>
+        <p style="margin:0.5rem 0 0;font-size:0.82rem;color:var(--fg2);">The output corresponding to the binary value of the input is high; all others are low. Equivalently $y_i = m_i$ (minterm $i$).</p>
+      </div>
+    </div>
+
+    <h4 style="margin:0.8rem 0 0.3rem;font-size:0.95rem;">1-to-4 Demultiplexer</h4>
+    <p style="font-size:0.85rem;margin:0.2rem 0 0.4rem;">A demux equals a decoder whose output is gated by a data input: $y_i = D \cdot \text{(decode of select)}_i$.</p>
+    <div class="ddemo">
+      <input type="checkbox" id="dmx-data" checked>
+      <input type="radio" name="dmx" id="dmx-i0" checked>
+      <input type="radio" name="dmx" id="dmx-i1">
+      <input type="radio" name="dmx" id="dmx-i2">
+      <input type="radio" name="dmx" id="dmx-i3">
+      <div class="row">
+        Data $D$:
+        <label for="dmx-data" class="btn">toggle</label>
+        <span class="data-led" style="margin-left:0.4rem;">D = <span style="font-weight:700;">on</span></span>
+      </div>
+      <div class="row">
+        Select $s_1 s_0$:
+        <label for="dmx-i0" class="btn">00</label>
+        <label for="dmx-i1" class="btn">01</label>
+        <label for="dmx-i2" class="btn">10</label>
+        <label for="dmx-i3" class="btn">11</label>
+      </div>
+      <div class="panel">
+        <span class="out-line o0">y₀ ← D when 00</span>
+        <span class="out-line o1">y₁ ← D when 01</span>
+        <span class="out-line o2">y₂ ← D when 10</span>
+        <span class="out-line o3">y₃ ← D when 11</span>
+        <p style="margin:0.5rem 0 0;font-size:0.82rem;color:var(--fg2);">Toggle <em>D</em> to off and watch the selected output drop to 0 — the demux only routes the data bit, it doesn't generate one. With $D=1$ the demux behaves identically to the decoder above.</p>
+      </div>
+    </div>
+
+    <h4 style="margin:0.8rem 0 0.3rem;font-size:0.95rem;">4-to-1 Multiplexer (the inverse of a demux)</h4>
+    <p style="font-size:0.85rem;margin:0.2rem 0 0.4rem;">A <strong>multiplexer</strong> reverses the demux: it has $2^n$ data inputs $D_0, D_1, D_2, D_3$, an $n$-bit select, and a <em>single</em> output $y$ which equals whichever data line the select points to. $y = D_{(\text{select})}$.</p>
+
+    <style>
+    /* MUX styles — separate IDs to avoid collisions */
+    #mux-d0:not(:checked) ~ .panel .d0-in { background:var(--bg2); color:var(--fg2); }
+    #mux-d1:not(:checked) ~ .panel .d1-in { background:var(--bg2); color:var(--fg2); }
+    #mux-d2:not(:checked) ~ .panel .d2-in { background:var(--bg2); color:var(--fg2); }
+    #mux-d3:not(:checked) ~ .panel .d3-in { background:var(--bg2); color:var(--fg2); }
+    #mux-d0:checked ~ .panel .d0-in,
+    #mux-d1:checked ~ .panel .d1-in,
+    #mux-d2:checked ~ .panel .d2-in,
+    #mux-d3:checked ~ .panel .d3-in { background:#a07020; color:#fff; font-weight:700; }
+    /* Default output: shows selected line's value (highlighted) */
+    #mux-s0:checked ~ .panel .out-y { background:#2a6e5a; color:#fff; font-weight:700; }
+    #mux-s1:checked ~ .panel .out-y { background:#2a6e5a; color:#fff; font-weight:700; }
+    #mux-s2:checked ~ .panel .out-y { background:#2a6e5a; color:#fff; font-weight:700; }
+    #mux-s3:checked ~ .panel .out-y { background:#2a6e5a; color:#fff; font-weight:700; }
+    /* Show which data line is "routed" via highlighted column */
+    #mux-s0:checked ~ .panel .d0-in { box-shadow:0 0 0 2px #2a6e5a; }
+    #mux-s1:checked ~ .panel .d1-in { box-shadow:0 0 0 2px #2a6e5a; }
+    #mux-s2:checked ~ .panel .d2-in { box-shadow:0 0 0 2px #2a6e5a; }
+    #mux-s3:checked ~ .panel .d3-in { box-shadow:0 0 0 2px #2a6e5a; }
+    /* Compute output text via select+data combinations */
+    .ddemo .out-y::after { content: " (select to view)"; }
+    #mux-s0:checked ~ .panel #mux-d0:checked ~ .out-y::after { content: " = D₀ = 1"; }
+    /* Simpler: just show "= 1 (D currently on)" or similar — can't express full logic in CSS easily, so we use shadow indicator only */
+    </style>
+
+    <div class="ddemo">
+      <input type="checkbox" id="mux-d0" checked>
+      <input type="checkbox" id="mux-d1">
+      <input type="checkbox" id="mux-d2" checked>
+      <input type="checkbox" id="mux-d3">
+      <input type="radio" name="mux-sel" id="mux-s0" checked>
+      <input type="radio" name="mux-sel" id="mux-s1">
+      <input type="radio" name="mux-sel" id="mux-s2">
+      <input type="radio" name="mux-sel" id="mux-s3">
+      <div class="row">
+        Data inputs (toggle each):
+        <label for="mux-d0" class="btn">D₀</label>
+        <label for="mux-d1" class="btn">D₁</label>
+        <label for="mux-d2" class="btn">D₂</label>
+        <label for="mux-d3" class="btn">D₃</label>
+      </div>
+      <div class="row">
+        Select $s_1 s_0$:
+        <label for="mux-s0" class="btn">00</label>
+        <label for="mux-s1" class="btn">01</label>
+        <label for="mux-s2" class="btn">10</label>
+        <label for="mux-s3" class="btn">11</label>
+      </div>
+      <div class="panel">
+        <div style="margin-bottom:0.4rem;">
+          <span class="out-line d0-in">D₀</span>
+          <span class="out-line d1-in">D₁</span>
+          <span class="out-line d2-in">D₂</span>
+          <span class="out-line d3-in">D₃</span>
+        </div>
+        <span class="out-line out-y" style="min-width:8rem;">y = D<sub>(sel)</sub></span>
+        <p style="margin:0.5rem 0 0;font-size:0.82rem;color:var(--fg2);">Gold cells = data inputs currently <code>1</code>. The cell with the green outline is the one currently routed through. The output $y$ takes that cell's value: if the outlined cell is gold (1) the output is 1; if dim (0) the output is 0.</p>
+      </div>
+    </div>
+
+    <p style="font-size:0.85rem;color:var(--fg2);margin-top:0.8rem;"><strong>Three-way comparison</strong> (decoder, demultiplexer, multiplexer):</p>
+    <table style="font-size:0.85rem;border-collapse:collapse;"><tr><th style="padding:3px 12px;border-bottom:1px solid #ccc;text-align:left;"></th><th style="padding:3px 12px;border-bottom:1px solid #ccc;text-align:left;">Decoder</th><th style="padding:3px 12px;border-bottom:1px solid #ccc;text-align:left;">Demultiplexer</th><th style="padding:3px 12px;border-bottom:1px solid #ccc;text-align:left;">Multiplexer</th></tr><tr><td style="padding:3px 12px;">Direction</td><td style="padding:3px 12px;">$n$ → $2^n$</td><td style="padding:3px 12px;">$1 + n$ → $2^n$ (fan-out)</td><td style="padding:3px 12px;">$2^n + n$ → 1 (fan-in)</td></tr><tr><td style="padding:3px 12px;">Inputs</td><td style="padding:3px 12px;">$n$ select bits</td><td style="padding:3px 12px;">1 data + $n$ select</td><td style="padding:3px 12px;">$2^n$ data + $n$ select</td></tr><tr><td style="padding:3px 12px;">Outputs</td><td style="padding:3px 12px;">$2^n$ minterm signals</td><td style="padding:3px 12px;">$2^n$ (one carries data, rest 0)</td><td style="padding:3px 12px;">1 (carries selected input)</td></tr><tr><td style="padding:3px 12px;">Behavior</td><td style="padding:3px 12px;">$y_i = 1$ iff input $= i$</td><td style="padding:3px 12px;">$y_i = D$ iff sel $= i$, else 0</td><td style="padding:3px 12px;">$y = D_{\text{sel}}$</td></tr><tr><td style="padding:3px 12px;">Boolean form</td><td style="padding:3px 12px;">$y_i = m_i(s)$</td><td style="padding:3px 12px;">$y_i = D \cdot m_i(s)$</td><td style="padding:3px 12px;">$y = \sum_i D_i \cdot m_i(s)$</td></tr><tr><td style="padding:3px 12px;">Use case</td><td style="padding:3px 12px;">address decode, minterm generation, ROM rows</td><td style="padding:3px 12px;">routing one signal to many destinations (clock distribution, write-enable)</td><td style="padding:3px 12px;">selecting one of many sources (bus arbitration, ALU operand pick, function realization via Shannon expansion)</td></tr></table>
+
+    <p style="font-size:0.85rem;color:var(--fg2);margin-top:0.6rem;"><strong>Duality.</strong> A demux and a MUX are <em>inverse</em> circuits — connect them back-to-back with the same select, and the data on $D_i$ at the demux input reappears unchanged at the MUX output. This is the basis of time-division multiplexing: many channels share one wire by alternating selects.</p>
+
+    <p style="font-size:0.85rem;color:var(--fg2);"><strong>Decoder vs MUX.</strong> A decoder generates all $2^n$ minterms; a MUX <em>uses</em> minterms internally to select among inputs. Equivalently: a MUX is built from a decoder + AND gates + a big OR. So decoders are the building block; <b style="color:#3a5998;">MUXes and demuxes are decoder-based variants</b> — read-direction (MUX, $2^n$→1) vs. write-direction (demux, 1→$2^n$).</p>
+    </details>
+
+    <details class="sol-note" style="margin-top:0.8rem;"><summary>Shannon's Expansion — cheat sheet</summary>
+
+    <p>Shannon's expansion theorem decomposes any Boolean function on a chosen variable into two simpler "cofactor" pieces. It's the algebraic foundation of MUX-based logic synthesis, BDDs, and recursive function analysis.</p>
+
+    <p><strong>Theorem (SOP form):</strong></p>
+    <p style="text-align:center;font-size:1.05rem;margin:0.4rem 0;">$f(x_1, x_2, \ldots, x_n) \;=\; \overline{x_1}\cdot f(0, x_2, \ldots, x_n) \;+\; x_1 \cdot f(1, x_2, \ldots, x_n)$</p>
+
+    <p><strong>Theorem (POS / dual form):</strong></p>
+    <p style="text-align:center;font-size:1.05rem;margin:0.4rem 0;">$f(x_1, x_2, \ldots, x_n) \;=\; \bigl(x_1 + f(0, x_2, \ldots, x_n)\bigr) \cdot \bigl(\overline{x_1} + f(1, x_2, \ldots, x_n)\bigr)$</p>
+
+    <p>The two pieces are called the <strong>cofactors</strong> of $f$ with respect to $x_1$:</p>
+    <table style="font-size:0.92rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;margin:0.4rem auto;">
+      <tr><th style="padding:4px 14px;border-bottom:1px solid #ccc;text-align:left;">Notation</th><th style="padding:4px 14px;border-bottom:1px solid #ccc;text-align:left;">Meaning</th></tr>
+      <tr><td style="padding:3px 14px;">$f_{x_1=0}$, &nbsp; $f|_{x_1=0}$, &nbsp; $f_0$</td><td style="padding:3px 14px;">substitute $x_1=0$ everywhere in $f$ → 0-cofactor</td></tr>
+      <tr><td style="padding:3px 14px;">$f_{x_1=1}$, &nbsp; $f|_{x_1=1}$, &nbsp; $f_1$</td><td style="padding:3px 14px;">substitute $x_1=1$ everywhere in $f$ → 1-cofactor</td></tr>
+    </table>
+
+    <p style="text-align:center;font-size:1.0rem;margin:0.3rem 0;">$\boxed{\,f \;=\; \overline{x_1}\,f_0 \;+\; x_1\,f_1\,}$</p>
+
+    <p><strong>Connection to a 2-to-1 MUX</strong> — that's literally MUX2 with select $= x_1$, data inputs $f_0$ and $f_1$:</p>
+    <svg viewBox="0 0 460 160" style="max-width:460px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;">
+      <text x="20" y="50" font-size="12" fill="#1a1a1a" font-weight="bold">f₀</text>
+      <text x="20" y="116" font-size="12" fill="#1a1a1a" font-weight="bold">f₁</text>
+      <text x="20" y="160" font-size="12" fill="#c04040" font-weight="bold">x₁</text>
+      <line x1="40" y1="46" x2="160" y2="46" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="40" y1="112" x2="160" y2="112" stroke="#2a6e5a" stroke-width="1.4"/>
+      <line x1="40" y1="156" x2="220" y2="156" stroke="#c04040" stroke-width="1.4"/>
+      <line x1="220" y1="156" x2="220" y2="120" stroke="#c04040" stroke-width="1.4"/>
+      <rect x="160" y="35" width="80" height="90" fill="#fff" stroke="#333" stroke-width="1.4"/>
+      <text x="200" y="80" text-anchor="middle" font-size="11" fill="#333">MUX2</text>
+      <text x="170" y="50" font-size="9" fill="#666">0</text>
+      <text x="170" y="116" font-size="9" fill="#666">1</text>
+      <line x1="240" y1="80" x2="320" y2="80" stroke="#333" stroke-width="1.5"/>
+      <text x="328" y="84" font-size="14" fill="#333" font-weight="bold">f</text>
+    </svg>
+
+    <p><strong>Recursive application — break a function down to a tree of MUXes:</strong></p>
+    <p style="font-size:0.92rem;text-align:center;margin:0.3rem 0;">$f \;=\; \overline{x_1}\bigl[\overline{x_2} f_{00} + x_2 f_{01}\bigr] + x_1\bigl[\overline{x_2} f_{10} + x_2 f_{11}\bigr]$</p>
+    <p>Each cofactor is itself expanded on the next variable, producing a binary tree with $2^n$ leaves (constants 0 or 1, equal to the truth-table values). This <em>is</em> a binary decision diagram (BDD) before any reduction.</p>
+
+    <p><strong>Worked example.</strong> $f(w_1, w_2, w_3) = w_1 w_2 + \overline{w_1} w_3$. Expand on $w_1$:</p>
+    <ul style="font-size:0.88rem;line-height:1.55;">
+      <li>$f_0 = f|_{w_1 = 0} = (0)\cdot w_2 + (1)\cdot w_3 = w_3$</li>
+      <li>$f_1 = f|_{w_1 = 1} = (1)\cdot w_2 + (0)\cdot w_3 = w_2$</li>
+      <li>So $f = \overline{w_1}\,w_3 + w_1\,w_2$ — implementable with a 2-to-1 MUX: select $= w_1$, $D_0 = w_3$, $D_1 = w_2$. The original function vanishes into a single MUX with two raw-literal data inputs.</li>
+    </ul>
+
+    <p><strong>Useful identities &amp; properties:</strong></p>
+    <table style="font-size:0.88rem;border-collapse:collapse;margin:0.3rem auto;">
+      <tr><th style="padding:3px 12px;border-bottom:1px solid #ccc;text-align:left;">Identity</th><th style="padding:3px 12px;border-bottom:1px solid #ccc;text-align:left;">Note</th></tr>
+      <tr><td style="padding:3px 12px;">$f = \overline{x}\,f_0 + x\,f_1$</td><td style="padding:3px 12px;">canonical SOP form</td></tr>
+      <tr><td style="padding:3px 12px;">$f = (x + f_0)(\overline{x} + f_1)$</td><td style="padding:3px 12px;">canonical POS form (the dual)</td></tr>
+      <tr><td style="padding:3px 12px;">$f_0 \cdot f_1 \neq 0 \Rightarrow$ Boolean diff</td><td style="padding:3px 12px;">$\partial f / \partial x = f_0 \oplus f_1$ (XOR of cofactors)</td></tr>
+      <tr><td style="padding:3px 12px;">$f_0 = f_1 \iff f$ is independent of $x$</td><td style="padding:3px 12px;">used to detect "vacuous" variables</td></tr>
+      <tr><td style="padding:3px 12px;">$(f \cdot g)_{x=v} = f_{x=v} \cdot g_{x=v}$</td><td style="padding:3px 12px;">cofactoring distributes over AND, OR, NOT, XOR</td></tr>
+    </table>
+
+    <p><strong>Where it shows up:</strong></p>
+    <ul style="font-size:0.88rem;line-height:1.55;">
+      <li><strong>MUX-based synthesis</strong> — implement any Boolean function with a tree of 2-to-1 MUXes by recursive Shannon expansion.</li>
+      <li><strong>BDDs / ROBDDs</strong> — every node of a BDD is a Shannon-expansion split on one variable. Variable ordering choice = which variable to expand at each level.</li>
+      <li><strong>Functional decomposition</strong> — to factor $f(x, y, \ldots) = g(h(x, \ldots), y, \ldots)$, examine cofactors and look for repeated patterns.</li>
+      <li><strong>Boolean differentiation</strong> — $\partial f / \partial x = f_0 \oplus f_1$. A variable is sensitized iff this is true; the basis of test-pattern generation in DFT.</li>
+      <li><strong>SAT solvers</strong> — DPLL search algorithm performs Shannon expansion on each chosen literal, branching the search tree.</li>
+    </ul>
+
+    <p style="font-size:0.85rem;color:var(--fg2);"><strong>Quick recipe:</strong> to express $f$ with a 2-to-1 MUX selected by $x_i$ — compute $f_0$ and $f_1$ by substitution, wire them as the two data inputs, wire $x_i$ as select. To go further (tree of MUXes), expand each cofactor on the next variable. The recursion bottoms out at the constants 0 and 1.</p>
+    </details>
+
+    <details class="sol-note" style="margin-top:0.8rem;"><summary>Encoder &harr; Decoder &mdash; the inverse pair (back-to-back co-working)</summary>
+
+    <p>An <strong>encoder</strong> turns a one-of-$2^n$ one-hot signal into an $n$-bit binary index. A <strong>decoder</strong> does the reverse: it turns an $n$-bit binary index back into a one-hot signal. Connected back-to-back with the same width, they form an <em>identity</em> on valid one-hot inputs — exactly like a demux/MUX pair, but in the opposite direction.</p>
+
+    <p style="text-align:center;font-size:1.0rem;margin:0.4rem 0;">$\text{one-hot}\;\xrightarrow{\;\text{encoder}\;}\;\text{binary index}\;\xrightarrow{\;\text{decoder}\;}\;\text{one-hot}$</p>
+
+    <p><strong>Side-by-side block diagram (4-to-2 encoder &rarr; 2-to-4 decoder):</strong></p>
+    <svg viewBox="0 0 640 240" style="max-width:640px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;">
+      <!-- Encoder inputs (one-hot) -->
+      <text x="10" y="50" font-size="11" fill="#3a5998" font-weight="bold">W&#8323;</text>
+      <text x="10" y="90" font-size="11" fill="#3a5998" font-weight="bold">W&#8322;</text>
+      <text x="10" y="130" font-size="11" fill="#3a5998" font-weight="bold">W&#8321;</text>
+      <text x="10" y="170" font-size="11" fill="#3a5998" font-weight="bold">W&#8320;</text>
+      <line x1="35" y1="46" x2="120" y2="46" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="35" y1="86" x2="120" y2="86" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="35" y1="126" x2="120" y2="126" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="35" y1="166" x2="120" y2="166" stroke="#3a5998" stroke-width="1.4"/>
+      <!-- Encoder body -->
+      <rect x="120" y="30" width="120" height="160" fill="#fff" stroke="#3a5998" stroke-width="1.6"/>
+      <text x="180" y="100" text-anchor="middle" font-size="13" fill="#3a5998" font-weight="bold">4-to-2</text>
+      <text x="180" y="120" text-anchor="middle" font-size="13" fill="#3a5998" font-weight="bold">Encoder</text>
+      <!-- Encoded binary out -->
+      <line x1="240" y1="80" x2="320" y2="80" stroke="#2a6e5a" stroke-width="1.6"/>
+      <line x1="240" y1="140" x2="320" y2="140" stroke="#2a6e5a" stroke-width="1.6"/>
+      <text x="248" y="74" font-size="10" fill="#2a6e5a">y&#8321;</text>
+      <text x="248" y="134" font-size="10" fill="#2a6e5a">y&#8320;</text>
+      <text x="280" y="115" text-anchor="middle" font-size="10" fill="#666">2-bit binary</text>
+      <!-- Decoder body -->
+      <rect x="320" y="30" width="120" height="160" fill="#fff" stroke="#2a6e5a" stroke-width="1.6"/>
+      <text x="380" y="100" text-anchor="middle" font-size="13" fill="#2a6e5a" font-weight="bold">2-to-4</text>
+      <text x="380" y="120" text-anchor="middle" font-size="13" fill="#2a6e5a" font-weight="bold">Decoder</text>
+      <!-- Decoded one-hot out -->
+      <line x1="440" y1="46" x2="540" y2="46" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="440" y1="86" x2="540" y2="86" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="440" y1="126" x2="540" y2="126" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="440" y1="166" x2="540" y2="166" stroke="#3a5998" stroke-width="1.4"/>
+      <text x="548" y="50" font-size="11" fill="#3a5998" font-weight="bold">Y&#8323;</text>
+      <text x="548" y="90" font-size="11" fill="#3a5998" font-weight="bold">Y&#8322;</text>
+      <text x="548" y="130" font-size="11" fill="#3a5998" font-weight="bold">Y&#8321;</text>
+      <text x="548" y="170" font-size="11" fill="#3a5998" font-weight="bold">Y&#8320;</text>
+      <!-- Captions -->
+      <text x="180" y="220" text-anchor="middle" font-size="10" fill="#666">one-hot in (compress)</text>
+      <text x="500" y="220" text-anchor="middle" font-size="10" fill="#666">one-hot out (expand)</text>
+      <text x="280" y="225" text-anchor="middle" font-size="10" fill="#c04040" font-weight="bold">narrow link</text>
+    </svg>
+
+    <p><strong>Truth-table round-trip</strong> &mdash; encoder squeezes 4 wires into 2; decoder expands them back. On valid one-hot inputs the round-trip is identity:</p>
+    <table style="font-size:0.88rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;margin:0.3rem auto;">
+      <tr>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">W&#8323;W&#8322;W&#8321;W&#8320; (one-hot)</th>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">y&#8321;y&#8320; (encoded)</th>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">Y&#8323;Y&#8322;Y&#8321;Y&#8320; (decoded)</th>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">match?</th>
+      </tr>
+      <tr><td style="padding:2px 14px;text-align:center;">0001</td><td style="padding:2px 14px;text-align:center;">00</td><td style="padding:2px 14px;text-align:center;">0001</td><td style="padding:2px 14px;text-align:center;color:#2a6e5a;">&check;</td></tr>
+      <tr><td style="padding:2px 14px;text-align:center;">0010</td><td style="padding:2px 14px;text-align:center;">01</td><td style="padding:2px 14px;text-align:center;">0010</td><td style="padding:2px 14px;text-align:center;color:#2a6e5a;">&check;</td></tr>
+      <tr><td style="padding:2px 14px;text-align:center;">0100</td><td style="padding:2px 14px;text-align:center;">10</td><td style="padding:2px 14px;text-align:center;">0100</td><td style="padding:2px 14px;text-align:center;color:#2a6e5a;">&check;</td></tr>
+      <tr><td style="padding:2px 14px;text-align:center;">1000</td><td style="padding:2px 14px;text-align:center;">11</td><td style="padding:2px 14px;text-align:center;">1000</td><td style="padding:2px 14px;text-align:center;text-align:center;color:#2a6e5a;">&check;</td></tr>
+      <tr><td style="padding:2px 14px;text-align:center;color:#c04040;">0000 (invalid)</td><td style="padding:2px 14px;text-align:center;color:#c04040;">00</td><td style="padding:2px 14px;text-align:center;color:#c04040;">0001 (wrong!)</td><td style="padding:2px 14px;text-align:center;color:#c04040;">&times;</td></tr>
+    </table>
+
+    <p><strong>Back-to-back chain with a <code style="color:#c04040;">valid</code> gate</strong> &mdash; the row in red shows why a plain encoder output is ambiguous: input 0001 and input 0000 both produce y = 00. To distinguish them, the encoder asserts an extra <code style="color:#c04040;">valid</code> bit (= OR of all one-hot inputs), and the decoder uses it as enable so its outputs stay 0000 when no input was asserted:</p>
+    <svg viewBox="0 0 640 200" style="max-width:640px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;">
+      <!-- Encoder -->
+      <rect x="60" y="30" width="120" height="120" fill="#fff" stroke="#3a5998" stroke-width="1.5"/>
+      <text x="120" y="80" text-anchor="middle" font-size="12" fill="#3a5998" font-weight="bold">Encoder</text>
+      <text x="120" y="100" text-anchor="middle" font-size="12" fill="#3a5998" font-weight="bold">4&rarr;2</text>
+      <text x="20" y="64" font-size="10" fill="#3a5998">W[3:0]</text>
+      <line x1="55" y1="60" x2="60" y2="60" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="40" y1="60" x2="55" y2="60" stroke="#3a5998" stroke-width="1.4"/>
+      <text x="46" y="56" font-size="9" fill="#3a5998">/4</text>
+      <!-- Encoder outputs: y[1:0] and valid -->
+      <line x1="180" y1="70" x2="270" y2="70" stroke="#2a6e5a" stroke-width="1.6"/>
+      <text x="220" y="64" text-anchor="middle" font-size="10" fill="#2a6e5a">y[1:0] /2</text>
+      <line x1="180" y1="120" x2="320" y2="120" stroke="#c04040" stroke-width="1.6"/>
+      <text x="245" y="114" text-anchor="middle" font-size="10" fill="#c04040" font-weight="bold">valid</text>
+      <!-- Decoder -->
+      <rect x="320" y="30" width="120" height="120" fill="#fff" stroke="#2a6e5a" stroke-width="1.5"/>
+      <text x="380" y="80" text-anchor="middle" font-size="12" fill="#2a6e5a" font-weight="bold">Decoder</text>
+      <text x="380" y="100" text-anchor="middle" font-size="12" fill="#2a6e5a" font-weight="bold">2&rarr;4</text>
+      <line x1="270" y1="70" x2="320" y2="70" stroke="#2a6e5a" stroke-width="1.6"/>
+      <text x="296" y="64" font-size="10" fill="#2a6e5a">W</text>
+      <line x1="320" y1="120" x2="320" y2="120" stroke="#c04040" stroke-width="1.6"/>
+      <text x="320" y="138" font-size="10" fill="#c04040" text-anchor="middle">En</text>
+      <!-- Decoded one-hot -->
+      <line x1="440" y1="80" x2="530" y2="80" stroke="#3a5998" stroke-width="1.6"/>
+      <text x="538" y="84" font-size="10" fill="#3a5998">Y[3:0] /4</text>
+      <text x="300" y="180" text-anchor="middle" font-size="10" fill="#666">narrow link: 2 + 1 wires instead of 4</text>
+    </svg>
+
+    <p><strong>Where this pair shows up:</strong></p>
+    <ul style="font-size:0.88rem;line-height:1.55;">
+      <li><strong>Address compression on a bus.</strong> A wide one-hot signal (say 16 device-request lines) is encoded to 4 bits, transmitted across a backplane, then decoded back at the destination. Saves wires and routing area.</li>
+      <li><strong>Interrupt vector.</strong> Many interrupt-request lines (one-hot) are encoded into a numeric vector index by a priority encoder; the CPU later decodes that index to look up the service routine — same encoder/decoder pair, with priority resolution added.</li>
+      <li><strong>Memory-mapped I/O.</strong> Address bits travel as a binary index; a chip-select decoder turns them back into one-hot enables for individual peripherals or memory banks.</li>
+      <li><strong>Bus arbitration.</strong> A priority encoder picks the winning request; a decoder re-asserts the matching grant line back to the requester.</li>
+    </ul>
+
+    <p><strong>Verilog &mdash; minimal back-to-back pair:</strong></p>
+    <pre style="font-size:0.7em;">module binary_encoder_4to2(input [3:0] W, output reg [1:0] y, output valid);
+  assign valid = |W;            // 1 if any input is asserted
+  always @(*) case (W)
+    4'b0001: y = 2'b00;
+    4'b0010: y = 2'b01;
+    4'b0100: y = 2'b10;
+    4'b1000: y = 2'b11;
+    default: y = 2'b00;         // ambiguous without 'valid'
+  endcase
+endmodule
+
+module dec2to4(input [1:0] W, input En, output reg [3:0] Y);
+  always @(*) case ({En, W})
+    3'b100: Y = 4'b0001;
+    3'b101: Y = 4'b0010;
+    3'b110: Y = 4'b0100;
+    3'b111: Y = 4'b1000;
+    default: Y = 4'b0000;
+  endcase
+endmodule
+
+module enc_dec_link(input [3:0] W, output [3:0] Y);
+  wire [1:0] y;
+  wire       valid;
+  binary_encoder_4to2 enc(.W(W), .y(y), .valid(valid));
+  dec2to4             dec(.W(y), .En(valid), .Y(Y));
+endmodule</pre>
+
+    <p style="font-size:0.82rem;color:var(--fg2);margin-top:0.6rem;"><strong>Footnote on the <code>valid</code> output.</strong> A plain (non-priority) encoder cannot tell "no input asserted" from "input 0 asserted" &mdash; both produce y = 00. The <code>valid</code> = OR-of-all-inputs bit fixes this: it gates the downstream decoder so the round-trip is correct even when no source line is active. For a <em>priority</em> encoder, <code>valid</code> doubles as the "any request pending" signal feeding the arbiter.</p>
+    </details>
+
+    <details class="sol-note" style="margin-top:0.8rem;"><summary>Multiplexer &harr; Demultiplexer &mdash; the inverse pair (time-division multiplexing)</summary>
+
+    <p>A <strong>multiplexer (MUX)</strong> picks one of $2^n$ data sources and routes it to a single output. A <strong>demultiplexer (DEMUX)</strong> does the reverse: it takes one data input and steers it to one of $2^n$ outputs (the rest stay at 0). Connected back-to-back with a <em>shared select</em>, MUX&rarr;DEMUX makes a perfect <strong>time-division multiplexed (TDM) link</strong>: many channels share one wire, alternating in time.</p>
+
+    <p style="text-align:center;font-size:1.0rem;margin:0.4rem 0;">$D_0 \ldots D_{2^n-1}\;\xrightarrow{\;\text{MUX}\;}\;\text{1 wire}\;\xrightarrow{\;\text{DEMUX}\;}\;Y_0 \ldots Y_{2^n-1}$</p>
+
+    <p><strong>Side-by-side block diagram (4-to-1 MUX &rarr; 1-to-4 DEMUX):</strong></p>
+    <svg viewBox="0 0 640 240" style="max-width:640px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;">
+      <!-- MUX inputs -->
+      <text x="10" y="50" font-size="11" fill="#3a5998" font-weight="bold">D&#8323;</text>
+      <text x="10" y="90" font-size="11" fill="#3a5998" font-weight="bold">D&#8322;</text>
+      <text x="10" y="130" font-size="11" fill="#3a5998" font-weight="bold">D&#8321;</text>
+      <text x="10" y="170" font-size="11" fill="#3a5998" font-weight="bold">D&#8320;</text>
+      <line x1="35" y1="46" x2="120" y2="46" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="35" y1="86" x2="120" y2="86" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="35" y1="126" x2="120" y2="126" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="35" y1="166" x2="120" y2="166" stroke="#3a5998" stroke-width="1.4"/>
+      <!-- MUX body (trapezoid) -->
+      <polygon points="120,30 240,60 240,160 120,190" fill="#fff" stroke="#3a5998" stroke-width="1.6"/>
+      <text x="180" y="100" text-anchor="middle" font-size="13" fill="#3a5998" font-weight="bold">MUX</text>
+      <text x="180" y="120" text-anchor="middle" font-size="13" fill="#3a5998" font-weight="bold">4&rarr;1</text>
+      <!-- Shared wire -->
+      <line x1="240" y1="110" x2="400" y2="110" stroke="#c04040" stroke-width="2.2"/>
+      <text x="320" y="100" text-anchor="middle" font-size="11" fill="#c04040" font-weight="bold">shared 1-bit wire</text>
+      <!-- DEMUX body (trapezoid, mirrored) -->
+      <polygon points="400,60 520,30 520,190 400,160" fill="#fff" stroke="#2a6e5a" stroke-width="1.6"/>
+      <text x="460" y="100" text-anchor="middle" font-size="13" fill="#2a6e5a" font-weight="bold">DEMUX</text>
+      <text x="460" y="120" text-anchor="middle" font-size="13" fill="#2a6e5a" font-weight="bold">1&rarr;4</text>
+      <!-- DEMUX outputs -->
+      <line x1="520" y1="46" x2="600" y2="46" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="520" y1="86" x2="600" y2="86" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="520" y1="126" x2="600" y2="126" stroke="#3a5998" stroke-width="1.4"/>
+      <line x1="520" y1="166" x2="600" y2="166" stroke="#3a5998" stroke-width="1.4"/>
+      <text x="608" y="50" font-size="11" fill="#3a5998" font-weight="bold">Y&#8323;</text>
+      <text x="608" y="90" font-size="11" fill="#3a5998" font-weight="bold">Y&#8322;</text>
+      <text x="608" y="130" font-size="11" fill="#3a5998" font-weight="bold">Y&#8321;</text>
+      <text x="608" y="170" font-size="11" fill="#3a5998" font-weight="bold">Y&#8320;</text>
+      <!-- Shared select -->
+      <line x1="180" y1="220" x2="180" y2="190" stroke="#a07020" stroke-width="1.6" stroke-dasharray="4,3"/>
+      <line x1="180" y1="220" x2="460" y2="220" stroke="#a07020" stroke-width="1.6" stroke-dasharray="4,3"/>
+      <line x1="460" y1="220" x2="460" y2="190" stroke="#a07020" stroke-width="1.6" stroke-dasharray="4,3"/>
+      <circle cx="320" cy="220" r="4" fill="#a07020"/>
+      <text x="320" y="237" text-anchor="middle" font-size="11" fill="#a07020" font-weight="bold">shared sel[1:0]</text>
+    </svg>
+
+    <p><strong>Round-trip table</strong> &mdash; with the same select on both sides, $Y_i = D_i$ for the selected slot, all other $Y_j = 0$ (the demux floor):</p>
+    <table style="font-size:0.88rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;margin:0.3rem auto;">
+      <tr>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">sel</th>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">MUX out (= shared wire)</th>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">DEMUX outputs Y&#8323;Y&#8322;Y&#8321;Y&#8320;</th>
+        <th style="padding:3px 14px;border-bottom:1px solid #ccc;">live channel</th>
+      </tr>
+      <tr><td style="padding:2px 14px;text-align:center;">00</td><td style="padding:2px 14px;text-align:center;">D&#8320;</td><td style="padding:2px 14px;text-align:center;">000&nbsp;D&#8320;</td><td style="padding:2px 14px;text-align:center;color:#2a6e5a;">channel 0</td></tr>
+      <tr><td style="padding:2px 14px;text-align:center;">01</td><td style="padding:2px 14px;text-align:center;">D&#8321;</td><td style="padding:2px 14px;text-align:center;">00&nbsp;D&#8321;&nbsp;0</td><td style="padding:2px 14px;text-align:center;color:#2a6e5a;">channel 1</td></tr>
+      <tr><td style="padding:2px 14px;text-align:center;">10</td><td style="padding:2px 14px;text-align:center;">D&#8322;</td><td style="padding:2px 14px;text-align:center;">0&nbsp;D&#8322;&nbsp;00</td><td style="padding:2px 14px;text-align:center;color:#2a6e5a;">channel 2</td></tr>
+      <tr><td style="padding:2px 14px;text-align:center;">11</td><td style="padding:2px 14px;text-align:center;">D&#8323;</td><td style="padding:2px 14px;text-align:center;">D&#8323;&nbsp;000</td><td style="padding:2px 14px;text-align:center;color:#2a6e5a;">channel 3</td></tr>
+    </table>
+
+    <p><strong>TDM timing</strong> &mdash; rotate <code>sel</code> through 00 &rarr; 01 &rarr; 10 &rarr; 11 in successive time slots; each source $D_i$ owns the wire for one slot, and the demux drops it onto the matching $Y_i$:</p>
+    <svg viewBox="0 0 600 200" style="max-width:600px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;">
+      <!-- axis -->
+      <line x1="80" y1="170" x2="560" y2="170" stroke="#333" stroke-width="1.2"/>
+      <text x="320" y="195" text-anchor="middle" font-size="11" fill="#666">time &rarr;</text>
+      <!-- slots -->
+      <line x1="200" y1="20" x2="200" y2="170" stroke="#ccc" stroke-dasharray="3,3"/>
+      <line x1="320" y1="20" x2="320" y2="170" stroke="#ccc" stroke-dasharray="3,3"/>
+      <line x1="440" y1="20" x2="440" y2="170" stroke="#ccc" stroke-dasharray="3,3"/>
+      <line x1="560" y1="20" x2="560" y2="170" stroke="#ccc" stroke-dasharray="3,3"/>
+      <!-- sel row -->
+      <text x="20" y="44" font-size="11" fill="#a07020" font-weight="bold">sel</text>
+      <text x="140" y="44" text-anchor="middle" font-size="11" fill="#a07020">00</text>
+      <text x="260" y="44" text-anchor="middle" font-size="11" fill="#a07020">01</text>
+      <text x="380" y="44" text-anchor="middle" font-size="11" fill="#a07020">10</text>
+      <text x="500" y="44" text-anchor="middle" font-size="11" fill="#a07020">11</text>
+      <!-- shared wire row -->
+      <text x="20" y="84" font-size="11" fill="#c04040" font-weight="bold">wire</text>
+      <rect x="80" y="70" width="120" height="22" fill="#fde0e0" stroke="#c04040" stroke-width="1.2"/>
+      <text x="140" y="86" text-anchor="middle" font-size="11" fill="#c04040" font-weight="bold">D&#8320;</text>
+      <rect x="200" y="70" width="120" height="22" fill="#fde0e0" stroke="#c04040" stroke-width="1.2"/>
+      <text x="260" y="86" text-anchor="middle" font-size="11" fill="#c04040" font-weight="bold">D&#8321;</text>
+      <rect x="320" y="70" width="120" height="22" fill="#fde0e0" stroke="#c04040" stroke-width="1.2"/>
+      <text x="380" y="86" text-anchor="middle" font-size="11" fill="#c04040" font-weight="bold">D&#8322;</text>
+      <rect x="440" y="70" width="120" height="22" fill="#fde0e0" stroke="#c04040" stroke-width="1.2"/>
+      <text x="500" y="86" text-anchor="middle" font-size="11" fill="#c04040" font-weight="bold">D&#8323;</text>
+      <!-- Y outputs row -->
+      <text x="20" y="124" font-size="11" fill="#3a5998" font-weight="bold">Y&#8320;</text>
+      <text x="140" y="124" text-anchor="middle" font-size="11" fill="#3a5998">D&#8320;</text>
+      <text x="20" y="138" font-size="11" fill="#3a5998" font-weight="bold">Y&#8321;</text>
+      <text x="260" y="138" text-anchor="middle" font-size="11" fill="#3a5998">D&#8321;</text>
+      <text x="20" y="152" font-size="11" fill="#3a5998" font-weight="bold">Y&#8322;</text>
+      <text x="380" y="152" text-anchor="middle" font-size="11" fill="#3a5998">D&#8322;</text>
+      <text x="20" y="166" font-size="11" fill="#3a5998" font-weight="bold">Y&#8323;</text>
+      <text x="500" y="166" text-anchor="middle" font-size="11" fill="#3a5998">D&#8323;</text>
+    </svg>
+
+    <p><strong>Where this pair shows up:</strong></p>
+    <ul style="font-size:0.88rem;line-height:1.55;">
+      <li><strong>Time-division multiplexing (TDM).</strong> Multiple low-rate channels share one high-rate wire. The transmitter MUXes; the receiver DEMUXes with the same rotating select. Used in T1/E1 telephony, serial UART framing, I&sup2;S audio.</li>
+      <li><strong>ADC channel sharing.</strong> One physical ADC samples many sensor lines via an analog MUX; the digital side DEMUXes the samples into per-channel buffers.</li>
+      <li><strong>Memory bus arbitration.</strong> Several masters share one memory data bus through a MUX; the destination registers behave as a DEMUX, capturing the word into the correct latch on the matching cycle.</li>
+      <li><strong>Pipeline operand routing.</strong> ALUs use a MUX to pick the operand source (register file, immediate, forwarded value); a DEMUX-shaped write-enable network steers the result back to the right register.</li>
+    </ul>
+
+    <p><strong>Verilog &mdash; minimal back-to-back pair:</strong></p>
+    <pre style="font-size:0.7em;">module mux4to1(input [3:0] D, input [1:0] sel, output reg out);
+  always @(*) case (sel)
+    2'b00: out = D[0];
+    2'b01: out = D[1];
+    2'b10: out = D[2];
+    2'b11: out = D[3];
+  endcase
+endmodule
+
+module demux1to4(input in, input [1:0] sel, output reg [3:0] Y);
+  always @(*) begin
+    Y = 4'b0000;
+    case (sel)
+      2'b00: Y[0] = in;
+      2'b01: Y[1] = in;
+      2'b10: Y[2] = in;
+      2'b11: Y[3] = in;
+    endcase
+  end
+endmodule
+
+module tdm_link(input [3:0] D, input [1:0] sel, output [3:0] Y);
+  wire bus;                              // the shared 1-bit wire
+  mux4to1   tx(.D(D),  .sel(sel), .out(bus));
+  demux1to4 rx(.in(bus), .sel(sel), .Y(Y));
+endmodule</pre>
+
+    <p style="font-size:0.82rem;color:var(--fg2);margin-top:0.6rem;"><strong>Note.</strong> The MUX/DEMUX pair carries <em>data</em> (one wire, value-bearing); the encoder/decoder pair carries an <em>index</em> (binary number, position-bearing). Both pairs are inverse circuits, but they operate on different abstractions: data routing vs. address translation.</p>
+    </details>
+  </div>
+  <div id="tier1-ch4" class="exercises-grid">
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.1</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.1" title="Hint">?</span><span class="ex-review" data-num="4.1" title="Mark for review">R</span><span class="ex-check" data-num="4.1" title="Mark done">&check;</span></div><div class="ex-text">Show how $f(w_1,w_2,w_3) = \sum m(0,2,3,4,5,7)$ can be implemented using a 3-to-8 decoder and a single OR gate.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.2</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.2" title="Hint">?</span><span class="ex-review" data-num="4.2" title="Mark for review">R</span><span class="ex-check" data-num="4.2" title="Mark done">&check;</span></div><div class="ex-text">Use Shannon's expansion with respect to variable $w_1$ to implement $f(w_1,w_2,w_3) = \sum m(0,2,3,6)$ using a 2-to-1 multiplexer and any necessary gates.<details style="margin-top:0.8rem;"><summary style="cursor:pointer;font-size:0.82rem;color:var(--fg2);font-weight:600;">Background — Shannon's expansion: full SOP and POS walk-through</summary><div style="margin-top:0.6rem;padding:0.8rem 1rem;background:var(--bg2);border-radius:6px;border:1px solid var(--border);">
+
+<p>Here's a concrete walk-through using a 3-variable function.</p>
+
+<h4>Setup</h4>
+<p>Take $F(A, B, C) = A + BC$ with 3 variables ($n = 3$), so there are $2^3 = 8$ minterms ($m_0$ through $m_7$). <a href="https://www.cs.ucr.edu/~ehwang/courses/cs120a/00winter/minterms.pdf" target="_blank" rel="noopener">[cs.ucr]</a></p>
+
+<h4>Truth Table</h4>
+<p>Evaluate $F$ for every input combination: <a href="https://www.cs.ucr.edu/~ehwang/courses/cs120a/00winter/minterms.pdf" target="_blank" rel="noopener">[cs.ucr]</a></p>
+<table>
+<tr><th>$i$</th><th>A</th><th>B</th><th>C</th><th>Minterm $m_i$</th><th>$F(A,B,C)$</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>$A'B'C'$</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>$A'B'C$</td><td>0</td></tr>
+<tr><td>2</td><td>0</td><td>1</td><td>0</td><td>$A'BC'$</td><td>0</td></tr>
+<tr><td>3</td><td>0</td><td>1</td><td>1</td><td>$A'BC$</td><td><strong>1</strong></td></tr>
+<tr><td>4</td><td>1</td><td>0</td><td>0</td><td>$AB'C'$</td><td><strong>1</strong></td></tr>
+<tr><td>5</td><td>1</td><td>0</td><td>1</td><td>$AB'C$</td><td><strong>1</strong></td></tr>
+<tr><td>6</td><td>1</td><td>1</td><td>0</td><td>$ABC'$</td><td><strong>1</strong></td></tr>
+<tr><td>7</td><td>1</td><td>1</td><td>1</td><td>$ABC$</td><td><strong>1</strong></td></tr>
+</table>
+
+<h4>Applying the Formula</h4>
+$$F = \sum_{i=0}^{7} m_i \cdot F(\text{inputs for } m_i)$$
+<p>Only minterms where $F = 1$ survive (multiplying by 0 eliminates the rest): <a href="https://caslab.ee.ncku.edu.tw/dokuwiki/_media/course:logic_system:lecture_4_minterm_and_maxterm.pdf" target="_blank" rel="noopener">[caslab.ee.ncku.edu]</a></p>
+$$F(A,B,C) = m_3 \cdot 1 + m_4 \cdot 1 + m_5 \cdot 1 + m_6 \cdot 1 + m_7 \cdot 1$$
+<p>Substituting the actual minterm products: <a href="https://www.cs.ucr.edu/~ehwang/courses/cs120a/00winter/minterms.pdf" target="_blank" rel="noopener">[cs.ucr]</a></p>
+$$F(A,B,C) = A'BC + AB'C' + AB'C + ABC' + ABC$$
+<p>Written in shorthand notation: <a href="https://jazapka.people.ysu.edu/ECEN%201521%20Outline%20-%20Unit%204.pdf" target="_blank" rel="noopener">[jazapka.people.ysu]</a></p>
+$$F(A,B,C) = \Sigma\, m(3, 4, 5, 6, 7)$$
+
+<h4>What This Means</h4>
+<p>The formula is simply saying: <strong>OR together every minterm for which the function outputs 1</strong>. Each minterm $m_i$ is exactly 1 for one and only one input combination, so the sum "selects" the rows in the truth table where $F = 1$. This canonical SOP is the fully expanded Shannon decomposition over all variables simultaneously. <a href="https://www.cs.ucr.edu/~ehwang/courses/cs120a/00winter/minterms.pdf" target="_blank" rel="noopener">[cs.ucr]</a></p>
+
+<hr style="margin:1.2rem 0;border:none;border-top:1px dashed var(--border);">
+
+<p>Here is a full worked example using the <strong>dual POS form</strong> of Shannon's expansion.</p>
+
+<h4>Setup</h4>
+<p>Let $F(A, B, C) = A + BC$, and expand on $X_1 = A$: <a href="https://en.wikipedia.org/wiki/Boole%27s_expansion_theorem" target="_blank" rel="noopener">[en.wikipedia]</a></p>
+$$F = (A + F(0, B, C)) \cdot (A' + F(1, B, C))$$
+
+<h4>Step 1 — Compute the Two Cofactors</h4>
+<p><strong>Negative cofactor</strong> — set $A = 0$: <a href="https://en.wikipedia.org/wiki/Boole%27s_expansion_theorem" target="_blank" rel="noopener">[en.wikipedia]</a></p>
+$$F(0, B, C) = 0 + BC = BC$$
+<p><strong>Positive cofactor</strong> — set $A = 1$: <a href="https://en.wikipedia.org/wiki/Boole%27s_expansion_theorem" target="_blank" rel="noopener">[en.wikipedia]</a></p>
+$$F(1, B, C) = 1 + BC = 1$$
+
+<h4>Step 2 — Plug into the POS Formula</h4>
+$$F(A, B, C) = (A + BC) \cdot (A' + 1)$$
+<p>Since $A' + 1 = 1$ (anything OR'd with 1 is 1):</p>
+$$F(A, B, C) = (A + BC) \cdot 1 = A + BC$$
+<p>The function is confirmed correctly $\checkmark$</p>
+
+<h4>Step 3 — Expand Further to Canonical POS</h4>
+<p>To reach the fully canonical POS (maxterm form), apply the theorem <strong>recursively</strong> to each remaining sub-function. Expand $BC$ on variable $B$: <a href="https://eplauchu.files.wordpress.com/2015/06/shannon.pdf" target="_blank" rel="noopener">[eplauchu.files.wordpress]</a></p>
+$$BC = (B + C \cdot 0)(B' + C \cdot 1) = (B + 0)(B' + C) = B(B' + C)$$
+<p>Wait — in POS, the canonical expansion over all variables yields maxterms where $F = 0$. From the earlier truth table, $F = 0$ only at rows $i = 0, 1, 2$ (i.e., $A=0, BC=0$):</p>
+<table>
+<tr><th>$i$</th><th>A</th><th>B</th><th>C</th><th>Maxterm $M_i$</th><th>$F$</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>$A+B+C$</td><td><strong>0</strong></td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>$A+B+C'$</td><td><strong>0</strong></td></tr>
+<tr><td>2</td><td>0</td><td>1</td><td>0</td><td>$A+B'+C$</td><td><strong>0</strong></td></tr>
+<tr><td>3–7</td><td>—</td><td>—</td><td>—</td><td>—</td><td>1</td></tr>
+</table>
+<p>So the canonical POS is: <a href="https://eplauchu.files.wordpress.com/2015/06/shannon.pdf" target="_blank" rel="noopener">[eplauchu.files.wordpress]</a></p>
+$$F(A,B,C) = \Pi\, M(0, 1, 2) = (A+B+C)(A+B+C')(A+B'+C)$$
+
+<h4>Key Insight: SOP vs POS Duality</h4>
+<table>
+<tr><th></th><th>SOP (Shannon direct)</th><th>POS (Shannon dual)</th></tr>
+<tr><td><strong>Operator</strong></td><td>$x \cdot F_x + x' \cdot F_{x'}$</td><td>$(x + F_{x=0})(x' + F_{x=1})$</td></tr>
+<tr><td><strong>Canonical form</strong></td><td>Sum of minterms where $F = 1$</td><td>Product of maxterms where $F = 0$</td></tr>
+<tr><td><strong>Building blocks</strong></td><td>Minterms $m_i$</td><td>Maxterms $M_i$</td></tr>
+</table>
+<p>The dual POS form is particularly useful when a function has <strong>fewer 0s than 1s</strong> in the truth table — the POS expression will then be more compact. <a href="https://eplauchu.files.wordpress.com/2015/06/shannon.pdf" target="_blank" rel="noopener">[eplauchu.files.wordpress]</a></p>
+
+</div></details></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.3</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.3" title="Hint">?</span><span class="ex-review" data-num="4.3" title="Mark for review">R</span><span class="ex-check" data-num="4.3" title="Mark done">&check;</span></div><div class="ex-text">Draw the circuit diagram for a 4-to-1 multiplexer using AND, OR, and NOT gates.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.4</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.4" title="Hint">?</span><span class="ex-review" data-num="4.4" title="Mark for review">R</span><span class="ex-check" data-num="4.4" title="Mark done">&check;</span></div><div class="ex-text">Design a 4-to-2 priority encoder where input 3 has the highest priority. Give the truth table and logic equations for the two outputs and a valid-output signal.<details class="sol-note"><summary>Why does input 3 have the highest priority?</summary><p>By convention the <strong>highest-indexed asserted input wins</strong>: I₃ &gt; I₂ &gt; I₁ &gt; I₀. The encoder reports the index of that winning input on (Y₁, Y₀), and V=1 whenever any input is active.</p><p>In an <code>if / else if</code> chain this is the input checked first:</p><pre>if      (in[3]) out = 2'd3;   // highest priority
+else if (in[2]) out = 2'd2;
+else if (in[1]) out = 2'd1;
+else if (in[0]) out = 2'd0;   // lowest priority</pre><p>To make input 0 the highest priority instead, just reverse the order of the chain.</p></details><details class="sol-note"><summary>What if input 0 has the highest priority?</summary><p>Then I₀ &gt; I₁ &gt; I₂ &gt; I₃. The output (Y₁,Y₀) still reports the index of the winning input, but every term must gate on the complements of the higher-priority inputs.</p><table><tr><th>I₃</th><th>I₂</th><th>I₁</th><th>I₀</th><th>Y₁</th><th>Y₀</th><th>V</th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>x</td><td>x</td><td>0</td></tr><tr><td>x</td><td>x</td><td>x</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>x</td><td>x</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>x</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr></table><p>$Y_0 = I_1\overline{I_0} + I_3\overline{I_2}\,\overline{I_1}\,\overline{I_0}$</p><p>$Y_1 = \overline{I_0}\,\overline{I_1}(I_2 + I_3)$</p><p>$V = I_0 + I_1 + I_2 + I_3$</p><p>Compared to the I₃-highest case ($Y_1 = I_3 + I_2$, $Y_0 = I_3 + I_1\overline{I_2}$), flipping the priority to I₀ makes the equations longer because the higher-priority inputs now need to be explicitly suppressed.</p></details><details class="sol-note"><summary>What if input 1 has the highest priority?</summary><p>Naming only I₁ as highest doesn't fully specify the order of the other three. The usual reading is a <strong>cyclic shift</strong> (round-robin style): I₁ &gt; I₂ &gt; I₃ &gt; I₀.</p><table><tr><th>I₃</th><th>I₂</th><th>I₁</th><th>I₀</th><th>Y₁</th><th>Y₀</th><th>V</th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>x</td><td>x</td><td>0</td></tr><tr><td>x</td><td>x</td><td>1</td><td>x</td><td>0</td><td>1</td><td>1</td></tr><tr><td>x</td><td>1</td><td>0</td><td>x</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>x</td><td>1</td><td>1</td><td>1</td></tr><tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr></table><p>$Y_0 = I_1 + I_3\overline{I_2}\,\overline{I_1}$</p><p>$Y_1 = \overline{I_1}(I_2 + I_3)$</p><p>$V = I_0 + I_1 + I_2 + I_3$</p><p>Because I₀ is now the lowest priority and its index is 00, no I₀ term appears in either output — it's "selected" only when all higher-priority inputs are 0, and that selection is encoded by Y₁Y₀ = 00.</p></details></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.5</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.5" title="Hint">?</span><span class="ex-review" data-num="4.5" title="Mark for review">R</span><span class="ex-check" data-num="4.5" title="Mark done">&check;</span></div><div class="ex-text">Implement a 2-to-4 decoder with an enable input. Write the truth table and the Verilog code using a <code>case</code> statement.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.6</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.6" title="Hint">?</span><span class="ex-review" data-num="4.6" title="Mark for review">R</span><span class="ex-check" data-num="4.6" title="Mark done">&check;</span></div><div class="ex-text">Derive minimum SOP expressions for outputs a, b, and c of a BCD-to-7-segment display decoder.<details class="sol-note"><summary>完整 0–9 真值表 (a–g, common cathode)</summary><p>段位示意：a = 上橫，b = 右上，c = 右下，d = 下橫，e = 左下，f = 左上，g = 中橫。BCD 用 ABCD = wxyz。</p><table><tr><th>十進位</th><th>BCD (wxyz)</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th></tr><tr><td>0</td><td>0000</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0001</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2</td><td>0010</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>3</td><td>0011</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>4</td><td>0100</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>5</td><td>0101</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>6</td><td>0110</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>7</td><td>0111</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>8</td><td>1000</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>9</td><td>1001</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr></table><p><strong>特殊規律：</strong></p><ul><li><strong>數字 8</strong>：七段全亮 (<code>1111111</code>)，是最完整的圖形。</li><li><strong>數字 1</strong>：只有 b、c 亮 (右側兩段)。</li><li><strong>數字 7</strong>：比 1 多一條上橫 (a 段)。</li><li><strong>g 段 (中橫)</strong>：只有 0、1、7 不亮，其餘皆亮。</li><li><strong>BCD 1010–1111</strong> (10–15) 為無效輸入，列為 Don't Care (X)，可在 K-map 化簡時自由利用。</li></ul></details></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.7</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.7" title="Hint">?</span><span class="ex-review" data-num="4.7" title="Mark for review">R</span><span class="ex-check" data-num="4.7" title="Mark done">&check;</span></div><div class="ex-text">Design a 2-bit magnitude comparator that produces three outputs: <code>AgtB</code>, <code>AeqB</code>, <code>AltB</code>. Give the truth table and simplified equations. <span style="font-size:0.78rem;color:var(--fg2);font-style:italic">See <a href="#sym-compound" style="color:var(--accent2);">Compound Gates</a> for XNOR (≡) used in equality detection.</span></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.8</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.8" title="Hint">?</span><span class="ex-review" data-num="4.8" title="Mark for review">R</span><span class="ex-check" data-num="4.8" title="Mark done">&check;</span></div><div class="ex-text">Use two 2-to-4 decoders and additional gates to build a 3-to-8 decoder. Draw the block diagram.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.9</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.9" title="Hint">?</span><span class="ex-review" data-num="4.9" title="Mark for review">R</span><span class="ex-check" data-num="4.9" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a priority encoder with 8 inputs using an <code>if-else</code> chain inside an <code>always</code> block.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.10</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.10" title="Hint">?</span><span class="ex-review" data-num="4.10" title="Mark for review">R</span><span class="ex-check" data-num="4.10" title="Mark done">&check;</span></div><div class="ex-text">What happens if a <code>case</code> statement in Verilog doesn't cover all possible input combinations and no <code>default</code> is provided? What type of hardware is inferred?</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.11</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.11" title="Hint">?</span><span class="ex-review" data-num="4.11" title="Mark for review">R</span><span class="ex-check" data-num="4.11" title="Mark done">&check;</span></div><div class="ex-text">Design a 4-bit binary-to-Gray code converter. Give the truth table and Verilog implementation.<details class="sol-note"><summary>What is Gray code?</summary><p><strong>Gray code</strong> (reflected binary code) is a binary numbering system where <strong>two consecutive values differ in exactly one bit</strong>.</p><table><tr><th>Dec</th><th>Binary</th><th>Gray</th><th>Dec</th><th>Binary</th><th>Gray</th></tr><tr><td>0</td><td>0000</td><td>0000</td><td>8</td><td>1000</td><td>1100</td></tr><tr><td>1</td><td>0001</td><td>0001</td><td>9</td><td>1001</td><td>1101</td></tr><tr><td>2</td><td>0010</td><td>0011</td><td>10</td><td>1010</td><td>1111</td></tr><tr><td>3</td><td>0011</td><td>0010</td><td>11</td><td>1011</td><td>1110</td></tr><tr><td>4</td><td>0100</td><td>0110</td><td>12</td><td>1100</td><td>1010</td></tr><tr><td>5</td><td>0101</td><td>0111</td><td>13</td><td>1101</td><td>1011</td></tr><tr><td>6</td><td>0110</td><td>0101</td><td>14</td><td>1110</td><td>1001</td></tr><tr><td>7</td><td>0111</td><td>0100</td><td>15</td><td>1111</td><td>1000</td></tr></table><p>Each row changes only one bit from the row above. Compare with binary: 0011 → 0100 changes 3 bits at once.</p><p><strong>Why it matters:</strong></p><ul><li><strong>Mechanical / optical encoders</strong> (rotary position): sensors at bit boundaries can't all switch simultaneously. With binary, mid-transition you might briefly read a wildly wrong value (e.g. 011 → 100 might glitch through 000 or 111). Gray guarantees only one sensor changes, so the worst-case mis-read is off by one.</li><li><strong>K-maps</strong>: rows/columns are in Gray order so physical adjacency = logical adjacency for grouping minterms.</li><li><strong>Asynchronous FIFOs / clock-domain crossing</strong>: counters use Gray code so a sampled value is always either "this count" or "next count", never garbage in-between.</li><li><strong>Power / EMI</strong>: fewer bit transitions per increment → less switching noise.</li></ul><p><strong>Conversion formulas:</strong></p><ul><li>Binary → Gray: $G_i = B_i \oplus B_{i+1}$, with $G_{MSB} = B_{MSB}$. Equivalently <span style="background:#dbeafe;padding:0.05rem 0.3rem;border-radius:3px;">$G = B \oplus (B \gg 1)$</span>.</li><li>Gray → Binary: $B_{MSB} = G_{MSB}$, then $B_i = G_i \oplus B_{i+1}$ (cumulative XOR from MSB down).</li></ul></details></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.12</span><span class="ex-diff diff-hard">Hard</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-help" data-num="4.12" title="Hint">?</span><span class="ex-review" data-num="4.12" title="Mark for review">R</span><span class="ex-check" data-num="4.12" title="Mark done">&check;</span></div><div class="ex-text">Prove Shannon's expansion theorem: $f(x_1,\ldots,x_n) = x_1 \cdot f(1,x_2,\ldots,x_n) + \overline{x_1} \cdot f(0,x_2,\ldots,x_n)$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.13</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.13" title="Hint">?</span><span class="ex-review" data-num="4.13" title="Mark for review">R</span><span class="ex-check" data-num="4.13" title="Mark done">&check;</span></div><div class="ex-text">Design a $2\times 2$ crossbar switch using 2-to-1 multiplexers. The circuit has inputs $x_1,x_2$, outputs $y_1,y_2$, and a control signal $s$ such that $s=0$ connects $x_1\to y_1$, $x_2\to y_2$ and $s=1$ swaps the connections.<details class="sol-note" style="margin-top:0.6rem;"><summary>Context: what is a 2×2 crossbar switch?</summary><p>A <strong>crossbar switch</strong> is a network element that lets any input be routed to any output, like a digital "patch panel". The simplest non-trivial case is the <strong>2×2 crossbar</strong>: two inputs ($x_1, x_2$), two outputs ($y_1, y_2$), and one control bit $s$ that picks between two connection patterns:</p><table style="font-size:0.88rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;"><tr><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$s$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">routing</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$y_1$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$y_2$</th></tr><tr><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">straight (pass-through)</td><td style="padding:2px 14px;">$x_1$</td><td style="padding:2px 14px;">$x_2$</td></tr><tr><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">crossed (swap)</td><td style="padding:2px 14px;">$x_2$</td><td style="padding:2px 14px;">$x_1$</td></tr></table><p><strong>Schematic of the two routing patterns:</strong></p><svg viewBox="0 0 540 200" style="max-width:540px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;"><text x="100" y="20" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">s = 0  (pass-through)</text><text x="40" y="60" font-size="11" fill="#1a1a1a">x₁</text><text x="40" y="120" font-size="11" fill="#1a1a1a">x₂</text><line x1="55" y1="56" x2="180" y2="56" stroke="#3a5998" stroke-width="2"/><line x1="55" y1="116" x2="180" y2="116" stroke="#2a6e5a" stroke-width="2"/><text x="190" y="60" font-size="11" fill="#3a5998">y₁ = x₁</text><text x="190" y="120" font-size="11" fill="#2a6e5a">y₂ = x₂</text><text x="400" y="20" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">s = 1  (swap / crossed)</text><text x="340" y="60" font-size="11" fill="#1a1a1a">x₁</text><text x="340" y="120" font-size="11" fill="#1a1a1a">x₂</text><line x1="355" y1="56" x2="480" y2="116" stroke="#3a5998" stroke-width="2"/><line x1="355" y1="116" x2="480" y2="56" stroke="#2a6e5a" stroke-width="2"/><text x="490" y="60" font-size="11" fill="#2a6e5a">y₁ = x₂</text><text x="490" y="120" font-size="11" fill="#3a5998">y₂ = x₁</text></svg><p><strong>Boolean expressions:</strong></p><p style="margin:0.3rem 0;">$y_1 = \overline{s}\,x_1 + s\,x_2 \;=\; \mathrm{MUX2}(s; x_1, x_2)$</p><p style="margin:0.3rem 0;">$y_2 = \overline{s}\,x_2 + s\,x_1 \;=\; \mathrm{MUX2}(s; x_2, x_1)$</p><p>Each output is a 2-to-1 MUX: when $s=0$ pick the "straight" input, when $s=1$ pick the "crossed" input. Two MUXes total.</p><p><strong>Block diagram:</strong></p><svg viewBox="0 0 480 240" style="max-width:480px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;">
+  <!-- input labels -->
+  <text x="20" y="64"  font-size="12" fill="#1a1a1a" font-weight="bold">x₁</text>
+  <text x="20" y="124" font-size="12" font-weight="bold" fill="#c04040">s</text>
+  <text x="20" y="184" font-size="12" fill="#1a1a1a" font-weight="bold">x₂</text>
+
+  <!-- MUX1 (top, computes y₁) — rectangle with inputs at left, output right, select at bottom -->
+  <rect x="220" y="50" width="60" height="40" fill="#fff" stroke="#333" stroke-width="1.4"/>
+  <text x="250" y="75" text-anchor="middle" font-size="10" fill="#333">MUX2</text>
+  <line x1="280" y1="70" x2="330" y2="70" stroke="#333" stroke-width="1.4"/>
+  <text x="334" y="74" font-size="13" font-weight="bold" fill="#3a5998">y₁</text>
+
+  <!-- MUX2 (bottom, computes y₂) -->
+  <rect x="220" y="150" width="60" height="40" fill="#fff" stroke="#333" stroke-width="1.4"/>
+  <text x="250" y="175" text-anchor="middle" font-size="10" fill="#333">MUX2</text>
+  <line x1="280" y1="170" x2="330" y2="170" stroke="#333" stroke-width="1.4"/>
+  <text x="334" y="174" font-size="13" font-weight="bold" fill="#2a6e5a">y₂</text>
+
+  <!-- x₁ rail (blue) → MUX1 top-input (220, 60) -->
+  <line x1="40" y1="60" x2="220" y2="60" stroke="#3a5998" stroke-width="1.4"/>
+  <!-- x₁ fan-out down to MUX2 top-input (220, 160) -->
+  <circle cx="80" cy="60" r="2.5" fill="#3a5998"/>
+  <line x1="80" y1="60"  x2="80" y2="160" stroke="#3a5998" stroke-width="1.4"/>
+  <line x1="80" y1="160" x2="220" y2="160" stroke="#3a5998" stroke-width="1.4"/>
+
+  <!-- x₂ rail (green) → MUX2 bottom-input (220, 180) -->
+  <line x1="40" y1="180" x2="220" y2="180" stroke="#2a6e5a" stroke-width="1.4"/>
+  <!-- x₂ fan-out up to MUX1 bottom-input (220, 80) — at x=140 (right of s rail) -->
+  <circle cx="140" cy="180" r="2.5" fill="#2a6e5a"/>
+  <line x1="140" y1="180" x2="140" y2="80"  stroke="#2a6e5a" stroke-width="1.4"/>
+  <line x1="140" y1="80"  x2="220" y2="80"  stroke="#2a6e5a" stroke-width="1.4"/>
+
+  <!-- s rail (red) -->
+  <line x1="40" y1="120" x2="250" y2="120" stroke="#c04040" stroke-width="1.4"/>
+  <circle cx="250" cy="120" r="2.5" fill="#c04040"/>
+  <!-- s up to MUX1 select pin on bottom edge (250, 90) -->
+  <line x1="250" y1="120" x2="250" y2="90"  stroke="#c04040" stroke-width="1.4"/>
+  <!-- s down to MUX2 select pin on top edge (250, 150) -->
+  <line x1="250" y1="120" x2="250" y2="150" stroke="#c04040" stroke-width="1.4"/>
+</svg><p>Each MUX has its top data line wired straight from $x_i$ and its bottom data line wired across from $x_j$. The single control $s$ flips both MUXes simultaneously.</p><p><strong>Verilog:</strong></p><pre style="font-size:0.85rem;background:#f7f7f4;padding:0.6rem 0.8rem;border-left:3px solid #2a6e5a;line-height:1.45;">module crossbar_2x2 (
+  input  x1, x2, s,
+  output y1, y2
+);
+  assign y1 = s ? x2 : x1;
+  assign y2 = s ? x1 : x2;
+endmodule</pre><p style="font-size:0.85rem;color:var(--fg2);"><strong>Why it matters.</strong> Crossbar switches scale up to $n \times n$ networks (used in CPU register files, multiprocessor memory networks, network-on-chip routers). An $n \times n$ crossbar takes $n$ parallel $n$-to-1 MUXes — non-blocking but $O(n^2)$ in size, hence the use of multistage networks (Clos, Beneš) for larger $n$.</p></details></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.14</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.14" title="Hint">?</span><span class="ex-review" data-num="4.14" title="Mark for review">R</span><span class="ex-check" data-num="4.14" title="Mark done">&check;</span></div><div class="ex-text">Implement the three-input majority function using a single 4-to-1 multiplexer. Choose $w_1$ and $w_2$ as the select inputs and determine the data inputs as functions of $w_3$.<details class="sol-note" style="margin-top:0.6rem;"><summary>Context: what is the three-input majority function?</summary><p>The <strong>three-input majority function</strong> $M(w_1, w_2, w_3)$ outputs <strong>1 when at least two of the three inputs are 1</strong>, and 0 otherwise. It's the Boolean version of "majority vote": each input is a yes/no vote, the output is the winning side.</p><p><strong>Truth table:</strong></p><table style="font-size:0.88rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;"><tr><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$w_1$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$w_2$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$w_3$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$M$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">comment</th></tr><tr><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">no votes for 1</td></tr><tr><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">only one vote</td></tr><tr><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">only one vote</td></tr><tr><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;"><strong>1</strong></td><td style="padding:2px 14px;">two votes</td></tr><tr><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">only one vote</td></tr><tr><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;"><strong>1</strong></td><td style="padding:2px 14px;">two votes</td></tr><tr><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;"><strong>1</strong></td><td style="padding:2px 14px;">two votes</td></tr><tr><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;"><strong>1</strong></td><td style="padding:2px 14px;">all three</td></tr></table><p><strong>Boolean expression (minimum SOP):</strong></p><p style="margin:0.3rem 0;"><strong style="color:#c04040;">$M = w_1 w_2 + w_1 w_3 + w_2 w_3$ &nbsp;&nbsp;必背</strong></p><p>(any pair of 1s makes $M=1$ — three 2-input AND terms ORed together).</p><p><strong>4-to-1 MUX implementation strategy.</strong> Use $w_1, w_2$ as select inputs ($s_1 s_0 = w_1 w_2$). The MUX output for each select pattern is whatever the truth table dictates, parameterized by $w_3$:</p><table style="font-size:0.88rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;"><tr><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$w_1 w_2$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">MUX line</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$M$ when $w_3{=}0$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$M$ when $w_3{=}1$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">data input</th></tr><tr><td style="padding:2px 14px;">00</td><td style="padding:2px 14px;">$I_0$</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;"><strong>0</strong></td></tr><tr><td style="padding:2px 14px;">01</td><td style="padding:2px 14px;">$I_1$</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;"><strong>$w_3$</strong></td></tr><tr><td style="padding:2px 14px;">10</td><td style="padding:2px 14px;">$I_2$</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;"><strong>$w_3$</strong></td></tr><tr><td style="padding:2px 14px;">11</td><td style="padding:2px 14px;">$I_3$</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;">1</td><td style="padding:2px 14px;"><strong>1</strong></td></tr></table><p><strong>Result:</strong> connect $I_0 = 0$, $I_1 = I_2 = w_3$, $I_3 = 1$. The 4-to-1 MUX automatically produces the majority output for whatever $(w_1, w_2, w_3)$ comes in.</p><p style="font-size:0.85rem;color:var(--fg2);"><strong>Why majority is interesting:</strong> it's the canonical example of a "voting" / "fault-masking" function — used in triple-modular redundancy (TMR), where three copies of a signal are voted on to mask a single fault. Also a classic K-map example because its prime-implicant SOP form has no static hazards.</p></details></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.15</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.15" title="Hint">?</span><span class="ex-review" data-num="4.15" title="Mark for review">R</span><span class="ex-check" data-num="4.15" title="Mark done">&check;</span></div><div class="ex-text">Implement the three-input XOR function $f = w_1 \oplus w_2 \oplus w_3$ using only 2-to-1 multiplexers, exploiting that $w_2 \oplus w_3$ can be selected by $w_1$. <strong style="color:#c04040;">the concept is very important</strong></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.16</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.16" title="Hint">?</span><span class="ex-review" data-num="4.16" title="Mark for review">R</span><span class="ex-check" data-num="4.16" title="Mark done">&check;</span></div><div class="ex-text">For $f = \overline{w_1}\overline{w_3}+w_2 w_3$, perform Shannon's expansion with respect to each of $w_1$, $w_2$, and $w_3$ in turn, and identify which expansion variable produces the lowest-cost circuit.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.17</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.17" title="Hint">?</span><span class="ex-review" data-num="4.17" title="Mark for review">R</span><span class="ex-check" data-num="4.17" title="Mark done">&check;</span></div><div class="ex-text">Implement $f = \overline{w_1}\overline{w_3} + w_1 w_2 + w_1 w_3$ using (a) a single 2-to-1 multiplexer plus other gates and (b) a single 4-to-1 multiplexer. Use Shannon's expansion to derive both circuits.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.18</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.18" title="Hint">?</span><span class="ex-review" data-num="4.18" title="Mark for review">R</span><span class="ex-check" data-num="4.18" title="Mark done">&check;</span></div><div class="ex-text">Implement the three-input majority function using only 2-to-1 multiplexers by applying Shannon's expansion twice (first on $w_1$, then on $w_2$ within each cofactor).</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.19</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.19" title="Hint">?</span><span class="ex-review" data-num="4.19" title="Mark for review">R</span><span class="ex-check" data-num="4.19" title="Mark done">&check;</span></div><div class="ex-text">Show how a 4-to-1 multiplexer can be built from a 2-to-4 decoder (with enable held high) plus a single OR gate combining the AND of each decoder output with the corresponding data input.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.20</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.20" title="Hint">?</span><span class="ex-review" data-num="4.20" title="Mark for review">R</span><span class="ex-check" data-num="4.20" title="Mark done">&check;</span></div><div class="ex-text">Write a Verilog module <code>mux2to1</code> with inputs <code>w0</code>, <code>w1</code>, <code>s</code> and output <code>f</code>, using a continuous <code>assign</code> with the conditional operator <code>?:</code>.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.21</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.21" title="Hint">?</span><span class="ex-review" data-num="4.21" title="Mark for review">R</span><span class="ex-check" data-num="4.21" title="Mark done">&check;</span></div><div class="ex-text">Write a Verilog module for a 2-to-1 multiplexer using an <code>if-else</code> statement inside an <code>always</code> block.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.22</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.22" title="Hint">?</span><span class="ex-review" data-num="4.22" title="Mark for review">R</span><span class="ex-check" data-num="4.22" title="Mark done">&check;</span></div><div class="ex-text">Write hierarchical Verilog code for a 16-to-1 multiplexer that instantiates five 4-to-1 multiplexer modules. Use a 16-bit data vector $W$ and a 4-bit select vector $S$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.23</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.23" title="Hint">?</span><span class="ex-review" data-num="4.23" title="Mark for review">R</span><span class="ex-check" data-num="4.23" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 4-to-1 multiplexer using a <code>case</code> statement inside an <code>always</code> block, with a 2-bit select vector $S$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.24</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.24" title="Hint">?</span><span class="ex-review" data-num="4.24" title="Mark for review">R</span><span class="ex-check" data-num="4.24" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 2-to-4 binary decoder with an enable input <code>En</code>, using a <code>case</code> statement on the concatenation <code>{En, W}</code>.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.25</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.25" title="Hint">?</span><span class="ex-review" data-num="4.25" title="Mark for review">R</span><span class="ex-check" data-num="4.25" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 2-to-4 binary decoder using a combination of <code>if-else</code> (for the enable) and a <code>case</code> statement (for the input pattern).</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.26</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.26" title="Hint">?</span><span class="ex-review" data-num="4.26" title="Mark for review">R</span><span class="ex-check" data-num="4.26" title="Mark done">&check;</span></div><div class="ex-text">Write hierarchical Verilog code for a 4-to-16 decoder built as a tree of five 2-to-4 decoders. <strong style="color:#c04040;">important trick</strong></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.27</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.27" title="Hint">?</span><span class="ex-review" data-num="4.27" title="Mark for review">R</span><span class="ex-check" data-num="4.27" title="Mark done">&check;</span></div><div class="ex-text">Write a Verilog module <code>seg7</code> that implements a hexadecimal-to-7-segment display decoder. The 4-bit input is <code>hex</code> and the 7-bit output is <code>leds</code>; use a <code>case</code> statement listing all 16 patterns.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.28</span><span class="ex-diff diff-hard">Hard</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.28" title="Hint">?</span><span class="ex-review" data-num="4.28" title="Mark for review">R</span><span class="ex-check" data-num="4.28" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 4-bit ALU modeled on the 74381 chip, with 3-bit select $S$, 4-bit operands $A$ and $B$, and a 4-bit output $F$. Implement clear, $B-A$, $A-B$, $A+B$, $A\oplus B$, $A|B$, $A\&B$, and preset-to-1111.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.29</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.29" title="Hint">?</span><span class="ex-review" data-num="4.29" title="Mark for review">R</span><span class="ex-check" data-num="4.29" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 4-input priority encoder using a <code>casex</code> statement that treats lower-priority bits as don't-cares. Provide a valid output flag $z$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.30</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.30" title="Hint">?</span><span class="ex-review" data-num="4.30" title="Mark for review">R</span><span class="ex-check" data-num="4.30" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 2-to-4 decoder using a <code>for</code> loop that iterates over the four output positions, asserting $Y[k]=1$ when $W=k$ and $\text{En}=1$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.31</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.31" title="Hint">?</span><span class="ex-review" data-num="4.31" title="Mark for review">R</span><span class="ex-check" data-num="4.31" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 4-input priority encoder using a <code>for</code> loop. Exploit the fact that, in an <code>always</code> block, multiple assignments to the same variable retain the last assignment, so the highest priority input wins.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.32</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.32" title="Hint">?</span><span class="ex-review" data-num="4.32" title="Mark for review">R</span><span class="ex-check" data-num="4.32" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for a 4-bit magnitude comparator that uses the relational operators (<code>==</code>, <code>&gt;</code>, <code>&lt;</code>) inside an <code>if-else</code> chain to drive outputs <code>AeqB</code>, <code>AgtB</code>, <code>AltB</code>.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.33</span><span class="ex-diff diff-hard">Hard</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.33" title="Hint">?</span><span class="ex-review" data-num="4.33" title="Mark for review">R</span><span class="ex-check" data-num="4.33" title="Mark done">&check;</span></div><div class="ex-text">Use the Verilog <code>generate</code> construct with a <code>for</code> loop and gate-level primitives to specify an $n$-bit ripple-carry adder. Use a <code>genvar</code> index and parameterize $n$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.34</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.34" title="Hint">?</span><span class="ex-review" data-num="4.34" title="Mark for review">R</span><span class="ex-check" data-num="4.34" title="Mark done">&check;</span></div><div class="ex-text">Re-implement the hierarchical 16-to-1 multiplexer of Example 4.10 using a Verilog <code>task</code> for the inner 4-to-1 multiplexer, called from a <code>case</code> statement inside an <code>always</code> block.<span class="ex-ref">— example 4.10</span></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.35</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.35" title="Hint">?</span><span class="ex-review" data-num="4.35" title="Mark for review">R</span><span class="ex-check" data-num="4.35" title="Mark done">&check;</span></div><div class="ex-text">Re-implement the 16-to-1 multiplexer using a Verilog <code>function</code> rather than a task. Explain the syntactic and semantic differences from the task-based version.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.36</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.36" title="Hint">?</span><span class="ex-review" data-num="4.36" title="Mark for review">R</span><span class="ex-check" data-num="4.36" title="Mark done">&check;</span></div><div class="ex-text">Implement $f(w_1,w_2,w_3) = \sum m(0,1,3,4,6,7)$ using a 3-to-8 binary decoder and a single OR gate.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.37</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.37" title="Hint">?</span><span class="ex-review" data-num="4.37" title="Mark for review">R</span><span class="ex-check" data-num="4.37" title="Mark done">&check;</span></div><div class="ex-text">Design an 8-to-3 binary encoder. Assume only one input is asserted at a time and write the truth table along with minimum SOP expressions for $y_2$, $y_1$, $y_0$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.38</span><span class="ex-diff diff-hard">Hard</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.38" title="Hint">?</span><span class="ex-review" data-num="4.38" title="Mark for review">R</span><span class="ex-check" data-num="4.38" title="Mark done">&check;</span></div><div class="ex-text">Implement $f(w_1,\ldots,w_5) = \overline{w_1}\,\overline{w_2}\,w_4 w_5 + w_1\overline{w_2} + w_1 w_3 + w_1 w_4 + w_3 w_4 w_5$ using a single 4-to-1 multiplexer (selects $w_1, w_4$) and as few additional gates as possible. Assume only uncomplemented inputs are available.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.39</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.39" title="Hint">?</span><span class="ex-review" data-num="4.39" title="Mark for review">R</span><span class="ex-check" data-num="4.39" title="Mark done">&check;</span></div><div class="ex-text">Design a 3-bit binary-to-Gray code converter according to the table $b_2 b_1 b_0 \to g_2 g_1 g_0$. Show that $g_2 = b_2$, $g_1 = b_1 \oplus b_2$, $g_0 = b_0 \oplus b_1$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.40</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.40" title="Hint">?</span><span class="ex-review" data-num="4.40" title="Mark for review">R</span><span class="ex-check" data-num="4.40" title="Mark done">&check;</span></div><div class="ex-text">A 4-input function $f$ has been Shannon-expanded with respect to $w_1$, giving cofactors $f_{w_1}$ and $f_{\overline{w_1}}$. Show that the multiplexer in the Shannon-expansion circuit can be replaced by a single logic gate (a) when $f_{\overline{w_1}}=0$ and (b) when $f_{\overline{w_1}}=1$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.41</span><span class="ex-diff diff-hard">Hard</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.41" title="Hint">?</span><span class="ex-review" data-num="4.41" title="Mark for review">R</span><span class="ex-check" data-num="4.41" title="Mark done">&check;</span></div><div class="ex-text">A commercial FPGA uses 4-input lookup tables (4-LUTs). Determine the minimum number of 4-LUTs needed to construct a 4-to-1 multiplexer with select inputs $s_1, s_0$ and data inputs $w_3, w_2, w_1, w_0$. Show both a straightforward 3-LUT solution and an optimized 2-LUT solution.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.42</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.42" title="Hint">?</span><span class="ex-review" data-num="4.42" title="Mark for review">R</span><span class="ex-check" data-num="4.42" title="Mark done">&check;</span></div><div class="ex-text">Design a 4-bit right-shift circuit using five 2-to-1 multiplexers. The control signal <code>Shift</code> selects between (a) pass-through $Y=W$, $k=0$ and (b) right-shift by one with $y_3=0$, $y_2=w_3$, $y_1=w_2$, $y_0=w_1$, $k=w_0$.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.43</span><span class="ex-diff diff-hard">Hard</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.43" title="Hint">?</span><span class="ex-review" data-num="4.43" title="Mark for review">R</span><span class="ex-check" data-num="4.43" title="Mark done">&check;</span></div><div class="ex-text">Design a 4-bit barrel shifter that rotates the input vector $W$ by 0, 1, 2, or 3 positions according to a 2-bit control $S$. Implement the circuit using four 4-to-1 multiplexers.<details class="sol-note" style="margin-top:0.6rem;"><summary>Context: what is a barrel shifter?</summary><p>A <strong>barrel shifter</strong> is a combinational circuit that shifts (or rotates) an $n$-bit vector by any amount in <strong>one clock cycle</strong>, regardless of how many bits the shift is. Unlike a sequential shift register, which moves one position per clock, <strong style="color:#c04040;">a barrel shifter performs the entire shift through pure combinational logic</strong> — exploiting parallel multiplexers.</p><p><strong>Two flavors:</strong></p><ul style="font-size:0.88rem;line-height:1.5;"><li><strong>Rotating</strong> barrel shifter — bits that fall off one end re-enter the other. Output bits are a cyclic permutation of input bits.</li><li><strong>Logical/Arithmetic shift</strong> barrel shifter — bits that fall off are discarded; vacated positions get 0 (logical) or sign-extension (arithmetic).</li></ul><p>Problem 4.43 asks for a <em>rotating</em> 4-bit shifter ($n=4$) with shift amounts $\{0,1,2,3\}$ selected by a 2-bit control $S = s_1 s_0$.</p><p><strong>Functional table</strong> (input $W = w_3 w_2 w_1 w_0$, output $Y = y_3 y_2 y_1 y_0$):</p><table style="font-size:0.88rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;"><tr><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$S$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">shift</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$y_3$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$y_2$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$y_1$</th><th style="padding:3px 14px;border-bottom:1px solid #ccc;">$y_0$</th></tr><tr><td style="padding:2px 14px;">00</td><td style="padding:2px 14px;">0</td><td style="padding:2px 14px;">$w_3$</td><td style="padding:2px 14px;">$w_2$</td><td style="padding:2px 14px;">$w_1$</td><td style="padding:2px 14px;">$w_0$</td></tr><tr><td style="padding:2px 14px;">01</td><td style="padding:2px 14px;">1 right</td><td style="padding:2px 14px;">$w_0$</td><td style="padding:2px 14px;">$w_3$</td><td style="padding:2px 14px;">$w_2$</td><td style="padding:2px 14px;">$w_1$</td></tr><tr><td style="padding:2px 14px;">10</td><td style="padding:2px 14px;">2 right</td><td style="padding:2px 14px;">$w_1$</td><td style="padding:2px 14px;">$w_0$</td><td style="padding:2px 14px;">$w_3$</td><td style="padding:2px 14px;">$w_2$</td></tr><tr><td style="padding:2px 14px;">11</td><td style="padding:2px 14px;">3 right</td><td style="padding:2px 14px;">$w_2$</td><td style="padding:2px 14px;">$w_1$</td><td style="padding:2px 14px;">$w_0$</td><td style="padding:2px 14px;">$w_3$</td></tr></table><p>Each output bit needs a 4-to-1 MUX whose data inputs are the four candidate source bits and whose select is $S$. From the table, reading down each $y_i$ column tells you the data inputs to MUX$_i$:</p><ul style="font-size:0.88rem;line-height:1.5;"><li>MUX for $y_3$: data lines $(w_3, w_0, w_1, w_2)$ for $S = (00, 01, 10, 11)$</li><li>MUX for $y_2$: data lines $(w_2, w_3, w_0, w_1)$</li><li>MUX for $y_1$: data lines $(w_1, w_2, w_3, w_0)$</li><li>MUX for $y_0$: data lines $(w_0, w_1, w_2, w_3)$</li></ul><p>Pattern: each MUX$_i$ has data inputs $(w_i, w_{(i-1)\bmod 4}, w_{(i-2)\bmod 4}, w_{(i-3)\bmod 4})$ — exactly the cyclic shift of $W$ starting at position $i$.</p><p><strong>Schematic (four parallel 4-to-1 MUXes sharing the same $S$):</strong></p><svg viewBox="0 0 580 280" style="max-width:580px;display:block;margin:0.4rem auto;font-family:'JetBrains Mono',monospace;"><text x="20" y="32" font-size="11" fill="#1a1a1a" font-weight="bold">w₃ w₂ w₁ w₀</text><line x1="60" y1="48" x2="60" y2="240" stroke="#3a5998" stroke-width="1.2"/><line x1="100" y1="48" x2="100" y2="240" stroke="#3a5998" stroke-width="1.2"/><line x1="140" y1="48" x2="140" y2="240" stroke="#3a5998" stroke-width="1.2"/><line x1="180" y1="48" x2="180" y2="240" stroke="#3a5998" stroke-width="1.2"/><text x="60" y="44" text-anchor="middle" font-size="10" fill="#3a5998">w₃</text><text x="100" y="44" text-anchor="middle" font-size="10" fill="#3a5998">w₂</text><text x="140" y="44" text-anchor="middle" font-size="10" fill="#3a5998">w₁</text><text x="180" y="44" text-anchor="middle" font-size="10" fill="#3a5998">w₀</text><g><rect x="240" y="62" width="80" height="36" fill="#fff" stroke="#333" stroke-width="1.4"/><text x="280" y="84" text-anchor="middle" font-size="11" fill="#333">MUX₃</text><line x1="320" y1="80" x2="380" y2="80" stroke="#333" stroke-width="1.4"/><text x="386" y="84" font-size="13" fill="#3a5998" font-weight="bold">y₃</text><text x="220" y="84" font-size="9" fill="#666" text-anchor="end">w₃,w₀,w₁,w₂</text></g><g><rect x="240" y="112" width="80" height="36" fill="#fff" stroke="#333" stroke-width="1.4"/><text x="280" y="134" text-anchor="middle" font-size="11" fill="#333">MUX₂</text><line x1="320" y1="130" x2="380" y2="130" stroke="#333" stroke-width="1.4"/><text x="386" y="134" font-size="13" fill="#3a5998" font-weight="bold">y₂</text><text x="220" y="134" font-size="9" fill="#666" text-anchor="end">w₂,w₃,w₀,w₁</text></g><g><rect x="240" y="162" width="80" height="36" fill="#fff" stroke="#333" stroke-width="1.4"/><text x="280" y="184" text-anchor="middle" font-size="11" fill="#333">MUX₁</text><line x1="320" y1="180" x2="380" y2="180" stroke="#333" stroke-width="1.4"/><text x="386" y="184" font-size="13" fill="#3a5998" font-weight="bold">y₁</text><text x="220" y="184" font-size="9" fill="#666" text-anchor="end">w₁,w₂,w₃,w₀</text></g><g><rect x="240" y="212" width="80" height="36" fill="#fff" stroke="#333" stroke-width="1.4"/><text x="280" y="234" text-anchor="middle" font-size="11" fill="#333">MUX₀</text><line x1="320" y1="230" x2="380" y2="230" stroke="#333" stroke-width="1.4"/><text x="386" y="234" font-size="13" fill="#3a5998" font-weight="bold">y₀</text><text x="220" y="234" font-size="9" fill="#666" text-anchor="end">w₀,w₁,w₂,w₃</text></g><text x="430" y="18" font-size="11" fill="#c04040" font-weight="bold">S = s₁s₀</text><line x1="450" y1="22" x2="450" y2="253" stroke="#c04040" stroke-width="1.4"/><circle cx="450" cy="103" r="2" fill="#c04040"/><line x1="450" y1="103" x2="280" y2="103" stroke="#c04040" stroke-width="1.4"/><line x1="280" y1="103" x2="280" y2="98" stroke="#c04040" stroke-width="1.4"/><circle cx="450" cy="153" r="2" fill="#c04040"/><line x1="450" y1="153" x2="280" y2="153" stroke="#c04040" stroke-width="1.4"/><line x1="280" y1="153" x2="280" y2="148" stroke="#c04040" stroke-width="1.4"/><circle cx="450" cy="203" r="2" fill="#c04040"/><line x1="450" y1="203" x2="280" y2="203" stroke="#c04040" stroke-width="1.4"/><line x1="280" y1="203" x2="280" y2="198" stroke="#c04040" stroke-width="1.4"/><line x1="450" y1="253" x2="280" y2="253" stroke="#c04040" stroke-width="1.4"/><line x1="280" y1="253" x2="280" y2="248" stroke="#c04040" stroke-width="1.4"/></svg><p><strong>Verilog (parameterized for any $n$ that is a power of 2):</strong></p><pre style="font-size:0.85rem;background:#f7f7f4;padding:0.6rem 0.8rem;border-left:3px solid #2a6e5a;line-height:1.45;">module barrel_rot4 (
+  input  [3:0] W,
+  input  [1:0] S,
+  output [3:0] Y
+);
+  // each output is the input rotated right by S
+  assign Y = (W &gt;&gt; S) | (W &lt;&lt; (4 - S));
+endmodule</pre><p>The expression `(W >> S) | (W << (4-S))` is the canonical right-rotate idiom: bits shifted off the bottom re-enter at the top via the inverted shift. The synthesis tool will turn this into the four 4-to-1 MUXes shown above.</p><p style="font-size:0.85rem;color:var(--fg2);"><strong>Cost &amp; depth.</strong> An $n$-bit barrel rotator built from $n$ parallel $n$-to-1 MUXes uses $O(n^2)$ gates and one MUX-delay. For larger $n$, a logarithmic <em>multi-stage</em> barrel shifter ($\log_2 n$ stages of 2-to-1 MUXes per bit) cuts cost to $O(n \log n)$ at the price of $\log_2 n$ MUX delays — the standard ALU shifter design in modern CPUs.</p></details></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.44</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.44" title="Hint">?</span><span class="ex-review" data-num="4.44" title="Mark for review">R</span><span class="ex-check" data-num="4.44" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code that builds a 4-to-1 multiplexer from a 2-to-4 decoder (instantiated as a <code>dec2to4</code> module) and a single reduction-OR over the AND of decoder outputs with the data vector.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.45</span><span class="ex-diff diff-easy">Easy</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.45" title="Hint">?</span><span class="ex-review" data-num="4.45" title="Mark for review">R</span><span class="ex-check" data-num="4.45" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for the 4-bit right-shifter of Example 4.30 in two styles: one using an <code>if-else</code> with explicit bit assignments, and another using the Verilog shift operator <code>&gt;&gt;</code>.<details class="sol-note" style="margin-top:0.6rem;"><summary>Why use <code>&gt;&gt;</code> instead of explicit bit assignments?</summary><p><strong>Style 1 — explicit bit assignments:</strong></p><pre style="font-size:0.78rem;">module shifter_if (input [3:0] R, input shift, output reg [3:0] Q);
+    always @* begin
+        if (shift) begin
+            Q[3] = 1'b0;       // fill MSB with 0
+            Q[2] = R[3];
+            Q[1] = R[2];
+            Q[0] = R[1];       // R[0] discarded
+        end else
+            Q = R;
+    end
+endmodule</pre><p><strong>Style 2 — using <code>&gt;&gt;</code>:</strong></p><pre style="font-size:0.78rem;">module shifter_op (input [3:0] R, input shift, output [3:0] Q);
+    assign Q = shift ? (R &gt;&gt; 1) : R;
+endmodule</pre><p><strong>Why prefer <code>&gt;&gt;</code>?</strong></p><table><tr><th>Aspect</th><th>Explicit if-else</th><th><code>&gt;&gt;</code> operator</th></tr><tr><td>Lines of code</td><td>~10</td><td>1</td></tr><tr><td>Bug surface</td><td>Easy to swap two bit indices and miss it</td><td>Compiler enforces the relation</td></tr><tr><td>Scales to wider words</td><td>One extra line per bit</td><td>Same line works for any width</td></tr><tr><td>Parameterizable</td><td>Need to template every assignment</td><td><code>assign Q = R &gt;&gt; 1;</code> works for any <code>[N-1:0]</code></td></tr><tr><td>Variable shift amount</td><td>Need a large <code>case</code> / mux network</td><td><code>R &gt;&gt; n</code> — synthesizer builds the barrel shifter</td></tr><tr><td>Synthesized hardware</td><td>Identical wire-rename</td><td>Identical wire-rename</td></tr></table><p><strong>Bottom line:</strong> the two are <em>electrically identical</em> for a fixed 1-bit shift (both synthesize to a trivial wire-rename — no flip-flops). But <code>&gt;&gt;</code> is the right level of abstraction: it states the <em>operation</em> rather than its implementation. For parameterized widths or variable shift amounts, <code>&gt;&gt;</code> saves you from writing a barrel multiplexer by hand. The textbook asks for both styles to make clear that HDL operators are not magic — they're shorthand for what you could otherwise write structurally.</p></details><span class="ex-ref">— example 4.30</span></div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.46</span><span class="ex-diff diff-hard">Hard</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.46" title="Hint">?</span><span class="ex-review" data-num="4.46" title="Mark for review">R</span><span class="ex-check" data-num="4.46" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code that defines a 4-bit barrel shifter by concatenating two copies of the input vector $W$ and shifting the resulting 8-bit value right by $S$ bits, then taking the four least-significant bits as the output.</div></div>
+    <div class="exercise"><div class="ex-head"><span class="ex-num" style="background:var(--ch4);color:#fff">4.47</span><span class="ex-diff diff-medium">Medium</span><span class="ex-prio prio-high">Tier 1</span><span class="ex-source" title="Derived from textbook theory example">E</span><span class="ex-help" data-num="4.47" title="Hint">?</span><span class="ex-review" data-num="4.47" title="Mark for review">R</span><span class="ex-check" data-num="4.47" title="Mark done">&check;</span></div><div class="ex-text">Write Verilog code for an even-parity generator that takes a 7-bit ASCII character on input bits $b_6\ldots b_0$ and produces an 8-bit output where $b_7$ is the even-parity bit and $b_6\ldots b_0$ pass through unchanged.</div></div>
+  </div>
+</section>
+
+<script src="iframe-glue.js?v=1777971450"></script>
+</body>
+</html>
