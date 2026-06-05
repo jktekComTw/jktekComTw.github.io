@@ -1,144 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-<title>JKTek</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects / Web App — 昭群科技 JiaoKuan Technology | FPGA・馬達控制・Web 開發案例</title>
+    <meta name="description" content="昭群科技 JiaoKuan Technology 專案實績：國立中山大學圖資處電力管理與排程系統（通過政府 B 級資安驗證）、與臺北醫學大學醫工所彭志維教授合作開發中風病人復健用 RTOS 嵌入式裝置與 Android App、海洋大學軟體工程教材、CI/CD 實務（Express, MongoDB, JEST, GitHub Actions, AWS）、台大碩士論文電動機車 FPGA 馬達控制、IMU 六軸 Web 示波器、WebAssembly 應用。">
+    <meta name="keywords" content="昭群科技, JiaoKuan Technology, 專案實績, projects, 電力管理排程系統, 資安驗證, CI/CD, Express, MongoDB, JEST, GitHub Actions, AWS, 軟體工程教材, FPGA, Altera FPGA, 馬達控制, motor control, 電動機車, USB driver, Node.js, Arduino, Raspberry Pi, IMU oscilloscope, WebAssembly, web development, RTOS, 嵌入式裝置, embedded system, Android App, 中風復健, 醫學工程, 臺北醫學大學, TMU, 彭志維, 彭志維教授, 中山大學, 海洋大學, 台大">
+    <meta name="author" content="馬嘉鴻 Carlos Ma / 昭群科技 JiaoKuan Technology">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.jktek.com.tw/projects.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+    <meta property="og:title" content="Projects / Web App — 昭群科技 JiaoKuan Technology">
+    <meta property="og:description" content="專案實績：電力管理與排程系統（政府 B 級資安驗證）、臺北醫學大學彭志維教授中風復健 RTOS 嵌入式裝置與 Android App、CI/CD 實務、FPGA 馬達控制、IMU Web 示波器、WebAssembly 應用、軟體工程教材。">
+    <meta property="og:url" content="https://www.jktek.com.tw/projects.html">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Projects / Web App — 昭群科技 JiaoKuan Technology">
+    <meta name="twitter:description" content="專案實績：電力管理與排程系統、臺北醫學大學中風復健 RTOS 裝置與 Android App、CI/CD、FPGA 馬達控制、IMU Web 示波器、WebAssembly。">
+    <link rel="icon" type="image/jpeg" href="capy.jpg">
+    <link rel="apple-touch-icon" href="capy.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-<!-- CSS (load bootstrap from a CDN) -->
-<!-- <link rel="stylesheet" src="/stylesheets/bootstrap.css"> -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
-<!-- <script src="/javascripts/jquery.js"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
-<!-- <script src="/jquery/jquery.js"></script> -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-<style>
-  body { padding-top:50px; }
-  .v-line{
-    border-left: thick solid #000;
-    height:100%;
-    left: 50%;
-    position: absolute;
-  }
-</style>
+        .diagonal-background {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(
+                135deg,
+                orange 15%,
+                silver 15% 85%,
+                orange 85%
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
 
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
 
+        .hamburger-menu:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 37.5px;
+            height: 4.5px;
+            background: #333;
+            margin: 7.5px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        .hamburger-menu.open span:nth-child(1) {
+            transform: rotate(-45deg) translate(-7.5px, 9px);
+        }
+
+        .hamburger-menu.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.open span:nth-child(3) {
+            transform: rotate(45deg) translate(-7.5px, -9px);
+        }
+
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 110px;
+            height: 100px;
+            border-radius: 10px;
+        }
+
+        .title-section {
+            text-align: center;
+        }
+
+        .title-section h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        .title-section h2 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #555;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .navigation a:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .navigation a.active {
+            background: rgba(255, 102, 0, 0.85);
+            color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .mobile-menu a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: #ff6600;
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.open {
+            opacity: 1;
+        }
+
+        .main-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .main-content h1 {
+            color: #ff6600;
+            border-bottom: 3px solid #ff6600;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .main-content h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .main-content h3 {
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .main-content p {
+            margin-bottom: 15px;
+        }
+
+        .main-content ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .main-content li {
+            margin-bottom: 8px;
+        }
+
+        .main-content a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        .main-content a:hover {
+            text-decoration: underline;
+        }
+
+        .project-item {
+            border-left: 4px solid #ff6600;
+            padding: 10px 0 10px 20px;
+            margin: 20px 0;
+            background: rgba(255, 102, 0, 0.04);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .project-item h3 {
+            margin-top: 0;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 1000px) {
+            body {
+                font-size: 2em;
+            }
+
+            .hamburger-menu {
+                display: block;
+                top: 15px;
+                right: 15px;
+                padding: 22px;
+            }
+
+            .hamburger-menu span {
+                width: 45px;
+                height: 6px;
+                margin: 9px 0;
+            }
+
+            .header-section {
+                flex-direction: column;
+                margin-top: 60px;
+            }
+
+            .title-section h1 {
+                font-size: 4em;
+            }
+
+            .title-section h2 {
+                font-size: 2.4em;
+            }
+
+            .main-content {
+                margin: 20px;
+                padding: 30px;
+                font-size: 1em;
+            }
+
+            .navigation {
+                display: none;
+            }
+
+            .mobile-menu.open {
+                display: block;
+            }
+
+            .menu-overlay.open {
+                display: block;
+            }
+
+            .mobile-menu a {
+                font-size: 1.2em;
+                padding: 20px 0;
+            }
+
+            .footer {
+                font-size: 1em;
+                margin-top: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hamburger-menu {
+                top: 10px;
+                right: 10px;
+                padding: 18px;
+            }
+
+            .mobile-menu {
+                width: 100%;
+            }
+
+            .header-section {
+                margin-top: 70px;
+            }
+        }
+    </style>
 </head>
-<body class="container">
+<body>
+    <div class="diagonal-background">
+        <button class="hamburger-menu" id="hamburgerBtn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-<header>
-  <!-- <div data-spy=”affix” class="my-affix-div"> -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- <a class="navbar-brand" href="/">EJS Is Fun</a> -->
-    
-    
-    <!-- <ul class="navbar-nav mr-auto"> -->
-    <!-- <br> -->
-    <!-- <br> -->
-    <!-- <ul>
-      <li class="nav-item">
-    
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-    
-        <a class="nav-link" href="/">About</a>
-      </li>
-    </ul> -->
-</nav>
-<!-- </div> -->
-</header>
+        <div class="header-section">
+            <div class="logo">
+                <img src="capy.jpg" alt="JiaoKuan Technology Logo"/>
+            </div>
+            <div class="title-section">
+                <h1>昭群科技</h1>
+                <h2>Welcome to JiaoKuan Technology</h2>
+            </div>
+        </div>
 
-<main>
-  
-  <div class="jumbotron">
-    <h1>昭群科技</h1>
-    <p>Welcome to JiaoKun Technology Company
-    </p>
-  </div>
-  <!-- for mongodb atlas document manipulation -->
-  <script src="/javascripts/DbAndDom_manipulate.js"></script>
-  
+        <div class="navigation">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="projects.html" class="active">Projects/Web App</a>
+            <a href="#">Project/FOC Motor Drive</a>
+        </div>
 
-  <div>
-    <ul>
-      <li><h2>Projects:</h2></li>
-        <ul>
-            <li><h3>國立臺灣海洋大學2022軟體工程教材設計</h3></li>
-            <ul>
-                <li><a href="https://youtu.be/i6wyojh9ipw">
-                CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part1)</a></li>
-                <li><a href="https://youtu.be/QS7Q4xLmSFY">
-                CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part2)
-                </a></li>
-                <li><a href="https://youtu.be/Ge1wKiyhiok">
-                CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part3)
-                </a></li>
-                <li>PS.請以1.25倍速觀看 因為我聲音頻率比較低沉</li>
-            </ul>
-            
-            <li><h3>5945呼叫師傅</h3></li>
-            <ul>
-                <li><a href="https://youtu.be/eU_ykROXIp0">
-                以python的selenium控制container裡面的line</a></li>
-            </ul>
-	    <li><h3>2009 master degree thesis project in NTU</h3></li>
-	    <ul>
-		<li>
-		<a href="https://youtu.be/JCCqSnUWHr8">
-		motor is embedded in the rear wheel and the engine transmission gear ratio is fixed.</br>
-    		controller is implement by a Altera FPGA, implementing all algorithms with fixed point calculation.</br>
-    		the flywheel was used to emulation the linear interia of scooter.</br> 
-		BTW, the clutch is implemented by megnetic force.
-		</a>
-		</li>
-	    </ul>
-	    <li><h3>missle launcher usb driver and userspace control panel</h3></li>
-            <ul>
-                <li>
-                <a href="https://www.youtube.com/watch?v=iwWA2m0RWCo">
-                the is a github project forked from ml_driver. the original one only work<br>
-		on kernel 3.0 and I modified it to make it work on ubuntu 20.04 x86, as for arm, not tested yet.<br>
-                </a>
-		=========================================================================<br>
-		<a href="https://github.com/jktekComTw/ml-driver">###github source code###</a>
-                </li>
-            </ul>
-            <li><h3>imu 6-axis web Oscilloscope realtime</h3></li>
-            <ul>
-                <li><a href="https://www.youtube.com/watch?v=OH6DFZUKsfw">
-                  use nodejs and arduino ble nano33 with raspberry pi to implement
-		</a>
-		</li>
-            </ul>
-                  
-      	    <li><h3>fib function calculator with webassembly implementation</h3></li>
-            <ul>
-                <li>
-                <a href="./webasm.html">
-                this is a fib function calculator implemented by webassembly. just for fun!<br>
-                </a>
-      		</li>
-	    </ul>
-	    <li><h3><img src="https://www.nsysu.edu.tw/static/file/0/1000/img/526/logo.png" alt="Description of image"></h3></li>
-            <ul>
-                <li>
-                
-		<h3>🌟2025台灣國立中山大學 圖資處電力電力管理與排程系統開發<h3><h2>通過政府B級單位資安驗證</h2>
-      		</li>
-	    </ul>			
-    </li></ul>
-        
-	      
-    </ul>
-  </div>
-</main>
-<br><br><br><br><br><br><br>
+        <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
 
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html" onclick="closeMobileMenu()">Home</a>
+            <a href="aboutus.html" onclick="closeMobileMenu()">About Us</a>
+            <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
+            <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
+        </div>
 
+        <div class="main-content">
+            <h1>Projects</h1>
 
-<footer>
-  <p class="text-center text-muted">&copy; Copyright 2022 Chiahung Ma</p>
-</footer>
+            <div class="project-item">
+                <h3>國立臺灣海洋大學2022軟體工程教材設計</h3>
+                <ul>
+                    <li><a href="https://youtu.be/i6wyojh9ipw">CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part1)</a></li>
+                    <li><a href="https://youtu.be/QS7Q4xLmSFY">CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part2)</a></li>
+                    <li><a href="https://youtu.be/Ge1wKiyhiok">CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part3)</a></li>
+                    <li>PS. 請以1.25倍速觀看 因為我聲音頻率比較低沉</li>
+                </ul>
+            </div>
 
+            <div class="project-item">
+                <h3>5945呼叫師傅</h3>
+                <ul>
+                    <li><a href="https://youtu.be/eU_ykROXIp0">以 Python 的 Selenium 控制 container 裡面的 LINE</a></li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <h3>2009 Master Degree Thesis Project in NTU</h3>
+                <ul>
+                    <li>
+                        <a href="https://youtu.be/JCCqSnUWHr8">
+                            Motor is embedded in the rear wheel and the engine transmission gear ratio is fixed.
+                        </a>
+                        Controller is implemented by an Altera FPGA, implementing all algorithms with fixed point calculation.
+                        The flywheel was used to emulate the linear inertia of a scooter.
+                        BTW, the clutch is implemented by magnetic force.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <h3>Missile Launcher USB Driver and Userspace Control Panel</h3>
+                <ul>
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=iwWA2m0RWCo">
+                            A GitHub project forked from ml_driver. The original one only works on kernel 3.0; I modified it to make it work on Ubuntu 20.04 x86. As for ARM, not tested yet.
+                        </a>
+                        <br>
+                        <a href="https://github.com/jktekComTw/ml-driver">GitHub source code</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <h3>IMU 6-axis Web Oscilloscope (Realtime)</h3>
+                <ul>
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=OH6DFZUKsfw">
+                            Use Node.js and Arduino BLE nano33 with Raspberry Pi to implement.
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <h3>Fib Function Calculator with WebAssembly Implementation</h3>
+                <ul>
+                    <li>
+                        <a href="./webasm.html">
+                            A fib function calculator implemented in WebAssembly. Just for fun!
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <h3>
+                    <img src="https://www.nsysu.edu.tw/static/file/0/1000/img/526/logo.png" alt="NSYSU logo" style="height: 1.5em; vertical-align: middle; background: #003e74; padding: 4px 8px; border-radius: 6px;">
+                    2025 國立中山大學 圖資處電力管理與排程系統開發
+                </h3>
+                <p><strong>通過政府 B 級單位資安驗證</strong></p>
+            </div>
+
+            <div class="project-item">
+                <h3>
+                    <img src="https://www.tmu.edu.tw/images/title.png" alt="臺北醫學大學 Taipei Medical University logo" style="height: 1.5em; vertical-align: middle;">
+                    2025 RTOS 嵌入式裝置與 Android App 開發
+                </h3>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; Copyright 2022 Chiahung Ma</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+            mobileMenu.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
+            hamburgerBtn.classList.toggle('open');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+            mobileMenu.classList.remove('open');
+            menuOverlay.classList.remove('open');
+            hamburgerBtn.classList.remove('open');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 1000) {
+                closeMobileMenu();
+            }
+        });
+    </script>
 </body>
 </html>
