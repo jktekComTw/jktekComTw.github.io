@@ -2,10 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>About Us - JiaoKun Technology/昭群科技</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — 昭群科技 JiaoKuan Technology | 高雄嵌入式系統與軟韌體開發團隊</title>
+    <meta name="description" content="認識昭群科技 JiaoKuan Technology：位於高雄的軟韌體開發團隊，專注 GNU/Linux 與 RTOS 嵌入式系統、馬達變頻器 FOC 控制、電力電子、網頁與手機 App、FPGA 設計。Learn about JiaoKuan Technology, a Kaohsiung-based embedded systems and software/firmware development team.">
+    <meta name="keywords" content="昭群科技, JiaoKuan Technology, about us, 關於我們, 公司簡介, 高雄軟體公司, 嵌入式系統, 軟韌體開發, 馬達控制, 電力電子, FPGA, 馬嘉鴻, Carlos Ma">
+    <meta name="author" content="昭群科技 JiaoKuan Technology">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.jktek.com.tw/aboutus.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+    <meta property="og:title" content="About Us — 昭群科技 JiaoKuan Technology">
+    <meta property="og:description" content="高雄昭群科技軟韌體開發團隊：嵌入式系統、馬達 FOC 控制、電力電子、網頁與 App、FPGA 設計。">
+    <meta property="og:url" content="https://www.jktek.com.tw/aboutus.html">
+    <meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="About Us — 昭群科技 JiaoKuan Technology">
+    <meta name="twitter:description" content="高雄嵌入式系統與軟韌體開發團隊。">
+    <meta name="twitter:image" content="https://www.jktek.com.tw/capy.jpg">
+    <link rel="icon" type="image/jpeg" href="capy.jpg">
+    <link rel="apple-touch-icon" href="capy.jpg">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <style>
         body, html {
             height: 100%;
@@ -13,7 +33,7 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-        
+
         .diagonal-background {
             width: 100%;
             min-height: 100vh;
@@ -28,8 +48,51 @@
             align-items: center;
             padding: 20px;
             box-sizing: border-box;
+            position: relative;
         }
-        
+
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-menu:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 37.5px;
+            height: 4.5px;
+            background: #333;
+            margin: 7.5px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        .hamburger-menu.open span:nth-child(1) {
+            transform: rotate(-45deg) translate(-7.5px, 9px);
+        }
+
+        .hamburger-menu.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.open span:nth-child(3) {
+            transform: rotate(45deg) translate(-7.5px, -9px);
+        }
+
         .header-section {
             display: flex;
             align-items: center;
@@ -38,34 +101,34 @@
             flex-wrap: wrap;
             gap: 20px;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
         }
-        
+
         .logo img {
             width: 110px;
             height: 100px;
             border-radius: 10px;
         }
-        
+
         .title-section {
             text-align: center;
         }
-        
+
         .title-section h1 {
             margin: 0;
             font-size: 2.5em;
             color: #333;
         }
-        
+
         .title-section h2 {
             margin: 10px 0;
             font-size: 1.5em;
             color: #555;
         }
-        
+
         .navigation {
             display: flex;
             gap: 20px;
@@ -74,7 +137,7 @@
             position: relative;
             margin-bottom: 30px;
         }
-        
+
         .navigation a {
             text-decoration: none;
             color: #333;
@@ -84,45 +147,22 @@
             border-radius: 5px;
             transition: background 0.3s;
         }
-        
+
         .navigation a:hover {
             background: rgba(255, 255, 255, 0.9);
         }
-        
+
         .navigation a.active {
-            background: rgba(255, 102, 0, 0.8);
+            background: rgba(255, 102, 0, 0.85);
             color: white;
         }
-        
-        .hamburger-menu {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .hamburger-menu span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: #333;
-            margin: 5px 0;
-            transition: 0.3s;
-        }
-        
+
         .mobile-menu {
             display: none;
             position: fixed;
             top: 0;
             right: 0;
-            width: 250px;
+            width: 280px;
             height: 100vh;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -132,11 +172,11 @@
             transform: translateX(100%);
             transition: transform 0.3s ease;
         }
-        
+
         .mobile-menu.open {
             transform: translateX(0);
         }
-        
+
         .mobile-menu a {
             display: block;
             text-decoration: none;
@@ -146,15 +186,15 @@
             border-bottom: 1px solid #eee;
             transition: color 0.3s;
         }
-        
+
         .mobile-menu a:hover {
             color: #ff6600;
         }
-        
+
         .mobile-menu a:last-child {
             border-bottom: none;
         }
-        
+
         .menu-overlay {
             display: none;
             position: fixed;
@@ -164,9 +204,15 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        
-        .article-content {
+
+        .menu-overlay.open {
+            opacity: 1;
+        }
+
+        .main-content {
             max-width: 900px;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
@@ -176,227 +222,239 @@
             margin-bottom: 30px;
             line-height: 1.7;
         }
-        
-        .article-content h1 {
+
+        .main-content h1 {
             color: #ff6600;
             border-bottom: 3px solid #ff6600;
             padding-bottom: 10px;
             margin-bottom: 30px;
         }
-        
-        .article-content h2 {
+
+        .main-content h2 {
             color: #333;
             margin-top: 30px;
             margin-bottom: 15px;
             font-size: 1.5em;
         }
-        
-        .article-content h3 {
+
+        .main-content h3 {
             color: #555;
             margin-top: 25px;
             margin-bottom: 10px;
             font-size: 1.2em;
         }
-        
-        .article-content p {
+
+        .main-content p {
             margin-bottom: 15px;
             text-align: justify;
         }
-        
-        .article-content ul {
+
+        .main-content ul {
             margin-bottom: 15px;
             padding-left: 20px;
         }
-        
-        .article-content li {
+
+        .main-content li {
             margin-bottom: 8px;
         }
-        
-        .article-content strong {
+
+        .main-content strong {
             color: #ff6600;
         }
-        
+
         .footer {
             margin-top: 30px;
             text-align: center;
             color: #666;
             font-size: 0.9em;
         }
-        
+
         @media (max-width: 1000px) {
-            /* Double the base font size for mobile */
             body {
                 font-size: 2em;
             }
-            
+
+            .hamburger-menu {
+                display: block;
+                top: 15px;
+                right: 15px;
+                padding: 22px;
+            }
+
+            .hamburger-menu span {
+                width: 45px;
+                height: 6px;
+                margin: 9px 0;
+            }
+
             .header-section {
                 flex-direction: column;
+                margin-top: 60px;
             }
-            
+
             .title-section h1 {
-                font-size: 4em; /* Doubled from 2em */
+                font-size: 4em;
             }
-            
+
             .title-section h2 {
-                font-size: 2.4em; /* Doubled from 1.2em */
+                font-size: 2.4em;
             }
-            
-            .article-content {
+
+            .main-content {
                 margin: 20px;
-                padding: 40px;
-                font-size: 1em; /* This inherits the doubled body font size */
+                padding: 30px;
+                font-size: 1em;
             }
-            
-            .article-content h1 {
-                font-size: 2em; /* Doubled */
+
+            .main-content h1 {
+                font-size: 2em;
             }
-            
-            .article-content h2 {
-                font-size: 3em; /* Doubled from 1.5em */
-                margin-top: 40px; /* Increased spacing */
+
+            .main-content h2 {
+                font-size: 1.8em;
+                margin-top: 40px;
                 margin-bottom: 20px;
             }
-            
-            .article-content h3 {
-                font-size: 2.4em; /* Doubled from 1.2em */
-                margin-top: 30px; /* Increased spacing */
+
+            .main-content h3 {
+                font-size: 1.4em;
+                margin-top: 30px;
                 margin-bottom: 15px;
             }
-            
-            .article-content p {
-                margin-bottom: 20px; /* Increased spacing */
-                line-height: 1.8; /* Better line spacing for larger text */
-            }
-            
-            .article-content ul {
+
+            .main-content p {
                 margin-bottom: 20px;
-                padding-left: 30px; /* More padding for larger text */
+                line-height: 1.8;
             }
-            
-            .article-content li {
-                margin-bottom: 12px; /* More spacing for list items */
+
+            .main-content ul {
+                margin-bottom: 20px;
+                padding-left: 30px;
             }
-            
+
+            .main-content li {
+                margin-bottom: 12px;
+            }
+
             .navigation {
                 display: none;
             }
-            
-            .hamburger-menu {
-                display: block;
-                padding: 15px; /* Larger touch target */
-            }
-            
-            .hamburger-menu span {
-                width: 30px; /* Larger hamburger lines */
-                height: 4px;
-                margin: 6px 0;
-            }
-            
+
             .mobile-menu.open {
                 display: block;
             }
-            
+
             .menu-overlay.open {
                 display: block;
             }
-            
-            .mobile-menu {
-                width: 300px; /* Wider menu for larger text */
-                padding: 100px 30px 30px; /* More padding */
-            }
-            
+
             .mobile-menu a {
-                font-size: 1.2em; /* Larger mobile menu text */
-                padding: 20px 0; /* More padding for easier touch */
+                font-size: 1.2em;
+                padding: 20px 0;
             }
-            
+
             .footer {
-                font-size: 1em; /* Doubled footer text */
+                font-size: 1em;
                 margin-top: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hamburger-menu {
+                top: 10px;
+                right: 10px;
+                padding: 18px;
+            }
+
+            .mobile-menu {
+                width: 100%;
+            }
+
+            .header-section {
+                margin-top: 70px;
             }
         }
     </style>
 </head>
 <body>
     <div class="diagonal-background">
-        <div class="header-section">
-            <div class="logo">
-                <img src="capy.jpg" alt="JiaoKun Technology Logo"/>
-            </div>
-            <div class="title-section">
-                <h1>昭群科技</h1>
-                <h2>JiaoKun Technology</h2>
-            </div>
-        </div>
-        
-        <div class="navigation">
-            <a href="index.html">Home</a>
-            <a href="#" class="active">About Us</a>
-            <a href="projects.html">Projects/Web App</a>
-            <a href="#">Project/FOC Motor Drive</a>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+        <button class="hamburger-menu" id="hamburgerBtn" onclick="toggleMobileMenu()">
             <span></span>
             <span></span>
             <span></span>
         </button>
-        
+
+        <div class="header-section">
+            <div class="logo">
+                <img src="capy.jpg" alt="JiaoKuan Technology Logo"/>
+            </div>
+            <div class="title-section">
+                <h1>昭群科技</h1>
+                <h2>Welcome to JiaoKuan Technology</h2>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html" class="active">About Us</a>
+            <a href="projects.html">Projects/Web App</a>
+            <a href="#">Project/FOC Motor Drive</a>
+        </div>
+
         <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
-        
+
         <div class="mobile-menu" id="mobileMenu">
             <a href="index.html" onclick="closeMobileMenu()">Home</a>
-            <a href="#" onclick="closeMobileMenu()">About Us</a>
+            <a href="aboutus.html" onclick="closeMobileMenu()">About Us</a>
             <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
             <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
         </div>
-        
-        <div class="article-content">
-            <h1>About JiaoKun Technology (昭群科技)</h1>
-            
+
+        <div class="main-content">
+            <h1>About JiaoKuan Technology (昭群科技)</h1>
+
             <h2>Our Story</h2>
-            <p>JiaoKun Technology, established in Taiwan, represents the convergence of innovation and engineering excellence in the heart of Kaohsiung. Founded and led by <strong>Carlos Ma (馬嘉鴻)</strong>, our company has positioned itself as a trusted partner for businesses seeking cutting-edge technological solutions across multiple domains.</p>
-            
+            <p>JiaoKuan Technology, established in Taiwan, represents the convergence of innovation and engineering excellence in the heart of Kaohsiung. Founded and led by <strong>Carlos Ma (馬嘉鴻)</strong>, our company has positioned itself as a trusted partner for businesses seeking cutting-edge technological solutions across multiple domains.</p>
+
             <p>Located in Fengshan District, Kaohsiung City, we serve as a bridge between traditional engineering practices and modern technological demands, delivering comprehensive solutions that drive industrial advancement and digital transformation.</p>
-            
+
             <h2>Our Mission</h2>
-            <p>At JiaoKun Technology, we are committed to empowering businesses through innovative technology solutions. Our mission is to provide world-class embedded systems, power electronics, and digital solutions that enhance operational efficiency, reduce costs, and accelerate time-to-market for our clients' products and services.</p>
-            
+            <p>At JiaoKuan Technology, we are committed to empowering businesses through innovative technology solutions. Our mission is to provide world-class embedded systems, power electronics, and digital solutions that enhance operational efficiency, reduce costs, and accelerate time-to-market for our clients' products and services.</p>
+
             <h2>Core Expertise</h2>
-            
+
             <h3>Embedded Systems Development</h3>
             <p>Our team specializes in <strong>GNU/Linux and RTOS embedded system development</strong>, creating robust, scalable solutions for industrial applications. We leverage open-source technologies to deliver cost-effective, customizable systems that meet the most demanding performance requirements.</p>
-            
+
             <h3>Motor Control & Power Electronics</h3>
             <p>We excel in <strong>AC motor FOC (Field-Oriented Control) development</strong> and <strong>motor inverter circuit design</strong>. Our expertise in power electronics enables us to create efficient, reliable motor control systems for industrial automation, renewable energy, and transportation applications.</p>
-            
+
             <h3>Digital Innovation</h3>
             <p>Our comprehensive <strong>power electronics product design</strong> services cover everything from concept to production, ensuring optimal performance and reliability. We combine theoretical knowledge with practical engineering experience to deliver solutions that exceed industry standards.</p>
-            
+
             <h3>Software Development</h3>
             <p>We provide end-to-end <strong>web development and mobile APP development</strong> services, creating user-friendly interfaces and robust backend systems. Our development approach focuses on scalability, security, and user experience.</p>
-            
+
             <h3>Engineering Design</h3>
             <p>Our <strong>mechanism 3D design</strong> capabilities enable us to transform concepts into tangible products. We utilize advanced CAD tools and simulation software to optimize designs for manufacturability and performance.</p>
-            
+
             <h3>Digital Circuit Design</h3>
             <p>We offer specialized <strong>digital IC design</strong> services, developing custom integrated circuits that meet specific application requirements while optimizing for power consumption and performance.</p>
-            
+
             <h2>Our Approach</h2>
-            
+
             <h3>Innovation-Driven Solutions</h3>
             <p>We stay at the forefront of technological advancement, continuously exploring emerging technologies and methodologies to provide our clients with competitive advantages.</p>
-            
+
             <h3>Quality Assurance</h3>
             <p>Every project undergoes rigorous testing and validation processes to ensure reliability, performance, and compliance with international standards.</p>
-            
+
             <h3>Customer-Centric Service</h3>
             <p>We believe in building long-term partnerships with our clients, providing ongoing support and maintenance to ensure sustained success.</p>
-            
+
             <h3>Agile Development</h3>
             <p>Our development methodology emphasizes flexibility, rapid prototyping, and iterative improvement, allowing us to respond quickly to changing requirements and market conditions.</p>
-            
+
             <h2>Industry Applications</h2>
             <p>Our solutions serve diverse industries including:</p>
             <ul>
@@ -406,62 +464,71 @@
                 <li><strong>Consumer Electronics</strong>: Mobile applications and IoT devices</li>
                 <li><strong>Manufacturing</strong>: Process control systems and quality assurance tools</li>
             </ul>
-            
-            <h2>Why Choose JiaoKun Technology?</h2>
-            
+
+            <h2>Why Choose JiaoKuan Technology?</h2>
+
             <h3>Technical Excellence</h3>
             <p>Our team combines deep theoretical knowledge with extensive practical experience, ensuring solutions that are both innovative and reliable.</p>
-            
+
             <h3>Comprehensive Services</h3>
             <p>From initial concept to final implementation, we provide end-to-end services that eliminate the need for multiple vendors.</p>
-            
+
             <h3>Local Expertise, Global Standards</h3>
             <p>Based in Taiwan's technology hub, we understand local market dynamics while maintaining international quality standards.</p>
-            
+
             <h3>Proven Track Record</h3>
             <p>Years of successful project delivery across diverse industries demonstrate our capability to handle complex technical challenges.</p>
-            
+
             <h2>Our Commitment</h2>
-            <p>JiaoKun Technology is committed to sustainable development and responsible innovation. We prioritize energy-efficient designs, environmentally conscious manufacturing processes, and solutions that contribute to a more sustainable future.</p>
-            
+            <p>JiaoKuan Technology is committed to sustainable development and responsible innovation. We prioritize energy-efficient designs, environmentally conscious manufacturing processes, and solutions that contribute to a more sustainable future.</p>
+
             <p>We invest continuously in our team's professional development, ensuring we remain current with the latest technologies, industry standards, and best practices.</p>
-            
+
             <h2>Looking Forward</h2>
-            <p>As we continue to grow, JiaoKun Technology remains focused on expanding our capabilities and deepening our expertise. We are constantly exploring new technologies such as artificial intelligence, machine learning, and advanced materials to provide even more sophisticated solutions to our clients.</p>
-            
+            <p>As we continue to grow, JiaoKuan Technology remains focused on expanding our capabilities and deepening our expertise. We are constantly exploring new technologies such as artificial intelligence, machine learning, and advanced materials to provide even more sophisticated solutions to our clients.</p>
+
             <p>Our vision is to become the premier technology partner for businesses seeking to leverage cutting-edge engineering solutions for competitive advantage and sustainable growth.</p>
-            
+
             <hr style="margin: 30px 0; border: 1px solid #ddd;">
-            
+
             <h2 style="color: #ff6600; text-align: center;">Ready to Transform Your Ideas into Reality?</h2>
-            <p style="text-align: center; font-size: 1.1em;"><strong>Contact us today to discuss how JiaoKun Technology can help you achieve your technological goals. Our team of experts is ready to provide customized solutions that drive your business forward.</strong></p>
+            <p style="text-align: center; font-size: 1.1em;"><strong>Contact us today to discuss how JiaoKuan Technology can help you achieve your technological goals. Our team of experts is ready to provide customized solutions that drive your business forward.</strong></p>
         </div>
-        
+
         <div class="footer">
             <p>&copy; Copyright 2022 Chiahung Ma</p>
         </div>
     </div>
-    
+
     <script>
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobileMenu');
             const menuOverlay = document.getElementById('menuOverlay');
-            
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+
             mobileMenu.classList.toggle('open');
             menuOverlay.classList.toggle('open');
+            hamburgerBtn.classList.toggle('open');
         }
-        
+
         function closeMobileMenu() {
             const mobileMenu = document.getElementById('mobileMenu');
             const menuOverlay = document.getElementById('menuOverlay');
-            
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+
             mobileMenu.classList.remove('open');
             menuOverlay.classList.remove('open');
+            hamburgerBtn.classList.remove('open');
         }
-        
-        // Close menu when clicking outside or pressing escape
+
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 1000) {
                 closeMobileMenu();
             }
         });

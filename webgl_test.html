@@ -1,10 +1,411 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>WebGL 3D Cube Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL 3D Cube Demo — 昭群科技 JiaoKuan Technology</title>
+    <meta name="description" content="互動式 WebGL 範例：在瀏覽器中以 GPU 即時繪製並旋轉 3D 立方體。An interactive WebGL demo by JiaoKuan Technology rendering and rotating a 3D cube in the browser with GPU-accelerated graphics.">
+    <meta name="keywords" content="WebGL, 3D cube, GPU rendering, browser graphics, shader, GLSL, real-time 3D, 網頁3D, 昭群科技, JiaoKuan Technology">
+    <meta name="author" content="昭群科技 JiaoKuan Technology">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.jktek.com.tw/webgl_test.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+    <meta property="og:title" content="WebGL 3D Cube Demo — 昭群科技 JiaoKuan Technology">
+    <meta property="og:description" content="在瀏覽器中以 GPU 即時繪製並旋轉 3D 立方體的互動式 WebGL 範例。">
+    <meta property="og:url" content="https://www.jktek.com.tw/webgl_test.html">
+    <meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="WebGL 3D Cube Demo — 昭群科技 JiaoKuan Technology">
+    <meta name="twitter:description" content="GPU 即時繪製旋轉 3D 立方體的 WebGL 示範。">
+    <meta name="twitter:image" content="https://www.jktek.com.tw/capy.jpg">
+    <link rel="icon" type="image/jpeg" href="capy.jpg">
+    <link rel="apple-touch-icon" href="capy.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .diagonal-background {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(
+                135deg,
+                orange 15%,
+                silver 15% 85%,
+                orange 85%
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-menu:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 37.5px;
+            height: 4.5px;
+            background: #333;
+            margin: 7.5px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        .hamburger-menu.open span:nth-child(1) {
+            transform: rotate(-45deg) translate(-7.5px, 9px);
+        }
+
+        .hamburger-menu.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.open span:nth-child(3) {
+            transform: rotate(45deg) translate(-7.5px, -9px);
+        }
+
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 110px;
+            height: 100px;
+            border-radius: 10px;
+        }
+
+        .title-section {
+            text-align: center;
+        }
+
+        .title-section h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        .title-section h2 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #555;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .navigation a:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .navigation a.active {
+            background: rgba(255, 102, 0, 0.85);
+            color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .mobile-menu a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: #ff6600;
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.open {
+            opacity: 1;
+        }
+
+        .main-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .main-content h1 {
+            color: #ff6600;
+            border-bottom: 3px solid #ff6600;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .main-content p {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        #webgl-canvas {
+            background: #111;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 1000px) {
+            body {
+                font-size: 2em;
+            }
+
+            .hamburger-menu {
+                display: block;
+                top: 15px;
+                right: 15px;
+                padding: 22px;
+            }
+
+            .hamburger-menu span {
+                width: 45px;
+                height: 6px;
+                margin: 9px 0;
+            }
+
+            .header-section {
+                flex-direction: column;
+                margin-top: 60px;
+            }
+
+            .title-section h1 {
+                font-size: 4em;
+            }
+
+            .title-section h2 {
+                font-size: 2.4em;
+            }
+
+            .main-content {
+                margin: 20px;
+                padding: 30px;
+                font-size: 1em;
+            }
+
+            .navigation {
+                display: none;
+            }
+
+            .mobile-menu.open {
+                display: block;
+            }
+
+            .menu-overlay.open {
+                display: block;
+            }
+
+            .mobile-menu a {
+                font-size: 1.2em;
+                padding: 20px 0;
+            }
+
+            .footer {
+                font-size: 1em;
+                margin-top: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hamburger-menu {
+                top: 10px;
+                right: 10px;
+                padding: 18px;
+            }
+
+            .mobile-menu {
+                width: 100%;
+            }
+
+            .header-section {
+                margin-top: 70px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <canvas id="webgl-canvas" width="400" height="400"></canvas>
+    <div class="diagonal-background">
+        <button class="hamburger-menu" id="hamburgerBtn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="header-section">
+            <div class="logo">
+                <img src="capy.jpg" alt="JiaoKuan Technology Logo"/>
+            </div>
+            <div class="title-section">
+                <h1>昭群科技</h1>
+                <h2>Welcome to JiaoKuan Technology</h2>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="projects.html" class="active">Projects/Web App</a>
+            <a href="#">Project/FOC Motor Drive</a>
+        </div>
+
+        <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html" onclick="closeMobileMenu()">Home</a>
+            <a href="aboutus.html" onclick="closeMobileMenu()">About Us</a>
+            <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
+            <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
+        </div>
+
+        <div class="main-content">
+            <h1>WebGL 3D Cube Demo</h1>
+            <p>A small WebGL example that renders a rotating cube on a canvas.</p>
+            <canvas id="webgl-canvas" width="400" height="400"></canvas>
+        </div>
+
+        <div class="footer">
+            <p>&copy; Copyright 2022 Chiahung Ma</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+            mobileMenu.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
+            hamburgerBtn.classList.toggle('open');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+            mobileMenu.classList.remove('open');
+            menuOverlay.classList.remove('open');
+            hamburgerBtn.classList.remove('open');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 1000) {
+                closeMobileMenu();
+            }
+        });
+    </script>
     <script src="webgl-cube.js"></script>
 </body>
 </html>
