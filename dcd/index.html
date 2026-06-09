@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Logic &amp; Verilog — Study Guide &amp; Exercises | 數位邏輯設計</title>
+<meta name="description" content="A digital logic and Verilog HDL study guide with worked exercises: number systems, Boolean algebra, K-maps, combinational and sequential circuits, finite state machines, and Verilog coding. 數位邏輯設計與 Verilog 硬體描述語言學習指南與練習題。">
+<meta name="keywords" content="digital logic, Verilog, HDL, study guide, 數位邏輯, 數位邏輯設計, Boolean algebra, Karnaugh map, K-map, combinational circuit, sequential circuit, finite state machine, FSM, flip-flop, 硬體描述語言, exercises, 昭群科技, JiaoKuan Technology">
+<meta name="author" content="昭群科技 JiaoKuan Technology">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.jktek.com.tw/dcd/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+<meta property="og:title" content="Digital Logic &amp; Verilog — Study Guide &amp; Exercises">
+<meta property="og:description" content="數位邏輯設計與 Verilog HDL 學習指南：數系、布林代數、卡諾圖、組合與序向電路、有限狀態機與 Verilog 程式碼，附練習題。">
+<meta property="og:url" content="https://www.jktek.com.tw/dcd/">
+<meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Digital Logic &amp; Verilog — Study Guide &amp; Exercises">
+<meta name="twitter:description" content="數位邏輯設計與 Verilog HDL 學習指南與練習題。">
+<meta name="twitter:image" content="https://www.jktek.com.tw/capy.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-light.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/verilog.min.js"></script>
+<style>
+:root {
+  --bg: #faf8f5;
+  --bg2: #f0ece6;
+  --bg3: #e8e4dd;
+  --fg: #1a1a1a;
+  --fg2: #4a4a4a;
+  --accent: #b44a2f;
+  --accent2: #2a6e5a;
+  --accent3: #3a5998;
+  --gold: #a07020;
+  --border: #d4cfc7;
+  --card: #ffffff;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06); --ch2: #2a6e5a; --ch3: #6b4c9a;
+  --ch4: #c4387a; --ch5: #a07020; --ch6: #c06020;
+  --ch7: #2d8a4e; --ch8: #c04040; --ch9: #2a6ea0;
+  --toc-w: 10.5rem;
+  --toc-gap: 1.5rem;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.75;
+  font-size: 17px;
+}
+::selection { background: var(--accent); color: #fff; }
+.container { max-width: 880px; margin: 0 auto; padding: 0 28px; }
+
+/* ─── Header ─── */
+.hero {
+  background: linear-gradient(135deg, #1a1a1a, #2d2520);
+  color: #f0ece6;
+  padding: 60px 0 50px;
+  border-bottom: 4px solid var(--accent);
+  text-align: center;
+}
+.hero h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #f0ece6;
+  margin-bottom: 16px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero .subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.hero .book-ref {
+  font-size: 1.05rem;
+  color: #b5ada3;
+  font-style: italic;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ─── Nav / TOC ─── */
+.toc-bar {
+  position: fixed;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: var(--toc-w);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.toc-bar a {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg2);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.25;
+  font-weight: 500;
+}
+@media (max-width: 720px) {
+  .toc-bar a { white-space: nowrap; }
+}
+.toc-bar a:hover {
+  color: var(--fg);
+  border-color: var(--border);
+  background: var(--bg2);
+}
+.toc-group { display: flex; flex-direction: column; gap: 0.22rem; }
+.toc-main { font-weight: 600; }
+.toc-main.active { background: var(--bg2); border-color: var(--border); color: var(--fg) !important; }
+.toc-sub { display: flex; flex-direction: column; gap: 0.25rem; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.25s ease, opacity 0.2s ease; }
+.toc-sub.toc-sub-wrap { flex-direction: row; flex-wrap: wrap; gap: 0.2rem; }
+.toc-sub.toc-sub-wrap a { flex: 0 0 auto; min-width: 2.4rem; text-align: center; }
+.toc-group.open .toc-sub { max-height: 240px; opacity: 1; }
+.toc-sub a {
+  font-size: 0.58rem;
+  padding: 0.18rem 0.36rem;
+  color: var(--fg2);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.7);
+}
+.toc-sub a:hover { background: var(--bg2); }
+.toc-sub a.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+body { padding-left: calc(var(--toc-w) + var(--toc-gap) + 1rem); }
+@media (max-width: 720px) {
+  .toc-bar { position: static; width: auto; max-width: 100%; transform: none; margin: 1rem; }
+  body { padding-left: 0; }
+}
+
+/* ─── Chapter Sections ─── */
+.chapter-section {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 3rem;
+}
+.ch-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+}
+.ch-num {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 3.5rem;
+  line-height: 1;
+  font-weight: 700;
+}
+.ch-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.6rem;
+  color: var(--fg);
+  font-weight: 700;
+}
+
+/* Brief */
+.brief {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+.brief::before {
+  content: 'CHAPTER BRIEF';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  position: absolute;
+  top: -0.5rem;
+  left: 1.2rem;
+  background: var(--bg2);
+  padding: 0 0.5rem;
+  color: var(--fg2);
+}
+.brief h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--fg2);
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.brief p { font-size: 0.92rem; margin-bottom: 0.5rem; }
+.topics-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+}
+.topics-list span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--fg2);
+}
+
+/* Exercises */
+.exercises-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.exercise {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  transition: border-color 0.2s;
+  cursor: default;
+  box-shadow: var(--shadow);
+}
+.exercise:hover { border-color: var(--accent); }
+.ex-head {
+  display: grid;
+  grid-template-columns: max-content max-content max-content 1fr max-content max-content max-content;
+  align-items: center;
+  column-gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+.ex-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.ex-prio { font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:600; padding:0.18rem 0.45rem; border-radius:4px; letter-spacing:0.04em; text-transform:uppercase; }
+.prio-high { background:#dc2626; color:#fff; }
+.prio-med  { background:#f59e0b; color:#fff; }
+.prio-res  { background:#6b7280; color:#fff; }
+.ex-check {
+  grid-column: 7;
+  justify-self: end;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--border);
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.ex-check:hover { color: #22c55e; border-color: #22c55e; }
+.ex-check.done { color: #fff; background: #22c55e; border-color: #22c55e; }
+.exercise.done { opacity: 0.55; }
+.exercise.done .ex-text { text-decoration: line-through; text-decoration-color: var(--fg2); }
+
+.ex-review {
+  grid-column: 6;
+  justify-self: end;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--border);
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.ex-review + .ex-check { margin-left: 0; }
+.ex-review:hover { color: #f59e0b; border-color: #f59e0b; }
+.ex-review.review { color: #fff; background: #f59e0b; border-color: #f59e0b; }
+.exercise.review { box-shadow: inset 3px 0 0 #f59e0b; }
+
+.ex-help {
+  grid-column: 5;
+  justify-self: end;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--border);
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.ex-help:hover { color: #f59e0b; border-color: #f59e0b; }
+.ex-help.open  { color: #fff; background: #f59e0b; border-color: #f59e0b; }
+.ex-source { grid-column: 4; justify-self: start; font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; padding:0.12rem 0.38rem; border-radius:3px; background:var(--accent2); color:#fff; letter-spacing:0.04em; }
+.sol-source { display:inline-block; margin-left:0.4rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; font-weight:700; padding:0.1rem 0.35rem; border-radius:3px; background:var(--accent2); color:#fff; vertical-align:middle; }
+
+
+
+.ex-diff {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  background: var(--bg3);
+}
+.diff-easy { color: var(--accent2); }
+.diff-medium { color: var(--gold); }
+.diff-hard { color: var(--accent); }
+.ex-text { font-size: 0.88rem; line-height: 1.65; }
+.ex-text code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  background: var(--bg3);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  color: var(--accent2);
+}
+/* ─── Formula Card ─── */
+.formula-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.8rem 2rem;
+  margin: 1.5rem 0 2rem;
+}
+.formula-card h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.15rem;
+  color: var(--fg);
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+}
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.formula-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.formula-item .formula-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--fg2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.formula-item svg {
+  display: block;
+  margin: 0.2rem auto;
+}
+
+/* ─── Divider ─── */
+.ch-divider {
+  max-width: 920px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+/* ─── Footer ─── */
+footer {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-size: 0.85rem;
+  color: var(--fg2);
+  border-top: 2px solid var(--border);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  body { padding-left: 0; }
+  .toc-bar {
+    position: sticky;
+    left: auto;
+    top: 0;
+    transform: none;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    max-height: none;
+    padding: 0.6rem 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-bar a { display: inline-block; }
+  .toc-group { display: inline-flex; gap: 0.2rem; margin-right: 0.5rem; }
+  .toc-sub { display: inline-flex; gap: 0.2rem; }
+  .chapter-section { padding: 3rem 1rem 2rem; }
+  .ch-num { font-size: 2.5rem; }
+  .ch-title { font-size: 1.2rem; }
+  .brief { padding: 1.2rem; }
+}
+</style>
+<style>
+.section-iframe { width: 100%; border: none; display: block; min-height: 200px; transition: height 0.2s; }
+.section-wrap-bg2 { background: var(--bg2); }
+</style>
+<script>
+// ── iframe virtualization: off-load when far off-screen, reload on approach ──
+var iframeState = new Map();
+function initIframeState() {
+  document.querySelectorAll('.section-iframe').forEach(function(f) {
+    iframeState.set(f.id, { src: f.getAttribute('src'), cachedHeight: null });
+  });
+}
+
+// Restore an off-loaded iframe and resolve once it has reported its height.
+function ensureLoaded(f) {
+  return new Promise(function(resolve) {
+    var cur = f.getAttribute('src');
+    if (cur && cur !== 'about:blank') return resolve();
+    var state = iframeState.get(f.id);
+    if (!state) return resolve();
+    f.setAttribute('src', state.src);
+    var expectedName = state.src.split('/').pop(); // 'ch2.html'
+    var handler = function(e) {
+      var d = e.data || {};
+      if (d.type === 'iframe-height' && d.name === expectedName) {
+        window.removeEventListener('message', handler);
+        resolve();
+      }
+    };
+    window.addEventListener('message', handler);
+    setTimeout(function() {
+      window.removeEventListener('message', handler);
+      resolve();
+    }, 3000);
+  });
+}
+
+window.addEventListener('message', function(e) {
+  var d = e.data || {};
+  if (d.type === 'iframe-height') {
+    var name = d.name;
+    var id = 'iframe-' + name.replace('.html','');
+    var f = document.getElementById(id);
+    if (f) {
+      var heightStr = (d.height + 8) + 'px';
+      f.style.height = heightStr;
+      var state = iframeState.get(id);
+      if (state) state.cachedHeight = heightStr;
+    }
+  } else if (d.type === 'cross-iframe-jump') {
+    var f = document.getElementById('iframe-' + d.frame);
+    if (!f) return;
+    var ensure = (typeof ensureLoaded === 'function') ? ensureLoaded(f) : Promise.resolve();
+    ensure.then(function() {
+      if (!f.contentWindow) return;
+      var rid = 'cij' + Date.now() + '-' + Math.floor(Math.random()*1000);
+      function onCijReply(ev) {
+        var r = ev.data || {};
+        if (r.type !== 'element-position' || r.requestId !== rid) return;
+        window.removeEventListener('message', onCijReply);
+        var iframeTop = window.scrollY + f.getBoundingClientRect().top;
+        var targetY = iframeTop + r.offsetTop - 80;
+        var startY = window.scrollY;
+        var dist = targetY - startY;
+        var duration = Math.min(900, Math.max(400, Math.abs(dist)/3));
+        var startT = performance.now();
+        function step(now) {
+          var t = Math.min(1, (now-startT)/duration);
+          var ease = t<0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+          window.scrollTo(0, startY + dist*ease);
+          if (t<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        f.contentWindow.postMessage({ type: 'highlight', id: d.id }, '*');
+      }
+      window.addEventListener('message', onCijReply);
+      try { f.contentWindow.postMessage({ type: 'find-element', id: d.id, requestId: rid }, '*'); } catch (err) {}
+      setTimeout(function() { window.removeEventListener('message', onCijReply); }, 2500);
+    });
+  } else if (d.type === 'jump-to-solution' || d.type === 'jump-to-exercise') {
+    var num = d.num;
+    var targetId, candidateFrames;
+    if (d.type === 'jump-to-solution') {
+      candidateFrames = [document.getElementById('iframe-solutions')];
+      targetId = 'sol-' + num;
+    } else {
+      var allFrames = document.querySelectorAll('.section-iframe');
+      candidateFrames = [];
+      for (var i = 0; i < allFrames.length; i++) {
+        if (allFrames[i].id !== 'iframe-solutions') candidateFrames.push(allFrames[i]);
+      }
+      targetId = 'ex-' + num;
+    }
+
+    // Ensure all candidate iframes are loaded before posting find-element.
+    Promise.all(candidateFrames.filter(Boolean).map(ensureLoaded)).then(function() {
+      var rid = 'r' + Date.now() + '-' + Math.floor(Math.random()*1000);
+      var done = false;
+      function onReply(ev) {
+        var r = ev.data || {};
+        if (r.type !== 'element-position' || r.requestId !== rid || done) return;
+        done = true;
+        window.removeEventListener('message', onReply);
+        var responseFrame = null;
+        for (var k = 0; k < candidateFrames.length; k++) {
+          if (candidateFrames[k] && candidateFrames[k].contentWindow === ev.source) {
+            responseFrame = candidateFrames[k];
+            break;
+          }
+        }
+        if (!responseFrame) return;
+        var iframeTop = window.scrollY + responseFrame.getBoundingClientRect().top;
+        var targetY = iframeTop + r.offsetTop - (window.innerHeight / 2) + (r.offsetHeight / 2);
+        var startY = window.scrollY;
+        var dist = targetY - startY;
+        var duration = Math.min(900, Math.max(400, Math.abs(dist)/3));
+        var startT = performance.now();
+        function step(now) {
+          var t = Math.min(1, (now-startT)/duration);
+          var ease = t<0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+          window.scrollTo(0, startY + dist*ease);
+          if (t<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        responseFrame.contentWindow.postMessage({ type: 'highlight', id: targetId }, '*');
+      }
+      window.addEventListener('message', onReply);
+      candidateFrames.forEach(function(f) {
+        if (f && f.contentWindow) {
+          try { f.contentWindow.postMessage({ type: 'find-element', id: targetId, requestId: rid }, '*'); } catch (err) {}
+        }
+      });
+      setTimeout(function() {
+        if (!done) { done = true; window.removeEventListener('message', onReply); }
+      }, 2500);
+    });
+  }
+});
+
+// Set up IntersectionObserver after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  initIframeState();
+  if (typeof IntersectionObserver === 'undefined') return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      var f = entry.target;
+      var state = iframeState.get(f.id);
+      if (!state) return;
+      if (entry.isIntersecting) {
+        var cur = f.getAttribute('src');
+        if (!cur || cur === 'about:blank') {
+          f.setAttribute('src', state.src);
+        }
+      } else {
+        var cur2 = f.getAttribute('src');
+        if (cur2 && cur2 !== 'about:blank') {
+          // Cache height before blanking so layout doesn't collapse
+          if (f.style.height) state.cachedHeight = f.style.height;
+          f.setAttribute('src', 'about:blank');
+          if (state.cachedHeight) f.style.height = state.cachedHeight;
+        }
+      }
+    });
+  }, { rootMargin: '100% 0px 100% 0px', threshold: 0 });
+  document.querySelectorAll('.section-iframe').forEach(function(f) { obs.observe(f); });
+});
+</script>
+</head>
+<body>
+
+<header class="hero">
+<div class="container">
+  <div class="subtitle">Study Guide &amp; Exercise Bank — 199 Problems</div>
+  <h1>Digital Logic &amp;<br><em>Verilog Design</em></h1>
+  <p class="book-ref">Based on <em>Fundamentals of Digital Logic with Verilog Design, 3rd Ed.</em><br>Brown &amp; Vranesic</p>
+</div>
+</header>
+
+<nav class="toc-bar">
+  <div class="toc-group">
+    <a class="toc-main" href="#ch2" style="color:var(--ch2)">02 Logic Circuits</a>
+    <div class="toc-sub"><a href="#brief-ch2" data-target="brief-ch2">Brief</a><a href="#tier1-ch2" data-target="tier1-ch2">Tier 1</a><a href="#ch2" data-ch="ch2" data-tier="tier2">Tier 2</a><a href="#ch2" data-ch="ch2" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#ch3" style="color:var(--ch3)">03 Arithmetic</a>
+    <div class="toc-sub"><a href="#brief-ch3" data-target="brief-ch3">Brief</a><a href="#tier1-ch3" data-target="tier1-ch3">Tier 1</a><a href="#ch3" data-ch="ch3" data-tier="tier2">Tier 2</a><a href="#ch3" data-ch="ch3" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#ch4" style="color:var(--ch4)">04 Comb. Blocks</a>
+    <div class="toc-sub"><a href="#brief-ch4" data-target="brief-ch4">Brief</a><a href="#tier1-ch4" data-target="tier1-ch4">Tier 1</a><a href="#ch4" data-ch="ch4" data-tier="tier2">Tier 2</a><a href="#ch4" data-ch="ch4" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#ch5" style="color:var(--ch5)">05 Flip-Flops</a>
+    <div class="toc-sub"><a href="#brief-ch5" data-target="brief-ch5">Brief</a><a href="#tier1-ch5" data-target="tier1-ch5">Tier 1</a><a href="#ch5" data-ch="ch5" data-tier="tier2">Tier 2</a><a href="#ch5" data-ch="ch5" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#ch6" style="color:var(--ch6)">06 Sync. Sequential</a>
+    <div class="toc-sub"><a href="#brief-ch6" data-target="brief-ch6">Brief</a><a href="#tier1-ch6" data-target="tier1-ch6">Tier 1</a><a href="#ch6" data-ch="ch6" data-tier="tier2">Tier 2</a><a href="#ch6" data-ch="ch6" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#ch7" style="color:var(--ch7)">07 System Design</a>
+    <div class="toc-sub"><a href="#brief-ch7" data-target="brief-ch7">Brief</a><a href="#tier1-ch7" data-target="tier1-ch7">Tier 1</a><a href="#ch7" data-ch="ch7" data-tier="tier2">Tier 2</a><a href="#ch7" data-ch="ch7" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#ch8" style="color:var(--ch8)">08 Optimization</a>
+    <div class="toc-sub"><a href="#brief-ch8" data-target="brief-ch8">Brief</a><a href="#tier1-ch8" data-target="tier1-ch8">Tier 1</a><a href="#ch8" data-ch="ch8" data-tier="tier2">Tier 2</a><a href="#ch8" data-ch="ch8" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#ch9" style="color:var(--ch9)">09 Async. Circuits</a>
+    <div class="toc-sub"><a href="#brief-ch9" data-target="brief-ch9">Brief</a><a href="#tier1-ch9" data-target="tier1-ch9">Tier 1</a><a href="#ch9" data-ch="ch9" data-tier="tier2">Tier 2</a><a href="#ch9" data-ch="ch9" data-tier="tier3">Tier 3</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#practice-extra" style="color:var(--fg2)">10 Tier 2 &amp; 3 Practice</a>
+    <div class="toc-sub toc-sub-wrap"><a href="#practice-ch2" data-target="practice-ch2">Ch2</a><a href="#practice-ch3" data-target="practice-ch3">Ch3</a><a href="#practice-ch4" data-target="practice-ch4">Ch4</a><a href="#practice-ch5" data-target="practice-ch5">Ch5</a><a href="#practice-ch6" data-target="practice-ch6">Ch6</a><a href="#practice-ch7" data-target="practice-ch7">Ch7</a><a href="#practice-ch8" data-target="practice-ch8">Ch8</a><a href="#practice-ch9" data-target="practice-ch9">Ch9</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#symbols" style="color:var(--accent2)">11 Logic Symbols</a>
+    <div class="toc-sub toc-sub-wrap"><a href="#sym-basic" data-target="sym-basic">Basic</a><a href="#sym-compound" data-target="sym-compound">Compound</a><a href="#sym-implication" data-target="sym-implication">Implies</a><a href="#sym-constants" data-target="sym-constants">Const.</a><a href="#sym-verilog" data-target="sym-verilog">Verilog</a><a href="#sym-canonical" data-target="sym-canonical">Canonical</a></div>
+  </div>
+  <div class="toc-group">
+    <a class="toc-main" href="#solutions" style="color:var(--accent3)">12 Solutions</a>
+    <div class="toc-sub toc-sub-wrap"><a href="#sol-ch2" data-target="sol-ch2">Ch2</a><a href="#sol-ch3" data-target="sol-ch3">Ch3</a><a href="#sol-ch4" data-target="sol-ch4">Ch4</a><a href="#sol-ch5" data-target="sol-ch5">Ch5</a><a href="#sol-ch6" data-target="sol-ch6">Ch6</a><a href="#sol-ch7" data-target="sol-ch7">Ch7</a><a href="#sol-ch8" data-target="sol-ch8">Ch8</a><a href="#sol-ch9" data-target="sol-ch9">Ch9</a></div>
+  </div>
+</nav>
+
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch2" src="sections/ch2.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch3" src="sections/ch3.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch4" src="sections/ch4.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch5" src="sections/ch5.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch6" src="sections/ch6.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch7" src="sections/ch7.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch8" src="sections/ch8.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-ch9" src="sections/ch9.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="ch-divider"></div>
+<div class="section-wrap-bg2">
+<iframe class="section-iframe" id="iframe-practice-extra" src="sections/practice-extra.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+</div>
+<div class="ch-divider"></div>
+<iframe class="section-iframe" id="iframe-symbols" src="sections/symbols.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+<div class="section-wrap-bg2">
+<iframe class="section-iframe" id="iframe-solutions" src="sections/solutions.html?v=1778104514" loading="lazy" scrolling="no" style="width:100%; border:none; display:block;"></iframe>
+</div>
+<footer>
+  <p>Study Guide for <em>Fundamentals of Digital Logic with Verilog Design, 3rd Edition</em> — Brown &amp; Vranesic</p>
+  <p>199 exercises across 8 chapters · Generated as a study companion</p>
+</footer>
+<script>
+// Smooth-scroll helper for shell page (parent of iframes)
+function smoothScrollTo(el) {
+  var rect = el.getBoundingClientRect();
+  var targetY = window.scrollY + rect.top - 20;
+  var startY = window.scrollY;
+  var dist = targetY - startY;
+  var duration = Math.min(900, Math.max(400, Math.abs(dist) / 3));
+  var startT = performance.now();
+  function step(now) {
+    var t = Math.min(1, (now - startT) / duration);
+    var eased = t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    window.scrollTo(0, startY + dist * eased);
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// TOC: vertical accordion + jump to selected iframe (and post a tier hint to the iframe).
+(function() {
+  function closeAllGroups() {
+    document.querySelectorAll('.toc-group.open').forEach(function(g) { g.classList.remove('open'); });
+  }
+  function clearTierActive() {
+    document.querySelectorAll('.toc-sub a.active').forEach(function(el) { el.classList.remove('active'); });
+  }
+  function clearMainActive() {
+    document.querySelectorAll('.toc-main.active').forEach(function(el) { el.classList.remove('active'); });
+  }
+
+  function targetForHref(href) {
+    if (!href || !href.startsWith('#')) return null;
+    var id = href.slice(1);
+    // Section ids → iframes
+    var iframeIdMap = {
+      ch2:'iframe-ch2', ch3:'iframe-ch3', ch4:'iframe-ch4', ch5:'iframe-ch5',
+      ch6:'iframe-ch6', ch7:'iframe-ch7', ch8:'iframe-ch8', ch9:'iframe-ch9',
+      'practice-extra':'iframe-practice-extra', symbols:'iframe-symbols', solutions:'iframe-solutions'
+    };
+    if (iframeIdMap[id]) return document.getElementById(iframeIdMap[id]);
+    return document.getElementById(id);
+  }
+
+  document.querySelectorAll('.toc-main').forEach(function(main) {
+    main.addEventListener('click', function(e) {
+      e.preventDefault();
+      var group = main.closest('.toc-group');
+      var sub = group ? group.querySelector('.toc-sub') : null;
+      var hasSub = sub && sub.querySelector('a');
+      if (!hasSub) {
+        clearMainActive();
+        clearTierActive();
+        closeAllGroups();
+        main.classList.add('active');
+        var t = targetForHref(main.getAttribute('href'));
+        if (t) smoothScrollTo(t);
+        return;
+      }
+      var willOpen = !group.classList.contains('open');
+      closeAllGroups();
+      clearMainActive();
+      clearTierActive();
+      if (willOpen) {
+        group.classList.add('open');
+        main.classList.add('active');
+      }
+    });
+  });
+
+  document.querySelectorAll('.toc-sub a[data-ch][data-tier]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      clearTierActive();
+      a.classList.add('active');
+      var group = a.closest('.toc-group');
+      if (group) {
+        closeAllGroups();
+        group.classList.add('open');
+        clearMainActive();
+        var main = group.querySelector('.toc-main');
+        if (main) main.classList.add('active');
+      }
+      var ch = a.dataset.ch, tier = a.dataset.tier;
+      var f = (tier === 'tier1') ? document.getElementById('iframe-' + ch)
+            : document.getElementById('iframe-practice-extra');
+      if (!f) return;
+      var ensure = (typeof ensureLoaded === 'function') ? ensureLoaded(f) : Promise.resolve();
+      ensure.then(function() {
+        if (tier === 'tier1') {
+          smoothScrollTo(f);  // chapter iframe top
+        } else {
+          var hint = 'practice-' + ch;
+          var rid = 'tier' + Date.now();
+          function onReply(ev) {
+            var r = ev.data || {};
+            if (r.type !== 'element-position' || r.requestId !== rid) return;
+            window.removeEventListener('message', onReply);
+            var iframeTop = window.scrollY + f.getBoundingClientRect().top;
+            var targetY = iframeTop + r.offsetTop - 80;
+            smoothScrollTo({ getBoundingClientRect: function() { return { top: targetY - window.scrollY, height: 0 }; } });
+            f.contentWindow.postMessage({ type: 'highlight', id: hint }, '*');
+          }
+          window.addEventListener('message', onReply);
+          try { f.contentWindow.postMessage({ type: 'find-element', id: hint, requestId: rid }, '*'); } catch (err) {}
+          setTimeout(function() { window.removeEventListener('message', onReply); }, 2500);
+        }
+      });
+    });
+  });
+
+  // Sub-link with data-target → goes inside the appropriate iframe
+  document.querySelectorAll('.toc-sub a[data-target]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      clearTierActive();
+      a.classList.add('active');
+      var group = a.closest('.toc-group');
+      if (group) {
+        closeAllGroups();
+        group.classList.add('open');
+        clearMainActive();
+        var main = group.querySelector('.toc-main');
+        if (main) main.classList.add('active');
+      }
+      var t = a.dataset.target;
+      // Determine which iframe owns this id
+      var inSymbols = t.indexOf('sym-') === 0;
+      var inPractice = t.indexOf('practice-') === 0;
+      var inSolutions = t.indexOf('sol-') === 0;
+      var briefMatch = /^brief-ch(\d+)$/.exec(t);
+      var tier1Match = /^tier1-ch(\d+)$/.exec(t);
+      var f = inSymbols ? document.getElementById('iframe-symbols')
+            : inPractice ? document.getElementById('iframe-practice-extra')
+            : inSolutions ? document.getElementById('iframe-solutions')
+            : briefMatch ? document.getElementById('iframe-ch' + briefMatch[1])
+            : tier1Match ? document.getElementById('iframe-ch' + tier1Match[1])
+            : null;
+      if (f) {
+        // First ensure the iframe is loaded (it may have been off-loaded by virtualization).
+        var ensure = (typeof ensureLoaded === 'function') ? ensureLoaded(f) : Promise.resolve();
+        ensure.then(function() {
+          if (!f.contentWindow) return;
+          var rid = 'sub' + Date.now();
+          function onSubReply(ev) {
+            var r = ev.data || {};
+            if (r.type !== 'element-position' || r.requestId !== rid) return;
+            window.removeEventListener('message', onSubReply);
+            var iframeTop = window.scrollY + f.getBoundingClientRect().top;
+            var targetY = iframeTop + r.offsetTop - 80;
+            smoothScrollTo({ getBoundingClientRect: function() { return { top: targetY - window.scrollY, height: 0 }; } });
+            f.contentWindow.postMessage({ type: 'highlight', id: t }, '*');
+          }
+          window.addEventListener('message', onSubReply);
+          try { f.contentWindow.postMessage({ type: 'find-element', id: t, requestId: rid }, '*'); } catch (err) {}
+          setTimeout(function() { window.removeEventListener('message', onSubReply); }, 2500);
+        });
+      }
+    });
+  });
+})();
+</script>
+</body></html>
