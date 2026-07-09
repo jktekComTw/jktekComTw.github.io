@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DE25 HSMC &harr; ADA Pin Map | Terasic DE25 FPGA Dev Kit</title>
+<meta name="description" content="HSMC ↔ ADA pin mapping reference for the Terasic DE25 FPGA development kit: HSMC connector to ADA (analog/digital adapter) pin assignments for FPGA design.">
+<meta name="keywords" content="DE25, Terasic DE25, HSMC pin map, HSMC connector, ADA, pin mapping, FPGA development kit, FPGA design, Terasic, dev board, 昭群科技, JiaoKuan Technology">
+<meta name="author" content="昭群科技 JiaoKuan Technology">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.jktek.com.tw/hsmc_pin_map.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+<meta property="og:title" content="DE25 HSMC ↔ ADA Pin Map | Terasic DE25 FPGA Dev Kit">
+<meta property="og:description" content="HSMC ↔ ADA pin mapping reference for the Terasic DE25 FPGA development kit.">
+<meta property="og:url" content="https://www.jktek.com.tw/hsmc_pin_map.html">
+<style>
+  :root { color-scheme: light; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; margin: 16px; color: #222; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  h2 { font-size: 15px; margin: 14px 0 6px; color: #34495e; }
+  .info { background: #ecf0f1; padding: 10px 12px; margin: 10px 0; border-left: 4px solid #3498db; font-size: 13px; line-height: 1.5; }
+  .info code { background: #fff; padding: 1px 5px; border-radius: 3px; }
+  .controls { margin: 8px 0; font-size: 13px; }
+  .controls input { padding: 4px 6px; width: 220px; }
+  .controls label { margin-right: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  th { background: #2c3e50; color: #fff; padding: 8px 6px; position: sticky; top: 0; text-align: left; z-index: 1; }
+  td { padding: 4px 8px; border-bottom: 1px solid #e6e6e6; vertical-align: top; }
+  tr:hover td { background: #fafafa; }
+  .pin { font-family: ui-monospace, Consolas, monospace; color: #555; font-weight: 600; }
+  .fpga { font-family: ui-monospace, Consolas, monospace; color: #c0392b; font-weight: 700; }
+  .sig { font-family: ui-monospace, Consolas, monospace; color: #2c3e50; }
+  .nc { color: #aaa; font-style: italic; }
+  .pwr { color: #27ae60; font-weight: 600; }
+  .gnd { color: #7f8c8d; }
+  .jtag { color: #8e44ad; }
+  .group { background: #eaf2f8; font-weight: 600; }
+  .group td { padding: 6px 8px; color: #154360; }
+  .extra td { background: #fdf3f3; }
+</style>
+</head>
+<body>
+<h1>DE25 HSMC &harr; ADA (HSMC Daughter Card) Pin Map</h1>
+<div class="info">
+  <strong>Mapping rule (pair-wise reverse):</strong>
+  ADA pair <code>k</code> (pins <code>2k-1, 2k</code>) &harr; DE25 pair <code>81-k</code> (pins <code>161-2k, 162-2k</code>).
+  Equivalently: <code>DE25_odd = 160 - ADA_odd</code>, <code>DE25_even = 162 - ADA_even</code>.<br>
+  <strong>Anchors:</strong> ADA 1,2 &harr; DE25 159,160 &nbsp;|&nbsp; ADA 159,160 &harr; DE25 1,2.<br>
+  <strong>ADA pins 161&ndash;180</strong> are QSH-090 extras (DE3/QB3 only) &mdash; not part of HSMC standard, listed at the bottom.<br>
+  <strong>Sources:</strong> <code>DE25-Standard.pdf</code> p.28 (HSMC), <code>ada_v11.pdf</code> p.4 (J9 QSH-090).
+</div>
+<div class="controls">
+  <label>Filter: <input id="filter" placeholder="signal / pin / FPGA ball"></label>
+  <label><input type="checkbox" id="hideNC"> Hide power / GND / NC rows</label>
+</div>
+<table id="map">
+  <thead>
+    <tr>
+      <th style="width:8%">FPGA pin</th>
+      <th style="width:10%">DE25 HSMC #</th>
+      <th style="width:32%">DE25 signal</th>
+      <th style="width:10%">ADA HSMC #</th>
+      <th style="width:32%">ADA signal</th>
+    </tr>
+  </thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<script>
+// DE25 HSMC pin -> [signal, FPGA ball]
+const de25 = {
+  1: ["GND", ""],
+  2: ["HSMC_GTS_RX_REFCLK_p", "AT120"],
+  3: ["GND", ""],
+  4: ["HSMC_GTS_RX_REFCLK_n", "AT115"],
+  5: ["GND", ""],
+  6: ["HSMC_GTS_REFCLK_p", "AP120"],
+  7: ["GND", ""],
+  8: ["HSMC_GTS_REFCLK_n", "AP115"],
+  9: ["GND", ""], 10: ["GND", ""],
+  11: ["GND", ""], 12: ["GND", ""],
+  13: ["GND", ""], 14: ["GND", ""],
+  15: ["GND", ""], 16: ["GND", ""],
+  17: ["HSMC_GTS_TX_p3", "AL129"], 18: ["HSMC_GTS_RX_p3", "AK135"],
+  19: ["HSMC_GTS_TX_n3", "AL126"], 20: ["HSMC_GTS_RX_n3", "AK133"],
+  21: ["HSMC_GTS_TX_p2", "AN129"], 22: ["HSMC_GTS_RX_p2", "AM135"],
+  23: ["HSMC_GTS_TX_n2", "AN126"], 24: ["HSMC_GTS_RX_n2", "AM133"],
+  25: ["HSMC_GTS_TX_p1", "AR129"], 26: ["HSMC_GTS_RX_p1", "AP135"],
+  27: ["HSMC_GTS_TX_n1", "AR126"], 28: ["HSMC_GTS_RX_n1", "AP133"],
+  29: ["HSMC_GTS_TX_p0", "AU129"], 30: ["HSMC_GTS_RX_p0", "AT135"],
+  31: ["HSMC_GTS_TX_n0", "AU126"], 32: ["HSMC_GTS_RX_n0", "AT133"],
+  33: ["HSMC_I2C_SDA", "BM109"], 34: ["HSMC_I2C_SCL", "BR112"],
+  35: ["HSMC_TCK", "(JTAG chain)"], 36: ["HSMC_TMS", "(JTAG chain)"],
+  37: ["E_HSMC_TDO", "(JTAG chain)"], 38: ["HSMC_TDI", "(JTAG chain)"],
+  39: ["HSMC_D72", "F37"], 40: ["HSMC_CLKIN0", "V18"],
+  41: ["HSMC_D0", "K34"], 42: ["HSMC_D1", "F34"],
+  43: ["HSMC_D2", "K37"], 44: ["HSMC_D3", "H37"],
+  45: ["VCC3P3 (HSMC_VCCIO)", ""], 46: ["GND", ""],
+  47: ["HSMC_D4", "P34"], 48: ["HSMC_D5", "M37"],
+  49: ["HSMC_D6", "Y34"], 50: ["HSMC_D7", "Y15"],
+  51: ["VCC3P3 (HSMC_VCCIO)", ""], 52: ["GND", ""],
+  53: ["HSMC_D8", "AK32"], 54: ["HSMC_D9", "M34"],
+  55: ["HSMC_D10", "AL32"], 56: ["HSMC_D11", "AK21"],
+  57: ["VCC3P3 (HSMC_VCCIO)", ""], 58: ["GND", ""],
+  59: ["HSMC_D12", "AG29"], 60: ["HSMC_D13", "AL16"],
+  61: ["HSMC_D14", "AL29"], 62: ["HSMC_D15", "AJ1"],
+  63: ["VCC3P3 (HSMC_VCCIO)", ""], 64: ["GND", ""],
+  65: ["HSMC_D16", "AL25"], 66: ["HSMC_D17", "AB8"],
+  67: ["HSMC_D18", "AK25"], 68: ["HSMC_D19", "Y8"],
+  69: ["VCC3P3 (HSMC_VCCIO)", ""], 70: ["GND", ""],
+  71: ["HSMC_D20", "AK16"], 72: ["HSMC_D21", "AF2"],
+  73: ["HSMC_D22", "AG13"], 74: ["HSMC_D23", "AB4"],
+  75: ["VCC3P3 (HSMC_VCCIO)", ""], 76: ["GND", ""],
+  77: ["HSMC_D24", "AH8"], 78: ["HSMC_D25", "AD1"],
+  79: ["HSMC_D26", "AH4"], 80: ["HSMC_D27", "AD2"],
+  81: ["VCC3P3 (HSMC_VCCIO)", ""], 82: ["GND", ""],
+  83: ["HSMC_D28", "AE4"], 84: ["HSMC_D29", "V8"],
+  85: ["HSMC_D30", "T15"], 86: ["HSMC_D31", "Y4"],
+  87: ["VCC3P3 (HSMC_VCCIO)", ""], 88: ["GND", ""],
+  89: ["HSMC_D32", "T34"], 90: ["HSMC_D33", "AA1"],
+  91: ["HSMC_D34", "T37"], 92: ["HSMC_D35", "AC43"],
+  93: ["VCC3P3 (HSMC_VCCIO)", ""], 94: ["GND", ""],
+  95: ["HSMC_D73", "Y37"], 96: ["HSMC_CLKIN1", "W2"],
+  97: ["HSMC_D74", "AC46"], 98: ["HSMC_D75", "AG40"],
+  99: ["VCC3P3 (HSMC_VCCIO)", ""], 100: ["GND", ""],
+  101: ["HSMC_D36", "AC36"], 102: ["HSMC_D37", "Y27"],
+  103: ["HSMC_D38", "AG36"], 104: ["HSMC_D39", "Y24"],
+  105: ["VCC3P3 (HSMC_VCCIO)", ""], 106: ["GND", ""],
+  107: ["HSMC_D40", "AB27"], 108: ["HSMC_D41", "AB18"],
+  109: ["HSMC_D42", "AB24"], 110: ["HSMC_D43", "T8"],
+  111: ["VCC3P3 (HSMC_VCCIO)", ""], 112: ["GND", ""],
+  113: ["HSMC_D44", "V27"], 114: ["HSMC_D45", "U1"],
+  115: ["HSMC_D46", "AG21"], 116: ["HSMC_D47", "T18"],
+  117: ["VCC3P3 (HSMC_VCCIO)", ""], 118: ["GND", ""],
+  119: ["HSMC_D48", "T27"], 120: ["HSMC_D49", "T4"],
+  121: ["HSMC_D50", "AJ2"], 122: ["HSMC_D51", "R2"],
+  123: ["VCC3P3 (HSMC_VCCIO)", ""], 124: ["GND", ""],
+  125: ["HSMC_D52", "AB15"], 126: ["HSMC_D53", "P15"],
+  127: ["HSMC_D54", "Y18"], 128: ["HSMC_D55", "P4"],
+  129: ["VCC3P3 (HSMC_VCCIO)", ""], 130: ["GND", ""],
+  131: ["HSMC_D56", "T24"], 132: ["HSMC_D57", "N2"],
+  133: ["HSMC_D58", "W1"], 134: ["HSMC_D59", "L1"],
+  135: ["VCC3P3 (HSMC_VCCIO)", ""], 136: ["GND", ""],
+  137: ["HSMC_D60", "P24"], 138: ["HSMC_D61", "M4"],
+  139: ["HSMC_D62", "U2"], 140: ["HSMC_D63", "M8"],
+  141: ["VCC3P3 (HSMC_VCCIO)", ""], 142: ["GND", ""],
+  143: ["HSMC_D64", "M27"], 144: ["HSMC_D65", "M15"],
+  145: ["HSMC_D66", "M24"], 146: ["HSMC_D67", "M18"],
+  147: ["VCC3P3 (HSMC_VCCIO)", ""], 148: ["GND", ""],
+  149: ["HSMC_D68", "N1"], 150: ["HSMC_D69", "K15"],
+  151: ["HSMC_D70", "K27"], 152: ["HSMC_D71", "K18"],
+  153: ["VCC3P3 (HSMC_VCCIO)", ""], 154: ["GND", ""],
+  155: ["HSMC_D76", "K24"], 156: ["HSMC_CLKIN2", "V37"],
+  157: ["HSMC_B5B_D0 (via TXB0304)", "BF107"], 158: ["HSMC_B5B_D1 (via TXB0304)", "BF104"],
+  159: ["VCC3P3 (HSMC_VCCIO)", ""], 160: ["HSMC_PSNT_n", ""]
+};
+
+// ADA J9 (QSH-090) pin -> signal
+// Pin 1-60 from image 2, 61-120 from image 4, 121-180 from image 6
+const ada = {
+  1:  "VCC33",            2:  "GND (12V net)",
+  3:  "PLL_OUT_ADC0",     4:  "AD_OTRA",
+  5:  "PLL_OUT_ADC1",     6:  "AD_OTRB",
+  7:  "VCC33",            8:  "GND",
+  9:  "AD_DB0",           10: "AD_DA0",
+  11: "AD_DB1",           12: "AD_DA1",
+  13: "VCC33",            14: "GND",
+  15: "AD_DB2",           16: "AD_DA2",
+  17: "AD_DB3",           18: "AD_DA3",
+  19: "VCC33",            20: "GND",
+  21: "AD_DB4",           22: "AD_DA4",
+  23: "AD_DB5",           24: "AD_DA5",
+  25: "VCC33",            26: "GND",
+  27: "AD_DB6",           28: "AD_DA6",
+  29: "AD_DB7",           30: "AD_DA7",
+  31: "VCC33",            32: "GND",
+  33: "AD_DB8",           34: "AD_DA8",
+  35: "AD_DB9",           36: "AD_DA9",
+  37: "VCC33",            38: "GND",
+  39: "AD_DB10",          40: "AD_DA10",
+  41: "AD_DB11",          42: "AD_DA11",
+  43: "VCC33",            44: "GND",
+  45: "AD_DB12",          46: "AD_DA12",
+  47: "AD_DB13",          48: "AD_DA13",
+  49: "VCC33",            50: "GND",
+  51: "NC",               52: "ADC_OEB",
+  53: "NC",               54: "ADC_OEA",
+  55: "VCC33",            56: "GND",
+  57: "NC",               58: "NC",
+  59: "NC",               60: "NC",
+  61: "VCC33",            62: "GND",
+  63: "PLL_OUT_DAC0",     64: "SMA_DAC4",
+  65: "PLL_OUT_DAC1",     66: "OSC_SMA_ADC4",
+  67: "VCC33",            68: "GND",
+  69: "DA_MODE",          70: "NC",
+  71: "DA_WRTA",          72: "DA_WRTB",
+  73: "VCC33",            74: "GND",
+  75: "DA_DA13",          76: "DA_DB13",
+  77: "DA_DA12",          78: "DA_DB12",
+  79: "VCC33",            80: "GND",
+  81: "DA_DA11",          82: "DA_DB11",
+  83: "DA_DA10",          84: "DA_DB10",
+  85: "VCC33",            86: "GND",
+  87: "DA_DA9",           88: "DA_DB9",
+  89: "DA_DA8",           90: "DA_DB8",
+  91: "VCC33",            92: "GND",
+  93: "DA_DA7",           94: "DA_DB7",
+  95: "DA_DA6",           96: "DA_DB6",
+  97: "VCC33",            98: "GND",
+  99: "DA_DA5",           100: "DA_DB5",
+  101: "DA_DA4",          102: "DA_DB4",
+  103: "VCC33",           104: "GND",
+  105: "DA_DA3",          106: "DA_DB3",
+  107: "DA_DA2",          108: "DA_DB2",
+  109: "VCC33",           110: "GND",
+  111: "DA_DA1",          112: "DA_DB1",
+  113: "DA_DA0",          114: "DA_DB0",
+  115: "VCC33",           116: "GND",
+  117: "NC",              118: "NC",
+  119: "NC",              120: "NC",
+  121: "POWER_ON",        122: "NC",
+  123: "TDO_TDI",         124: "TDO_TDI (cascade)",
+  125: "NC",              126: "NC",
+  127: "ID_I2CDAT (SDA)", 128: "ID_I2CSCL (SCL)",
+  129: "NC",              130: "NC",
+  131: "NC",              132: "NC",
+};
+// 133-180 -> all NC (filled below)
+for (let p = 133; p <= 180; p++) ada[p] = "NC";
+
+function cls(sig) {
+  if (!sig) return "nc";
+  const s = sig.toUpperCase();
+  if (s.includes("VCC") || s === "12V") return "pwr";
+  if (s.startsWith("GND")) return "gnd";
+  if (s === "NC") return "nc";
+  if (s.includes("TDI") || s.includes("TDO") || s.includes("TCK") || s.includes("TMS") || s.includes("TDO_TDI")) return "jtag";
+  return "sig";
+}
+
+const rowsEl = document.getElementById("rows");
+let html = "";
+
+// Section 1: ADA pin 1..160 mapped pair-wise reverse to DE25
+function adaToDe25(p) {
+  if (p % 2 === 1) return 160 - p;   // odd
+  return 162 - p;                     // even
+}
+
+let lastGroup = -1;
+for (let a = 1; a <= 160; a++) {
+  const d = adaToDe25(a);
+  const [dSig, fpga] = de25[d] || ["?", ""];
+  const aSig = ada[a] || "NC";
+  const grp = Math.floor((a-1)/20);
+  if (grp !== lastGroup) {
+    html += `<tr class="group"><td colspan="5">ADA pins ${grp*20+1}&ndash;${grp*20+20} &nbsp;&harr;&nbsp; DE25 pins ${adaToDe25(grp*20+1)}&ndash;${adaToDe25(grp*20+20)} (reverse)</td></tr>`;
+    lastGroup = grp;
+  }
+  html += `<tr>
+    <td class="fpga">${fpga || "&mdash;"}</td>
+    <td class="pin">${d}</td>
+    <td class="${cls(dSig)}">${dSig}</td>
+    <td class="pin">${a}</td>
+    <td class="${cls(aSig)}">${aSig}</td>
+  </tr>`;
+}
+
+// Section 2: ADA pin 161..180 extras (no DE25 HSMC mapping under formula)
+html += `<tr class="group"><td colspan="5">ADA pins 161&ndash;180 &mdash; QSH-090 extras (DE3/QB3 only; no DE25 HSMC mapping)</td></tr>`;
+for (let a = 161; a <= 180; a++) {
+  html += `<tr class="extra">
+    <td class="fpga">&mdash;</td>
+    <td class="pin">&mdash;</td>
+    <td class="nc">(no DE25 pin)</td>
+    <td class="pin">${a}</td>
+    <td class="${cls(ada[a])}">${ada[a] || "NC"}</td>
+  </tr>`;
+}
+
+rowsEl.innerHTML = html;
+
+// Filter + hide-NC controls
+const filter = document.getElementById("filter");
+const hideNC = document.getElementById("hideNC");
+function applyFilter() {
+  const q = filter.value.trim().toLowerCase();
+  const hide = hideNC.checked;
+  document.querySelectorAll("#rows tr").forEach(tr => {
+    if (tr.classList.contains("group")) return;
+    const txt = tr.textContent.toLowerCase();
+    const isNC = /\b(nc|gnd|vcc3p3|vccio)\b/i.test(tr.querySelector("td:nth-child(3)").textContent)
+              && /\b(nc|gnd|vcc33)\b/i.test(tr.querySelector("td:nth-child(5)").textContent);
+    let show = (!q || txt.includes(q)) && (!hide || !isNC);
+    tr.style.display = show ? "" : "none";
+  });
+}
+filter.addEventListener("input", applyFilter);
+hideNC.addEventListener("change", applyFilter);
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+全英課程之授課內容及主題應以英文或雙語呈現
+For courses taught entirely in English, the content and topics should be presented in English or bilingually.
+週次	日期	授課內容及主題
+Week	Date	Content and topic
+1	2025/09/07~2025/09/13	Chap 1: Introduction : Signals
+2	2025/09/14~2025/09/20	Chap 2: Linear Time-Invariant Systems
+3	2025/09/21~2025/09/27	Chap 3: Fourier Series (1)
+4	2025/09/28~2025/10/04	Chap 3: Fourier Series (2)
+5	2025/10/05~2025/10/11	Chap 4: The Continuous-Time Fourier Transform (1)
+6	2025/10/12~2025/10/18	Chap 4: The Continuous-Time Fourier Transform (2)
+7	2025/10/19~2025/10/25	Chap 5: The Discrete-Time Fourier Transform (1)
+8	2025/10/26~2025/11/01	Midterm
+9	2025/11/02~2025/11/08	Chap 5: The Discrete-Time Fourier Transform (2)
+10	2025/11/09~2025/11/15	Chap 6: Time and Frequency Characteristics
+11	2025/11/16~2025/11/22	Chap 7: Sampling
+12	2025/11/23~2025/11/29	Chap 9: The Laplace Transform (1)
+13	2025/11/30~2025/12/06	Chap 9: The Laplace Transform (2)
+14	2025/12/07~2025/12/13	Chap 10: The z-Transform (1)
+15	2025/12/14~2025/12/20	Chap 10: The z-Transform (2)
+16	2025/12/21~2025/12/27	Final exam
