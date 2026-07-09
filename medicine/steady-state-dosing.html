@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steady-State Dosing: Single vs Split Dose | Pharmacokinetics Notes</title>
+<meta name="description" content="Why splitting a daily dose smooths the concentration curve but leaves the 24-hour average exposure unchanged. Steady-state pharmacokinetics, drug accumulation, half-life, peak, trough, and swing for single vs split dosing.">
+<meta name="keywords" content="steady-state dosing, pharmacokinetics, half-life, drug accumulation, dosing schedule, single vs split dose, peak trough, drug concentration, elimination rate constant, 藥物動力學">
+<meta name="author" content="昭群科技 JiaoKuan Technology">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.jktek.com.tw/medicine/steady-state-dosing.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+<meta property="og:title" content="Steady-State Dosing: Single vs Split Dose">
+<meta property="og:description" content="Why dividing a daily dose smooths the curve but leaves average exposure unchanged — steady-state pharmacokinetics with half-life, peak, trough, and swing.">
+<meta property="og:url" content="https://www.jktek.com.tw/medicine/steady-state-dosing.html">
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, orange 0%, silver 12% 88%, orange 100%);
+        color: #333;
+        min-height: 100vh;
+    }
+    .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 30px 20px 60px;
+    }
+    .card {
+        background: rgba(255,255,255,0.92);
+        border-radius: 15px;
+        padding: 28px 32px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        margin-bottom: 24px;
+    }
+    h1 { font-size: 2em; margin: 0 0 6px; }
+    h2 { font-size: 1.25em; color: #555; margin: 24px 0 10px; }
+    .lead { color: #666; margin-top: 0; }
+    p { line-height: 1.65; }
+    .eq {
+        background: #faf6ef;
+        border-left: 4px solid #ff6600;
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-family: "Cambria Math", Georgia, serif;
+        margin: 14px 0;
+        overflow-x: auto;
+    }
+    table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+    th, td { padding: 10px 12px; text-align: center; border-bottom: 1px solid #eee; }
+    th { background: rgba(255,102,0,0.1); }
+    td.metric { text-align: left; font-weight: bold; }
+    .chart-box { text-align: center; }
+    svg { max-width: 100%; height: auto; }
+    .legend { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 12px; font-size: 0.95em; }
+    .legend span { display: inline-flex; align-items: center; gap: 8px; }
+    .swatch { width: 22px; height: 4px; border-radius: 2px; display: inline-block; }
+    .note { color: #777; font-size: 0.92em; }
+    .footer { text-align: center; color: #777; font-size: 0.9em; margin-top: 10px; }
+    a.back { color: #ff6600; text-decoration: none; font-weight: bold; }
+    a.back:hover { text-decoration: underline; }
+    .slider-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .slider-row input[type=range] { flex: 1; min-width: 220px; accent-color: #ff6600; }
+    .slider-row label { font-weight: bold; white-space: nowrap; }
+    .slider-row output { font-weight: bold; color: #ff6600; min-width: 64px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="card">
+        <h1>Steady-State Dosing: Single vs Split</h1>
+        <p class="lead">Why dividing a daily dose smooths the curve but leaves average exposure unchanged.</p>
+        <p>If a 24-hour schedule repeats forever, the body never starts empty. Each cycle begins
+        with leftover drug from all previous cycles, and the curve settles into a repeating
+        <strong>steady state</strong> where the amount at <em>t</em>&nbsp;=&nbsp;0 equals the amount at
+        <em>t</em>&nbsp;=&nbsp;24.</p>
+    </div>
+
+    <div class="card">
+        <h2>The carryover</h2>
+        <p>A recurring dose <em>D</em> given once per period <em>T</em> builds up to the geometric sum of
+        all past administrations:</p>
+        <div class="eq">peak<sub>ss</sub> = D / (1 &minus; e<sup>&minus;kT</sup>)</div>
+        <p>Here e<sup>&minus;24k</sup> = <span id="decay">0.0929</span>, so the carryover multiplier is
+        1 / (1 &minus; <span id="decay2">0.0929</span>) &approx; <strong id="carry">1.10</strong> — every dose effectively
+        sits on ~<span id="residual">10</span>% extra residual.</p>
+    </div>
+
+    <div class="card">
+        <h2>The headline result</h2>
+        <p>At steady state both schedules have the <strong>exact same</strong> 24-hour average, because</p>
+        <div class="eq">average = (total daily dose) / (k &middot; T) = 200 / (<span id="kval">0.0990</span> &times; 24) &approx; <span id="avgEq">84.2</span> mg</div>
+        <p>It depends only on the total daily dose and the half-life — not on whether you split it or when
+        you take it.</p>
+    </div>
+
+    <div class="card">
+        <h2>Adjust the half-life</h2>
+        <div class="slider-row">
+            <label for="hl">Half-life</label>
+            <input type="range" id="hl" min="1" max="20" step="0.5" value="7">
+            <output id="hlOut">7 hr</output>
+        </div>
+        <p class="note">Drag to see how clearance speed reshapes the curves, the carryover, and the
+        24-hour average.</p>
+    </div>
+
+    <div class="card chart-box">
+        <h2>Steady-state curves over one 24-hour cycle</h2>
+        <div id="chart"></div>
+        <div class="legend">
+            <span><span class="swatch" style="background:#c0392b"></span>Single 200&nbsp;mg</span>
+            <span><span class="swatch" style="background:#2c7fb8"></span>Split 100&nbsp;+&nbsp;100&nbsp;mg</span>
+            <span><span class="swatch" style="background:#888;height:2px;border-top:2px dashed #888;background:none;border-radius:0"></span>Average <span id="avgLeg">84.2</span>&nbsp;mg</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>So at steady state</h2>
+        <table>
+            <tr><th></th><th>Single 200&nbsp;mg</th><th>Split 100&nbsp;+&nbsp;100&nbsp;mg</th></tr>
+            <tr><td class="metric">24-h average</td><td id="avgS">84.2 mg</td><td id="avgP">84.2 mg</td></tr>
+            <tr><td class="metric">Peak</td><td id="peakS">220 mg</td><td id="peakP">171 mg</td></tr>
+            <tr><td class="metric">Trough</td><td id="trS">20.5 mg</td><td id="trP">28.8 mg</td></tr>
+            <tr><td class="metric">Swing (range)</td><td id="swS">200 mg</td><td id="swP">142 mg</td></tr>
+        </table>
+        <p>Both schedules sit at the same 84.2 mg average, and neither touches zero — the single dose
+        falls to 20.5 mg at its trough, the split to 28.8 mg. The carryover from previous cycles is what lifts
+        the whole curve up.</p>
+        <p>The only real difference is <strong>fluctuation</strong>. The single 200 mg dose swings across a
+        200 mg range (20.5 → 220 mg), while splitting it into 100 + 100 mg shrinks the swing to 142 mg
+        (28.8 → 171 mg). That's the entire pharmacological point of dividing a daily dose: the average
+        exposure is fixed by how much you take and how fast you clear it, but spreading the doses out smooths
+        the peaks and troughs.</p>
+    </div>
+
+    <div class="card">
+        <h2>Notes on the model</h2>
+        <p>The split doses sit at the <em>t</em>&nbsp;=&nbsp;6 and <em>t</em>&nbsp;=&nbsp;12 phases, but since
+        it's now a cycle the phase is arbitrary — sliding both schedules earlier or later just shifts the
+        curves sideways without changing the average or the swing.</p>
+        <p class="note">This assumes instant absorption; a real oral tablet absorbs over an hour or two,
+        which would round off the sharp peaks a little but leave the averages untouched.
+        (k = <span id="kNote">0.0990</span>&nbsp;hr<sup>&minus;1</sup>, half-life = <span id="hlNote">7</span>&nbsp;hr.)</p>
+    </div>
+
+    <div class="footer">
+        <a class="back" href="index.html">&larr; back to Misc Ideas</a>
+    </div>
+
+</div>
+
+<script>
+    const T = 24;
+    const TOTAL = 200;
+
+    // steady-state amount at `time` (0..24) given doses {t,mg} repeating every 24h
+    function makeCurve(doses, k) {
+        return function (time) {
+            let a = 0;
+            for (let n = 0; n < 100; n++) {
+                for (const d of doses) {
+                    const td = d.t - T * n;
+                    if (td <= time) a += d.mg * Math.exp(-k * (time - td));
+                }
+            }
+            return a;
+        };
+    }
+
+    // min/max of a steady-state curve over one cycle (peaks land right on dose times)
+    function minmax(fn, doses) {
+        let max = -Infinity, min = Infinity;
+        const N = 2400;
+        for (let i = 0; i <= N; i++) {
+            const v = fn((i / N) * T);
+            if (v > max) max = v;
+            if (v < min) min = v;
+        }
+        doses.forEach(d => { const v = fn(d.t); if (v > max) max = v; });
+        return { max, min };
+    }
+
+    function niceCeil(x) {
+        const pow = Math.pow(10, Math.floor(Math.log10(x)));
+        for (const m of [1, 2, 2.5, 5, 10]) { if (pow * m >= x) return pow * m; }
+        return pow * 10;
+    }
+
+    // chart geometry
+    const W = 720, H = 420, m = { l: 56, r: 20, t: 20, b: 44 };
+    const pw = W - m.l - m.r, ph = H - m.t - m.b;
+    const xMax = 24;
+
+    const singleDoses = [{ t: 6, mg: 200 }];
+    const splitDoses  = [{ t: 6, mg: 100 }, { t: 12, mg: 100 }];
+
+    function render(halfLife) {
+        const k = Math.LN2 / halfLife;
+        const single = makeCurve(singleDoses, k);
+        const split  = makeCurve(splitDoses, k);
+        const AVG = TOTAL / (k * T);
+
+        const sMM = minmax(single, singleDoses);
+        const pMM = minmax(split, splitDoses);
+        const yMax = niceCeil(Math.max(sMM.max, AVG) * 1.08);
+        const step = yMax / 5;
+
+        const X = t => m.l + (t / xMax) * pw;
+        const Y = v => m.t + ph - (v / yMax) * ph;
+
+        const path = fn => {
+            let d = "";
+            const N = 480;
+            for (let i = 0; i <= N; i++) {
+                const t = (i / N) * xMax;
+                d += (i === 0 ? "M" : "L") + X(t).toFixed(1) + " " + Y(fn(t)).toFixed(1) + " ";
+            }
+            return d.trim();
+        };
+
+        let g = "";
+        for (let v = 0; v <= yMax + 0.001; v += step) {
+            g += `<line x1="${m.l}" y1="${Y(v)}" x2="${W - m.r}" y2="${Y(v)}" stroke="#eee"/>`;
+            g += `<text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="12" fill="#666">${Math.round(v)}</text>`;
+        }
+        for (let t = 0; t <= 24; t += 4) {
+            g += `<text x="${X(t)}" y="${H - m.b + 18}" text-anchor="middle" font-size="12" fill="#666">${t}</text>`;
+        }
+        [6, 12].forEach(t => {
+            g += `<line x1="${X(t)}" y1="${m.t}" x2="${X(t)}" y2="${m.t + ph}" stroke="#2c7fb8" stroke-dasharray="3 4" opacity="0.35"/>`;
+        });
+        g += `<line x1="${m.l}" y1="${Y(AVG)}" x2="${W - m.r}" y2="${Y(AVG)}" stroke="#888" stroke-width="2" stroke-dasharray="6 5"/>`;
+        g += `<path d="${path(split)}" fill="none" stroke="#2c7fb8" stroke-width="2.5"/>`;
+        g += `<path d="${path(single)}" fill="none" stroke="#c0392b" stroke-width="2.5"/>`;
+        g += `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle" font-size="13" fill="#444">time (hours)</text>`;
+        g += `<text transform="translate(16,${m.t + ph / 2}) rotate(-90)" text-anchor="middle" font-size="13" fill="#444">amount in body (mg)</text>`;
+
+        document.getElementById("chart").innerHTML =
+            `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Steady-state drug amount curves">${g}</svg>`;
+
+        // sync the text/table to the current half-life
+        const decay = Math.exp(-k * T);
+        const carry = 1 / (1 - decay);
+        const set = (id, txt) => { document.getElementById(id).textContent = txt; };
+
+        set("hlOut", `${halfLife} hr`);
+        set("decay", decay.toFixed(4));
+        set("decay2", decay.toFixed(4));
+        set("carry", carry.toFixed(2));
+        set("residual", Math.round((carry - 1) * 100));
+        set("kval", k.toFixed(4));
+        set("avgEq", AVG.toFixed(1));
+        set("avgLeg", AVG.toFixed(1));
+        set("kNote", k.toFixed(4));
+        set("hlNote", String(halfLife));
+
+        set("avgS", AVG.toFixed(1) + " mg");
+        set("avgP", AVG.toFixed(1) + " mg");
+        set("peakS", sMM.max.toFixed(1) + " mg");
+        set("peakP", pMM.max.toFixed(1) + " mg");
+        set("trS", sMM.min.toFixed(1) + " mg");
+        set("trP", pMM.min.toFixed(1) + " mg");
+        set("swS", (sMM.max - sMM.min).toFixed(1) + " mg");
+        set("swP", (pMM.max - pMM.min).toFixed(1) + " mg");
+    }
+
+    const slider = document.getElementById("hl");
+    slider.addEventListener("input", () => render(parseFloat(slider.value)));
+    render(parseFloat(slider.value));
+</script>
+</body>
+</html>

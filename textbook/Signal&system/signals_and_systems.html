@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signals &amp; Systems — Oppenheim (Ch1–Ch10) | 信號與系統 Study Notes</title>
+<meta name="description" content="Study notes for Signals and Systems by Oppenheim (信號與系統), Chapters 1–10: LTI systems, convolution, Fourier series and transform, Laplace transform, z-transform, sampling, and frequency response, with worked examples.">
+<meta name="keywords" content="Signals and Systems, Oppenheim, 信號與系統, LTI systems, convolution, Fourier series, Fourier transform, Laplace transform, z-transform, sampling, frequency response, impulse response, study notes, study guide">
+<meta name="author" content="昭群科技 JiaoKuan Technology">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.jktek.com.tw/textbook/Signal%26system/signals_and_systems.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+<meta property="og:title" content="Signals &amp; Systems — Oppenheim (Ch1–Ch10) | 信號與系統 Study Notes">
+<meta property="og:description" content="Chapter 1–10 study notes for Oppenheim's Signals and Systems: LTI systems, convolution, Fourier and Laplace transforms, z-transform, sampling, frequency response.">
+<meta property="og:url" content="https://www.jktek.com.tw/textbook/Signal%26system/signals_and_systems.html">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: true }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+  :root { --bg: #fef9f0; --card: #fffdf8; --accent: #f5deb3; --highlight: #d84315; --text: #3e2723; --muted: #795548; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(180deg, #fff3e0 0%, #fef9f0 30%, #fffdf8 100%); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  nav { position: fixed; top: 0; left: 0; width: 260px; height: 100vh; background: linear-gradient(180deg, #fff8e1 0%, #fffdf8 100%); padding: 20px; overflow-y: auto; border-right: 2px solid #f5deb3; z-index: 100; box-shadow: 2px 0 10px rgba(255,160,0,0.08); }
+  nav h2 { color: var(--highlight); margin-bottom: 15px; font-size: 1.1em; }
+  nav a { display: block; color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 4px; font-size: 0.9em; transition: 0.2s; }
+  nav a:hover, nav a.active { background: #ffe0b2; color: #bf360c; }
+  main { margin-left: 280px; padding: 40px 60px; max-width: 1000px; }
+  h1 { color: var(--highlight); font-size: 2.2em; margin-bottom: 10px; border-bottom: 2px solid #ff8a65; padding-bottom: 10px; }
+  h2 { color: #e65100; font-size: 1.6em; margin: 40px 0 15px; }
+  h3 { color: #f57f17; font-size: 1.2em; margin: 25px 0 10px; }
+  .chapter { margin-bottom: 80px; padding-top: 20px; }
+  .theory-box { background: #fff8e1; border-left: 4px solid #ffb300; padding: 20px 25px; margin: 15px 0; border-radius: 0 8px 8px 0; box-shadow: 0 1px 4px rgba(255,160,0,0.1); }
+  .eq { background: #fff3e0; padding: 14px 22px; margin: 12px 0; border-radius: 6px; overflow-x: auto; text-align: center; }
+  .problem { background: #fffdf8; margin: 15px 0; padding: 20px; border-radius: 8px; border: 1px solid #ffe0b2; box-shadow: 0 1px 3px rgba(255,160,0,0.08); }
+  .problem-head { color: #e65100; font-weight: bold; font-size: 1.05em; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+  .problem-head > span:first-of-type { margin-left: auto; }
+  .solution { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ffcc80; }
+  .solution > summary.solution-label { cursor: pointer; color: #ef6c00; font-weight: bold; margin-bottom: 8px; list-style: none; display: inline-block; padding: 4px 10px; border: 1px solid #ffcc80; border-radius: 4px; background: #fff3e0; transition: background 0.15s, color 0.15s; }
+  .solution > summary.solution-label::-webkit-details-marker { display: none; }
+  .solution > summary.solution-label::before { content: "\25B8 "; display: inline-block; transition: transform 0.15s; }
+  .solution[open] > summary.solution-label::before { content: "\25BE "; }
+  .solution > summary.solution-label:hover { background: #ffe0b2; color: var(--highlight); }
+  .solution[open] > summary.solution-label { margin-bottom: 12px; }
+  ul, ol { margin-left: 25px; margin-top: 8px; margin-bottom: 8px; }
+  li { margin-bottom: 4px; }
+  mjx-container { color: #bf360c !important; }
+  mjx-container[display="true"] { margin: 0.4em 0 !important; }
+  .tier-header { margin: 28px 0 14px; padding: 4px 0 4px 12px; border-left: 4px solid; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; font-family: 'JetBrains Mono', Consolas, monospace; }
+  .tier-header.t1 { color: #c62828; border-color: #c62828; }
+  .tier-header.t2 { color: #6b7280; border-color: #9ca3af; }
+  .tier-badge { display: inline-block; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.62em; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-left: 10px; vertical-align: middle; color: #fff; }
+  .tier-badge.t1 { background: #dc2626; }
+  .tier-badge.t2 { background: #6b7280; }
+  .diff-badge { display: inline-block; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.58em; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; margin-left: 10px; vertical-align: middle; border: 1px solid; }
+  .diff-badge.diff-easy { color: #2e7d32; border-color: #a5d6a7; background: #e8f5e9; }
+  .diff-badge.diff-medium { color: #ef6c00; border-color: #ffcc80; background: #fff3e0; }
+  .diff-badge.diff-hard { color: #c62828; border-color: #ef9a9a; background: #ffebee; }
+  .ex-review, .ex-check { display: inline-block; cursor: pointer; user-select: none; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.78em; font-weight: 700; line-height: 1; padding: 2px 7px; margin-left: 6px; border: 1px solid #ffcc80; border-radius: 4px; color: #a1887f; background: #fffdf8; vertical-align: middle; transition: color 0.15s, background 0.15s, border-color 0.15s; }
+  .ex-review:hover { color: #fff; background: #f59e0b; border-color: #f59e0b; }
+  .ex-review.review { color: #fff; background: #f59e0b; border-color: #f59e0b; }
+  .ex-check:hover { color: #fff; background: #22c55e; border-color: #22c55e; }
+  .ex-check.done { color: #fff; background: #22c55e; border-color: #22c55e; }
+  .problem.review { box-shadow: inset 3px 0 0 #f59e0b; }
+  .problem.done { opacity: 0.55; }
+  .problem.done > .problem-head { text-decoration: line-through; text-decoration-color: #a1887f; }
+  @media (max-width: 900px) {
+    nav { position: static; width: 100%; height: auto; }
+    main { margin-left: 0; padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <h2>Signals &amp; Systems</h2>
+  <a href="#ch1">Ch 1: Signals and Systems</a>
+  <a href="#ch2">Ch 2: LTI Systems</a>
+  <a href="#ch3">Ch 3: Fourier Series</a>
+  <a href="#ch4">Ch 4: CT Fourier Transform</a>
+  <a href="#ch5">Ch 5: DT Fourier Transform</a>
+  <a href="#ch6">Ch 6: Time &amp; Freq Characterization</a>
+  <a href="#ch7">Ch 7: Sampling</a>
+  <a href="#ch8">Ch 8: Communication Systems</a>
+  <a href="#ch9">Ch 9: Laplace Transform</a>
+  <a href="#ch10">Ch 10: z-Transform</a>
+  <a href="#others" style="margin-top:10px; border-top:1px dashed #ffcc80; padding-top:10px;">Others (Residual Problems)</a>
+</nav>
+
+<main>
+
+<h1>Signals &amp; Systems &mdash; Oppenheim, Willsky (2nd Edition)</h1>
+<p>Chapters 1&ndash;10: Key Theory &amp; Practice Problems</p>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div class="chapter" id="ch1">
+<h2>Chapter 1: Signals and Systems</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Continuous-Time (CT) Signals:</strong> Defined for every value of time $t$, denoted $x(t)$.</li>
+  <li><strong>Discrete-Time (DT) Signals:</strong> Defined only at integer values of $n$, denoted $x[n]$.</li>
+  <li><strong>Signal Energy and Power:</strong>
+    <div class="eq">$$E_\infty = \int_{-\infty}^{\infty} |x(t)|^2\,dt \quad\text{(CT)}, \qquad E_\infty = \sum_{n=-\infty}^{\infty} |x[n]|^2 \quad\text{(DT)}$$</div>
+    <div class="eq">$$P_\infty = \lim_{T\to\infty} \frac{1}{2T}\int_{-T}^{T} |x(t)|^2\,dt \quad\text{(CT average power)}$$</div>
+  </li>
+  <li><strong>Transformations of Independent Variable:</strong>
+    <ul>
+      <li>Time shift: $x(t - t_0)$ shifts right by $t_0$</li>
+      <li>Time reversal: $x(-t)$ reflects about $t = 0$</li>
+      <li>Time scaling: $x(at)$, compressed if $|a| > 1$, expanded if $|a| < 1$</li>
+    </ul>
+  </li>
+  <li><strong>Periodic Signals:</strong> $x(t) = x(t + T)$ for all $t$. Fundamental period $T_0$ is the smallest positive $T$.</li>
+  <li><strong>Even and Odd Decomposition:</strong>
+    <div class="eq">$$\text{Ev}\{x(t)\} = \tfrac{1}{2}[x(t) + x(-t)], \qquad \text{Od}\{x(t)\} = \tfrac{1}{2}[x(t) - x(-t)]$$</div>
+  </li>
+  <li><strong>Complex Exponential Signals:</strong>
+    <div class="eq" style="background:#e3f2fd;">$$\text{CT: } x(t) = Ce^{st}, \quad s = \sigma + j\omega \qquad\qquad \text{DT: } x[n] = Cz^n, \quad z = re^{j\omega}$$</div>
+    CT complex exponentials with distinct frequencies are always distinct. DT complex exponentials are periodic in frequency with period $2\pi$.
+  </li>
+  <li><strong>Unit Impulse and Unit Step:</strong>
+    <div class="eq">$$\text{DT: } \delta[n] = \begin{cases}1, & n=0\\0, & n\ne 0\end{cases}, \quad u[n] = \begin{cases}1, & n\ge 0\\0, & n < 0\end{cases}, \quad \delta[n] = u[n] - u[n-1]$$</div>
+    <div class="eq">$$\text{CT: } u(t) = \begin{cases}1, & t>0\\0, & t<0\end{cases}, \quad \delta(t) = \frac{du(t)}{dt}, \quad \int_{-\infty}^{\infty}\delta(t)\,dt = 1$$</div>
+  </li>
+  <li><strong>System Properties:</strong>
+    <ul>
+      <li><em>Memoryless:</em> Output depends only on current input</li>
+      <li><em>Invertible:</em> Distinct inputs produce distinct outputs</li>
+      <li style="background:#87ceeb; padding:2px 6px; border-radius:4px;"><em>Causal:</em> Output depends only on present and past inputs</li>
+      <li><em>Stable (BIBO):</em> Bounded input $\Rightarrow$ bounded output</li>
+      <li><em>Time-Invariant:</em> Time shift in input $\Rightarrow$ same time shift in output</li>
+      <li><em>Linear:</em> Superposition: $T\{ax_1 + bx_2\} = aT\{x_1\} + bT\{x_2\}$</li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 1.1: Signal Energy<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="1.1" title="Mark for review">?</span><span class="ex-check" data-num="1.1" title="Mark done">&check;</span></div>
+<p>Compute the total energy of $x(t) = e^{-2t}u(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$E = \int_0^{\infty} |e^{-2t}|^2\,dt = \int_0^{\infty} e^{-4t}\,dt = \left[-\frac{1}{4}e^{-4t}\right]_0^{\infty} = \frac{1}{4}$$</div>
+<details class="solution"><summary class="solution-label">Explanation</summary>
+<p><strong>General definition.</strong> Signal energy is the integral (or sum) of the squared magnitude:</p>
+<div class="eq">$$E = \int_{-\infty}^{\infty} |x(t)|^2\,dt \quad\text{(CT)}, \qquad E = \sum_{n=-\infty}^{\infty} |x[n]|^2 \quad\text{(DT)}$$</div>
+<p>The $|\cdot|^2$ handles complex signals; for real signals it reduces to $x^2$. Classification:</p>
+<ul>
+  <li><strong>Energy signal</strong>: $0 < E < \infty$ (e.g., a pulse or decaying exponential).</li>
+  <li><strong>Power signal</strong>: $E = \infty$ but average power $P = \lim_{T\to\infty}\frac{1}{2T}\int_{-T}^{T}|x(t)|^2 dt$ is finite.</li>
+  <li>A signal is one or the other (or neither), never both.</li>
+</ul>
+<p>By <strong>Parseval's theorem</strong>, energy is preserved between time and frequency domains: $\int |x(t)|^2 dt = \frac{1}{2\pi}\int |X(\omega)|^2 d\omega$.</p>
+
+<p><strong>Apply to $x(t) = e^{-2t}u(t)$.</strong> The unit step $u(t)$ restricts the integral to $t \ge 0$, where $x(t) = e^{-2t}$:</p>
+<div class="eq">$$E = \int_{-\infty}^{\infty} |x(t)|^2\,dt = \int_0^{\infty} \bigl(e^{-2t}\bigr)^2 dt = \int_0^{\infty} e^{-4t}\,dt$$</div>
+<div class="eq">$$= \left[-\frac{1}{4}e^{-4t}\right]_0^{\infty} = 0 - \left(-\frac{1}{4}\right) = \frac{1}{4}$$</div>
+<p>$E = \tfrac{1}{4}$ J &mdash; finite, so $x(t)$ is an <em>energy signal</em>.</p>
+</details>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.2: Time Transformation<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="1.2" title="Mark for review">?</span><span class="ex-check" data-num="1.2" title="Mark done">&check;</span></div>
+<p>Given $x(t)$ defined for $0 \le t \le 2$, sketch $x(2t - 3)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Step 1: Replace $t$ with $t-3$: shift right by 3 &rarr; $x(t-3)$, defined on $[3, 5]$.<br>
+Step 2: Replace $t$ with $2t$: compress by factor 2 &rarr; $x(2t-3)$, defined when $0 \le 2t-3 \le 2$, i.e., $\frac{3}{2} \le t \le \frac{5}{2}$.<br>
+The signal is compressed by 2 and shifted to $[1.5,\; 2.5]$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.3: Even-Odd Decomposition<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="1.3" title="Mark for review">?</span><span class="ex-check" data-num="1.3" title="Mark done">&check;</span></div>
+<p>Decompose $x(t) = e^{t}u(t)$ into even and odd parts.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x_e(t) = \tfrac{1}{2}\bigl[e^{t}u(t) + e^{-t}u(-t)\bigr]$$</div>
+<div class="eq">$$x_o(t) = \tfrac{1}{2}\bigl[e^{t}u(t) - e^{-t}u(-t)\bigr]$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.4: Periodicity of DT Signals<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="1.4" title="Mark for review">?</span><span class="ex-check" data-num="1.4" title="Mark done">&check;</span></div>
+<p>Determine if $x[n] = \cos\!\left(\frac{6\pi n}{7}\right)$ is periodic. If so, find the fundamental period.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>$\omega_0 = \frac{6\pi}{7}$. For periodicity, we need $\omega_0 N = 2\pi m$:</p>
+<div class="eq">$$\frac{6\pi}{7}\,N = 2\pi m \;\Longrightarrow\; N = \frac{7m}{3}$$</div>
+<p>Smallest integer $N$: $m=3 \Rightarrow N=7$. The signal is periodic with fundamental period $N=7$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.5: Periodicity of CT Signals<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="1.5" title="Mark for review">?</span><span class="ex-check" data-num="1.5" title="Mark done">&check;</span></div>
+<p>Is $x(t) = \cos(2t) + \sin(\pi t)$ periodic?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>$T_1 = \frac{2\pi}{2} = \pi$, $\;T_2 = \frac{2\pi}{\pi} = 2$. Ratio $\frac{T_1}{T_2} = \frac{\pi}{2}$ is irrational.<br>
+Since the ratio of periods is irrational, the sum is <strong>not periodic</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.7: Linearity Test<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="1.7" title="Mark for review">?</span><span class="ex-check" data-num="1.7" title="Mark done">&check;</span></div>
+<p>Determine if the system $y(t) = t\cdot x(t)$ is linear.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Let $x_3(t) = ax_1(t)+bx_2(t)$. Then:</p>
+<div class="eq">$$y_3(t) = t\bigl[ax_1(t)+bx_2(t)\bigr] = a\,t\,x_1(t) + b\,t\,x_2(t) = ay_1(t) + by_2(t)$$</div>
+<p>Superposition holds $\Rightarrow$ the system is <strong>linear</strong>.</p>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 1.8: Time Invariance Test<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="1.8" title="Mark for review">?</span><span class="ex-check" data-num="1.8" title="Mark done">&check;</span></div>
+<p>Is the system $y[n] = n\cdot x[n]$ time-invariant?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Shift input: $x_1[n] = x[n-n_0] \Rightarrow y_1[n] = n\,x[n-n_0]$.<br>
+Shift output: $y[n-n_0] = (n-n_0)\,x[n-n_0]$.<br>
+Since $n\,x[n-n_0] \ne (n-n_0)\,x[n-n_0]$, the system is <strong>not time-invariant</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.9: Causality and Stability<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="1.9" title="Mark for review">?</span><span class="ex-check" data-num="1.9" title="Mark done">&check;</span></div>
+<p>Determine if $y(t) = x(t-2)$ is (a) causal, (b) stable.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>(a) Output at time $t$ depends on $x(t-2)$ (past input). The system is <strong>causal</strong>.<br>
+(b) If $|x(t)| \le M$, then $|y(t)| = |x(t-2)| \le M$. The system is <strong>BIBO stable</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.10: Signal Power<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="1.10" title="Mark for review">?</span><span class="ex-check" data-num="1.10" title="Mark done">&check;</span></div>
+<p>Compute the average power of $x(t) = A\cos(\omega_0 t + \phi)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$P = \frac{1}{T}\int_0^{T} A^2\cos^2(\omega_0 t+\phi)\,dt = \frac{A^2}{2}$$</div>
+<p>The average power of a sinusoid is half the square of its amplitude.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.15: System Properties Combined<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="1.15" title="Mark for review">?</span><span class="ex-check" data-num="1.15" title="Mark done">&check;</span></div>
+<p>For $y(t) = \int_{-\infty}^{t} x(\tau)\,d\tau$, determine linearity, time-invariance, causality, and stability.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p><strong>Linear:</strong> Yes &mdash; integration is linear.<br>
+<strong>Time-Invariant:</strong> Yes &mdash; shifting input by $t_0$ shifts output by $t_0$.<br>
+<strong>Causal:</strong> Yes &mdash; integrates from $-\infty$ to present time $t$.<br>
+<strong>Stable:</strong> No &mdash; $x(t)=u(t)$ (bounded) gives $y(t)=t\,u(t)$ (unbounded).</p>
+</details></div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div class="chapter" id="ch2">
+<h2>Chapter 2: Linear Time-Invariant Systems</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Convolution Sum (DT):</strong> Any DT signal: $x[n] = \sum_k x[k]\,\delta[n-k]$. For LTI systems:
+    <div class="eq">$$y[n] = x[n] * h[n] = \sum_{k=-\infty}^{\infty} x[k]\,h[n-k]$$</div>
+  </li>
+  <li><strong>Convolution Integral (CT):</strong>
+    <div class="eq">$$y(t) = x(t) * h(t) = \int_{-\infty}^{\infty} x(\tau)\,h(t-\tau)\,d\tau$$</div>
+  </li>
+  <li><strong>Properties of Convolution:</strong>
+    <ul>
+      <li>Commutative: $x*h = h*x$</li>
+      <li>Distributive: $x*(h_1+h_2) = x*h_1 + x*h_2$</li>
+      <li>Associative: $x*(h_1*h_2) = (x*h_1)*h_2$</li>
+      <li>Identity: $x[n]*\delta[n] = x[n]$</li>
+    </ul>
+  </li>
+  <li><strong>LTI System Properties via $h(t)$ or $h[n]$:</strong>
+    <ul>
+      <li style="background:#87ceeb; padding:2px 6px; border-radius:4px;">Memoryless: $h[n] = K\delta[n]$</li>
+      <li>Causal: $h(t) = 0$ for $t < 0$</li>
+      <li>Stable: $\int_{-\infty}^{\infty}|h(t)|\,dt < \infty$ &nbsp;or&nbsp; $\sum_{n}|h[n]| < \infty$</li>
+    </ul>
+  </li>
+  <li><strong>Linear Constant-Coefficient Differential/Difference Equations:</strong>
+    <div class="eq">$$\text{CT: } \sum_{k=0}^{N} a_k \frac{d^k y}{dt^k} = \sum_{k=0}^{M} b_k \frac{d^k x}{dt^k}$$</div>
+    <div class="eq">$$\text{DT: } \sum_{k=0}^{N} a_k\, y[n-k] = \sum_{k=0}^{M} b_k\, x[n-k]$$</div>
+  </li>
+  <li><strong>Unit Step Response:</strong> $s(t) = \int_{-\infty}^{t} h(\tau)\,d\tau$, &ensp;so&ensp; $h(t) = \dfrac{ds(t)}{dt}$</li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 2.1: DT Convolution<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="2.1" title="Mark for review">?</span><span class="ex-check" data-num="2.1" title="Mark done">&check;</span></div>
+<p>Compute $y[n] = x[n]*h[n]$ where $x[n] = \{1, 2, 1\}$ and $h[n] = \{1, 1, 1\}$ (both starting at $n=0$).</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\begin{aligned}
+y[0] &= 1\cdot1 = 1\\
+y[1] &= 1\cdot1 + 2\cdot1 = 3\\
+y[2] &= 1\cdot1 + 2\cdot1 + 1\cdot1 = 4\\
+y[3] &= 2\cdot1 + 1\cdot1 = 3\\
+y[4] &= 1\cdot1 = 1
+\end{aligned}$$</div>
+<p>$y[n] = \{1, 3, 4, 3, 1\}$ for $n = 0,1,2,3,4$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.2: CT Convolution with Exponentials<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="2.2" title="Mark for review">?</span><span class="ex-check" data-num="2.2" title="Mark done">&check;</span></div>
+<p>Compute $y(t) = e^{-t}u(t) * u(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$y(t) = \int_0^{t} e^{-\tau}\,d\tau = \bigl[-e^{-\tau}\bigr]_0^{t} = 1 - e^{-t}, \quad t \ge 0$$</div>
+<div class="eq">$$y(t) = (1 - e^{-t})\,u(t)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.3: Convolution of Two Exponentials<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="2.3" title="Mark for review">?</span><span class="ex-check" data-num="2.3" title="Mark done">&check;</span></div>
+<p>Compute $y(t) = e^{-at}u(t) * e^{-bt}u(t)$ for $a \ne b$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$y(t) = \int_0^{t} e^{-a\tau}\,e^{-b(t-\tau)}\,d\tau = e^{-bt}\int_0^{t} e^{(b-a)\tau}\,d\tau$$</div>
+<div class="eq">$$\boxed{y(t) = \frac{1}{a-b}\bigl(e^{-bt} - e^{-at}\bigr)\,u(t)}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.4: Stability from Impulse Response<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="2.4" title="Mark for review">?</span><span class="ex-check" data-num="2.4" title="Mark done">&check;</span></div>
+<p>Determine if the system with $h(t) = e^{2t}u(-t)$ is stable.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\int_{-\infty}^{\infty}|h(t)|\,dt = \int_{-\infty}^{0} e^{2t}\,dt = \frac{1}{2} < \infty$$</div>
+<p>The integral converges $\Rightarrow$ <strong>stable</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.5: Causality and Stability Check<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="2.5" title="Mark for review">?</span><span class="ex-check" data-num="2.5" title="Mark done">&check;</span></div>
+<p>Is the system with $h[n] = \left(\frac{1}{3}\right)^n u[n] + \left(\frac{1}{2}\right)^n u[n]$ causal and stable?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p><strong>Causal:</strong> $h[n] = 0$ for $n < 0$ (both terms have $u[n]$) $\Rightarrow$ yes.<br>
+<strong>Stable:</strong></p>
+<div class="eq">$$\sum|h[n]| = \sum_{n=0}^{\infty}\left(\frac{1}{3}\right)^n + \sum_{n=0}^{\infty}\left(\frac{1}{2}\right)^n = \frac{3}{2} + 2 = \frac{7}{2} < \infty \;\Rightarrow\; \text{yes.}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.7: Cascade LTI Systems<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="2.7" title="Mark for review">?</span><span class="ex-check" data-num="2.7" title="Mark done">&check;</span></div>
+<p>Two LTI systems in cascade: $h_1(t) = e^{-t}u(t)$ and $h_2(t) = e^{-2t}u(t)$. Find the overall impulse response.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$h(t) = h_1(t)*h_2(t) = \frac{1}{2-1}\bigl(e^{-t} - e^{-2t}\bigr)u(t) = \bigl(e^{-t} - e^{-2t}\bigr)u(t)$$</div>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 2.8: Difference Equation<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="2.8" title="Mark for review">?</span><span class="ex-check" data-num="2.8" title="Mark done">&check;</span></div>
+<p>Find the impulse response of $y[n] - \tfrac{1}{2}y[n-1] = x[n]$, assuming causality.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>For $x[n] = \delta[n]$ with initial rest:</p>
+<div class="eq">$$y[0] = 1,\quad y[1] = \tfrac{1}{2},\quad y[n] = \left(\frac{1}{2}\right)^n,\; n \ge 0$$</div>
+<div class="eq">$$\boxed{h[n] = \left(\frac{1}{2}\right)^n u[n]}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.10: Step Response<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="2.10" title="Mark for review">?</span><span class="ex-check" data-num="2.10" title="Mark done">&check;</span></div>
+<p>Given $h(t) = e^{-3t}u(t)$, find the unit step response $s(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$s(t) = \int_0^{t} e^{-3\tau}\,d\tau = \frac{1}{3}\bigl(1 - e^{-3t}\bigr)\,u(t)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.12: CT Differential Equation<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="2.12" title="Mark for review">?</span><span class="ex-check" data-num="2.12" title="Mark done">&check;</span></div>
+<p>Find $h(t)$ for $\dfrac{dy}{dt} + 2y(t) = x(t)$, assuming causality.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\boxed{h(t) = e^{-2t}\,u(t)}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.15: Convolution with Delayed Impulse Train<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="2.15" title="Mark for review">?</span><span class="ex-check" data-num="2.15" title="Mark done">&check;</span></div>
+<p>Compute $y[n] = x[n] * \bigl(\delta[n] + \delta[n-2]\bigr)$ where $x[n] = a^n u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$y[n] = x[n] + x[n-2] = a^n u[n] + a^{n-2}u[n-2]$$</div>
+</details></div>
+</div>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<div class="chapter" id="ch3">
+<h2>Chapter 3: Fourier Series Representation of Periodic Signals</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Eigenfunctions of LTI Systems:</strong> If $x(t) = e^{st}$, then $y(t) = H(s)\,e^{st}$. Complex exponentials are eigenfunctions of LTI systems.</li>
+  <li><strong>CT Fourier Series:</strong> For a periodic signal with period $T$, $\omega_0 = 2\pi/T$:
+    <div class="eq">$$x(t) = \sum_{k=-\infty}^{\infty} a_k\, e^{jk\omega_0 t}$$</div>
+    <div class="eq">$$a_k = \frac{1}{T}\int_{T} x(t)\, e^{-jk\omega_0 t}\,dt$$</div>
+  </li>
+  <li><strong>DT Fourier Series:</strong> For period $N$, $\omega_0 = 2\pi/N$:
+    <div class="eq">$$x[n] = \sum_{k=\langle N\rangle} a_k\, e^{jk(2\pi/N)n}, \qquad a_k = \frac{1}{N}\sum_{n=\langle N\rangle} x[n]\, e^{-jk(2\pi/N)n}$$</div>
+  </li>
+  <li><strong>Convergence (Dirichlet Conditions):</strong> Absolutely integrable over one period; finite maxima/minima; finite discontinuities.</li>
+  <li><strong>Parseval's Relation:</strong>
+    <div class="eq">$$\frac{1}{T}\int_T |x(t)|^2\,dt = \sum_{k=-\infty}^{\infty}|a_k|^2 \qquad\text{(CT)}$$</div>
+    <div class="eq">$$\frac{1}{N}\sum_{n=\langle N\rangle}|x[n]|^2 = \sum_{k=\langle N\rangle}|a_k|^2 \qquad\text{(DT)}$$</div>
+  </li>
+  <li><strong>Key Properties:</strong> Linearity; time shift $\to$ phase change $a_k e^{-jk\omega_0 t_0}$; conjugate symmetry for real signals $a_k = a_{-k}^*$; multiplication $\to$ convolution of coefficients.</li>
+  <li><strong>Frequency Response:</strong> For periodic input, output coefficients: $b_k = H(jk\omega_0)\,a_k$.</li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 3.1: CT Fourier Coefficients of Square Wave<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="3.1" title="Mark for review">?</span><span class="ex-check" data-num="3.1" title="Mark done">&check;</span></div>
+<p>Find the Fourier series coefficients of a square wave: $x(t)=1$ for $|t|<T_1$, $0$ for $T_1<|t|<T/2$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$a_k = \frac{1}{T}\int_{-T_1}^{T_1} e^{-jk\omega_0 t}\,dt = \frac{2\sin(k\omega_0 T_1)}{k\omega_0 T}, \qquad a_0 = \frac{2T_1}{T}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.2: Fourier Series of Cosine<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="3.2" title="Mark for review">?</span><span class="ex-check" data-num="3.2" title="Mark done">&check;</span></div>
+<p>Find the Fourier series coefficients of $x(t) = \cos(3t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\cos(3t) = \tfrac{1}{2}e^{j3t} + \tfrac{1}{2}e^{-j3t} \;\Longrightarrow\; a_1 = \tfrac{1}{2},\; a_{-1} = \tfrac{1}{2},\; \text{all others } 0$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.3: DT Fourier Series<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="3.3" title="Mark for review">?</span><span class="ex-check" data-num="3.3" title="Mark done">&check;</span></div>
+<p>Find the Fourier series of $x[n] = \cos(2\pi n/4)$ with period $N=4$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\cos\!\left(\frac{\pi n}{2}\right) = \tfrac{1}{2}e^{j(\pi/2)n} + \tfrac{1}{2}e^{-j(\pi/2)n}$$</div>
+<p>$a_1 = \frac{1}{2}$, $a_3 = a_{-1} = \frac{1}{2}$ (since period 4), $a_0 = a_2 = 0$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.4: Parseval's Theorem Application<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="3.4" title="Mark for review">?</span><span class="ex-check" data-num="3.4" title="Mark done">&check;</span></div>
+<p>Given the square wave from 3.1 with $T_1 = T/4$, compute $\sum|a_k|^2$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\sum_{k=-\infty}^{\infty}|a_k|^2 = \frac{1}{T}\int_T |x(t)|^2\,dt = \frac{1}{T}\cdot 2T_1 = \frac{2T_1}{T} = \frac{1}{2}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.5: Time Shift Effect<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="3.5" title="Mark for review">?</span><span class="ex-check" data-num="3.5" title="Mark done">&check;</span></div>
+<p>If $x(t)$ has coefficients $a_k$, find the coefficients of $y(t) = x(t - t_0)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$b_k = a_k\, e^{-jk\omega_0 t_0}$$</div>
+<p>Magnitudes $|b_k| = |a_k|$ are unchanged; only phase shifts.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.7: RC Lowpass Filter on Square Wave<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="3.7" title="Mark for review">?</span><span class="ex-check" data-num="3.7" title="Mark done">&check;</span></div>
+<p>For $H(j\omega) = \frac{1}{1+j\omega RC}$, find the output Fourier coefficients for a square wave input with $a_k = \frac{\sin(k\pi/2)}{k\pi}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$b_k = H(jk\omega_0)\,a_k = \frac{1}{1+jk\omega_0 RC}\cdot\frac{\sin(k\pi/2)}{k\pi}$$</div>
+<p>Higher harmonics are attenuated by the lowpass filter.</p>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 3.8: DT Impulse Train<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="3.8" title="Mark for review">?</span><span class="ex-check" data-num="3.8" title="Mark done">&check;</span></div>
+<p>Find the Fourier series of $x[n] = \sum_r \delta[n-rN]$ (periodic impulse train, period $N$).</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$a_k = \frac{1}{N}\sum_{n=0}^{N-1}\delta[n]\,e^{-jk(2\pi/N)n} = \frac{1}{N} \quad \text{for all } k$$</div>
+<p>All harmonics have equal amplitude $1/N$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.10: Sawtooth Wave<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="3.10" title="Mark for review">?</span><span class="ex-check" data-num="3.10" title="Mark done">&check;</span></div>
+<p>Find the Fourier series of $x(t) = t/T$ for $-T/2 < t < T/2$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$a_0 = 0 \quad\text{(odd function)}$$</div>
+<div class="eq">$$a_k = \frac{j(-1)^{k+1}}{2\pi k}, \quad k \ne 0$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.11: DT Rectangular Pulse<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="3.11" title="Mark for review">?</span><span class="ex-check" data-num="3.11" title="Mark done">&check;</span></div>
+<p>Find the DT Fourier series for $x[n]$ periodic with $N=5$: $x[n]=1$ for $n=0,1,2$ and $x[n]=0$ for $n=3,4$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$a_k = \frac{1}{5}\sum_{n=0}^{2} e^{-jk(2\pi/5)n} = \frac{1}{5}\cdot\frac{\sin(3\pi k/5)}{\sin(\pi k/5)}\,e^{-j2\pi k/5}, \qquad a_0 = \frac{3}{5}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.12: Frequency Shaping (Differentiator)<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="3.12" title="Mark for review">?</span><span class="ex-check" data-num="3.12" title="Mark done">&check;</span></div>
+<p>A system has $H(j\omega) = j\omega$. If input has coefficients $a_k$, find output coefficients.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$b_k = H(jk\omega_0)\,a_k = jk\omega_0\, a_k$$</div>
+<p>This differentiator amplifies higher harmonics linearly with frequency.</p>
+</details></div>
+
+</div>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<div class="chapter" id="ch4">
+<h2>Chapter 4: The Continuous-Time Fourier Transform</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Fourier Transform Pair:</strong>
+    <div class="eq">$$X(j\omega) = \int_{-\infty}^{\infty} x(t)\, e^{-j\omega t}\,dt \qquad\text{(Analysis)}$$</div>
+    <div class="eq">$$x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} X(j\omega)\, e^{j\omega t}\,d\omega \qquad\text{(Synthesis)}$$</div>
+  </li>
+  <li><strong>FT of Periodic Signals:</strong>
+    <div class="eq">$$x(t) = \sum_k a_k e^{jk\omega_0 t} \;\Longrightarrow\; X(j\omega) = 2\pi\sum_k a_k\,\delta(\omega - k\omega_0)$$</div>
+  </li>
+  <li><strong>Key Transform Pairs:</strong>
+    <div class="eq">$$e^{-at}u(t) \longleftrightarrow \frac{1}{a+j\omega},\; a>0 \qquad \delta(t) \longleftrightarrow 1 \qquad 1 \longleftrightarrow 2\pi\delta(\omega)$$</div>
+  </li>
+  <li><strong>Properties:</strong>
+    <ul>
+      <li>Time shift: $x(t-t_0) \longleftrightarrow e^{-j\omega t_0}X(j\omega)$</li>
+      <li>Frequency shift: $e^{j\omega_0 t}x(t) \longleftrightarrow X(j(\omega-\omega_0))$</li>
+      <li>Differentiation: $\frac{dx}{dt} \longleftrightarrow j\omega\, X(j\omega)$</li>
+      <li>Convolution: $x*h \longleftrightarrow X\cdot H$</li>
+      <li>Multiplication: $x\cdot h \longleftrightarrow \frac{1}{2\pi}X*H$</li>
+      <li>Scaling: $x(at) \longleftrightarrow \frac{1}{|a|}X\!\left(\frac{j\omega}{a}\right)$</li>
+      <li>Parseval: $\int|x(t)|^2 dt = \frac{1}{2\pi}\int|X(j\omega)|^2 d\omega$</li>
+      <li>Duality: $X(jt) \longleftrightarrow 2\pi\, x(-\omega)$</li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 4.1: FT of Decaying Exponential<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="4.1" title="Mark for review">?</span><span class="ex-check" data-num="4.1" title="Mark done">&check;</span></div>
+<p>Find $X(j\omega)$ for $x(t) = e^{-3t}u(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(j\omega) = \int_0^{\infty} e^{-3t}e^{-j\omega t}\,dt = \int_0^{\infty}e^{-(3+j\omega)t}\,dt = \frac{1}{3+j\omega}$$</div>
+<div class="eq">$$|X(j\omega)| = \frac{1}{\sqrt{9+\omega^2}}, \qquad \angle X(j\omega) = -\arctan\!\left(\frac{\omega}{3}\right)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.2: FT of Two-Sided Exponential<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="4.2" title="Mark for review">?</span><span class="ex-check" data-num="4.2" title="Mark done">&check;</span></div>
+<p>Find $X(j\omega)$ for $x(t) = e^{-|t|}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(j\omega) = \int_{-\infty}^{0} e^{t} e^{-j\omega t}\,dt + \int_0^{\infty} e^{-t}e^{-j\omega t}\,dt = \frac{1}{1-j\omega} + \frac{1}{1+j\omega} = \frac{2}{1+\omega^2}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.3: Inverse FT<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="4.3" title="Mark for review">?</span><span class="ex-check" data-num="4.3" title="Mark done">&check;</span></div>
+<p>Find $x(t)$ given $X(j\omega) = 2\pi\delta(\omega) + \pi\delta(\omega-4) + \pi\delta(\omega+4)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x(t) = \frac{1}{2\pi}\bigl[2\pi + \pi e^{j4t} + \pi e^{-j4t}\bigr] = 1 + \cos(4t)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.4: Convolution Property<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="4.4" title="Mark for review">?</span><span class="ex-check" data-num="4.4" title="Mark done">&check;</span></div>
+<p>Find $y(t) = e^{-2t}u(t) * e^{-3t}u(t)$ using Fourier transforms.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(j\omega) = \frac{1}{(2+j\omega)(3+j\omega)} = \frac{1}{2+j\omega} - \frac{1}{3+j\omega}$$</div>
+<div class="eq">$$\boxed{y(t) = \bigl(e^{-2t} - e^{-3t}\bigr)\,u(t)}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.6: Differentiation Property<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="4.6" title="Mark for review">?</span><span class="ex-check" data-num="4.6" title="Mark done">&check;</span></div>
+<p>Find the FT of $y(t) = \frac{dx}{dt}$ where $x(t) = e^{-t}u(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(j\omega) = j\omega\cdot X(j\omega) = \frac{j\omega}{1+j\omega}$$</div>
+<p>Note: $y(t) = \delta(t) - e^{-t}u(t)$, consistent with $\mathcal{F}\{\delta\}=1$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.7: Parseval's Theorem<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="4.7" title="Mark for review">?</span><span class="ex-check" data-num="4.7" title="Mark done">&check;</span></div>
+<p>Compute $\int_{-\infty}^{\infty}|X(j\omega)|^2\,d\omega$ where $X(j\omega) = \frac{1}{1+j\omega}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\int_{-\infty}^{\infty}|x(t)|^2\,dt = \int_0^{\infty} e^{-2t}\,dt = \frac{1}{2}$$</div>
+<div class="eq">$$\frac{1}{2\pi}\int|X(j\omega)|^2\,d\omega = \frac{1}{2} \;\Longrightarrow\; \boxed{\int|X(j\omega)|^2\,d\omega = \pi}$$</div>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 4.9: Rectangular Pulse<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="4.9" title="Mark for review">?</span><span class="ex-check" data-num="4.9" title="Mark done">&check;</span></div>
+<p>Find the FT of $x(t) = 1$ for $|t| \le T$, $0$ otherwise.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(j\omega) = \int_{-T}^{T} e^{-j\omega t}\,dt = \frac{2\sin(\omega T)}{\omega}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.10: Frequency Shift (Modulation)<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="4.10" title="Mark for review">?</span><span class="ex-check" data-num="4.10" title="Mark done">&check;</span></div>
+<p>Find the FT of $y(t) = x(t)\cos(\omega_c t)$ in terms of $X(j\omega)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(j\omega) = \frac{1}{2}X(j(\omega-\omega_c)) + \frac{1}{2}X(j(\omega+\omega_c))$$</div>
+<p>Multiplying by $\cos$ shifts the spectrum to $\pm\omega_c$ (amplitude modulation).</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.11: System Output via FT<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="4.11" title="Mark for review">?</span><span class="ex-check" data-num="4.11" title="Mark done">&check;</span></div>
+<p>$H(j\omega) = \frac{1}{2+j\omega}$, input $x(t) = e^{-t}u(t)$. Find $y(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(j\omega) = \frac{1}{(1+j\omega)(2+j\omega)} = \frac{1}{1+j\omega} - \frac{1}{2+j\omega}$$</div>
+<div class="eq">$$y(t) = \bigl(e^{-t} - e^{-2t}\bigr)\,u(t)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.15: FT of Impulse Train<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="4.15" title="Mark for review">?</span><span class="ex-check" data-num="4.15" title="Mark done">&check;</span></div>
+<p>Find the FT of $x(t) = \sum_{n=-\infty}^{\infty}\delta(t - nT)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(j\omega) = \frac{2\pi}{T}\sum_{k=-\infty}^{\infty}\delta\!\left(\omega - \frac{2\pi k}{T}\right) = \omega_s\sum_{k=-\infty}^{\infty}\delta(\omega - k\omega_s)$$</div>
+<p>The FT of an impulse train with period $T$ is an impulse train with period $\omega_s = 2\pi/T$.</p>
+</details></div>
+</div>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+<div class="chapter" id="ch5">
+<h2>Chapter 5: The Discrete-Time Fourier Transform</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>DTFT Pair:</strong>
+    <div class="eq">$$X(e^{j\omega}) = \sum_{n=-\infty}^{\infty} x[n]\, e^{-j\omega n} \qquad\text{(Analysis)}$$</div>
+    <div class="eq">$$x[n] = \frac{1}{2\pi}\int_{2\pi} X(e^{j\omega})\, e^{j\omega n}\,d\omega \qquad\text{(Synthesis)}$$</div>
+  </li>
+  <li><strong>Key property:</strong> $X(e^{j\omega})$ is always periodic in $\omega$ with period $2\pi$.</li>
+  <li><strong>Common Pairs:</strong>
+    <div class="eq">$$a^n u[n] \;\longleftrightarrow\; \frac{1}{1-ae^{-j\omega}}, \quad |a|<1 \qquad\qquad \delta[n] \;\longleftrightarrow\; 1$$</div>
+  </li>
+  <li><strong>Properties:</strong>
+    <ul>
+      <li>Time shift: $x[n-n_0] \longleftrightarrow e^{-j\omega n_0}X(e^{j\omega})$</li>
+      <li>Frequency shift: $e^{j\omega_0 n}x[n] \longleftrightarrow X(e^{j(\omega-\omega_0)})$</li>
+      <li>Convolution: $x*h \longleftrightarrow X\cdot H$</li>
+      <li>Differencing: $x[n]-x[n-1] \longleftrightarrow (1-e^{-j\omega})X(e^{j\omega})$</li>
+      <li>Time expansion: $x_{(k)}[n] \longleftrightarrow X(e^{jk\omega})$</li>
+      <li>Parseval: $\sum|x[n]|^2 = \frac{1}{2\pi}\int_{2\pi}|X(e^{j\omega})|^2\,d\omega$</li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 5.1: DTFT of Geometric Sequence<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="5.1" title="Mark for review">?</span><span class="ex-check" data-num="5.1" title="Mark done">&check;</span></div>
+<p>Find $X(e^{j\omega})$ for $x[n] = (0.5)^n u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(e^{j\omega}) = \sum_{n=0}^{\infty}(0.5\,e^{-j\omega})^n = \frac{1}{1 - 0.5\,e^{-j\omega}}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.2: DTFT of Finite-Length Sequence<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="5.2" title="Mark for review">?</span><span class="ex-check" data-num="5.2" title="Mark done">&check;</span></div>
+<p>Find $X(e^{j\omega})$ for $x[n] = 1$ for $0 \le n \le 4$, else $0$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(e^{j\omega}) = \sum_{n=0}^{4} e^{-j\omega n} = \frac{1 - e^{-j5\omega}}{1 - e^{-j\omega}} = e^{-j2\omega}\,\frac{\sin(5\omega/2)}{\sin(\omega/2)}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.3: Inverse DTFT<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="5.3" title="Mark for review">?</span><span class="ex-check" data-num="5.3" title="Mark done">&check;</span></div>
+<p>Find $x[n]$ if $X(e^{j\omega}) = 1$ for $|\omega| \le W$, $0$ for $W < |\omega| \le \pi$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x[n] = \frac{1}{2\pi}\int_{-W}^{W} e^{j\omega n}\,d\omega = \frac{\sin(Wn)}{\pi n}$$</div>
+<p>This is the inverse DTFT of an ideal lowpass filter.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.4: Convolution via DTFT<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="5.4" title="Mark for review">?</span><span class="ex-check" data-num="5.4" title="Mark done">&check;</span></div>
+<p>Find $y[n] = (0.5)^n u[n] * (0.25)^n u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(e^{j\omega}) = \frac{1}{(1-0.5e^{-j\omega})(1-0.25e^{-j\omega})} = \frac{2}{1-0.5e^{-j\omega}} - \frac{1}{1-0.25e^{-j\omega}}$$</div>
+<div class="eq">$$\boxed{y[n] = \bigl[2(0.5)^n - (0.25)^n\bigr]\,u[n]}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.5: Time Shift Property<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="5.5" title="Mark for review">?</span><span class="ex-check" data-num="5.5" title="Mark done">&check;</span></div>
+<p>If $X(e^{j\omega}) = \frac{1}{1-0.5e^{-j\omega}}$, find the DTFT of $x[n-3]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\mathcal{F}\{x[n-3]\} = e^{-j3\omega}\,X(e^{j\omega}) = \frac{e^{-j3\omega}}{1-0.5e^{-j\omega}}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.6: Parseval's for DT<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="5.6" title="Mark for review">?</span><span class="ex-check" data-num="5.6" title="Mark done">&check;</span></div>
+<p>Find $\sum_{n=-\infty}^{\infty}|(0.8)^n u[n]|^2$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\sum_{n=0}^{\infty}(0.64)^n = \frac{1}{1-0.64} = \frac{25}{9}$$</div>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 5.8: Two-Sided Exponential<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="5.8" title="Mark for review">?</span><span class="ex-check" data-num="5.8" title="Mark done">&check;</span></div>
+<p>Find the DTFT of $x[n] = a^{|n|}$ for $|a|<1$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(e^{j\omega}) = \frac{1}{1-ae^{j\omega}} - 1 + \frac{1}{1-ae^{-j\omega}} = \frac{1-a^2}{1-2a\cos\omega+a^2}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.9: Difference Equation Frequency Response<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="5.9" title="Mark for review">?</span><span class="ex-check" data-num="5.9" title="Mark done">&check;</span></div>
+<p>Find $H(e^{j\omega})$ for $y[n] - 0.5y[n-1] = x[n] + x[n-1]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(e^{j\omega}) = \frac{1+e^{-j\omega}}{1-0.5e^{-j\omega}}$$</div>
+<p>$|H(e^{j0})| = 2/0.5 = 4$, $|H(e^{j\pi})| = 0/1.5 = 0$ $\Rightarrow$ lowpass filter.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.11: DTFT of Unit Step<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="5.11" title="Mark for review">?</span><span class="ex-check" data-num="5.11" title="Mark done">&check;</span></div>
+<p>Find the DTFT of $u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$U(e^{j\omega}) = \frac{1}{1-e^{-j\omega}} + \pi\sum_{k=-\infty}^{\infty}\delta(\omega - 2\pi k)$$</div>
+<p>Includes an impulse at $\omega=0$ since $u[n]$ is not absolutely summable.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.12: Accumulator Frequency Response<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="5.12" title="Mark for review">?</span><span class="ex-check" data-num="5.12" title="Mark done">&check;</span></div>
+<p>$y[n] = \sum_{k=-\infty}^{n} x[k]$. Find $H(e^{j\omega})$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(e^{j\omega}) = \frac{1}{1-e^{-j\omega}} + \pi\,\delta(\omega)$$</div>
+<p>The DT analogue of integration.</p>
+</details></div>
+
+</div>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+<div class="chapter" id="ch6">
+<h2>Chapter 6: Time and Frequency Characterization of Signals and Systems</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Magnitude-Phase:</strong> $H(j\omega) = |H(j\omega)|\,e^{j\angle H(j\omega)}$. Output: $|Y|=|H||X|$, $\angle Y = \angle H + \angle X$.</li>
+  <li><strong>Linear Phase:</strong> $H(j\omega) = |H(j\omega)|\,e^{-j\omega t_d}$ means pure delay $t_d$ with no distortion.</li>
+  <li><strong>Group Delay:</strong>
+    <div class="eq">$$\tau(\omega) = -\frac{d\,\angle H(j\omega)}{d\omega}$$</div>
+  </li>
+  <li><strong>Bode Plots:</strong> $20\log_{10}|H(j\omega)|$ in dB vs $\log\omega$.
+    <ul>
+      <li>First-order pole at $-a$: $-20$ dB/decade above $\omega=a$</li>
+      <li>First-order zero at $-a$: $+20$ dB/decade above $\omega=a$</li>
+    </ul>
+  </li>
+  <li><strong>Ideal Filters:</strong> Impulse response is sinc (non-causal). Sharp cutoff $\Leftrightarrow$ infinite time response.</li>
+  <li><strong>Second-Order System:</strong>
+    <div class="eq">$$H(j\omega) = \frac{\omega_n^2}{\omega_n^2 - \omega^2 + 2j\zeta\omega_n\omega}$$</div>
+  </li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 6.1: Bode Plot<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="6.1" title="Mark for review">?</span><span class="ex-check" data-num="6.1" title="Mark done">&check;</span></div>
+<p>Sketch the Bode magnitude plot for $H(j\omega) = \dfrac{10(j\omega+1)}{(j\omega+10)(j\omega+100)}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>DC gain: $H(0) = \frac{10}{1000} = 0.01 = -40$ dB.<br>
+Zero at $\omega=1$: $+20$ dB/dec. Pole at $\omega=10$: net flat. Pole at $\omega=100$: $-20$ dB/dec.<br>
+Flat at $-40$dB until $\omega=1$, rises to $-20$dB at $\omega=10$, flat to $\omega=100$, then $-20$dB/dec.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.3: Ideal Lowpass Impulse Response<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="6.3" title="Mark for review">?</span><span class="ex-check" data-num="6.3" title="Mark done">&check;</span></div>
+<p>Find $h(t)$ for an ideal lowpass filter with cutoff $\omega_c$ and unit gain.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$h(t) = \frac{1}{2\pi}\int_{-\omega_c}^{\omega_c} e^{j\omega t}\,d\omega = \frac{\sin(\omega_c t)}{\pi t}$$</div>
+<p>Non-causal ($h(t)\ne 0$ for $t<0$), so ideal filters are not realizable.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.4: First-Order RC Cutoff<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="6.4" title="Mark for review">?</span><span class="ex-check" data-num="6.4" title="Mark done">&check;</span></div>
+<p>RC filter: $R=1\,\text{k}\Omega$, $C=1\,\mu\text{F}$. Find the 3dB cutoff.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\omega_c = \frac{1}{RC} = \frac{1}{10^3\cdot 10^{-6}} = 1000\;\text{rad/s}, \qquad f_c = \frac{\omega_c}{2\pi} \approx 159.2\;\text{Hz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.5: Second-Order Resonance<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="6.5" title="Mark for review">?</span><span class="ex-check" data-num="6.5" title="Mark done">&check;</span></div>
+<p>$\omega_n = 10$, $\zeta = 0.1$. Find resonant frequency and peak gain.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\omega_r = \omega_n\sqrt{1-2\zeta^2} = 10\sqrt{0.98} \approx 9.9\;\text{rad/s}$$</div>
+<div class="eq">$$|H|_{\max} = \frac{1}{2\zeta\sqrt{1-\zeta^2}} \approx 5.025 = 14.0\;\text{dB}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.6: Linear Phase = No Distortion<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="6.6" title="Mark for review">?</span><span class="ex-check" data-num="6.6" title="Mark done">&check;</span></div>
+<p>Show that $\angle H(j\omega) = -\alpha\omega$ with $|H|=K$ introduces no distortion.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(j\omega) = Ke^{-j\alpha\omega} \;\Longrightarrow\; Y(j\omega) = Ke^{-j\alpha\omega}X(j\omega) \;\Longrightarrow\; y(t) = K\,x(t-\alpha)$$</div>
+<p>Scaled, delayed copy of input &mdash; no distortion.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.7: DT First-Order System<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="6.7" title="Mark for review">?</span><span class="ex-check" data-num="6.7" title="Mark done">&check;</span></div>
+<p>Classify $H(e^{j\omega}) = \frac{1}{1-0.9e^{-j\omega}}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$|H(e^{j0})| = \frac{1}{0.1} = 10, \qquad |H(e^{j\pi})| = \frac{1}{1.9} \approx 0.53$$</div>
+<p><strong>Lowpass filter</strong> with gain concentrated near $\omega=0$.</p>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 6.8: Allpass Filter<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="6.8" title="Mark for review">?</span><span class="ex-check" data-num="6.8" title="Mark done">&check;</span></div>
+<p>Show $|H(j\omega)| = 1$ for $H(j\omega) = \frac{j\omega - a}{j\omega + a}$, $a>0$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$|H(j\omega)|^2 = \frac{(j\omega-a)(-j\omega-a)}{(j\omega+a)(-j\omega+a)} = \frac{\omega^2+a^2}{\omega^2+a^2} = 1$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.10: Moving Average Filter<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="6.10" title="Mark for review">?</span><span class="ex-check" data-num="6.10" title="Mark done">&check;</span></div>
+<p>$y[n] = \frac{1}{M}\sum_{k=0}^{M-1} x[n-k]$ with $M=4$. Find $H(e^{j\omega})$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(e^{j\omega}) = \frac{1}{4}\sum_{k=0}^{3}e^{-jk\omega} = \frac{1}{4}\,e^{-j3\omega/2}\,\frac{\sin(2\omega)}{\sin(\omega/2)}$$</div>
+<p>Lowpass filter with nulls at $\omega = \pi/2,\;\pi,\; 3\pi/2$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.13: Filter Tradeoffs<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="6.13" title="Mark for review">?</span><span class="ex-check" data-num="6.13" title="Mark done">&check;</span></div>
+<p>Explain the tradeoff between transition bandwidth and time-domain ringing.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Sharper transition band $\Rightarrow$ longer impulse response $\Rightarrow$ more ringing. Shorter impulse response $\Rightarrow$ wider transition band. This is the time-frequency uncertainty principle.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.15: Rise Time vs Bandwidth<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="6.15" title="Mark for review">?</span><span class="ex-check" data-num="6.15" title="Mark done">&check;</span></div>
+<p>First-order system $H(j\omega) = \frac{1}{1+j\omega/\omega_c}$. Relate rise time to bandwidth.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$s(t) = (1-e^{-\omega_c t})\,u(t), \qquad t_r \approx \frac{2.2}{\omega_c}$$</div>
+<div class="eq">$$t_r \cdot \text{BW} \approx 2.2 = \text{const.} \quad\Rightarrow\quad \text{wider BW} = \text{faster rise}$$</div>
+</details></div>
+</div>
+
+<!-- ==================== CHAPTER 7 ==================== -->
+<div class="chapter" id="ch7">
+<h2>Chapter 7: Sampling</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Sampling Theorem (Nyquist):</strong> A bandlimited signal with $X(j\omega)=0$ for $|\omega|>\omega_M$ is uniquely determined by its samples if:
+    <div class="eq">$$\omega_s = \frac{2\pi}{T} \ge 2\omega_M \qquad\text{(Nyquist rate)}$$</div>
+  </li>
+  <li><strong>Impulse-Train Sampling:</strong>
+    <div class="eq">$$X_s(j\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(j(\omega - k\omega_s))$$</div>
+    Spectrum replicates at multiples of $\omega_s$.
+  </li>
+  <li><strong>Reconstruction:</strong> Ideal lowpass with cutoff $\omega_s/2$, gain $T$:
+    <div class="eq">$$x(t) = \sum_{n=-\infty}^{\infty} x(nT)\,\frac{\sin\bigl(\omega_c(t-nT)\bigr)}{\omega_c(t-nT)/\pi}$$</div>
+  </li>
+  <li><strong>Aliasing:</strong> If $\omega_s < 2\omega_M$, spectral copies overlap &mdash; irreversible distortion.</li>
+  <li><strong>Zero-Order Hold:</strong>
+    <div class="eq">$$H_0(j\omega) = T\,e^{-j\omega T/2}\,\frac{\sin(\omega T/2)}{\omega T/2}$$</div>
+  </li>
+  <li><strong>DT Processing of CT Signals:</strong> $H_{\text{eff}}(j\omega) = H(e^{j\omega T})$ for $|\omega|<\pi/T$.</li>
+  <li><strong>Decimation/Interpolation:</strong> Downsampling by $M$, upsampling by $L$.</li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 7.1: Nyquist Rate<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="7.1" title="Mark for review">?</span><span class="ex-check" data-num="7.1" title="Mark done">&check;</span></div>
+<p>Find the Nyquist rate for $x(t) = 3\cos(50\pi t) + 10\sin(300\pi t) - \cos(100\pi t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\omega_M = 300\pi\;\text{rad/s} \quad(f_M = 150\;\text{Hz})$$</div>
+<div class="eq">$$\boxed{\text{Nyquist rate} = 2f_M = 300\;\text{Hz}}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.2: Sampling a Sinusoid<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="7.2" title="Mark for review">?</span><span class="ex-check" data-num="7.2" title="Mark done">&check;</span></div>
+<p>$x(t) = \cos(2\pi\cdot 100\,t)$ sampled at $f_s = 250$ Hz. Reconstructed frequency?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>$f = 100 < f_s/2 = 125$ Hz $\Rightarrow$ no aliasing. Reconstructed signal: $\cos(2\pi\cdot 100\,t)$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.3: Aliasing<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="7.3" title="Mark for review">?</span><span class="ex-check" data-num="7.3" title="Mark done">&check;</span></div>
+<p>$x(t) = \cos(2\pi\cdot 300\,t)$ sampled at $f_s = 500$ Hz. What frequency appears?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$f = 300 > f_s/2 = 250 \;\Rightarrow\; f_{\text{alias}} = |f - f_s| = 200\;\text{Hz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.4: Maximum Sampling Interval<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="7.4" title="Mark for review">?</span><span class="ex-check" data-num="7.4" title="Mark done">&check;</span></div>
+<p>$X(j\omega) = 0$ for $|\omega| > 1000\pi$. Maximum $T$?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$T \le \frac{\pi}{\omega_M} = \frac{\pi}{1000\pi} = 1\;\text{ms}, \qquad f_s \ge 1000\;\text{Hz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.5: Reconstruction Formula<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="7.5" title="Mark for review">?</span><span class="ex-check" data-num="7.5" title="Mark done">&check;</span></div>
+<p>Samples: $x[0]=1,\;x[1]=0,\;x[2]=-1,\;x[3]=0$ with $T=1$, ideal lowpass at $\omega_c=\pi$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x(t) = \sum_n x[n]\,\frac{\sin(\pi(t-n))}{\pi(t-n)} = \text{sinc}(\pi t) - \text{sinc}(\pi(t-2))$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.6: Zero-Order Hold Effect<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="7.6" title="Mark for review">?</span><span class="ex-check" data-num="7.6" title="Mark done">&check;</span></div>
+<p>Describe the frequency response of a ZOH and its effect.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H_0(j\omega) = T\,e^{-j\omega T/2}\,\operatorname{sinc}\!\left(\frac{\omega T}{2\pi}\right)$$</div>
+<p>Sinc-shaped magnitude causes droop at higher frequencies; introduces delay $T/2$.</p>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 7.7: DT-to-CT Frequency Mapping<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="7.7" title="Mark for review">?</span><span class="ex-check" data-num="7.7" title="Mark done">&check;</span></div>
+<p>CT signal ($\omega_M=2000\pi$) sampled at $\omega_s=8000\pi$. What CT frequency does $|\omega|\le\pi/4$ correspond to?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\omega_{\text{CT}} = \frac{\omega_{\text{DT}}}{T} = \omega_{\text{DT}}\cdot\frac{f_s}{1} \;\Rightarrow\; \frac{\pi/4}{2\pi}\cdot 8000\pi = 1000\pi\;\text{rad/s}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.8: Anti-Aliasing Filter<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="7.8" title="Mark for review">?</span><span class="ex-check" data-num="7.8" title="Mark done">&check;</span></div>
+<p>Signal up to 5 kHz, sampling at 8 kHz. Design anti-aliasing filter.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Nyquist: $f_s/2 = 4$ kHz $<$ 5 kHz $\Rightarrow$ aliasing. Need lowpass with cutoff $\le 4$ kHz to remove 4&ndash;5 kHz content before sampling.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.9: Decimation<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="7.9" title="Mark for review">?</span><span class="ex-check" data-num="7.9" title="Mark done">&check;</span></div>
+<p>$X(e^{j\omega}) = 0$ for $\pi/3 < |\omega| \le \pi$. Downsample by 3: $y[n] = x[3n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(e^{j\omega}) = \frac{1}{3}\sum_{k=0}^{2} X\!\left(e^{j(\omega-2\pi k)/3}\right)$$</div>
+<p>Since $X$ is bandlimited to $|\omega|<\pi/3$, no overlap: $Y(e^{j\omega}) = \frac{1}{3}X(e^{j\omega/3})$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.10: Interpolation by $L=2$<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="7.10" title="Mark for review">?</span><span class="ex-check" data-num="7.10" title="Mark done">&check;</span></div>
+<p>Describe DT interpolation by factor 2.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Insert one zero between samples, then lowpass filter with cutoff $\pi/2$ and gain 2:</p>
+<div class="eq">$$X_e(e^{j\omega}) = X(e^{j2\omega}) \quad\xrightarrow{\;\text{LPF}\;}\quad Y(e^{j\omega})$$</div>
+</details></div>
+
+</div>
+
+<!-- ==================== CHAPTER 8 ==================== -->
+<div class="chapter" id="ch8">
+<h2>Chapter 8: Communication Systems</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Amplitude Modulation:</strong>
+    <div class="eq">$$y(t) = x(t)\cos(\omega_c t) \;\Longrightarrow\; Y(j\omega) = \tfrac{1}{2}X(j(\omega-\omega_c)) + \tfrac{1}{2}X(j(\omega+\omega_c))$$</div>
+  </li>
+  <li><strong>Synchronous Demodulation:</strong>
+    <div class="eq">$$y(t)\cos(\omega_c t) = \tfrac{1}{2}x(t) + \tfrac{1}{2}x(t)\cos(2\omega_c t) \;\xrightarrow{\;\text{LPF}\;}\; \tfrac{1}{2}x(t)$$</div>
+  </li>
+  <li><strong>Asynchronous (Envelope) Detection:</strong> $y(t) = [A+x(t)]\cos(\omega_c t)$. Works when $A+x(t)>0$.</li>
+  <li><strong>FDM:</strong> Signals modulated to different carriers share one channel.</li>
+  <li><strong>SSB:</strong> Transmit one sideband only &mdash; saves half the bandwidth.</li>
+  <li><strong>FM:</strong> $\omega_i(t) = \omega_c + k_f x(t)$. More bandwidth but better noise immunity than AM.</li>
+  <li><strong>Carson's Rule:</strong> $\text{BW} \approx 2(\Delta f + f_m)$.</li>
+  <li><strong>TDM:</strong> Signals interleaved in time.</li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 8.1: AM Bandwidth<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="8.1" title="Mark for review">?</span><span class="ex-check" data-num="8.1" title="Mark done">&check;</span></div>
+<p>$x(t)$ has bandwidth $W=5$ kHz. Bandwidth of $y(t) = x(t)\cos(2\pi\cdot 100\text{k}\cdot t)$?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\text{BW} = 2W = 10\;\text{kHz}$$</div>
+<p>Spectrum at $[95, 105]$ kHz $\cup$ $[-105, -95]$ kHz.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.2: Synchronous Demodulation<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="8.2" title="Mark for review">?</span><span class="ex-check" data-num="8.2" title="Mark done">&check;</span></div>
+<p>$y(t) = x(t)\cos(100t)$ demodulated by $\cos(100t)$ then lowpass. Output if BW of $x$ is 10 rad/s?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$w(t) = x(t)\cos^2(100t) = \tfrac{1}{2}x(t) + \tfrac{1}{2}x(t)\cos(200t) \;\xrightarrow{\;\text{LPF}\;}\; \frac{x(t)}{2}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.3: Phase Error in Demodulation<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="8.3" title="Mark for review">?</span><span class="ex-check" data-num="8.3" title="Mark done">&check;</span></div>
+<p>Demodulating carrier has phase error $\phi$. Output?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x(t)\cos(\omega_c t)\cdot\cos(\omega_c t+\phi) \;\xrightarrow{\;\text{LPF}\;}\; \frac{1}{2}x(t)\cos\phi$$</div>
+<p>Attenuation by $\cos\phi$. At $\phi=90°$, output is zero.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.4: FDM Design<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="8.4" title="Mark for review">?</span><span class="ex-check" data-num="8.4" title="Mark done">&check;</span></div>
+<p>Three 4 kHz signals, 1 kHz guard bands.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\begin{aligned}
+\text{Signal 1:}&\quad f_c = 4\;\text{kHz} \;\to\; [0,\;8]\;\text{kHz}\\
+\text{Signal 2:}&\quad f_c = 13\;\text{kHz} \;\to\; [9,\;17]\;\text{kHz}\\
+\text{Signal 3:}&\quad f_c = 22\;\text{kHz} \;\to\; [18,\;26]\;\text{kHz}
+\end{aligned}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.5: SSB vs DSB-SC<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="8.5" title="Mark for review">?</span><span class="ex-check" data-num="8.5" title="Mark done">&check;</span></div>
+<p>Compare bandwidth for 5 kHz baseband.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\text{DSB-SC: } 2\times 5 = 10\;\text{kHz}, \qquad \text{SSB: } 5\;\text{kHz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.6: Envelope Detection Condition<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="8.6" title="Mark for review">?</span><span class="ex-check" data-num="8.6" title="Mark done">&check;</span></div>
+<p>$y(t) = [A+x(t)]\cos(\omega_c t)$, $\max|x(t)|=1$. Minimum $A$?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$A + x(t) \ge 0 \;\;\forall\, t \;\Longrightarrow\; A \ge \max|x(t)| = 1$$</div>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 8.7: AM Power Efficiency<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="8.7" title="Mark for review">?</span><span class="ex-check" data-num="8.7" title="Mark done">&check;</span></div>
+<p>Conventional AM with tone modulation at index $m$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\eta = \frac{m^2}{2+m^2}$$</div>
+<p>At $m=1$: $\eta = \frac{1}{3} = 33\%$. Most power is in the carrier.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.9: Narrowband FM<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="8.9" title="Mark for review">?</span><span class="ex-check" data-num="8.9" title="Mark done">&check;</span></div>
+<p>Show that for $\beta \ll 1$, FM bandwidth $\approx$ AM bandwidth.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$y(t) = A\cos(\omega_c t + \beta\sin\omega_m t) \approx A\cos\omega_c t - A\beta\sin\omega_m t\,\sin\omega_c t$$</div>
+<p>Bandwidth $= 2f_m$, same as AM.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.10: Wideband FM (Carson's Rule)<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="8.10" title="Mark for review">?</span><span class="ex-check" data-num="8.10" title="Mark done">&check;</span></div>
+<p>$f_m = 15$ kHz, $\Delta f = 75$ kHz.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\beta = \frac{\Delta f}{f_m} = 5, \qquad \text{BW} \approx 2(\Delta f + f_m) = 2(75+15) = 180\;\text{kHz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.11: TDM Design<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="8.11" title="Mark for review">?</span><span class="ex-check" data-num="8.11" title="Mark done">&check;</span></div>
+<p>4 signals, each 4 kHz bandwidth, TDM multiplexed.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\text{Pulse rate} = 4\times 8000 = 32{,}000\;\text{pulses/s}, \qquad \text{BW} \ge 16\;\text{kHz}$$</div>
+</details></div>
+
+</div>
+
+<!-- ==================== CHAPTER 9 ==================== -->
+<div class="chapter" id="ch9">
+<h2>Chapter 9: The Laplace Transform</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>Bilateral Laplace Transform:</strong>
+    <div class="eq">$$X(s) = \int_{-\infty}^{\infty} x(t)\,e^{-st}\,dt, \qquad s = \sigma + j\omega$$</div>
+    Fourier transform is the special case $X(j\omega) = X(s)\big|_{s=j\omega}$ when $j\omega$ axis is in ROC.
+  </li>
+  <li><strong>Region of Convergence (ROC):</strong>
+    <ul>
+      <li>Right-sided signal: ROC right of the rightmost pole</li>
+      <li>Left-sided signal: ROC left of the leftmost pole</li>
+      <li>Two-sided signal: strip between poles</li>
+      <li>Causal + stable $\Rightarrow$ all poles in LHP, ROC includes $j\omega$ axis</li>
+    </ul>
+  </li>
+  <li><strong>Common Pairs:</strong>
+    <div class="eq">$$e^{-at}u(t) \;\longleftrightarrow\; \frac{1}{s+a},\;\text{ROC: Re}\{s\}>-a$$</div>
+    <div class="eq">$$-e^{-at}u(-t) \;\longleftrightarrow\; \frac{1}{s+a},\;\text{ROC: Re}\{s\}<-a$$</div>
+  </li>
+  <li><strong>Properties:</strong> Time shift ($e^{-st_0}X(s)$), $s$-domain shift, differentiation ($sX(s)$), convolution ($X\cdot H$), initial/final value theorems.</li>
+  <li><strong>Unilateral Transform:</strong> Integration from $0^-$ to $\infty$. For ODEs with initial conditions.</li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 9.1: Laplace Transform<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="9.1" title="Mark for review">?</span><span class="ex-check" data-num="9.1" title="Mark done">&check;</span></div>
+<p>Find $X(s)$ and ROC for $x(t) = e^{-2t}u(t) + e^{-3t}u(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(s) = \frac{1}{s+2} + \frac{1}{s+3} = \frac{2s+5}{(s+2)(s+3)}, \qquad \text{ROC: Re}\{s\}>-2$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.3: Inverse Laplace Transform<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="9.3" title="Mark for review">?</span><span class="ex-check" data-num="9.3" title="Mark done">&check;</span></div>
+<p>$X(s) = \frac{2s+4}{(s+1)(s+3)}$, ROC: Re$\{s\}>-1$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(s) = \frac{A}{s+1} + \frac{B}{s+3}: \quad A = \left.\frac{2s+4}{s+3}\right|_{s=-1} = 1,\quad B = \left.\frac{2s+4}{s+1}\right|_{s=-3} = 1$$</div>
+<div class="eq">$$\boxed{x(t) = \bigl(e^{-t} + e^{-3t}\bigr)\,u(t)}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.4: Pole-Zero Plot and Stability<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="9.4" title="Mark for review">?</span><span class="ex-check" data-num="9.4" title="Mark done">&check;</span></div>
+<p>$H(s) = \frac{s+1}{(s+2)(s+3)}$. Is the causal system stable?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Zero at $s=-1$. Poles at $s=-2, -3$ (both in LHP).</p>
+<div class="eq">$$\text{All poles Re}\{s\}<0 \;\Longrightarrow\; \text{causal and stable}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.5: ODE via Unilateral Laplace<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="9.5" title="Mark for review">?</span><span class="ex-check" data-num="9.5" title="Mark done">&check;</span></div>
+<p>$\frac{dy}{dt}+3y = e^{-t}u(t)$, $y(0^-)=1$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$sY(s) - 1 + 3Y(s) = \frac{1}{s+1} \;\Longrightarrow\; Y(s) = \frac{s+2}{(s+1)(s+3)} = \frac{1/2}{s+1} + \frac{1/2}{s+3}$$</div>
+<div class="eq">$$\boxed{y(t) = \tfrac{1}{2}e^{-t} + \tfrac{1}{2}e^{-3t}, \quad t\ge 0}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.6: Convolution via Laplace<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="9.6" title="Mark for review">?</span><span class="ex-check" data-num="9.6" title="Mark done">&check;</span></div>
+<p>$y(t) = te^{-t}u(t) * e^{-2t}u(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(s) = \frac{1}{(s+1)^2(s+2)} = \frac{1}{(s+1)^2} - \frac{1}{s+1} + \frac{1}{s+2}$$</div>
+<div class="eq">$$y(t) = \bigl(te^{-t} - e^{-t} + e^{-2t}\bigr)\,u(t)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.7: Initial and Final Value Theorems<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="9.7" title="Mark for review">?</span><span class="ex-check" data-num="9.7" title="Mark done">&check;</span></div>
+<p>$X(s) = \frac{3s+7}{(s+1)(s+2)}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x(0^+) = \lim_{s\to\infty} sX(s) = \lim_{s\to\infty}\frac{3s^2+7s}{s^2+3s+2} = 3$$</div>
+<div class="eq">$$x(\infty) = \lim_{s\to 0} sX(s) = \frac{0}{2} = 0$$</div>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 9.8: Transfer Function from Diff Eq<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="9.8" title="Mark for review">?</span><span class="ex-check" data-num="9.8" title="Mark done">&check;</span></div>
+<p>$\frac{d^2y}{dt^2} + 5\frac{dy}{dt} + 6y = \frac{dx}{dt} + x$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(s) = \frac{s+1}{s^2+5s+6} = \frac{s+1}{(s+2)(s+3)}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.9: Stability from Poles<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="9.9" title="Mark for review">?</span><span class="ex-check" data-num="9.9" title="Mark done">&check;</span></div>
+<p>(a) $H(s) = \frac{1}{s^2+4}$, (b) $H(s) = \frac{1}{s^2+2s+5}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>(a) Poles at $s = \pm 2j$ (imaginary axis) $\Rightarrow$ <strong>marginally stable</strong>.<br>
+(b) Poles at $s = -1\pm 2j$ (LHP) $\Rightarrow$ <strong>stable</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.11: Feedback System<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="9.11" title="Mark for review">?</span><span class="ex-check" data-num="9.11" title="Mark done">&check;</span></div>
+<p>Forward path $G(s)=\frac{10}{s+1}$, feedback $H(s)=1$. Closed-loop TF?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$T(s) = \frac{G(s)}{1+G(s)H(s)} = \frac{10/(s+1)}{1+10/(s+1)} = \frac{10}{s+11}$$</div>
+<p>Feedback moves the pole from $s=-1$ to $s=-11$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.12: ROC and Three Inverse Transforms<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="9.12" title="Mark for review">?</span><span class="ex-check" data-num="9.12" title="Mark done">&check;</span></div>
+<p>$X(s) = \frac{1}{(s+1)(s-2)}$. Find all possible $x(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Partial fractions: $X(s) = \frac{1}{3}\!\left[\frac{-1}{s+1}+\frac{1}{s-2}\right]$.</p>
+<div class="eq">$$\begin{aligned}
+\text{ROC: Re}\{s\}>2 &:\quad x(t) = \tfrac{1}{3}(-e^{-t}+e^{2t})u(t) &&\text{(causal, unstable)}\\
+\text{ROC: }-1<\text{Re}\{s\}<2 &:\quad x(t) = \tfrac{1}{3}(e^{-t}u(t)+e^{2t}u(-t)) &&\text{(stable)}\\
+\text{ROC: Re}\{s\}<-1 &:\quad x(t) = \tfrac{1}{3}(e^{-t}u(-t)-e^{2t}u(-t)) &&\text{(anti-causal)}
+\end{aligned}$$</div>
+</details></div>
+
+</div>
+
+<!-- ==================== CHAPTER 10 ==================== -->
+<div class="chapter" id="ch10">
+<h2>Chapter 10: The z-Transform</h2>
+
+<div class="theory-box">
+<h3>Key Concepts</h3>
+<ul>
+  <li><strong>z-Transform:</strong>
+    <div class="eq">$$X(z) = \sum_{n=-\infty}^{\infty} x[n]\,z^{-n}, \qquad z = re^{j\omega}$$</div>
+    DTFT: $X(e^{j\omega}) = X(z)\big|_{z=e^{j\omega}}$ when unit circle is in ROC.
+  </li>
+  <li><strong>ROC Rules:</strong>
+    <ul>
+      <li>Causal (right-sided): ROC outside outermost pole</li>
+      <li>Left-sided: ROC inside innermost pole</li>
+      <li>Finite-length: entire $z$-plane (possibly excluding $z=0$ or $\infty$)</li>
+      <li>Causal + stable: all poles inside unit circle</li>
+    </ul>
+  </li>
+  <li><strong>Common Pairs:</strong>
+    <div class="eq">$$a^n u[n] \;\longleftrightarrow\; \frac{1}{1-az^{-1}} = \frac{z}{z-a}, \quad\text{ROC: }|z|>|a|$$</div>
+    <div class="eq">$$-a^n u[-n-1] \;\longleftrightarrow\; \frac{1}{1-az^{-1}}, \quad\text{ROC: }|z|<|a|$$</div>
+  </li>
+  <li><strong>Properties:</strong> Time shift ($z^{-n_0}X(z)$), convolution ($X\cdot H$), $z$-domain differentiation ($-z\frac{dX}{dz} \longleftrightarrow n\,x[n]$).</li>
+  <li><strong>System Analysis:</strong> $H(z)=Y(z)/X(z)$. Causal+stable $\Leftrightarrow$ all poles inside unit circle. FIR: always stable.</li>
+  <li><strong>Mapping:</strong> $z = e^{sT}$ relates $z$-transform to Laplace through sampling.</li>
+</ul>
+</div>
+
+<h3>Problems and Solutions</h3>
+
+<div class="tier-header t1">Tier 1 &middot; Important</div>
+
+<div class="problem"><div class="problem-head">Problem 10.1: z-Transform of Causal Exponential<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="10.1" title="Mark for review">?</span><span class="ex-check" data-num="10.1" title="Mark done">&check;</span></div>
+<p>$x[n] = (0.5)^n u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(z) = \sum_{n=0}^{\infty}(0.5z^{-1})^n = \frac{1}{1-0.5z^{-1}} = \frac{z}{z-0.5}, \qquad \text{ROC: }|z|>0.5$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.2: ROC Intersection<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="10.2" title="Mark for review">?</span><span class="ex-check" data-num="10.2" title="Mark done">&check;</span></div>
+<p>$x[n] = (0.5)^n u[n] + (-\frac{1}{3})^n u[-n-1]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>First term ROC: $|z|>0.5$. Second term (left-sided): ROC $|z|<\frac{1}{3}$.<br>
+Intersection is empty ($\frac{1}{3}<0.5$) $\Rightarrow$ <strong>z-transform does not exist</strong> for this signal.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.3: Inverse z-Transform<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="10.3" title="Mark for review">?</span><span class="ex-check" data-num="10.3" title="Mark done">&check;</span></div>
+<p>$X(z) = \frac{z}{(z-0.5)(z-0.25)}$, ROC: $|z|>0.5$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(z) = \frac{2}{1-0.5z^{-1}} - \frac{1}{1-0.25z^{-1}}$$</div>
+<div class="eq">$$\boxed{x[n] = \bigl[2(0.5)^n - (0.25)^n\bigr]\,u[n]}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.4: System Function from Difference Equation<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="10.4" title="Mark for review">?</span><span class="ex-check" data-num="10.4" title="Mark done">&check;</span></div>
+<p>$y[n] - 0.5y[n-1] + 0.06y[n-2] = x[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(z) = \frac{1}{1-0.5z^{-1}+0.06z^{-2}} = \frac{1}{(1-0.2z^{-1})(1-0.3z^{-1})}$$</div>
+<p>Poles at $z=0.2, 0.3$ &mdash; both inside unit circle $\Rightarrow$ <strong>causal and stable</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.5: FIR System<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="10.5" title="Mark for review">?</span><span class="ex-check" data-num="10.5" title="Mark done">&check;</span></div>
+<p>$y[n] = x[n] - x[n-2]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(z) = 1 - z^{-2}, \qquad H(e^{j\omega}) = 1-e^{-j2\omega} = -2j\sin(\omega)\,e^{-j\omega}$$</div>
+<div class="eq">$$|H(e^{j\omega})| = 2|\sin\omega| \quad\Rightarrow\quad \text{highpass (zero at } \omega=0\text{)}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.6: Stability Check<span class="diff-badge diff-easy">Easy</span><span class="tier-badge t1">Tier 1</span><span class="ex-review" data-num="10.6" title="Mark for review">?</span><span class="ex-check" data-num="10.6" title="Mark done">&check;</span></div>
+<p>Causal system: $H(z) = \frac{1}{1-1.5z^{-1}}$. Stable?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\text{Pole at } z=1.5 \;(|z|>1) \;\Longrightarrow\; h[n] = (1.5)^n u[n] \to \infty$$</div>
+<p><strong>Not stable.</strong></p>
+</details></div>
+
+<div class="tier-header t2">Tier 2 &middot; Residual</div>
+
+<div class="problem"><div class="problem-head">Problem 10.7: Difference Equation with Initial Conditions<span class="diff-badge diff-hard">Hard</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="10.7" title="Mark for review">?</span><span class="ex-check" data-num="10.7" title="Mark done">&check;</span></div>
+<p>$y[n]-0.5y[n-1] = \delta[n]+\delta[n-1]$, $y[-1]=2$. Unilateral z-transform.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(z)(1-0.5z^{-1}) = 1+z^{-1}+0.5\cdot 2 = 2+z^{-1}$$</div>
+<div class="eq">$$Y(z) = \frac{2+z^{-1}}{1-0.5z^{-1}} \;\Longrightarrow\; y[n] = 2(0.5)^n u[n] + (0.5)^{n-1}u[n-1]$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.11: Direct Form II Realization<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="10.11" title="Mark for review">?</span><span class="ex-check" data-num="10.11" title="Mark done">&check;</span></div>
+<p>$H(z) = \frac{1+2z^{-1}}{1-0.5z^{-1}}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$w[n] = 0.5\,w[n-1]+x[n], \qquad y[n] = w[n]+2\,w[n-1]$$</div>
+<p>One delay element stores $w[n-1]$, used in both paths.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.14: Frequency Response from Poles/Zeros<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="10.14" title="Mark for review">?</span><span class="ex-check" data-num="10.14" title="Mark done">&check;</span></div>
+<p>Zero at $z=1$, pole at $z=0.95$. Sketch $|H(e^{j\omega})|$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$|H(e^{j0})| = \frac{|e^{j0}-1|}{|e^{j0}-0.95|} = \frac{0}{0.05} = 0$$</div>
+<div class="eq">$$|H(e^{j\pi})| = \frac{|e^{j\pi}-1|}{|e^{j\pi}-0.95|} = \frac{2}{1.95} \approx 1.03$$</div>
+<p><strong>Highpass filter</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.15: $z = e^{sT}$ Mapping<span class="diff-badge diff-medium">Medium</span><span class="tier-badge t2">Tier 2</span><span class="ex-review" data-num="10.15" title="Mark for review">?</span><span class="ex-check" data-num="10.15" title="Mark done">&check;</span></div>
+<p>Show how $z = e^{sT}$ connects $z$-transform to Laplace.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(z) = \sum_n x_c(nT)\,z^{-n} \;\xrightarrow{z=e^{sT}}\; X(e^{sT}) = \sum_n x_c(nT)\,e^{-snT}$$</div>
+<p>Key mapping:</p>
+<div class="eq">$$\begin{aligned}
+s\text{-plane } j\omega\text{ axis} &\;\longleftrightarrow\; z\text{-plane unit circle}\\
+\text{LHP (Re}\{s\}<0) &\;\longleftrightarrow\; |z|<1\\
+\text{RHP (Re}\{s\}>0) &\;\longleftrightarrow\; |z|>1
+\end{aligned}$$</div>
+<p>Stable CT (poles in LHP) $\Leftrightarrow$ stable DT (poles inside unit circle).</p>
+</details></div>
+</div>
+
+<!-- ==================== OTHERS ==================== -->
+<div class="chapter" id="others">
+<h2>Others &mdash; Residual Problems</h2>
+<p>Auxiliary problems moved out of the main 10-problem-per-chapter set. Useful but secondary in priority.</p>
+
+<h3>Chapter 1: Signals and Systems</h3>
+
+<div class="problem"><div class="problem-head">Problem 1.6: Unit Step Representation<span class="ex-review" data-num="1.6" title="Mark for review">?</span><span class="ex-check" data-num="1.6" title="Mark done">&check;</span></div>
+<p>Express the rectangular pulse $p(t) = 1$ for $|t| \le 1$, $0$ otherwise, using unit step functions.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$p(t) = u(t+1) - u(t-1)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.11: DT Signal Energy<span class="ex-review" data-num="1.11" title="Mark for review">?</span><span class="ex-check" data-num="1.11" title="Mark done">&check;</span></div>
+<p>Compute the energy of $x[n] = \left(\frac{1}{2}\right)^n u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$E = \sum_{n=0}^{\infty}\left|\left(\frac{1}{2}\right)^n\right|^2 = \sum_{n=0}^{\infty}\left(\frac{1}{4}\right)^n = \frac{1}{1-\frac{1}{4}} = \frac{4}{3}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.12: Memoryless System<span class="ex-review" data-num="1.12" title="Mark for review">?</span><span class="ex-check" data-num="1.12" title="Mark done">&check;</span></div>
+<p>Classify: (a) $y[n] = x[n]^2$, (b) $y[n] = x[n-1]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>(a) Output depends only on current input $\Rightarrow$ <strong>memoryless</strong>.<br>
+(b) Output depends on past input $\Rightarrow$ <strong>has memory</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.13: Invertibility<span class="ex-review" data-num="1.13" title="Mark for review">?</span><span class="ex-check" data-num="1.13" title="Mark done">&check;</span></div>
+<p>Is the system $y(t) = x^2(t)$ invertible?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Both $x(t)$ and $-x(t)$ produce the same output $y(t) = x^2(t)$. Distinct inputs map to the same output $\Rightarrow$ <strong>not invertible</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 1.14: DT Complex Exponentials<span class="ex-review" data-num="1.14" title="Mark for review">?</span><span class="ex-check" data-num="1.14" title="Mark done">&check;</span></div>
+<p>Show that $e^{j\omega n} = e^{j(\omega+2\pi)n}$ for all integer $n$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$e^{j(\omega+2\pi)n} = e^{j\omega n}\cdot e^{j2\pi n} = e^{j\omega n}\cdot 1 = e^{j\omega n}$$</div>
+<p>Since $n$ is an integer, $e^{j2\pi n}=1$. DT complex exponentials are periodic in frequency with period $2\pi$.</p>
+</details></div>
+
+<h3>Chapter 2: Linear Time-Invariant Systems</h3>
+
+<div class="problem"><div class="problem-head">Problem 2.6: Convolution with Impulse<span class="ex-review" data-num="2.6" title="Mark for review">?</span><span class="ex-check" data-num="2.6" title="Mark done">&check;</span></div>
+<p>Compute $x(t) * \delta(t-3)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x(t) * \delta(t-3) = x(t-3)$$</div>
+<p>Convolution with a shifted impulse simply shifts the signal.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.9: Rectangular Pulse Convolution<span class="ex-review" data-num="2.9" title="Mark for review">?</span><span class="ex-check" data-num="2.9" title="Mark done">&check;</span></div>
+<p>Compute the convolution of $p(t) = u(t) - u(t-1)$ with itself.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$y(t) = p(t)*p(t) = \begin{cases} t, & 0 \le t \le 1\\ 2-t, & 1 \le t \le 2\\ 0, & \text{otherwise} \end{cases}$$</div>
+<p>The result is a triangular pulse.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.11: Parallel LTI Systems<span class="ex-review" data-num="2.11" title="Mark for review">?</span><span class="ex-check" data-num="2.11" title="Mark done">&check;</span></div>
+<p>$h_1[n] = \left(\frac{1}{2}\right)^n u[n]$ and $h_2[n] = -\left(\frac{1}{3}\right)^n u[n]$ in parallel.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$h[n] = h_1[n] + h_2[n] = \left(\frac{1}{2}\right)^n u[n] - \left(\frac{1}{3}\right)^n u[n]$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.13: Commutativity Verification<span class="ex-review" data-num="2.13" title="Mark for review">?</span><span class="ex-check" data-num="2.13" title="Mark done">&check;</span></div>
+<p>Verify $x[n]*h[n] = h[n]*x[n]$ for $x[n] = \delta[n] + 2\delta[n-1]$ and $h[n] = u[n]-u[n-3]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>$h[n] = \{1,1,1\}$ for $n=0,1,2$.</p>
+<div class="eq">$$x*h:\; y = \{1,\, 3,\, 3,\, 2\} \qquad h*x:\; y = \{1,\, 3,\, 3,\, 2\}$$</div>
+<p>Both identical $\Rightarrow$ commutativity verified.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 2.14: Unstable System<span class="ex-review" data-num="2.14" title="Mark for review">?</span><span class="ex-check" data-num="2.14" title="Mark done">&check;</span></div>
+<p>Show that the system with $h(t) = u(t)$ is not BIBO stable.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\int_{-\infty}^{\infty}|u(t)|\,dt = \int_0^{\infty} 1\,dt = \infty$$</div>
+<p>Counterexample: $x(t)=u(t)$ gives $y(t)=t\,u(t) \to \infty$. <strong>Not stable.</strong></p>
+</details></div>
+
+<h3>Chapter 3: Fourier Series</h3>
+
+<div class="problem"><div class="problem-head">Problem 3.6: Fourier Series from Symmetry<span class="ex-review" data-num="3.6" title="Mark for review">?</span><span class="ex-check" data-num="3.6" title="Mark done">&check;</span></div>
+<p>Show that for a real, even periodic signal, $a_k$ is real and even.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Real signal: $a_k = a_{-k}^*$ (conjugate symmetry).<br>
+Even signal: $a_k = a_{-k}$.<br>
+Combining: $a_k = a_k^* \Rightarrow a_k$ is real. And $a_k = a_{-k} \Rightarrow$ even.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.9: Product of Two Periodic Signals<span class="ex-review" data-num="3.9" title="Mark for review">?</span><span class="ex-check" data-num="3.9" title="Mark done">&check;</span></div>
+<p>If $x(t)$ has coefficients $a_k$ and $y(t)$ has $b_k$ (same period), find $c_k$ for $z(t)=x(t)y(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$c_k = \sum_{l=-\infty}^{\infty} a_l\, b_{k-l}$$</div>
+<p>Multiplication in time $\longleftrightarrow$ convolution of coefficients.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.13: Gibbs Phenomenon<span class="ex-review" data-num="3.13" title="Mark for review">?</span><span class="ex-check" data-num="3.13" title="Mark done">&check;</span></div>
+<p>Explain the Gibbs phenomenon for the Fourier series of a square wave.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Truncating to $N$ terms causes oscillatory overshoot near discontinuities. As $N\to\infty$, the overshoot narrows but never vanishes, with peak overshoot $\approx 9\%$ of the discontinuity height.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.14: First-Order DT Filter<span class="ex-review" data-num="3.14" title="Mark for review">?</span><span class="ex-check" data-num="3.14" title="Mark done">&check;</span></div>
+<p>$y[n] = \frac{1}{2}y[n-1] + x[n]$ receives periodic input with period 4. Find output coefficients.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(e^{j\omega}) = \frac{1}{1 - \frac{1}{2}e^{-j\omega}}, \qquad b_k = \frac{a_k}{1 - \frac{1}{2}e^{-jk\pi/2}}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 3.15: Power Spectrum<span class="ex-review" data-num="3.15" title="Mark for review">?</span><span class="ex-check" data-num="3.15" title="Mark done">&check;</span></div>
+<p>$a_0=1$, $a_1=a_{-1}=0.5$, $a_2=a_{-2}=0.2$, all others $0$. Find the average power.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$P = |a_0|^2 + 2|a_1|^2 + 2|a_2|^2 = 1 + 2(0.25) + 2(0.04) = 1.58$$</div>
+<p>DC power fraction: $1/1.58 = 63.3\%$. Fundamental: $0.5/1.58 = 31.6\%$.</p>
+</details></div>
+
+<h3>Chapter 4: CT Fourier Transform</h3>
+
+<div class="problem"><div class="problem-head">Problem 4.5: Time Scaling<span class="ex-review" data-num="4.5" title="Mark for review">?</span><span class="ex-check" data-num="4.5" title="Mark done">&check;</span></div>
+<p>If $X(j\omega) = \frac{1}{1+j\omega}$, find the FT of $x(2t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\mathcal{F}\{x(2t)\} = \frac{1}{2}X\!\left(\frac{j\omega}{2}\right) = \frac{1}{2}\cdot\frac{1}{1+j\omega/2} = \frac{1}{2+j\omega}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.8: Duality<span class="ex-review" data-num="4.8" title="Mark for review">?</span><span class="ex-check" data-num="4.8" title="Mark done">&check;</span></div>
+<p>Use duality to find the FT of $x(t) = \frac{1}{1+t^2}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Known: $e^{-|t|} \longleftrightarrow \frac{2}{1+\omega^2}$. By duality: $\frac{2}{1+t^2} \longleftrightarrow 2\pi\,e^{-|\omega|}$.</p>
+<div class="eq">$$\boxed{\frac{1}{1+t^2} \;\longleftrightarrow\; \pi\,e^{-|\omega|}}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.12: Integration Property<span class="ex-review" data-num="4.12" title="Mark for review">?</span><span class="ex-check" data-num="4.12" title="Mark done">&check;</span></div>
+<p>Find the FT of $y(t) = \int_{-\infty}^{t} e^{-\tau}u(\tau)\,d\tau$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(j\omega) = \frac{X(j\omega)}{j\omega} + \pi X(0)\,\delta(\omega) = \frac{1}{j\omega(1+j\omega)} + \pi\delta(\omega)$$</div>
+<p>$y(t) = (1 - e^{-t})u(t)$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.13: Bandwidth and Time-Width<span class="ex-review" data-num="4.13" title="Mark for review">?</span><span class="ex-check" data-num="4.13" title="Mark done">&check;</span></div>
+<p>Show that compressing $x(t) = e^{-|t|}$ in time expands its bandwidth.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(j\omega) = \frac{2}{1+\omega^2} \quad\Rightarrow\quad \text{3dB BW at } \omega=1$$</div>
+<div class="eq">$$\mathcal{F}\{x(2t)\} = \frac{1}{1+(\omega/2)^2} \quad\Rightarrow\quad \text{3dB BW at } \omega=2$$</div>
+<p>Compressing time by 2 doubles the bandwidth &mdash; a fundamental time-frequency trade-off.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 4.14: Conjugate Symmetry<span class="ex-review" data-num="4.14" title="Mark for review">?</span><span class="ex-check" data-num="4.14" title="Mark done">&check;</span></div>
+<p>Show that for a real signal, $|X(j\omega)|$ is even and $\angle X(j\omega)$ is odd.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>For real $x(t)$: $X(-j\omega) = X^*(j\omega)$. Therefore:</p>
+<div class="eq">$$|X(-j\omega)| = |X^*(j\omega)| = |X(j\omega)| \quad\Rightarrow\quad \text{magnitude is even}$$</div>
+<div class="eq">$$\angle X(-j\omega) = -\angle X(j\omega) \quad\Rightarrow\quad \text{phase is odd}$$</div>
+</details></div>
+
+<h3>Chapter 5: DT Fourier Transform</h3>
+
+<div class="problem"><div class="problem-head">Problem 5.7: Frequency Shift<span class="ex-review" data-num="5.7" title="Mark for review">?</span><span class="ex-check" data-num="5.7" title="Mark done">&check;</span></div>
+<p>Find the DTFT of $y[n] = e^{j\pi n/4}\,x[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(e^{j\omega}) = X(e^{j(\omega-\pi/4)})$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.10: Multiplication by $(-1)^n$<span class="ex-review" data-num="5.10" title="Mark for review">?</span><span class="ex-check" data-num="5.10" title="Mark done">&check;</span></div>
+<p>Find $Y(e^{j\omega})$ for $y[n] = x[n]\,(-1)^n$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$(-1)^n = e^{j\pi n} \;\Longrightarrow\; Y(e^{j\omega}) = X(e^{j(\omega-\pi)})$$</div>
+<p>Shifts spectrum by $\pi$: converts lowpass $\leftrightarrow$ highpass.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.13: DT Duality<span class="ex-review" data-num="5.13" title="Mark for review">?</span><span class="ex-check" data-num="5.13" title="Mark done">&check;</span></div>
+<p>Find the DTFT of $x[n] = 1$ for all $n$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(e^{j\omega}) = 2\pi\sum_{k=-\infty}^{\infty}\delta(\omega - 2\pi k)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.14: Time Expansion<span class="ex-review" data-num="5.14" title="Mark for review">?</span><span class="ex-check" data-num="5.14" title="Mark done">&check;</span></div>
+<p>If $x[n] = (0.5)^n u[n]$ and $x_{(2)}[n]$ inserts zeros, find the DTFT.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X_{(2)}(e^{j\omega}) = X(e^{j2\omega}) = \frac{1}{1-0.5e^{-j2\omega}}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 5.15: Frequency Differentiation<span class="ex-review" data-num="5.15" title="Mark for review">?</span><span class="ex-check" data-num="5.15" title="Mark done">&check;</span></div>
+<p>Find the DTFT of $y[n] = n\,a^n u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Using $n\,x[n] \longleftrightarrow j\,\frac{dX(e^{j\omega})}{d\omega}$:</p>
+<div class="eq">$$Y(e^{j\omega}) = \frac{ae^{-j\omega}}{(1-ae^{-j\omega})^2}$$</div>
+</details></div>
+
+<h3>Chapter 6: Time &amp; Freq Characterization</h3>
+
+<div class="problem"><div class="problem-head">Problem 6.2: Group Delay<span class="ex-review" data-num="6.2" title="Mark for review">?</span><span class="ex-check" data-num="6.2" title="Mark done">&check;</span></div>
+<p>Find $\tau(\omega)$ for $H(j\omega) = \frac{e^{-j3\omega}}{1+j\omega}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\angle H = -3\omega - \arctan(\omega) \;\Longrightarrow\; \tau(\omega) = 3 + \frac{1}{1+\omega^2}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.9: Cascaded Bandwidth<span class="ex-review" data-num="6.9" title="Mark for review">?</span><span class="ex-check" data-num="6.9" title="Mark done">&check;</span></div>
+<p>Two identical first-order lowpass filters (cutoff $\omega_c$) cascaded. Find 3dB bandwidth.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\frac{1}{(1+(\omega/\omega_c)^2)^2} = \frac{1}{2} \;\Longrightarrow\; \omega_{3\text{dB}} = \omega_c\sqrt{\sqrt{2}-1} \approx 0.644\,\omega_c$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.11: DT Second-Order Bandpass<span class="ex-review" data-num="6.11" title="Mark for review">?</span><span class="ex-check" data-num="6.11" title="Mark done">&check;</span></div>
+<p>Poles at $z = 0.9e^{\pm j\pi/4}$. Where is the peak response?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Pole angle $= \pi/4$, so $|H(e^{j\omega})|$ peaks near $\omega = \pi/4$. This is a <strong>bandpass filter</strong>.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.12: Gain in dB<span class="ex-review" data-num="6.12" title="Mark for review">?</span><span class="ex-check" data-num="6.12" title="Mark done">&check;</span></div>
+<p>Convert $|H| = 0.01,\; 1,\; 100$ to dB.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$20\log_{10}(0.01) = -40\;\text{dB}, \quad 20\log_{10}(1) = 0\;\text{dB}, \quad 20\log_{10}(100) = 40\;\text{dB}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 6.14: Highpass from Lowpass<span class="ex-review" data-num="6.14" title="Mark for review">?</span><span class="ex-check" data-num="6.14" title="Mark done">&check;</span></div>
+<p>Design a DT highpass from a lowpass $H_{lp}(e^{j\omega})$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H_{hp}(e^{j\omega}) = 1 - H_{lp}(e^{j\omega})$$</div>
+<p>Or multiply impulse response by $(-1)^n$ to shift spectrum by $\pi$.</p>
+</details></div>
+
+<h3>Chapter 7: Sampling</h3>
+
+<div class="problem"><div class="problem-head">Problem 7.11: CT-to-DT Frequency Mapping<span class="ex-review" data-num="7.11" title="Mark for review">?</span><span class="ex-check" data-num="7.11" title="Mark done">&check;</span></div>
+<p>$x(t) = \cos(6000\pi t)$ sampled at 8000 samples/sec.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\omega = \Omega T = \frac{2\pi f}{f_s} = \frac{2\pi\cdot 3000}{8000} = \frac{3\pi}{4} \;\Longrightarrow\; x[n] = \cos\!\left(\frac{3\pi n}{4}\right)$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.12: Oversampling Benefit<span class="ex-review" data-num="7.12" title="Mark for review">?</span><span class="ex-check" data-num="7.12" title="Mark done">&check;</span></div>
+<p>Why is oversampling practically useful?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Wider transition band for anti-aliasing filter (simpler analog filter). Reduces in-band quantization noise via noise shaping. Easier reconstruction.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.13: Digital Differentiator<span class="ex-review" data-num="7.13" title="Mark for review">?</span><span class="ex-check" data-num="7.13" title="Mark done">&check;</span></div>
+<p>Frequency response of DT differentiator for CT signals sampled at $1/T$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H_d(e^{j\omega}) = \frac{j\omega}{T}, \quad |\omega| \le \pi$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.14: Bandpass Sampling<span class="ex-review" data-num="7.14" title="Mark for review">?</span><span class="ex-check" data-num="7.14" title="Mark done">&check;</span></div>
+<p>Bandpass signal: 900&ndash;1100 Hz. Minimum sampling rate?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$B = 200\;\text{Hz},\; f_H = 1100,\; n = \left\lfloor\frac{f_H}{B}\right\rfloor = 5$$</div>
+<div class="eq">$$f_s = \frac{2f_H}{n} = \frac{2200}{5} = 440\;\text{Hz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 7.15: ZOH Attenuation<span class="ex-review" data-num="7.15" title="Mark for review">?</span><span class="ex-check" data-num="7.15" title="Mark done">&check;</span></div>
+<p>ZOH with $T=1$ ms. Attenuation at $f=400$ Hz?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\left|\frac{\sin(\pi f T)}{\pi f T}\right| = \frac{\sin(0.4\pi)}{0.4\pi} \approx 0.757 \;\Rightarrow\; 20\log_{10}(0.757) \approx -2.4\;\text{dB}$$</div>
+</details></div>
+
+<h3>Chapter 8: Communication Systems</h3>
+
+<div class="problem"><div class="problem-head">Problem 8.8: PAM Bandwidth<span class="ex-review" data-num="8.8" title="Mark for review">?</span><span class="ex-check" data-num="8.8" title="Mark done">&check;</span></div>
+<p>4 kHz signal, PAM at 8 kHz. Minimum transmission bandwidth?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\text{BW} \ge \frac{f_s}{2} = 4\;\text{kHz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.12: Superheterodyne Receiver<span class="ex-review" data-num="8.12" title="Mark for review">?</span><span class="ex-check" data-num="8.12" title="Mark done">&check;</span></div>
+<p>$f_c = 1$ MHz, $f_{\text{LO}} = 1.455$ MHz.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$f_{\text{IF}} = f_{\text{LO}} - f_c = 455\;\text{kHz}, \qquad f_{\text{image}} = f_{\text{LO}} + f_{\text{IF}} = 1.91\;\text{MHz}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.13: DT Modulation<span class="ex-review" data-num="8.13" title="Mark for review">?</span><span class="ex-check" data-num="8.13" title="Mark done">&check;</span></div>
+<p>$y[n] = x[n]\cos(\pi n/4)$. Spectrum?</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$Y(e^{j\omega}) = \tfrac{1}{2}X(e^{j(\omega-\pi/4)}) + \tfrac{1}{2}X(e^{j(\omega+\pi/4)})$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.14: Quadrature Multiplexing<span class="ex-review" data-num="8.14" title="Mark for review">?</span><span class="ex-check" data-num="8.14" title="Mark done">&check;</span></div>
+<p>$y(t) = x_1\cos\omega_c t + x_2\sin\omega_c t$. Recover $x_1, x_2$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<p>Multiply by $\cos\omega_c t$ + LPF $\Rightarrow \frac{1}{2}x_1(t)$. Multiply by $\sin\omega_c t$ + LPF $\Rightarrow \frac{1}{2}x_2(t)$.<br>
+Works because $\cos$ and $\sin$ are orthogonal.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 8.15: PCM Bit Rate<span class="ex-review" data-num="8.15" title="Mark for review">?</span><span class="ex-check" data-num="8.15" title="Mark done">&check;</span></div>
+<p>4 kHz audio, $f_s = 8$ kHz, 8 bits/sample.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$\text{Bit rate} = f_s \times \text{bits/sample} = 8000\times 8 = 64\;\text{kbps}$$</div>
+</details></div>
+
+<h3>Chapter 9: Laplace Transform</h3>
+
+<div class="problem"><div class="problem-head">Problem 9.2: Two-Sided Signal<span class="ex-review" data-num="9.2" title="Mark for review">?</span><span class="ex-check" data-num="9.2" title="Mark done">&check;</span></div>
+<p>$x(t) = e^{-2t}u(t) - e^{3t}u(-t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$X(s) = \frac{1}{s+2} + \frac{1}{s-3} = \frac{2s-1}{(s+2)(s-3)}, \qquad \text{ROC: } -2 < \text{Re}\{s\} < 3$$</div>
+<p>ROC includes $j\omega$ axis $\Rightarrow$ Fourier transform exists.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.10: $s$-Domain Differentiation<span class="ex-review" data-num="9.10" title="Mark for review">?</span><span class="ex-check" data-num="9.10" title="Mark done">&check;</span></div>
+<p>$X(s) = \frac{1}{s+3}$. Laplace transform of $t\,x(t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$t\,x(t) \;\longleftrightarrow\; -\frac{dX(s)}{ds} = -\frac{d}{ds}\left[\frac{1}{s+3}\right] = \frac{1}{(s+3)^2}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.13: 2nd-Order Butterworth<span class="ex-review" data-num="9.13" title="Mark for review">?</span><span class="ex-check" data-num="9.13" title="Mark done">&check;</span></div>
+<p>Find $H(s)$ for 2nd-order Butterworth with $\omega_c=1$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$|H(j\omega)|^2 = \frac{1}{1+\omega^4} \;\Longrightarrow\; \boxed{H(s) = \frac{1}{s^2+\sqrt{2}\,s+1}}$$</div>
+<p>Poles at $s = \frac{-1\pm j}{\sqrt{2}}$.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.14: Time Scaling<span class="ex-review" data-num="9.14" title="Mark for review">?</span><span class="ex-check" data-num="9.14" title="Mark done">&check;</span></div>
+<p>$x(t) \longleftrightarrow X(s)$ with ROC $\mathcal{R}$. Find Laplace transform of $x(3t)$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$x(at) \;\longleftrightarrow\; \frac{1}{|a|}X\!\left(\frac{s}{a}\right), \quad\text{ROC: } \{s : s/a \in \mathcal{R}\}$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 9.15: Parallel Systems<span class="ex-review" data-num="9.15" title="Mark for review">?</span><span class="ex-check" data-num="9.15" title="Mark done">&check;</span></div>
+<p>$H_1(s)=\frac{1}{s+1}$, $H_2(s)=\frac{1}{s+2}$ in parallel.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(s) = \frac{1}{s+1}+\frac{1}{s+2} = \frac{2s+3}{(s+1)(s+2)}$$</div>
+<div class="eq">$$h(t) = \bigl(e^{-t}+e^{-2t}\bigr)\,u(t)$$</div>
+</details></div>
+
+<h3>Chapter 10: z-Transform</h3>
+
+<div class="problem"><div class="problem-head">Problem 10.8: Geometric Evaluation<span class="ex-review" data-num="10.8" title="Mark for review">?</span><span class="ex-check" data-num="10.8" title="Mark done">&check;</span></div>
+<p>$H(z) = \frac{z-1}{z-0.9}$. Evaluate $|H(e^{j\omega})|$ at $\omega=0$ and $\omega=\pi$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$|H(e^{j0})| = \frac{|1-1|}{|1-0.9|} = \frac{0}{0.1} = 0$$</div>
+<div class="eq">$$|H(e^{j\pi})| = \frac{|-1-1|}{|-1-0.9|} = \frac{2}{1.9} \approx 1.053$$</div>
+<p>Zero at $\omega=0$ $\Rightarrow$ highpass filter.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.9: Pole-Zero Cancellation<span class="ex-review" data-num="10.9" title="Mark for review">?</span><span class="ex-check" data-num="10.9" title="Mark done">&check;</span></div>
+<p>$H(z) = \frac{z-0.5}{(z-0.5)(z-0.8)}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(z) = \frac{1}{z-0.8} = \frac{z^{-1}}{1-0.8z^{-1}} \;\Longrightarrow\; h[n] = (0.8)^{n-1}u[n-1]$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.10: $z$-Domain Differentiation<span class="ex-review" data-num="10.10" title="Mark for review">?</span><span class="ex-check" data-num="10.10" title="Mark done">&check;</span></div>
+<p>$x[n] = n(0.5)^n u[n]$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$n\,x[n] \;\longleftrightarrow\; -z\frac{dX(z)}{dz}$$</div>
+<div class="eq">$$\mathcal{Z}\{n(0.5)^n u[n]\} = \frac{0.5z^{-1}}{(1-0.5z^{-1})^2}, \qquad \text{ROC: } |z|>0.5$$</div>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.12: Inverse System<span class="ex-review" data-num="10.12" title="Mark for review">?</span><span class="ex-check" data-num="10.12" title="Mark done">&check;</span></div>
+<p>$H(z) = \frac{1-0.5z^{-1}}{1-0.8z^{-1}}$. Find inverse system.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H_{\text{inv}}(z) = \frac{1}{H(z)} = \frac{1-0.8z^{-1}}{1-0.5z^{-1}}$$</div>
+<p>Pole at $z=0.5$ (inside unit circle) $\Rightarrow$ causal inverse is stable.</p>
+</details></div>
+
+<div class="problem"><div class="problem-head">Problem 10.13: Cascade Decomposition<span class="ex-review" data-num="10.13" title="Mark for review">?</span><span class="ex-check" data-num="10.13" title="Mark done">&check;</span></div>
+<p>$H(z) = \frac{1+z^{-1}}{(1-0.5z^{-1})(1+0.3z^{-1})}$.</p>
+<details class="solution"><summary class="solution-label">Solution</summary>
+<div class="eq">$$H(z) = \underbrace{\frac{1+z^{-1}}{1-0.5z^{-1}}}_{H_1(z)}\cdot\underbrace{\frac{1}{1+0.3z^{-1}}}_{H_2(z)}$$</div>
+</details></div>
+</div>
+
+</main>
+
+<script>
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+window.addEventListener('scroll', () => {
+  const chapters = document.querySelectorAll('.chapter');
+  const links = document.querySelectorAll('nav a');
+  let current = '';
+  chapters.forEach(ch => {
+    if (window.scrollY >= ch.offsetTop - 100) current = ch.id;
+  });
+  links.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+</script>
+
+<script>
+(function() {
+  document.querySelectorAll('.ex-check').forEach(function(el) {
+    var key = 'ssys-done-' + el.dataset.num;
+    var pr  = el.closest('.problem');
+    if (localStorage.getItem(key) === '1') { el.classList.add('done'); pr.classList.add('done'); }
+    el.addEventListener('click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      var on = el.classList.toggle('done');
+      pr.classList.toggle('done', on);
+      if (on) localStorage.setItem(key, '1'); else localStorage.removeItem(key);
+    });
+  });
+  document.querySelectorAll('.ex-review').forEach(function(el) {
+    var key = 'ssys-review-' + el.dataset.num;
+    var pr  = el.closest('.problem');
+    if (localStorage.getItem(key) === '1') { el.classList.add('review'); pr.classList.add('review'); }
+    el.addEventListener('click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      var on = el.classList.toggle('review');
+      pr.classList.toggle('review', on);
+      if (on) localStorage.setItem(key, '1'); else localStorage.removeItem(key);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//z/lab/dcd//**)",
+      "Read(//z/lab/dcd/**)",
+      "Bash(C:/msys64/usr/bin/python.exe *)"
+    ]
+  }
+}
