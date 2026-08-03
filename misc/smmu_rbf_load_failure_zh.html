@@ -3,7 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致</title>
+  <title>為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致 | 昭群科技 JiaoKuan Technology</title>
+  <meta name="description" content="Agilex 5 (DE25-Standard) 上 FPGA bitstream 載入失敗的完整分析：stratix10-svc 位於 arm-smmu-v3 之後，驅動取得的是 IOVA，SDM 卻把它當成實體位址讀取 DRAM，導致 timeout waiting for svc layer buffers。內容涵蓋 VA / PA / DMA address 三種位址空間、MMU 與 SMMU 的差別、失敗流程逐步拆解、已排除的做法與可行的修正方向（altr,smmu_enable_quirk 與 kernel / DTB / ATF 版本對齊）。">
+  <meta name="keywords" content="SMMU, arm-smmu-v3, IOMMU, IOVA, DMA address, 位址轉譯, Agilex 5, A5ED013BB32AE4SCS, DE25-Standard, Terasic DE25, FPGA, RBF, bitstream, fpga_manager, stratix10-svc, stratix10-soc, of_fpga_region, SDM, Secure Device Manager, altr smmu_enable_quirk, timeout waiting for svc layer buffers, Linux 6.12.11, linux-socfpga, device tree, SMC, SMCCC, ATF, 昭群科技, JiaoKuan Technology">
+  <meta name="author" content="昭群科技 JiaoKuan Technology">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.jktek.com.tw/misc/smmu_rbf_load_failure_zh.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+  <meta property="og:title" content="為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致">
+  <meta property="og:description" content="Agilex 5 / DE25-Standard 上 timeout waiting for svc layer buffers 的完整分析：驅動拿到的是 IOVA，SDM 卻當成實體位址去讀 DRAM。">
+  <meta property="og:url" content="https://www.jktek.com.tw/misc/smmu_rbf_load_failure_zh.html">
+  <meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
+  <meta property="og:locale" content="zh_TW">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致">
+  <meta name="twitter:description" content="Agilex 5 / DE25-Standard 上 FPGA bitstream 載入逾時的根因分析：IOVA 與實體位址不一致。">
+  <meta name="twitter:image" content="https://www.jktek.com.tw/capy.jpg">
+  <link rel="icon" type="image/jpeg" href="../capy.jpg">
+  <link rel="apple-touch-icon" href="../capy.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "為什麼 SDM 無法把 RBF 載入 FPGA 的組態 SRAM — SMMU 位址轉譯不一致",
+    "description": "Agilex 5 (DE25-Standard) 上 stratix10-svc 掛在 arm-smmu-v3 之後，驅動取得 IOVA 而 SDM 將其視為實體位址，造成 timeout waiting for svc layer buffers 的完整分析。",
+    "inLanguage": "zh-TW",
+    "url": "https://www.jktek.com.tw/misc/smmu_rbf_load_failure_zh.html",
+    "image": "https://www.jktek.com.tw/capy.jpg",
+    "author": { "@type": "Organization", "name": "昭群科技 JiaoKuan Technology", "url": "https://www.jktek.com.tw/" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "昭群科技 JiaoKuan Technology",
+      "url": "https://www.jktek.com.tw/",
+      "logo": { "@type": "ImageObject", "url": "https://www.jktek.com.tw/capy.jpg" }
+    },
+    "isPartOf": { "@type": "CollectionPage", "name": "Misc Ideas", "url": "https://www.jktek.com.tw/misc_ideas.html" },
+    "about": ["SMMU", "IOMMU", "Agilex 5", "FPGA configuration", "Linux device driver"],
+    "keywords": "SMMU, arm-smmu-v3, IOVA, DMA address, Agilex 5, DE25-Standard, FPGA, RBF, stratix10-svc, SDM, altr,smmu_enable_quirk",
+    "relatedLink": "https://www.jktek.com.tw/misc/dt_iommus_svc_qa_zh.html"
+  }
+  </script>
   <style>
     :root {
       --bg:       #ffffff;
@@ -591,10 +631,26 @@ Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout w
       <th>代價</th>
     </tr>
     <tr>
-      <td>移除 <code>svc</code> 節點的 <code>iommus</code></td>
-      <td>該裝置不再有 SMMU 對應，走 <code>dma-direct</code>，
-          因此 <code>dma_addr_t == PA</code></td>
-      <td>需重建 DTB；只影響這一個裝置，其他裝置保有 IOMMU 防護</td>
+      <td><span class="bad">✗</span> 移除 <code>svc</code> 節點的 <code>iommus</code>
+          <br><span class="note">（原本以為可行，實際不可行）</span></td>
+      <td><span class="bad">在 Agilex 5 上無效。</span>
+          <code>intel,agilex5-svc</code> 的 probe 沒有 non-SMMU 分支：
+          移除後 <code>iommu_get_dma_domain()</code> 回傳 <code>NULL</code>
+          （或走 <code>else</code>），一律 <code>-ENODEV</code></td>
+      <td><span class="bad">svc 完全不上線</span> —
+          <code>fpga-mgr</code>、<code>hwmon</code>、<code>fcs-config</code>
+          等子節點全部一起消失</td>
+    </tr>
+    <tr>
+      <td><span class="ok">✓</span> 對齊 kernel + DTB + ATF 版本，
+          並確認 <code>altr,smmu_enable_quirk</code>
+          在 <code>svc</code> 與 <code>fpga-mgr</code> <strong>兩個節點</strong>都存在</td>
+      <td>SMMU 路徑本來就是<strong>刻意設計</strong>要能運作的：
+          IOVA domain <code>0x0–0x2000_0000</code>、
+          送 SDM 前加 <code>0x8000_0000</code>、
+          並以 SMC funcid 513 關掉 SDM remapper</td>
+      <td>需版本一致；但這是這個平台的正解<br>
+          <span class="note">詳見 <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a> 第 6–8 節</span></td>
     </tr>
     <tr>
       <td>修改 <code>stratix10-svc</code> 驅動，改傳實體位址</td>
@@ -608,34 +664,46 @@ Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout w
     </tr>
   </table>
 
+  <div class="badbox">
+    <strong>訂正（依 <code>linux-socfpga-6.12</code> 原始碼，tag <code>QPDS25.3.1_REL_FCS_FIX</code>）：</strong>
+    本節原先寫「SDM 根本不是 DMA master、沒有被登錄進 SMMU」，
+    並建議移除 <code>iommus</code>。<strong>兩者都不成立。</strong>
+    <ul style="margin-bottom:0">
+      <li>SDM 在 Agilex 5 上<strong>確實有一條會被轉譯的 DRAM 存取路徑</strong>，
+          對應 <code>StreamID 10</code>；它另有一顆自己的 remapper，
+          SMMU 啟用時由驅動以 SMC funcid 513 關閉。</li>
+      <li><code>intel,agilex5-svc</code> 的 probe <strong>沒有 non-SMMU 分支</strong> —
+          移除 <code>iommus</code> 只會得到 <code>-ENODEV</code>，
+          <code>svc</code> 與其所有子節點全部不上線。</li>
+    </ul>
+  </div>
+
   <div class="infobox">
-    <strong>為什麼「驅動端修正」在上游語意上更正確：</strong>
-    SDM 在 Linux 的意義下<strong>根本不是一個 DMA master</strong> —
-    它沒有被登錄進 SMMU，因此<strong>不存在任何對它而言正確的 <code>dma_addr_t</code></strong>。
-    驅動程式應該明確傳遞實體位址，而不是把 DMA 層產出的數字直接送出去。
-    移除 <code>iommus</code> 只是用「讓兩者恰好相等」的方式達到同樣結果。
+    <strong>正確的理解：</strong>
+    SMMU + <code>svc</code> 是<strong>刻意設計要能運作</strong>的組合，由
+    <code>altr,smmu_enable_quirk</code> 啟用，需要
+    <strong>kernel、DTB、ATF 三者版本一致</strong>：
+    IOVA domain 為 <code>0x0–0x2000_0000</code>、
+    送 SDM 前加上 <code>AGILEX5_SDM_DMA_ADDR_OFFSET = 0x8000_0000</code>、
+    並關掉 SDM remapper。三者是同一份協定，混版即失效。
   </div>
 
-  <div class="warnbox">
-    <strong>尚待確認：</strong>
-    若平台宣告了 <code>dma-ranges</code> 位移，即使沒有 IOMMU，
-    <code>dma_addr_t</code> 仍會與 PA 相差一個 offset，
-    單純移除 <code>iommus</code> 就不足以解決。
-    動手之前應先檢查 <code>/firmware/svc</code> 上層匯流排是否有 <code>dma-ranges</code>。
-  </div>
-
-  <h3>建議的安全測試方式</h3>
-  <p>利用 U-Boot 依<strong>檔名</strong>載入 DTB 的特性，可做到完全不破壞原檔的測試：</p>
+  <h3>建議的檢查順序</h3>
   <ol>
-    <li>從板子取出 <code>socfpga_agilex5_de25s.dtb</code>，用 <code>dtc</code> 反編譯</li>
-    <li>只移除 <code>svc</code> 節點的 <code>iommus</code>，其餘節點完全不動</li>
-    <li>編譯成<strong>新檔名</strong> <code>socfpga_agilex5_de25s_nosmmu.dtb</code>，
-        與原檔並存於 <code>/boot</code></li>
-    <li>在 U-Boot 提示號下 <code>fatload</code> <strong>新檔名</strong>，單次開機</li>
-    <li>測試 <code>core.rbf</code> 載入</li>
+    <li><code>uname -r</code> — 對照 kernel 樹版本
+        <span class="note">（失效環境 6.12.11；含完整 quirk 支援的樹為 6.12.43）</span></li>
+    <li>確認 quirk 在<strong>兩個節點</strong>都存在：
+        <code>ls /proc/device-tree/firmware/svc/altr,smmu_enable_quirk</code> 與
+        <code>ls /proc/device-tree/firmware/svc/fpga-mgr/altr,smmu_enable_quirk</code>
+        <br><span class="note">只有一個成功 → 這就是根因：fpga-mgr 不做
+        <code>dma_map_single()</code>，svc 卻仍加 <code>0x8000_0000</code></span></li>
+    <li><code>dmesg | grep -i remapper</code> —
+        沒有 <code>Failed to configure remapper!</code>（<code>pr_info</code>）
+        表示 ATF 已實作 funcid 513</li>
+    <li>以上都正常才考慮改驅動</li>
   </ol>
   <p class="note">
-    原始 DTB 從未被修改，因此單純 power cycle 就會回到出廠設定。
+    完整的原始碼引用與逐行分析見 <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a> 第 6–8 節。
   </p>
 </section>
 
@@ -648,8 +716,9 @@ Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout w
   </p>
   <ul>
     <li>mailbox 完全不需要 <code>iommus</code> 屬性 — 它不做 bus-master，只被動回應</li>
-    <li>移除 <code>svc</code> 節點的 <code>iommus</code>
-        <strong>不可能影響</strong>驅動讀寫 <code>DATA</code>/<code>STATUS</code>/<code>CONTROL</code></li>
+    <li>任何對 <code>svc</code> 的 SMMU 設定改動（<code>iommus</code>、
+        <code>altr,smmu_enable_quirk</code>、版本對齊）
+        <strong>都不可能影響</strong>驅動讀寫 <code>DATA</code>/<code>STATUS</code>/<code>CONTROL</code></li>
     <li>overlay 裡的 <code>reg = &lt;0x0 0x20000000 0x0 0x10&gt;</code>
         是給 <code>ioremap</code> 用的實體位址，與 SMMU 無關</li>
   </ul>
@@ -665,6 +734,7 @@ Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout w
   <p>
     DE25-Standard (Agilex 5 A5ED013BB32AE4SCS) · Linux 6.12.11 ·
     U-Boot 2025.01-ge905465722f4 · Quartus Prime Pro 26.1<br>
+    姊妹篇：<a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a>（Device Tree 的 <code>iommus</code>、<code>svc</code> 與 <code>method = "smc"</code> 逐項釋疑）<br>
     相關檔案：<code>build_soc_system.tcl</code>、<code>soc_system.qsys</code>、
     <code>fpga_config_overlay.dts</code>、<code>hps_module/fpga_uart_overlay.dts</code>
   </p>
