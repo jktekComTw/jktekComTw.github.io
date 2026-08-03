@@ -4,16 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Misc Ideas — Notes & Study Guides | 昭群科技 JiaoKuan Technology</title>
-<meta name="description" content="A running list of side notes and small explorations from JiaoKuan Technology: pharmacokinetics dosing, electromagnetics and signals & systems study guides, RF/radio-frequency circuit notes on noise, distortion and amplifier design, a digital logic & Verilog study guide, and a Terasic DE25 HSMC↔ADA FPGA pin map.">
-<meta name="keywords" content="misc ideas, study notes, study guides, pharmacokinetics, steady-state dosing, electromagnetics, signals and systems, RF circuits, radio frequency circuit design, noise figure, distortion, amplifier design, digital logic, Verilog, digital circuit design, 數位邏輯, 射頻電路, 電磁學, 信號與系統, DE25, Terasic DE25, HSMC pin map, FPGA, 昭群科技, JiaoKuan Technology">
+<meta name="description" content="A running list of side notes and small explorations from JiaoKuan Technology: pharmacokinetics steady-state dosing, electromagnetics and signals & systems study guides, RF/radio-frequency circuit notes on noise, distortion and amplifier design, a digital logic & Verilog study guide, a Terasic DE25 HSMC↔ADA FPGA pin map, a SIL / DSIL radar sensitivity design note, an Agilex 5 SMMU / FPGA bitstream load failure analysis, a URSI GASS 2026 session browser, and PhD mentoring / credit-transfer notes.">
+<meta name="keywords" content="misc ideas, study notes, study guides, pharmacokinetics, steady-state dosing, electromagnetics, signals and systems, RF circuits, radio frequency circuit design, noise figure, distortion, amplifier design, digital logic, Verilog, digital circuit design, 數位邏輯, 射頻電路, 電磁學, 信號與系統, DE25, Terasic DE25, HSMC pin map, FPGA, SIL radar, DSIL radar, self-injection-locked radar, radar sensitivity, 自我注入鎖定雷達, 雷達靈敏度, URSI GASS 2026, Kraków, SMMU, arm-smmu-v3, IOVA, DMA address, Agilex 5, DE25-Standard, RBF, FPGA bitstream, stratix10-svc, SDM, of_fpga_region, 位址轉譯, 博士生指導, 學分抵免, 昭群科技, JiaoKuan Technology">
 <meta name="author" content="昭群科技 JiaoKuan Technology">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.jktek.com.tw/misc_ideas.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
-<meta property="og:title" content="Misc Ideas — Notes & Study Guides">
-<meta property="og:description" content="Side notes and small explorations: pharmacokinetics dosing, electromagnetics, signals & systems, and RF circuit study guides.">
+<meta property="og:title" content="Misc Ideas — Notes & Study Guides | 昭群科技 JiaoKuan Technology">
+<meta property="og:description" content="Side notes and small explorations: pharmacokinetics dosing, electromagnetics, signals & systems, RF circuit and digital logic study guides, DE25 HSMC pin map, SIL / DSIL radar sensitivity, and an Agilex 5 SMMU bitstream-load analysis.">
 <meta property="og:url" content="https://www.jktek.com.tw/misc_ideas.html">
+<meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_TW">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Misc Ideas — 昭群科技 JiaoKuan Technology">
+<meta name="twitter:description" content="研究筆記與學習指南：藥物動力學、電磁學、信號與系統、射頻電路、數位邏輯與 Verilog、DE25 HSMC 腳位圖、SIL / DSIL 雷達靈敏度。">
+<meta name="twitter:image" content="https://www.jktek.com.tw/capy.jpg">
+<link rel="icon" type="image/jpeg" href="capy.jpg">
+<link rel="apple-touch-icon" href="capy.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Misc Ideas — Notes & Study Guides",
+  "url": "https://www.jktek.com.tw/misc_ideas.html",
+  "inLanguage": ["en", "zh-TW"],
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "昭群科技 JiaoKuan Technology",
+    "url": "https://www.jktek.com.tw/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "昭群科技 JiaoKuan Technology",
+    "url": "https://www.jktek.com.tw/",
+    "logo": "https://www.jktek.com.tw/capy.jpg"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListOrder": "https://schema.org/ItemListOrderAscending",
+    "numberOfItems": 12,
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Steady-State Dosing: Single vs Split", "url": "https://www.jktek.com.tw/medicine/steady-state-dosing.html" },
+      { "@type": "ListItem", "position": 2, "name": "Field and Wave Electromagnetics — Cheng", "url": "https://www.jktek.com.tw/textbook/magnetelectronics/electromagnetics_study_book.html" },
+      { "@type": "ListItem", "position": 3, "name": "Signals & Systems — Oppenheim (Ch1–Ch10)", "url": "https://www.jktek.com.tw/textbook/Signal%26system/signals_and_systems.html" },
+      { "@type": "ListItem", "position": 4, "name": "HSMC Pin Map (Terasic DE25)", "url": "https://www.jktek.com.tw/hsmc_pin_map.html" },
+      { "@type": "ListItem", "position": 5, "name": "RF Circuits Ch2 — Noise & Distortion", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch2_Noise_Distortion_Study_Guide.html" },
+      { "@type": "ListItem", "position": 6, "name": "RF Circuits Ch3 — Amplifier Design", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide.html" },
+      { "@type": "ListItem", "position": 7, "name": "Digital Logic & Verilog — Study Guide & Exercises", "url": "https://www.jktek.com.tw/dcd/digital_logic_verilog_study_guide.html" },
+      { "@type": "ListItem", "position": 8, "name": "業界資深工程師轉博士生的指導策略總結", "url": "https://www.jktek.com.tw/misc/phd_student.html" },
+      { "@type": "ListItem", "position": 9, "name": "URSI GASS 2026 — Kraków", "url": "https://www.jktek.com.tw/misc/URSI%20GASS%202026.html" },
+      { "@type": "ListItem", "position": 10, "name": "課程內容對應表 / Course Content Mapping", "url": "https://www.jktek.com.tw/misc/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html" },
+      { "@type": "ListItem", "position": 11, "name": "SIL / DSIL 雷達靈敏度設計", "url": "https://www.jktek.com.tw/misc/SIL_DSIL_Sensitivity_Design_Note.html" },
+      { "@type": "ListItem", "position": 12, "name": "為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致", "url": "https://www.jktek.com.tw/misc/smmu_rbf_load_failure_zh.html" }
+    ]
+  }
+}
+</script>
 <style>
     body, html {
         margin: 0;
@@ -135,6 +183,42 @@
                 <span>
                     <span class="title">業界資深工程師轉博士生的指導策略總結</span>
                     <div class="desc">Mentoring strategies for a senior industry engineer transitioning to a PhD student.</div>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="misc/URSI%20GASS%202026.html">
+                <span class="num">9</span>
+                <span>
+                    <span class="title">URSI GASS 2026 — Kraków</span>
+                    <div class="desc">Day-by-day session browser for the URSI General Assembly 2026.</div>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="misc/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html">
+                <span class="num">10</span>
+                <span>
+                    <span class="title">課程內容對應表 / Course Content Mapping</span>
+                    <div class="desc">Credit-transfer course content comparison for d143010009 馬嘉鴻.</div>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="misc/SIL_DSIL_Sensitivity_Design_Note.html">
+                <span class="num">11</span>
+                <span>
+                    <span class="title">SIL / DSIL 雷達靈敏度設計</span>
+                    <div class="desc">Design note on SIL / DSIL radar sensitivity.</div>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="misc/smmu_rbf_load_failure_zh.html">
+                <span class="num">12</span>
+                <span>
+                    <span class="title">為什麼 SDM 無法把 RBF 載入 FPGA</span>
+                    <div class="desc">SMMU 位址轉譯不一致造成 “timeout waiting for svc layer buffers” 的完整分析（Agilex 5 / DE25-Standard）。</div>
                 </span>
             </a>
         </li>
