@@ -4,22 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Misc Ideas — Notes & Study Guides | 昭群科技 JiaoKuan Technology</title>
-<meta name="description" content="A running list of side notes and small explorations from JiaoKuan Technology: pharmacokinetics steady-state dosing, electromagnetics and signals & systems study guides, RF/radio-frequency circuit notes on noise, distortion and amplifier design, a digital logic & Verilog study guide, a Terasic DE25 HSMC↔ADA FPGA pin map, a SIL / DSIL radar sensitivity design note, an Agilex 5 SMMU / FPGA bitstream load failure analysis and its device-tree iommus / svc Q&amp;A companion, a URSI GASS 2026 session browser, and PhD mentoring / credit-transfer notes.">
-<meta name="keywords" content="misc ideas, study notes, study guides, pharmacokinetics, steady-state dosing, electromagnetics, signals and systems, RF circuits, radio frequency circuit design, noise figure, distortion, amplifier design, digital logic, Verilog, digital circuit design, 數位邏輯, 射頻電路, 電磁學, 信號與系統, DE25, Terasic DE25, HSMC pin map, FPGA, SIL radar, DSIL radar, self-injection-locked radar, radar sensitivity, 自我注入鎖定雷達, 雷達靈敏度, URSI GASS 2026, Kraków, SMMU, arm-smmu-v3, IOVA, DMA address, Agilex 5, DE25-Standard, RBF, FPGA bitstream, stratix10-svc, SDM, of_fpga_region, 位址轉譯, device tree, iommus, phandle, altr smmu_enable_quirk, method smc, SMCCC, 博士生指導, 學分抵免, 昭群科技, JiaoKuan Technology">
+<meta name="description" content="A running list of side notes and small explorations from JiaoKuan Technology: pharmacokinetics steady-state dosing, electromagnetics and signals & systems study guides, RF/radio-frequency circuit notes on noise, distortion and amplifier design, a digital logic & Verilog study guide, a Terasic DE25 HSMC↔ADA FPGA pin map, a SIL / DSIL radar sensitivity design note, an Agilex 5 SMMU / FPGA bitstream load failure analysis and its device-tree iommus / svc Q&amp;A companion, a VCU118 PGOOD / VCCINT power-up failure diagnostic report, a URSI GASS 2026 session browser, and PhD mentoring / credit-transfer notes.">
+<meta name="keywords" content="misc ideas, study notes, study guides, pharmacokinetics, steady-state dosing, electromagnetics, signals and systems, RF circuits, radio frequency circuit design, noise figure, distortion, amplifier design, digital logic, Verilog, digital circuit design, 數位邏輯, 射頻電路, 電磁學, 信號與系統, DE25, Terasic DE25, HSMC pin map, FPGA, SIL radar, DSIL radar, self-injection-locked radar, radar sensitivity, 自我注入鎖定雷達, 雷達靈敏度, URSI GASS 2026, Kraków, SMMU, arm-smmu-v3, IOVA, DMA address, Agilex 5, DE25-Standard, RBF, FPGA bitstream, stratix10-svc, SDM, of_fpga_region, 位址轉譯, device tree, iommus, phandle, altr smmu_enable_quirk, method smc, SMCCC, VCU118, PGOOD, VCCINT, UltraScale+, VU9P, PMBus, power sequencing, power-up failure, FMC mezzanine, 電源時序, 上電失敗, 博士生指導, 學分抵免, 昭群科技, JiaoKuan Technology">
 <meta name="author" content="昭群科技 JiaoKuan Technology">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.jktek.com.tw/misc_ideas.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
 <meta property="og:title" content="Misc Ideas — Notes & Study Guides | 昭群科技 JiaoKuan Technology">
-<meta property="og:description" content="Side notes and small explorations: pharmacokinetics dosing, electromagnetics, signals & systems, RF circuit and digital logic study guides, DE25 HSMC pin map, SIL / DSIL radar sensitivity, and an Agilex 5 SMMU bitstream-load analysis.">
+<meta property="og:description" content="Side notes and small explorations: pharmacokinetics dosing, electromagnetics, signals & systems, RF circuit and digital logic study guides, DE25 HSMC pin map, SIL / DSIL radar sensitivity, an Agilex 5 SMMU bitstream-load analysis, and a VCU118 PGOOD / VCCINT power-up diagnostic.">
 <meta property="og:url" content="https://www.jktek.com.tw/misc_ideas.html">
 <meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="zh_TW">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Misc Ideas — 昭群科技 JiaoKuan Technology">
-<meta name="twitter:description" content="研究筆記與學習指南：藥物動力學、電磁學、信號與系統、射頻電路、數位邏輯與 Verilog、DE25 HSMC 腳位圖、SIL / DSIL 雷達靈敏度。">
+<meta name="twitter:description" content="研究筆記與學習指南：藥物動力學、電磁學、信號與系統、射頻電路、數位邏輯與 Verilog、DE25 HSMC 腳位圖、SIL / DSIL 雷達靈敏度、VCU118 電源上電診斷。">
 <meta name="twitter:image" content="https://www.jktek.com.tw/capy.jpg">
 <link rel="icon" type="image/jpeg" href="capy.jpg">
 <link rel="apple-touch-icon" href="capy.jpg">
@@ -44,7 +44,7 @@
   "mainEntity": {
     "@type": "ItemList",
     "itemListOrder": "https://schema.org/ItemListOrderAscending",
-    "numberOfItems": 13,
+    "numberOfItems": 14,
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Steady-State Dosing: Single vs Split", "url": "https://www.jktek.com.tw/medicine/steady-state-dosing.html" },
       { "@type": "ListItem", "position": 2, "name": "Field and Wave Electromagnetics — Cheng", "url": "https://www.jktek.com.tw/textbook/magnetelectronics/electromagnetics_study_book.html" },
@@ -52,13 +52,14 @@
       { "@type": "ListItem", "position": 4, "name": "HSMC Pin Map (Terasic DE25)", "url": "https://www.jktek.com.tw/hsmc_pin_map.html" },
       { "@type": "ListItem", "position": 5, "name": "RF Circuits Ch2 — Noise & Distortion", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch2_Noise_Distortion_Study_Guide.html" },
       { "@type": "ListItem", "position": 6, "name": "RF Circuits Ch3 — Amplifier Design", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide.html" },
-      { "@type": "ListItem", "position": 7, "name": "Digital Logic & Verilog — Study Guide & Exercises", "url": "https://www.jktek.com.tw/dcd/digital_logic_verilog_study_guide.html" },
+      { "@type": "ListItem", "position": 7, "name": "Digital Logic & Verilog — Study Guide & Exercises", "url": "https://www.jktek.com.tw/dcd/dcd.html" },
       { "@type": "ListItem", "position": 8, "name": "業界資深工程師轉博士生的指導策略總結", "url": "https://www.jktek.com.tw/misc/phd_student.html" },
       { "@type": "ListItem", "position": 9, "name": "URSI GASS 2026 — Kraków", "url": "https://www.jktek.com.tw/misc/URSI%20GASS%202026.html" },
       { "@type": "ListItem", "position": 10, "name": "課程內容對應表 / Course Content Mapping", "url": "https://www.jktek.com.tw/misc/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html" },
       { "@type": "ListItem", "position": 11, "name": "SIL / DSIL 雷達靈敏度設計", "url": "https://www.jktek.com.tw/misc/SIL_DSIL_Sensitivity_Design_Note.html" },
       { "@type": "ListItem", "position": 12, "name": "為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致", "url": "https://www.jktek.com.tw/misc/smmu_rbf_load_failure_zh.html" },
-      { "@type": "ListItem", "position": 13, "name": "Device Tree 的 iommus、svc 與 method = \"smc\" — 逐項釋疑", "url": "https://www.jktek.com.tw/misc/dt_iommus_svc_qa_zh.html" }
+      { "@type": "ListItem", "position": 13, "name": "Device Tree 的 iommus、svc 與 method = \"smc\" — 逐項釋疑", "url": "https://www.jktek.com.tw/misc/dt_iommus_svc_qa_zh.html" },
+      { "@type": "ListItem", "position": 14, "name": "VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動", "url": "https://www.jktek.com.tw/misc/vcu118/vcu118-pgood-vccint-diagnostics.html" }
     ]
   }
 }
@@ -170,7 +171,7 @@
             </a>
         </li>
         <li>
-            <a href="dcd/digital_logic_verilog_study_guide.html">
+            <a href="dcd/dcd.html">
                 <span class="num">7</span>
                 <span>
                     <span class="title">Digital Logic &amp; Verilog — Study Guide &amp; Exercises</span>
@@ -229,6 +230,15 @@
                 <span>
                     <span class="title">Device Tree 的 iommus、svc 與 method = “smc”</span>
                     <div class="desc">姊妹篇：phandle 機制、位址空間、SMC conduit、altr,smmu_enable_quirk，以及為什麼「只移除 svc 的 iommus」行不通。</div>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="misc/vcu118/vcu118-pgood-vccint-diagnostics.html">
+                <span class="num">14</span>
+                <span>
+                    <span class="title">VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動</span>
+                    <div class="desc">隨機上電失敗的證據整理、根因假設排序、診斷決策樹與逐步排查 SOP（VCU118 Rev 2.0 / VU9P，含中英雙語版本）。</div>
                 </span>
             </a>
         </li>

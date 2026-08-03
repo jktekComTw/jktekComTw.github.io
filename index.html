@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>昭群科技 JiaoKuan Technology — 嵌入式系統・馬達變頻器・電力電子・網頁App開發 | 高雄</title>
-    <meta name="description" content="昭群科技 JiaoKuan Technology，位於高雄市鳳山區，專注 GNU/Linux 與 RTOS 嵌入式系統軟韌體開發、馬達變頻器 FOC 控制、電力電子產品設計、網頁與手機 App 開發、機構 3D 設計及 FPGA 設計。Kaohsiung Taiwan embedded systems, motor FOC, power electronics, web & app development.">
-    <meta name="keywords" content="昭群科技, JiaoKuan Technology, 高雄軟體公司, 嵌入式系統開發, GNU/Linux, RTOS, 軟韌體開發, firmware development, 馬達變頻器, FOC, AC motor drive, 電力電子, power electronics, 網頁程式開發, web development, 手機App開發, app development, 機構設計, 3D mechanism design, 資訊系統管理, FPGA設計, FPGA design, embedded systems, Kaohsiung Taiwan">
+    <meta name="description" content="昭群科技 JiaoKuan Technology，位於高雄市鳳山區，專注 GNU/Linux 與 RTOS 嵌入式系統軟韌體開發、馬達變頻器 FOC 控制、電力電子產品設計、網頁與手機 App 開發、機構 3D 設計及 FPGA 設計。站內另收錄技術筆記與除錯報告：Agilex 5 SMMU / device tree、VCU118 電源上電失敗、Terasic DE25 HSMC 腳位圖、SIL / DSIL 雷達靈敏度，以及電磁學、信號與系統、射頻電路、數位邏輯 Verilog 等學習指南。Kaohsiung Taiwan embedded systems, motor FOC, power electronics, web &amp; app development, FPGA engineering notes.">
+    <meta name="keywords" content="昭群科技, JiaoKuan Technology, 高雄軟體公司, 嵌入式系統開發, GNU/Linux, RTOS, 軟韌體開發, firmware development, 馬達變頻器, FOC, AC motor drive, 電力電子, power electronics, 網頁程式開發, web development, 手機App開發, app development, 機構設計, 3D mechanism design, 資訊系統管理, FPGA設計, FPGA design, embedded systems, Kaohsiung Taiwan, Verilog, HDL, 數位邏輯設計, finite state machine, Terasic DE25, HSMC pin map, Agilex 5, DE25-Standard, SMMU, arm-smmu-v3, device tree, iommus, IOVA, stratix10-svc, FPGA bitstream, RBF, VCU118, VU9P, UltraScale+, PGOOD, VCCINT, PMBus, power sequencing, SIL radar, DSIL radar, self-injection-locked radar, 雷達靈敏度, electromagnetics, 電磁學, Maxwell equations, signals and systems, 信號與系統, Fourier transform, Laplace transform, z-transform, RF circuit design, 射頻電路, noise figure, LNA, power amplifier, S-parameters, pharmacokinetics, 藥物動力學, steady-state dosing, WebAssembly, WASM, WebGL, URSI GASS 2026, 學分抵免, 博士生指導, study notes, technical notes">
     <meta name="author" content="馬嘉鴻 Carlos Ma / 昭群科技 JiaoKuan Technology">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.jktek.com.tw/">
@@ -26,7 +26,10 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
+      "@graph": [
+      {
       "@type": "Organization",
+      "@id": "https://www.jktek.com.tw/#organization",
       "name": "昭群科技 JiaoKuan Technology",
       "alternateName": "JiaoKuan Technology",
       "url": "https://www.jktek.com.tw/",
@@ -56,6 +59,46 @@
         "Mechanism 3D design",
         "FPGA design",
         "Information systems management"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.jktek.com.tw/#website",
+      "url": "https://www.jktek.com.tw/",
+      "name": "昭群科技 JiaoKuan Technology",
+      "description": "高雄嵌入式系統、馬達變頻器 FOC、電力電子、網頁與 App 開發、FPGA 設計，以及 FPGA / 射頻 / 訊號處理技術筆記。",
+      "inLanguage": ["zh-TW", "en"],
+      "publisher": { "@id": "https://www.jktek.com.tw/#organization" }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://www.jktek.com.tw/#sitecontents",
+      "name": "Site contents — 昭群科技 JiaoKuan Technology",
+      "description": "站內全部頁面：公司介紹、專案實績、技術筆記、學習指南與互動範例。",
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "numberOfItems": 19,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "item": { "@type": "AboutPage", "name": "About Us — 昭群科技 JiaoKuan Technology", "url": "https://www.jktek.com.tw/aboutus.html", "description": "高雄軟韌體開發團隊介紹：GNU/Linux 與 RTOS 嵌入式系統、馬達變頻器 FOC 控制、電力電子、網頁與手機 App、FPGA 設計。" } },
+        { "@type": "ListItem", "position": 2, "item": { "@type": "CollectionPage", "name": "Projects / Web App — 專案實績", "url": "https://www.jktek.com.tw/projects.html", "description": "中山大學圖資處電力管理與排程系統（政府 B 級資安驗證）、北醫醫工所中風復健 RTOS 裝置與 Android App、海洋大學軟體工程教材、CI/CD 實務。" } },
+        { "@type": "ListItem", "position": 3, "item": { "@type": "CollectionPage", "name": "Misc Ideas — Notes & Study Guides", "url": "https://www.jktek.com.tw/misc_ideas.html", "description": "技術筆記與學習指南的總覽清單，共 14 篇。" } },
+        { "@type": "ListItem", "position": 4, "item": { "@type": "TechArticle", "name": "VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動", "url": "https://www.jktek.com.tw/misc/vcu118/vcu118-pgood-vccint-diagnostics.html", "description": "Xilinx / AMD VCU118 (VU9P, Rev 2.0) 間歇性上電失敗診斷：六項根因假設排序、診斷決策樹、八步排查 SOP、PMBus STATUS 判讀與 RMA 判定。中英雙語。" } },
+        { "@type": "ListItem", "position": 5, "item": { "@type": "TechArticle", "name": "為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致", "url": "https://www.jktek.com.tw/misc/smmu_rbf_load_failure_zh.html", "description": "Agilex 5 (DE25-Standard) FPGA bitstream 載入失敗分析：stratix10-svc 位於 arm-smmu-v3 之後取得 IOVA，SDM 卻當成實體位址讀取 DRAM。" } },
+        { "@type": "ListItem", "position": 6, "item": { "@type": "TechArticle", "name": "Device Tree 的 iommus、svc 與 method = \"smc\" — 逐項釋疑", "url": "https://www.jktek.com.tw/misc/dt_iommus_svc_qa_zh.html", "description": "phandle 機制、位址空間、SMC conduit、altr,smmu_enable_quirk，以及為什麼在 Agilex 5 上只移除 svc 的 iommus 行不通。" } },
+        { "@type": "ListItem", "position": 7, "item": { "@type": "TechArticle", "name": "SIL / DSIL 雷達靈敏度設計 — Design Note", "url": "https://www.jktek.com.tw/misc/SIL_DSIL_Sensitivity_Design_Note.html", "description": "自我注入鎖定 (SIL) 與雙自我注入鎖定 (DSIL) 雷達的靈敏度設計筆記。" } },
+        { "@type": "ListItem", "position": 8, "item": { "@type": "TechArticle", "name": "DE25 HSMC ↔ ADA Pin Map", "url": "https://www.jktek.com.tw/hsmc_pin_map.html", "description": "Terasic DE25 FPGA 開發板的 HSMC 連接器對 ADA 類比／數位轉接板腳位對照表。" } },
+        { "@type": "ListItem", "position": 9, "item": { "@type": "LearningResource", "name": "Digital Logic & Verilog — Study Guide & Exercises", "url": "https://www.jktek.com.tw/dcd/dcd.html", "description": "數位邏輯與 Verilog HDL 學習指南與習題：數字系統、布林代數、卡諾圖、組合與序向電路、有限狀態機。" } },
+        { "@type": "ListItem", "position": 10, "item": { "@type": "LearningResource", "name": "Field and Wave Electromagnetics — Cheng", "url": "https://www.jktek.com.tw/textbook/magnetelectronics/electromagnetics_study_book.html", "description": "電磁學讀書筆記：向量分析、靜電學、穩態電流、靜磁學、馬克士威方程組、平面波。" } },
+        { "@type": "ListItem", "position": 11, "item": { "@type": "LearningResource", "name": "Signals & Systems — Oppenheim (Ch1–Ch10)", "url": "https://www.jktek.com.tw/textbook/Signal%26system/signals_and_systems.html", "description": "信號與系統讀書筆記：LTI 系統、摺積、傅立葉級數與轉換、拉普拉斯轉換、z 轉換、取樣。" } },
+        { "@type": "ListItem", "position": 12, "item": { "@type": "LearningResource", "name": "RF Circuits Ch2 — Noise & Distortion", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch2_Noise_Distortion_Study_Guide.html", "description": "微波與射頻系統的雜訊與失真：熱雜訊、雜訊指數、雜訊溫度、Friis 串級公式、非線性與諧波。" } },
+        { "@type": "ListItem", "position": 13, "item": { "@type": "LearningResource", "name": "RF Circuits Ch3 — Amplifier Design", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide.html", "description": "射頻放大器設計：低雜訊放大器 (LNA) 與功率放大器 (PA)、S 參數、穩定性、增益圓、雜訊匹配。" } },
+        { "@type": "ListItem", "position": 14, "item": { "@type": "TechArticle", "name": "Steady-State Dosing: Single vs Split Dose", "url": "https://www.jktek.com.tw/medicine/steady-state-dosing.html", "description": "藥物動力學筆記：分次給藥為何能平滑血中濃度曲線，卻不改變 24 小時平均暴露量。" } },
+        { "@type": "ListItem", "position": 15, "item": { "@type": "WebPage", "name": "URSI GASS 2026 — Kraków Session Browser", "url": "https://www.jktek.com.tw/misc/URSI%20GASS%202026.html", "description": "URSI 大會 2026（波蘭 Kraków）逐日議程瀏覽器，可依日期、委員會與場次檢索技術議程。" } },
+        { "@type": "ListItem", "position": 16, "item": { "@type": "Article", "name": "業界資深工程師轉博士生的指導策略總結", "url": "https://www.jktek.com.tw/misc/phd_student.html", "description": "研究心態調適、與指導教授協作、論文與發表規劃，以及學術與實務經驗的平衡。" } },
+        { "@type": "ListItem", "position": 17, "item": { "@type": "WebPage", "name": "課程內容對應表 / Course Content Mapping", "url": "https://www.jktek.com.tw/misc/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html", "description": "研究所學分抵免對照表：中山大學與台灣大學課程大綱對應，涵蓋高等線性控制、適應控制、數位控制與 FPGA 系統設計實務。" } },
+        { "@type": "ListItem", "position": 18, "item": { "@type": "WebPage", "name": "WebAssembly Fibonacci Demo", "url": "https://www.jktek.com.tw/webasm.html", "description": "互動式 WebAssembly 範例：以 C 編譯為 WASM 計算費氏數列，比較原生 JavaScript 與 WebAssembly 效能。" } },
+        { "@type": "ListItem", "position": 19, "item": { "@type": "WebPage", "name": "WebGL 3D Cube Demo", "url": "https://www.jktek.com.tw/webgl_test.html", "description": "互動式 WebGL 範例：在瀏覽器中以 GPU 即時繪製並旋轉 3D 立方體。" } }
+      ]
+    }
       ]
     }
     </script>
