@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="'Georgia','Times New Roman',serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#333"/>
+    </marker>
+    <linearGradient id="sig" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e86de"/>
+      <stop offset="100%" stop-color="#1b4f72"/>
+    </linearGradient>
+    <linearGradient id="noi" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e74c3c"/>
+      <stop offset="100%" stop-color="#922b21"/>
+    </linearGradient>
+    <linearGradient id="added" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f39c12"/>
+      <stop offset="100%" stop-color="#d68910"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-size="22" font-weight="bold" fill="#2c3e50">Noise Figure F — What Happens to SNR?</text>
+
+  <!-- ===== Block Diagram ===== -->
+  <!-- Input -->
+  <text x="120" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#2c3e50">Input</text>
+  <rect x="60" y="85" width="120" height="50" rx="6" fill="none" stroke="#2e86de" stroke-width="2"/>
+  <text x="120" y="107" text-anchor="middle" font-size="13" fill="#2e86de">S&#x1d62; (signal)</text>
+  <text x="120" y="125" text-anchor="middle" font-size="13" fill="#e74c3c">N&#x1d62; = kT₀B</text>
+
+  <!-- Arrow -->
+  <line x1="185" y1="110" x2="280" y2="110" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Network box -->
+  <rect x="285" y="80" width="160" height="60" rx="8" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+  <text x="365" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">Noisy Network</text>
+  <text x="365" y="125" text-anchor="middle" font-size="13" fill="#555">Gain G, Noise Tₑ</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="110" x2="545" y2="110" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="498" y="100" text-anchor="middle" font-size="12" fill="#555">×G</text>
+
+  <!-- Output -->
+  <text x="620" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#2c3e50">Output</text>
+  <rect x="550" y="85" width="140" height="50" rx="6" fill="none" stroke="#2e86de" stroke-width="2"/>
+  <text x="620" y="107" text-anchor="middle" font-size="13" fill="#2e86de">Sₒ = G·S&#x1d62;</text>
+  <text x="620" y="125" text-anchor="middle" font-size="13" fill="#e74c3c">Nₒ = G·kB(T₀+Tₑ)</text>
+
+  <!-- ===== SNR Bar Chart ===== -->
+  <!-- Input SNR -->
+  <text x="195" y="185" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">SNR at Input</text>
+
+  <!-- Signal bar -->
+  <rect x="130" y="200" width="50" height="180" rx="4" fill="url(#sig)" opacity="0.85"/>
+  <text x="155" y="395" text-anchor="middle" font-size="12" fill="#2e86de" font-weight="bold">S&#x1d62;</text>
+
+  <!-- Noise bar (small) -->
+  <rect x="210" y="340" width="50" height="40" rx="4" fill="url(#noi)" opacity="0.85"/>
+  <text x="235" y="395" text-anchor="middle" font-size="12" fill="#e74c3c" font-weight="bold">N&#x1d62;</text>
+
+  <!-- SNR bracket -->
+  <line x1="100" y1="200" x2="100" y2="380" stroke="#333" stroke-width="1.5"/>
+  <line x1="95" y1="200" x2="105" y2="200" stroke="#333" stroke-width="1.5"/>
+  <line x1="95" y1="380" x2="105" y2="380" stroke="#333" stroke-width="1.5"/>
+  <text x="90" y="295" text-anchor="end" font-size="14" fill="#333" font-weight="bold">SNR&#x1d62;</text>
+  <text x="90" y="312" text-anchor="end" font-size="12" fill="#555">= S&#x1d62;/N&#x1d62;</text>
+
+  <!-- Big arrow -->
+  <text x="450" y="270" text-anchor="middle" font-size="40" fill="#333">⟶</text>
+  <text x="450" y="300" text-anchor="middle" font-size="14" font-weight="bold" fill="#555">G amplifies</text>
+  <text x="450" y="318" text-anchor="middle" font-size="14" font-weight="bold" fill="#e74c3c">+ adds noise</text>
+
+  <!-- Output SNR -->
+  <text x="700" y="185" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">SNR at Output</text>
+
+  <!-- Signal bar (same height, amplified equally) -->
+  <rect x="630" y="200" width="50" height="180" rx="4" fill="url(#sig)" opacity="0.85"/>
+  <text x="655" y="395" text-anchor="middle" font-size="12" fill="#2e86de" font-weight="bold">G·S&#x1d62;</text>
+
+  <!-- Noise bar (bigger - amplified + added) -->
+  <rect x="710" y="280" width="50" height="100" rx="4" fill="url(#noi)" opacity="0.85"/>
+  <rect x="710" y="280" width="50" height="40" rx="4" fill="url(#added)" opacity="0.85"/>
+  <text x="735" y="395" text-anchor="middle" font-size="12" fill="#e74c3c" font-weight="bold">G·N&#x1d62;</text>
+  <text x="790" y="298" text-anchor="start" font-size="11" fill="#d68910" font-weight="bold">+G·kTₑB</text>
+  <text x="790" y="314" text-anchor="start" font-size="11" fill="#d68910">(added noise)</text>
+
+  <!-- SNR bracket -->
+  <line x1="600" y1="200" x2="600" y2="380" stroke="#333" stroke-width="1.5"/>
+  <line x1="595" y1="200" x2="605" y2="200" stroke="#333" stroke-width="1.5"/>
+  <line x1="595" y1="380" x2="605" y2="380" stroke="#333" stroke-width="1.5"/>
+  <text x="590" y="285" text-anchor="end" font-size="14" fill="#333" font-weight="bold">SNRₒ</text>
+  <text x="590" y="302" text-anchor="end" font-size="12" fill="#555">= Sₒ/Nₒ</text>
+  <text x="590" y="319" text-anchor="end" font-size="12" fill="#e74c3c">&lt; SNR&#x1d62;</text>
+
+  <!-- ===== Formula Section ===== -->
+  <rect x="50" y="420" width="800" height="180" rx="10" fill="#fdf6ec" stroke="#e0c97f" stroke-width="2"/>
+
+  <text x="450" y="452" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">Definition</text>
+
+  <!-- Main formula -->
+  <text x="450" y="485" text-anchor="middle" font-size="20" fill="#333">
+    F = SNR&#x1d62; / SNRₒ  ≥ 1
+  </text>
+
+  <!-- Interpretation -->
+  <text x="450" y="520" text-anchor="middle" font-size="15" fill="#555">
+    F measures how much the network degrades the signal-to-noise ratio.
+  </text>
+
+  <!-- Equivalent forms -->
+  <text x="200" y="555" text-anchor="middle" font-size="15" fill="#2e86de" font-weight="bold">F = 1  →  ideal (no added noise)</text>
+  <text x="620" y="555" text-anchor="middle" font-size="15" fill="#e74c3c" font-weight="bold">F &gt; 1  →  network adds noise</text>
+
+  <text x="450" y="588" text-anchor="middle" font-size="15" fill="#333">
+    F = 1 + Tₑ/T₀     NF(dB) = 10·log₁₀(F)
+  </text>
+</svg>

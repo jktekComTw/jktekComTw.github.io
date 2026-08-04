@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RF &amp; Microwave Circuit Design — Study Guides</title>
+<meta name="description" content="Chapter index for the RF and microwave circuit design study guides: noise and distortion, low-noise and power amplifier design, mixers and frequency conversion, oscillators and frequency synthesizers, and receiver/transmitter architectures — plus cross-chapter practice problems and interactive explainers on Friis cascade noise, Taylor-series nonlinearity, impedance matching, Smith chart circles, balanced and image-reject mixers, oscillator stability and OFDM. 射頻與微波電路設計學習指南章節總覽與補充說明。">
+<meta name="keywords" content="RF circuits, microwave circuit design, study guide, noise figure, noise temperature, Friis, intermodulation, IP3, 1-dB compression, low-noise amplifier, LNA, power amplifier, S-parameters, stability, gain circles, mixers, frequency conversion, image rejection, oscillators, Colpitts, Hartley, Pierce, Clapp, phase noise, Leeson, PLL, fractional-N, DDS, transceiver architecture, heterodyne, zero-IF, image-reject receiver, Hartley, Weaver, low-IF, I/Q mismatch, LO pulling, impedance matching, Smith chart, admittance, Taylor series, Friis cascade, single-balanced mixer, double-balanced mixer, diode ring mixer, image-reject mixer, 90 degree hybrid, 180 degree hybrid, SSB modulator, phase margin, Van der Pol, describing function, limit cycle, OFDM, subcarrier orthogonality, 射頻電路, 微波電路, 雜訊指數, 失真, 放大器設計, 混頻器, 振盪器, 相位雜訊, 頻率合成器, 收發機架構, 昭群科技, JiaoKuan Technology">
+<meta name="author" content="昭群科技 JiaoKuan Technology">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.jktek.com.tw/textbook/radio_circuit/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+<meta property="og:title" content="RF &amp; Microwave Circuit Design — Study Guides">
+<meta property="og:description" content="Chapter index for the RF/microwave circuit design study guides: noise &amp; distortion, amplifier design, mixers, oscillators &amp; synthesizers, and transceiver architectures.">
+<meta property="og:url" content="https://www.jktek.com.tw/textbook/radio_circuit/index.html">
+<meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_TW">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RF &amp; Microwave Circuit Design — Study Guides">
+<meta name="twitter:description" content="射頻與微波電路設計學習指南：雜訊與失真、放大器設計、混頻器、振盪器與頻率合成、收發機架構。">
+<meta name="twitter:image" content="https://www.jktek.com.tw/capy.jpg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a1a1a'/%3E%3Cline x1='8' y1='16' x2='2' y2='16' stroke='%23b44a2f' stroke-width='2.4'/%3E%3Cline x1='24' y1='16' x2='30' y2='16' stroke='%23b44a2f' stroke-width='2.4'/%3E%3Cline x1='16' y1='24' x2='16' y2='30' stroke='%23b44a2f' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23b44a2f' stroke-width='2.4'/%3E%3Cline x1='10.3' y1='10.3' x2='21.7' y2='21.7' stroke='%23f0ece6' stroke-width='2'/%3E%3Cline x1='21.7' y1='10.3' x2='10.3' y2='21.7' stroke='%23f0ece6' stroke-width='2'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "RF & Microwave Circuit Design — Study Guides",
+  "url": "https://www.jktek.com.tw/textbook/radio_circuit/index.html",
+  "inLanguage": ["en", "zh-TW"],
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "昭群科技 JiaoKuan Technology",
+    "url": "https://www.jktek.com.tw/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "昭群科技 JiaoKuan Technology",
+    "url": "https://www.jktek.com.tw/",
+    "logo": "https://www.jktek.com.tw/capy.jpg"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListOrder": "https://schema.org/ItemListOrderAscending",
+    "numberOfItems": 16,
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Chapter II — Noise and Distortion in Microwave Systems", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch2_Noise_Distortion_Study_Guide.html" },
+      { "@type": "ListItem", "position": 2, "name": "Chapter III — Low-Noise and Power Amplifiers", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide.html" },
+      { "@type": "ListItem", "position": 3, "name": "Chapter IV — Mixers", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch4_Mixers_Study_Guide.html" },
+      { "@type": "ListItem", "position": 4, "name": "Chapter V — Oscillators & Synthesizers", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch5_Oscillators_Study_Guide.html" },
+      { "@type": "ListItem", "position": 5, "name": "Chapter VI — Receivers & Transmitters", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Ch6_Transceivers_Study_Guide.html" },
+      { "@type": "ListItem", "position": 6, "name": "Cross-Chapter Practice Problems — Mixers · Oscillators · Transceivers", "url": "https://www.jktek.com.tw/textbook/radio_circuit/Cross_Chapter_Practice_Problems.html" },
+      { "@type": "ListItem", "position": 7, "name": "Why the First Stage Needs at Least Moderate Gain", "url": "https://www.jktek.com.tw/textbook/radio_circuit/why_moderate_gain.html" },
+      { "@type": "ListItem", "position": 8, "name": "Taylor Series Explorer — Nonlinear Operating Point", "url": "https://www.jktek.com.tw/textbook/radio_circuit/taylor_explorer.html" },
+      { "@type": "ListItem", "position": 9, "name": "Impedance Matching — Interactive Explanation", "url": "https://www.jktek.com.tw/textbook/radio_circuit/impedance_matching_explained.html" },
+      { "@type": "ListItem", "position": 10, "name": "Smith Chart 上三種圓的差異", "url": "https://www.jktek.com.tw/textbook/radio_circuit/smith_chart_circles_explained.html" },
+      { "@type": "ListItem", "position": 11, "name": "90° Hybrid 單平衡混頻器方塊圖逐元素解析", "url": "https://www.jktek.com.tw/textbook/radio_circuit/slide26_90deg_single_balanced_mixer_explained.html" },
+      { "@type": "ListItem", "position": 12, "name": "180° Hybrid 單平衡混頻器方塊圖逐元素解析", "url": "https://www.jktek.com.tw/textbook/radio_circuit/slide28_180deg_single_balanced_mixer_explained.html" },
+      { "@type": "ListItem", "position": 13, "name": "雙平衡二極體環式混頻器 — 互動式動畫解說", "url": "https://www.jktek.com.tw/textbook/radio_circuit/slide29_double_balanced_ring_mixer_interactive.html" },
+      { "@type": "ListItem", "position": 14, "name": "Image-Reject Diode Mixer — 鏡像抑制混頻器逐元素解析", "url": "https://www.jktek.com.tw/textbook/radio_circuit/slide30_image_reject_mixer_explained.html" },
+      { "@type": "ListItem", "position": 15, "name": "振盪器穩定性：從 Phase Margin 到 Van der Pol", "url": "https://www.jktek.com.tw/textbook/radio_circuit/oscillator_stability_summary.html" },
+      { "@type": "ListItem", "position": 16, "name": "OFDM — Interactive Study Guide", "url": "https://www.jktek.com.tw/textbook/radio_circuit/modulation.html" }
+    ]
+  }
+}
+</script>
+<style>
+:root {
+  --bg: #faf8f5; --bg2: #f0ece6; --text: #1a1a1a; --text2: #4a4a4a;
+  --accent: #b44a2f; --accent2: #2a6e5a; --accent3: #3a5998;
+  --border: #d4cfc7; --card: #ffffff; --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --yellow: #f5e6c8; --blue-light: #e8f0fa; --green-light: #e6f5ee; --red-light: #fce8e4;
+  --purple-light: #f0e8f5;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:'Source Serif 4',Georgia,serif; background:var(--bg); color:var(--text); line-height:1.75; font-size:17px; }
+.container { max-width:880px; margin:0 auto; padding:0 28px; }
+header { background:linear-gradient(135deg,#1a1a1a,#2d2520); color:#f0ece6; padding:60px 0 50px; border-bottom:4px solid var(--accent); }
+header .chap-label { font-family:'DM Sans',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+header h1 { font-size:2.5rem; font-weight:700; line-height:1.2; margin-bottom:16px; }
+header .subtitle { font-size:1.05rem; color:#b5ada3; font-style:italic; max-width:620px; }
+main { padding:48px 0 64px; }
+.intro { color:var(--text2); margin-bottom:36px; max-width:660px; }
+h2.section-title { font-size:1.8rem; font-weight:700; color:var(--text); margin-bottom:28px; padding-bottom:10px; border-bottom:3px solid var(--accent); display:inline-block; }
+.chapters { list-style:none; margin:0; padding:0; }
+.chapters li { margin-bottom:20px; }
+.chapters a.card {
+  display:block; background:var(--card); border:1px solid var(--border); border-left:5px solid var(--accent);
+  border-radius:8px; padding:22px 26px; text-decoration:none; color:inherit;
+  box-shadow:var(--shadow); transition:transform .15s ease, box-shadow .15s ease, border-left-color .15s ease;
+}
+.chapters a.card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.11); border-left-color:var(--accent2); }
+.chapters a.card:focus-visible { outline:3px solid var(--accent3); outline-offset:3px; }
+.ch-num { font-family:'DM Sans',sans-serif; font-weight:600; font-size:12px; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+.ch-title { font-size:1.35rem; font-weight:700; line-height:1.3; margin-bottom:8px; }
+.ch-desc { color:var(--text2); font-size:0.97rem; line-height:1.6; margin-bottom:14px; }
+.tags { display:flex; flex-wrap:wrap; gap:8px; }
+.tag { font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; padding:3px 10px; border-radius:12px; background:var(--bg2); color:var(--text2); border:1px solid var(--border); }
+.tag.a1 { background:var(--blue-light); color:var(--accent3); border-color:#a8c0e0; }
+.tag.a2 { background:var(--green-light); color:var(--accent2); border-color:#b2dbc8; }
+.tag.a3 { background:var(--yellow); color:#8a7030; border-color:#e0cb96; }
+.card.wide { border-left-color:var(--accent3); }
+.card.wide:hover { border-left-color:var(--accent); }
+section + section { margin-top:56px; }
+.notes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(258px,1fr)); gap:16px; }
+a.note-card {
+  display:block; background:var(--card); border:1px solid var(--border); border-radius:8px;
+  padding:16px 18px; text-decoration:none; color:inherit; box-shadow:var(--shadow);
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+a.note-card:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,0.1); border-color:var(--accent); }
+a.note-card:focus-visible { outline:3px solid var(--accent3); outline-offset:3px; }
+.badge { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:var(--accent2); display:block; margin-bottom:7px; }
+.nt { font-family:'DM Sans',sans-serif; font-weight:600; font-size:1rem; line-height:1.35; margin-bottom:6px; }
+.nd { font-size:0.88rem; color:var(--text2); line-height:1.55; }
+.note { background:var(--bg2); border-left:4px solid var(--accent3); border-radius:6px; padding:16px 20px; margin:36px 0 0; font-size:0.95rem; color:var(--text2); }
+footer { border-top:1px solid var(--border); padding:28px 0 48px; text-align:center; font-family:'DM Sans',sans-serif; font-size:0.9rem; color:var(--text2); }
+footer a { color:var(--accent); text-decoration:none; font-weight:600; }
+footer a:hover { text-decoration:underline; }
+@media (max-width:600px) {
+  header { padding:44px 0 36px; }
+  header h1 { font-size:1.9rem; }
+  body { font-size:16px; }
+  .chapters a.card { padding:18px 20px; }
+  .ch-title { font-size:1.15rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="chap-label">Study Guide Series</div>
+    <h1>RF &amp; Microwave Circuit Design</h1>
+    <p class="subtitle">Chapter-by-chapter study guides — noise and distortion, amplifiers, mixers, oscillators and synthesizers, and complete transceiver architectures, with worked problems and interactive visualizations.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <section>
+    <h2 class="section-title">Chapters</h2>
+
+    <p class="intro">Each guide is a standalone page covering the theory, the design equations, worked examples, and a tiered problem set with full solutions. 每章皆為獨立頁面，含理論、設計公式、範例與分級習題解答（中英雙語）。</p>
+
+    <ul class="chapters">
+      <li>
+        <a class="card" href="Ch2_Noise_Distortion_Study_Guide.html">
+          <span class="ch-num">Chapter II</span>
+          <div class="ch-title">Noise and Distortion in Microwave Systems</div>
+          <p class="ch-desc">Random processes and AWGN, modulation and BER, noise temperature and noise figure, cascaded noise (Friis), antenna sensitivity and G/T, gain compression and intermodulation distortion.</p>
+          <div class="tags">
+            <span class="tag a1">Noise figure</span>
+            <span class="tag a1">Noise temperature</span>
+            <span class="tag a2">Friis cascade</span>
+            <span class="tag a3">P1dB &amp; IP3</span>
+            <span class="tag">BER</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="Ch3_Amplifier_Design_Study_Guide.html">
+          <span class="ch-num">Chapter III</span>
+          <div class="ch-title">Low-Noise and Power Amplifiers</div>
+          <p class="ch-desc">Design for specified gain with S-parameters, stability circles and gain circles, noise matching for LNAs, conjugate matching, load-pull and power amplifier classes.</p>
+          <div class="tags">
+            <span class="tag a1">S-parameters</span>
+            <span class="tag a2">Stability</span>
+            <span class="tag a2">Gain circles</span>
+            <span class="tag a3">LNA</span>
+            <span class="tag a3">Power amplifier</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="Ch4_Mixers_Study_Guide.html">
+          <span class="ch-num">Chapter IV</span>
+          <div class="ch-title">Mixers</div>
+          <p class="ch-desc">Frequency conversion and conversion gain, image rejection, SSB/DSB noise figure, nonlinear mixer models, and diode and transistor mixer circuits — including an animated double-balanced diode ring.</p>
+          <div class="tags">
+            <span class="tag a1">Conversion gain</span>
+            <span class="tag a2">Image rejection</span>
+            <span class="tag a3">Diode ring</span>
+            <span class="tag">Spurious response</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="Ch5_Oscillators_Study_Guide.html">
+          <span class="ch-num">Chapter V</span>
+          <div class="ch-title">Oscillators &amp; Synthesizers</div>
+          <p class="ch-desc">Feedback and negative-resistance models, Barkhausen criterion, Colpitts / Hartley / Pierce / Clapp topologies, Van der Pol and describing-function analysis, Leeson phase noise, PLLs, fractional-N and DDS.</p>
+          <div class="tags">
+            <span class="tag a1">Barkhausen</span>
+            <span class="tag a2">Colpitts</span>
+            <span class="tag a3">Phase noise</span>
+            <span class="tag a3">PLL</span>
+            <span class="tag">Fractional-N / DDS</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="Ch6_Transceivers_Study_Guide.html">
+          <span class="ch-num">Chapter VI</span>
+          <div class="ch-title">Receivers &amp; Transmitters</div>
+          <p class="ch-desc">Transceiver architectures end to end — heterodyne, zero-IF, image-reject (Hartley / Weaver) and low-IF receivers; direct-conversion and two-step transmitters; I/Q mismatch, DC offset and LO pulling, with cross-section synthesis problems.</p>
+          <div class="tags">
+            <span class="tag a1">Heterodyne</span>
+            <span class="tag a1">Zero-IF</span>
+            <span class="tag a2">Hartley / Weaver</span>
+            <span class="tag a3">I/Q mismatch</span>
+            <span class="tag">LO pulling</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 class="section-title">Cross-Chapter Practice</h2>
+    <ul class="chapters">
+      <li>
+        <a class="card wide" href="Cross_Chapter_Practice_Problems.html">
+          <span class="ch-num">Ch4 × Ch5 × Ch6</span>
+          <div class="ch-title">Cross-Chapter Practice Problems</div>
+          <p class="ch-desc">Synthesis problems that run one design thread through mixers, oscillators &amp; synthesizers, and transceiver architectures at once — the way system-level exam questions are actually posed.</p>
+          <div class="tags">
+            <span class="tag a3">Design threads</span>
+            <span class="tag a2">Full solutions</span>
+            <span class="tag">System level</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 class="section-title">Supplementary Notes &amp; Explainers</h2>
+
+    <p class="intro">Standalone deep-dives and interactive demos that support the chapters — several are embedded in the chapter pages, but each also opens on its own. 各章的補充說明與互動示範，亦可單獨開啟。</p>
+
+    <div class="notes-grid">
+      <a class="note-card" href="why_moderate_gain.html">
+        <span class="badge">Ch2 · Noise</span>
+        <div class="nt">Why the First Stage Needs Moderate Gain</div>
+        <div class="nd">Interactive Friis cascade noise-figure explorer.</div>
+      </a>
+      <a class="note-card" href="taylor_explorer.html">
+        <span class="badge">Ch2 · Distortion</span>
+        <div class="nt">Taylor Series Explorer</div>
+        <div class="nd">Nonlinear operating point and how the expansion terms generate harmonics and IM products.</div>
+      </a>
+      <a class="note-card" href="impedance_matching_explained.html">
+        <span class="badge">Ch3 · Matching</span>
+        <div class="nt">Impedance Matching Explained</div>
+        <div class="nd">Why <em>Γ<sub>L</sub></em> = 0 means matched, what happens when it isn't, and the effect on power transfer and noise.</div>
+      </a>
+      <a class="note-card" href="smith_chart_circles_explained.html">
+        <span class="badge">Ch3 · Smith chart</span>
+        <div class="nt">Smith Chart 上三種圓的差異</div>
+        <div class="nd">阻抗 vs 導納視角、三種圓一覽表，以及為何「半徑 = 0 時 = 最大可用增益」。</div>
+      </a>
+      <a class="note-card" href="slide26_90deg_single_balanced_mixer_explained.html">
+        <span class="badge">Ch4 · Mixers</span>
+        <div class="nt">90° Hybrid 單平衡混頻器方塊圖</div>
+        <div class="nd">逐元素解析：每個符號、每條線代表什麼，為何這樣畫。</div>
+      </a>
+      <a class="note-card" href="slide28_180deg_single_balanced_mixer_explained.html">
+        <span class="badge">Ch4 · Mixers</span>
+        <div class="nt">180° Hybrid 單平衡混頻器方塊圖</div>
+        <div class="nd">與 90° 版本的鏡像：LO 隔離度無條件完美、RF 匹配取決於二極體。</div>
+      </a>
+      <a class="note-card" href="slide29_double_balanced_ring_mixer_interactive.html">
+        <span class="badge">Ch4 · Interactive</span>
+        <div class="nt">雙平衡二極體環式混頻器</div>
+        <div class="nd">互動式動畫：切換 Phase A / B 或自動播放，觀察四顆二極體在 LO 正負半週的導通切換。</div>
+      </a>
+      <a class="note-card" href="slide30_image_reject_mixer_explained.html">
+        <span class="badge">Ch4 · Image reject</span>
+        <div class="nt">Image-Reject Diode Mixer</div>
+        <div class="nd">RF 上下旁帶如何分到兩個獨立 IF 輸出，以及反向用作 SSB modulator。</div>
+      </a>
+      <a class="note-card" href="oscillator_stability_summary.html">
+        <span class="badge">Ch5 · Oscillators</span>
+        <div class="nt">振盪器穩定性：Phase Margin 到 Van der Pol</div>
+        <div class="nd">線性與非線性穩定性理論的銜接：loop gain、Barkhausen、limit cycle、describing function。</div>
+      </a>
+      <a class="note-card" href="modulation.html">
+        <span class="badge">Ch6 · Modulation</span>
+        <div class="nt">OFDM — Interactive Study Guide</div>
+        <div class="nd">Orthogonal frequency-division multiplexing, from subcarrier orthogonality to the FFT implementation.</div>
+      </a>
+    </div>
+    </section>
+
+    <div class="note">
+      <strong>Reading order.</strong> The chapters build on one another: Chapter II sets up the noise and linearity budget language used everywhere else, Chapters III–V cover the individual blocks, and Chapter VI assembles them into a complete radio. 建議依序閱讀；第六章的系統題會回頭引用前面各章的結果。
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <a href="../../misc_ideas.html">&larr; back to Misc Ideas</a>
+    &nbsp;·&nbsp;
+    <a href="../../index.html">昭群科技 JiaoKuan Technology</a>
+  </div>
+</footer>
+
+</body>
+</html>

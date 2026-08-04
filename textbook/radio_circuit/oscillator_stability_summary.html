@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>振盪器穩定性:從 Phase Margin 到 Van der Pol</title>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']]
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --fg: #1a1a1a;
+    --muted: #555;
+    --accent: #0a6e6e;
+    --accent-light: #e6f2f2;
+    --border: #d8d4cc;
+    --code-bg: #f0ede4;
+    --table-stripe: #f5f2ea;
+    --warn: #b35900;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.75;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+    font-size: 16px;
+  }
+  header {
+    border-bottom: 3px double var(--accent);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+  h1 {
+    color: var(--accent);
+    font-size: 1.9rem;
+    margin: 0 0 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  h2 {
+    color: var(--accent);
+    border-left: 5px solid var(--accent);
+    padding-left: 0.8rem;
+    margin-top: 2.6rem;
+    font-size: 1.4rem;
+  }
+  h3 {
+    color: #244;
+    margin-top: 1.8rem;
+    font-size: 1.12rem;
+  }
+  h4 {
+    color: #355;
+    margin-top: 1.4rem;
+    font-size: 1.02rem;
+  }
+  p { margin: 0.7rem 0; }
+  ul, ol { padding-left: 1.5rem; }
+  li { margin: 0.3rem 0; }
+  code {
+    background: var(--code-bg);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.92em;
+  }
+  pre {
+    background: #1e2a2a;
+    color: #e8e8e8;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.94rem;
+    background: white;
+    border: 1px solid var(--border);
+  }
+  th, td {
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+  }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  blockquote {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    color: #143;
+    border-radius: 0 6px 6px 0;
+  }
+  .formula-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 0.8rem 1.2rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    overflow-x: auto;
+  }
+  .key-takeaway {
+    background: linear-gradient(135deg, #fff8e8 0%, #fff3d6 100%);
+    border: 1px solid #e6c878;
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+  }
+  .key-takeaway strong { color: var(--warn); }
+  .toc {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0 2rem;
+    font-size: 0.95rem;
+  }
+  .toc h3 {
+    margin-top: 0;
+    color: var(--accent);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .toc ol { margin: 0.4rem 0 0; }
+  .toc a {
+    color: #244;
+    text-decoration: none;
+    border-bottom: 1px dotted #888;
+  }
+  .toc a:hover { color: var(--accent); border-bottom-style: solid; }
+  footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  .svg-container {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.2rem 0;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .svg-container svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .svg-caption {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>振盪器穩定性:從 Phase Margin 到 Van der Pol</h1>
+  <div class="subtitle">線性與非線性穩定性理論的銜接 · Loop Gain, Barkhausen, Limit Cycle, Describing Function</div>
+</header>
+
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#sec1">Phase Margin 定義</a></li>
+    <li><a href="#sec2">Barkhausen 振盪準則</a></li>
+    <li><a href="#sec3">LTI vs. 非線性:兩種穩定性</a></li>
+    <li><a href="#sec4">Van der Pol Equation</a></li>
+    <li><a href="#sec5">Describing Function 方法</a></li>
+    <li><a href="#sec6">實際電路中的 \(g_m\) 設計</a></li>
+    <li><a href="#sec7">與 Radar / RF 系統的關聯</a></li>
+    <li><a href="#sec8">總結</a></li>
+  </ol>
+</div>
+
+<!-- ====================================================== -->
+<h2 id="sec1">1. Phase Margin 定義</h2>
+
+<p><strong>Phase Margin (PM, 相位裕度)</strong> 是控制系統與回授放大器中衡量系統<strong>穩定度</strong>的關鍵指標。</p>
+
+<h3>數學定義</h3>
+<p>對開迴路轉移函數 \( L(j\omega) = G(j\omega)H(j\omega) \):</p>
+
+<div class="formula-box">
+\[
+PM = 180° + \angle L(j\omega_{gc})
+\]
+</div>
+
+<p>其中 \( \omega_{gc} \) 為<strong>增益交越頻率 (gain crossover frequency)</strong>,使 \( |L(j\omega_{gc})| = 1 \)(即 0 dB)。</p>
+
+<h3>穩定性判讀</h3>
+<table>
+  <tr><th>Phase Margin</th><th>系統行為</th></tr>
+  <tr><td>PM &gt; 0°</td><td>穩定</td></tr>
+  <tr><td>PM &lt; 0°</td><td>不穩定</td></tr>
+  <tr><td>PM ≈ 45°–60°</td><td>良好暫態響應(業界常用設計目標)</td></tr>
+  <tr><td>PM &lt; 30°</td><td>響應震盪嚴重、ringing 明顯</td></tr>
+  <tr><td>PM → 0°</td><td>接近振盪邊界</td></tr>
+</table>
+
+<!-- ====================================================== -->
+<h2 id="sec2">2. Barkhausen 振盪準則</h2>
+
+<p>振盪器設計時,需同時滿足<strong>兩個條件</strong>:</p>
+
+<table>
+  <tr><th>條件</th><th>數學式</th><th>物理意義</th></tr>
+  <tr>
+    <td><strong>Magnitude condition</strong></td>
+    <td>\( |AH(\omega_0)| = 1 \)</td>
+    <td>迴路增益大小為 1,訊號繞一圈不衰減</td>
+  </tr>
+  <tr>
+    <td><strong>Phase condition</strong></td>
+    <td>\( \angle AH(\omega_0) = 0° \pmod{360°} \)</td>
+    <td>訊號繞一圈相位對齊,正回授成立</td>
+  </tr>
+</table>
+
+<p>其中:</p>
+<ul>
+  <li>\( A \):放大器增益</li>
+  <li>\( H \):回授網路轉移函數</li>
+  <li>\( AH \):<strong>迴路增益 (loop gain)</strong></li>
+  <li>\( \omega_0 \):振盪頻率</li>
+</ul>
+
+<blockquote>
+振盪器設計就是<strong>故意</strong>讓 \( \angle AH = 0° \)(等效於負回授下相位 = −180°)且 \( |AH| \geq 1 \) → <strong>故意讓 PM = 0</strong>,讓電路振盪。
+</blockquote>
+
+<!-- ====================================================== -->
+<h2 id="sec3">3. LTI vs. 非線性:兩種穩定性</h2>
+
+<h3>LTI 觀點:振盪器是「不穩定」的</h3>
+<p>從小訊號 LTI 分析(Bode / Nyquist / pole location):</p>
+<ul>
+  <li>Loop gain \( |AH(\omega_0)| \geq 1 \)</li>
+  <li>Phase \( \angle AH(\omega_0) = 0° \)</li>
+  <li>極點位於 \( j\omega \) 軸甚至右半平面 (RHP)</li>
+  <li><strong>PM ≤ 0、GM ≤ 0</strong>,系統「不穩定」</li>
+</ul>
+
+<p>這也是為什麼啟動時 (start-up),熱雜訊或開機暫態會被指數放大 → 振盪建立。</p>
+
+<h3>非線性觀點:存在穩定的 Limit Cycle</h3>
+<p>但實際電路<strong>不會炸掉</strong>,因為:</p>
+<ol>
+  <li>Transistor 進入飽和 / cut-off / triode → 跨導 \( g_m \) <strong>隨振幅下降</strong></li>
+  <li>等效迴路增益是<strong>振幅相依</strong>的:\( |AH| = f(A) \)</li>
+  <li>系統收斂到一個<strong>穩定極限環 (stable limit cycle)</strong></li>
+</ol>
+
+<h3>兩種穩定性對照</h3>
+<table>
+  <tr><th>觀點</th><th>分析工具</th><th>平衡點</th><th>振盪器判定</th></tr>
+  <tr>
+    <td><strong>LTI / 局部線性化</strong></td>
+    <td>Bode, Nyquist, Routh, 極點</td>
+    <td>原點 \( x = 0 \)</td>
+    <td>不穩定(極點在 RHP 或 jω 軸)</td>
+  </tr>
+  <tr>
+    <td><strong>非線性 / 全域</strong></td>
+    <td>Lyapunov, Poincaré-Bendixson, describing function</td>
+    <td>極限環 \( \Gamma \)</td>
+    <td>穩定(極限環 orbital stable)</td>
+  </tr>
+</table>
+
+<div class="key-takeaway">
+<strong>關鍵差異:</strong>
+<ul style="margin-bottom: 0;">
+  <li>LTI 問的是「<strong>原點是否穩定</strong>」→ 不穩定</li>
+  <li>非線性問的是「<strong>極限環是否穩定</strong>」→ 穩定</li>
+</ul>
+兩者<strong>並不矛盾</strong>,而是描述同一個系統的不同特徵。
+</div>
+
+<!-- ====================================================== -->
+<h2 id="sec4">4. Van der Pol Equation</h2>
+
+<div class="formula-box">
+\[
+\ddot{x} - \mu(1 - x^2)\dot{x} + x = 0
+\]
+</div>
+
+<p>關鍵在於阻尼項 \( -\mu(1 - x^2) \):</p>
+
+<table>
+  <tr><th>振幅狀態</th><th>\( (1 - x^2) \)</th><th>等效阻尼</th><th>行為</th></tr>
+  <tr><td>小訊號 \( |x| &lt; 1 \)</td><td>&gt; 0</td><td><strong>負阻尼</strong></td><td>振幅成長(等同 LTI 不穩定)</td></tr>
+  <tr><td>大訊號 \( |x| &gt; 1 \)</td><td>&lt; 0</td><td><strong>正阻尼</strong></td><td>振幅衰減</td></tr>
+  <tr><td>\( |x| = 1 \) 附近</td><td>0</td><td>中性</td><td><strong>穩定極限環</strong></td></tr>
+</table>
+
+<h3>相平面 (Phase Plane) 圖像</h3>
+<div class="svg-container">
+  <svg viewBox="0 0 580 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Van der Pol phase plane: unstable origin with stable limit cycle">
+    <defs>
+      <marker id="arrow-cycle" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0a6e6e"/>
+      </marker>
+      <marker id="arrow-out" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#c0392b"/>
+      </marker>
+      <marker id="arrow-in" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2874a6"/>
+      </marker>
+      <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+      </marker>
+    </defs>
+
+    <rect x="0" y="0" width="580" height="440" fill="#fdfdfb"/>
+
+    <g stroke="#ece8dc" stroke-width="1">
+      <line x1="80"  y1="50"  x2="80"  y2="390"/>
+      <line x1="180" y1="50"  x2="180" y2="390"/>
+      <line x1="380" y1="50"  x2="380" y2="390"/>
+      <line x1="480" y1="50"  x2="480" y2="390"/>
+      <line x1="60"  y1="120" x2="520" y2="120"/>
+      <line x1="60"  y1="320" x2="520" y2="320"/>
+    </g>
+
+    <line x1="280" y1="400" x2="280" y2="40"  stroke="#333" stroke-width="1.6" marker-end="url(#axis-arrow)"/>
+    <line x1="40"  y1="220" x2="530" y2="220" stroke="#333" stroke-width="1.6" marker-end="url(#axis-arrow)"/>
+
+    <text x="292" y="52"  font-family="Georgia, serif" font-style="italic" font-size="17" fill="#333">x&#x0307;(t)</text>
+    <text x="535" y="225" font-family="Georgia, serif" font-style="italic" font-size="17" fill="#333">x(t)</text>
+
+    <ellipse cx="280" cy="220" rx="140" ry="95" fill="none" stroke="#0a6e6e" stroke-width="3"/>
+    <polygon points="420,220 410,214 410,226" fill="#0a6e6e"/>
+    <polygon points="140,220 150,214 150,226" fill="#0a6e6e" transform="rotate(180 145 220)"/>
+    <polygon points="280,125 274,135 286,135" fill="#0a6e6e"/>
+    <polygon points="280,315 274,305 286,305" fill="#0a6e6e" transform="rotate(180 280 310)"/>
+
+    <path d="M 280,220
+             Q 295,212 298,225
+             Q 300,240 282,242
+             Q 262,242 260,222
+             Q 260,200 285,196
+             Q 312,196 316,224
+             Q 318,254 282,258
+             Q 244,258 240,222
+             Q 240,184 286,180
+             Q 332,180 338,224"
+          fill="none" stroke="#c0392b" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arrow-out)"/>
+
+    <path d="M 500,140
+             Q 460,125 420,150
+             Q 380,180 395,225
+             Q 415,275 360,295
+             Q 305,305 295,278"
+          fill="none" stroke="#2874a6" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arrow-in)"/>
+
+    <circle cx="280" cy="220" r="4.5" fill="#c0392b" stroke="#fff" stroke-width="1.5"/>
+
+    <text x="430" y="115" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#0a6e6e">Stable Limit Cycle Γ</text>
+    <text x="430" y="132" font-family="-apple-system, sans-serif" font-size="11" fill="#0a6e6e">振盪穩態軌跡</text>
+    <line x1="428" y1="118" x2="395" y2="148" stroke="#0a6e6e" stroke-width="1"/>
+
+    <text x="50"  y="412" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#c0392b">Unstable Equilibrium</text>
+    <text x="50"  y="428" font-family="-apple-system, sans-serif" font-size="11" fill="#c0392b">LTI 線性化看到的原點(0,0)</text>
+    <line x1="180" y1="402" x2="275" y2="226" stroke="#c0392b" stroke-width="1"/>
+
+    <text x="340" y="175" font-family="-apple-system, sans-serif" font-size="11" fill="#c0392b">從原點向外螺旋發散</text>
+
+    <text x="435" y="160" font-family="-apple-system, sans-serif" font-size="11" fill="#2874a6">從外圍向內收斂</text>
+  </svg>
+  <div class="svg-caption">Van der Pol 系統相平面:原點為 unstable spiral(紅),Γ 為 stable limit cycle(綠),任何非零初始狀態都收斂到 Γ(藍)</div>
+</div>
+
+<ul>
+  <li><strong>原點是 unstable spiral</strong>(LTI 看到的)</li>
+  <li><strong>極限環是 stable orbit</strong>(非線性看到的)</li>
+  <li>任何<strong>非零</strong>初始條件最終都收斂到極限環 → 這就是「振盪器一定會起振且穩定振盪」的數學保證</li>
+</ul>
+
+<!-- ====================================================== -->
+<h2 id="sec5">5. Describing Function 方法</h2>
+
+<p>實務上分析振盪器穩態振幅,常用 <strong>Describing Function (描述函數)</strong> 把非線性元件線性化為<strong>振幅相依增益</strong> \( N(A) \)。</p>
+
+<h3>穩態振盪條件</h3>
+<div class="formula-box">
+\[
+N(A_0) \cdot H(j\omega_0) = 1
+\]
+</div>
+
+<h3>極限環穩定性判據</h3>
+<div class="formula-box">
+\[
+\left.\frac{\partial |NH|}{\partial A}\right|_{A=A_0} < 0 \quad \Rightarrow \text{stable limit cycle}
+\]
+</div>
+
+<p><strong>物理意義:</strong>振幅變大時 loop gain 必須下降,才有負回授機制把振幅拉回 \( A_0 \)。</p>
+
+<!-- ====================================================== -->
+<h2 id="sec6">6. 實際電路中的 \(g_m\) 設計</h2>
+
+<h3>振幅相依的 \( g_m \) 機制</h3>
+<table>
+  <tr><th>元件 / 機制</th><th>振幅相依行為</th></tr>
+  <tr><td><strong>Cross-coupled LC VCO</strong></td><td>NMOS 進入 triode → \( g_m \downarrow \)</td></tr>
+  <tr><td><strong>Colpitts oscillator</strong></td><td>BJT 進入 cut-off (class-C 操作) → 平均 \( g_m \downarrow \)</td></tr>
+  <tr><td><strong>Ring oscillator</strong></td><td>Inverter 完全 swing rail-to-rail → 等效增益限制</td></tr>
+  <tr><td><strong>AGC-based 振盪器</strong>(Wien bridge)</td><td>外部 AGC 主動調整 \( g_m \)</td></tr>
+</table>
+
+<h3>典型的 \( g_m \) 過設計倍數</h3>
+<table>
+  <tr><th>振盪器類型</th><th>\( g_m \cdot R_p \) 設計值</th><th>理由</th></tr>
+  <tr><td>LC VCO</td><td>2~3</td><td>確保 PVT corner 下都能起振</td></tr>
+  <tr><td>Crystal oscillator</td><td>3~5(甚至 10)</td><td>晶體 ESR 變動大、startup time 要求</td></tr>
+  <tr><td>Ring oscillator</td><td>自然滿足(數位 swing)</td><td>不需特別設計</td></tr>
+</table>
+
+<blockquote>
+太小 → 起振失敗;太大 → phase noise 變差、功耗浪費、harmonics 增加。
+</blockquote>
+
+<!-- ====================================================== -->
+<h2 id="sec7">7. 與 Radar / RF 系統的關聯</h2>
+
+<ol>
+  <li><strong>Phase noise 分析</strong>:Leeson's model 本質上是極限環受雜訊擾動的 perturbation 分析,屬於<strong>極限環附近的線性化</strong>(linearize <em>around</em> the limit cycle, not around the origin)。</li>
+  <li><strong>Injection locking</strong>:外部訊號注入振盪器使其同步,只能用非線性方法分析(Adler's equation),LTI 完全失效。</li>
+  <li><strong>PLL 鎖定動態</strong>:小訊號鎖定後可用 LTI loop dynamics 分析,但<strong>大訊號 acquisition、cycle slip</strong> 必須回到非線性。</li>
+  <li><strong>Mixer / PA 的飽和行為</strong>:同樣是 describing function 的應用場景。</li>
+</ol>
+
+<!-- ====================================================== -->
+<h2 id="sec8">8. 總結</h2>
+
+<div class="key-takeaway">
+<strong>核心觀念:</strong><br>
+振盪器的設計目標,是讓「<strong>原點</strong>」LTI-不穩定,但讓「<strong>極限環</strong>」非線性-穩定。<br><br>
+兩種穩定性描述的是不同的<strong>不變集 (invariant set)</strong>:
+<ul style="margin-bottom: 0;">
+  <li>Bode / PM / GM → 看<strong>原點</strong></li>
+  <li>Van der Pol / Lyapunov / Describing Function → 看 <strong>limit cycle</strong></li>
+</ul>
+</div>
+
+<h3>設計流程速查</h3>
+<ol>
+  <li><strong>小訊號階段</strong>(start-up):設計 \( |AH| \gg 1 \) 與正確相位 → LTI 角度「不穩定」,讓雜訊指數放大</li>
+  <li><strong>大訊號階段</strong>(穩態):非線性使 \( g_m \) 自動下降,\( |NH| = 1 \) → 收斂到穩定極限環</li>
+  <li><strong>擾動分析</strong>(phase noise):極限環附近線性化,套用 Leeson model</li>
+</ol>
+
+<footer>
+  振盪器穩定性整理 · 線性回授 ↔ 非線性極限環 · 適用 LC VCO / Crystal Osc / Ring Osc / Radar LO 設計
+</footer>
+
+</body>
+</html>

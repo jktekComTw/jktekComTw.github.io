@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impedance Matching — Interactive Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<style>
+:root {
+  --bg: #faf8f5; --bg2: #f0ece6; --text: #1a1a1a; --text2: #4a4a4a;
+  --accent: #b44a2f; --accent2: #2a6e5a; --accent3: #3a5998;
+  --border: #d4cfc7; --card: #ffffff; --shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Source Serif 4',Georgia,serif; background:var(--bg); color:var(--text); line-height:1.75; font-size:17px; }
+.container { max-width:920px; margin:0 auto; padding:0 28px; }
+header { background:linear-gradient(135deg,#1a1a1a,#2d2520); color:#f0ece6; padding:50px 0 40px; border-bottom:4px solid var(--accent); }
+header .chap-label { font-family:'DM Sans',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+header h1 { font-size:2.2rem; font-weight:700; line-height:1.2; margin-bottom:12px; }
+header .subtitle { font-size:1rem; color:#b5ada3; font-style:italic; }
+h2 { font-family:'DM Sans',sans-serif; font-size:1.4rem; font-weight:700; color:var(--text); margin:36px 0 12px; padding-bottom:8px; border-bottom:3px solid var(--accent); display:inline-block; }
+h3 { font-family:'DM Sans',sans-serif; font-size:1.1rem; font-weight:700; color:var(--accent2); margin:28px 0 10px; }
+p { margin-bottom:14px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:24px 28px; margin:20px 0; box-shadow:var(--shadow); }
+
+/* Transmission line diagram */
+.tl-diagram { position:relative; height:220px; margin:20px 0; user-select:none; }
+.tl-svg { width:100%; height:100%; }
+
+/* Controls */
+.ctrl-row { display:flex; align-items:center; gap:16px; margin:10px 0; flex-wrap:wrap; }
+.ctrl-row label { font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.95rem; min-width:60px; }
+.ctrl-row input[type=range] { flex:1; min-width:200px; accent-color:var(--accent); }
+.ctrl-row .val { font-family:'JetBrains Mono',monospace; font-weight:500; min-width:80px; color:var(--accent); font-size:0.95rem; }
+
+/* Wave canvas */
+#waveCanvas { width:100%; height:180px; border:1px solid var(--border); border-radius:8px; background:#fff; display:block; }
+
+/* Power bars */
+.pbar-wrap { margin:8px 0; }
+.pbar-label { font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:600; margin-bottom:4px; }
+.pbar-track { height:24px; background:var(--bg2); border-radius:4px; overflow:hidden; position:relative; }
+.pbar-fill { height:100%; border-radius:4px; transition:width 0.3s; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#fff; font-weight:600; }
+.pbar-fill.incident { background:linear-gradient(90deg,#3a5998,#5a7dc8); }
+.pbar-fill.reflected { background:linear-gradient(90deg,#b44a2f,#d46a4f); }
+.pbar-fill.absorbed { background:linear-gradient(90deg,#2a6e5a,#4a9e7a); }
+
+/* Metrics */
+.metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:16px 0; }
+.metric { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:14px 16px; text-align:center; box-shadow:var(--shadow); }
+.metric .m-label { font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.metric .m-val { font-family:'JetBrains Mono',monospace; font-size:1.3rem; font-weight:700; }
+.metric .m-val.good { color:var(--accent2); }
+.metric .m-val.bad { color:var(--accent); }
+.metric .m-val.neutral { color:var(--accent3); }
+
+/* Presets */
+.presets { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0; }
+.presets button { padding:8px 16px; border:2px solid var(--accent3); background:#fff; color:var(--accent3); border-radius:6px; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:600; transition:all 0.2s; }
+.presets button:hover, .presets button.active { background:var(--accent3); color:#fff; }
+
+/* Insight box */
+.insight { border-left:4px solid var(--accent2); background:#e6f5ee; padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0; font-size:0.95rem; line-height:1.6; transition:all 0.3s; }
+.insight.warn { border-color:var(--accent); background:#fce8e4; }
+
+footer { margin-top:48px; padding:24px 0; text-align:center; border-top:2px solid var(--border); color:var(--text2); font-size:0.85rem; }
+@media (max-width:640px) { .metrics{grid-template-columns:1fr;} header h1{font-size:1.6rem;} }
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+  <div class="chap-label">RF Fundamentals — Interactive</div>
+  <h1>Impedance Matching Explained</h1>
+  <p class="subtitle">Why $\Gamma_L=0$ means matched, what happens when it isn't, and how it affects power transfer.</p>
+</div>
+</header>
+
+<div class="container">
+
+<h2>1. The Concept</h2>
+<p>A transmission line has characteristic impedance $Z_0$. When the load impedance $Z_L$ equals $Z_0$, all power is absorbed — <strong>no reflection</strong>. When $Z_L \neq Z_0$, part of the wave bounces back.</p>
+<p>The reflection coefficient quantifies the mismatch:</p>
+<div class="card" style="text-align:center;">
+$$\Gamma_L = \frac{Z_L - Z_0}{Z_L + Z_0}$$
+<p style="margin-top:10px;font-size:0.9rem;color:var(--text2);">$\Gamma_L = 0$ → perfect match &nbsp;|&nbsp; $|\Gamma_L| = 1$ → total reflection</p>
+</div>
+
+<h2>2. Interactive: Adjust $Z_L$ and $Z_0$</h2>
+
+<div class="card">
+<div class="ctrl-row">
+  <label>$Z_0$</label>
+  <input type="range" id="z0Slider" min="10" max="200" value="50" step="1">
+  <span class="val" id="z0Val">50 Ω</span>
+</div>
+<div class="ctrl-row">
+  <label>$Z_L$</label>
+  <input type="range" id="zlSlider" min="5" max="300" value="50" step="1">
+  <span class="val" id="zlVal">50 Ω</span>
+</div>
+
+<div class="presets">
+  <button onclick="setPreset(50,50)">Perfect Match</button>
+  <button onclick="setPreset(50,75)">Slight Mismatch</button>
+  <button onclick="setPreset(50,150)">Heavy Mismatch</button>
+  <button onclick="setPreset(50,1e6)">Open Circuit</button>
+  <button onclick="setPreset(50,0.01)">Short Circuit</button>
+</div>
+
+<h3>Transmission Line Diagram</h3>
+<svg class="tl-svg" viewBox="0 0 800 200" id="tlSvg">
+  <!-- Source -->
+  <rect x="30" y="50" width="80" height="100" rx="6" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"/>
+  <text x="70" y="105" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="600" fill="#3a5998">Source</text>
+  <!-- Line -->
+  <rect x="130" y="85" width="440" height="30" rx="4" fill="#f0ece6" stroke="#d4cfc7" stroke-width="2"/>
+  <text x="350" y="78" text-anchor="middle" font-family="DM Sans" font-size="12" font-weight="600" fill="#4a4a4a" id="z0Label">Z₀ = 50 Ω</text>
+  <!-- Load -->
+  <rect x="590" y="50" width="80" height="100" rx="6" fill="#e6f5ee" stroke="#2a6e5a" stroke-width="2" id="loadBox"/>
+  <text x="630" y="95" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="600" fill="#2a6e5a" id="loadLabel">Z_L</text>
+  <text x="630" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="500" fill="#2a6e5a" id="zlLabel2">50 Ω</text>
+  <!-- Incident arrow -->
+  <line x1="160" y1="95" x2="560" y2="95" stroke="#3a5998" stroke-width="2.5" marker-end="url(#arrowBlue)" id="incidentLine"/>
+  <!-- Reflected arrow -->
+  <line x1="560" y1="105" x2="160" y2="105" stroke="#b44a2f" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrowRed)" id="reflectedLine" opacity="0"/>
+  <!-- Gamma labels -->
+  <text x="580" y="42" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="600" id="gammaLabel" fill="#2a6e5a">Γ_L = 0</text>
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3a5998"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#b44a2f"/>
+    </marker>
+  </defs>
+</svg>
+
+<h3>Wave Visualization</h3>
+<canvas id="waveCanvas" width="860" height="180"></canvas>
+
+<h3>Power Distribution</h3>
+<div class="pbar-wrap">
+  <div class="pbar-label">Incident Power (100%)</div>
+  <div class="pbar-track"><div class="pbar-fill incident" id="pInc" style="width:100%">100%</div></div>
+</div>
+<div class="pbar-wrap">
+  <div class="pbar-label">Reflected Power: <span id="refPct">0%</span></div>
+  <div class="pbar-track"><div class="pbar-fill reflected" id="pRef" style="width:0%"></div></div>
+</div>
+<div class="pbar-wrap">
+  <div class="pbar-label">Absorbed by Load: <span id="absPct">100%</span></div>
+  <div class="pbar-track"><div class="pbar-fill absorbed" id="pAbs" style="width:100%">100%</div></div>
+</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="m-label">Γ (reflection coeff.)</div>
+    <div class="m-val good" id="mGamma">0.000</div>
+  </div>
+  <div class="metric">
+    <div class="m-label">Return Loss</div>
+    <div class="m-val neutral" id="mRL">∞ dB</div>
+  </div>
+  <div class="metric">
+    <div class="m-label">VSWR</div>
+    <div class="m-val good" id="mVSWR">1.00 : 1</div>
+  </div>
+</div>
+
+<div class="insight" id="insightBox">
+  <strong>Perfect match!</strong> All incident power is delivered to the load. No standing wave on the line.
+</div>
+</div>
+
+<h2>3. What This Means for Noise</h2>
+<p>In the lossy-line noise figure context from the study guide:</p>
+<ul>
+  <li><strong>Load matched</strong> ($\Gamma_L = 0$): noise traveling toward the load is fully absorbed — good.</li>
+  <li><strong>Source mismatched</strong> ($\Gamma_s \neq 0$): noise from the line that travels back toward the source gets <em>reflected again</em> into the line, adding extra noise power. This increases the noise figure beyond what the line loss alone would predict.</li>
+</ul>
+<div class="card">
+  <p style="text-align:center;font-size:1.05rem;">The noise figure of a mismatched lossy line:</p>
+  <p style="text-align:center;">$$F = L \cdot \frac{1 - |\Gamma_s|^2 \cdot |S_{11}|^2}{1 - |\Gamma_s|^2} \cdot \left(1 + \frac{(L-1)(1-|\Gamma_s|^2|S_{11}|^2)}{1-|\Gamma_s|^2}\right)$$</p>
+  <p style="text-align:center;font-size:0.9rem;color:var(--text2);">When $\Gamma_s = 0$, this simplifies to $F = L$ (loss-only).</p>
+</div>
+
+<footer>Impedance Matching — Interactive Study Aid</footer>
+</div>
+
+<script>
+const z0S = document.getElementById('z0Slider');
+const zlS = document.getElementById('zlSlider');
+const z0V = document.getElementById('z0Val');
+const zlV = document.getElementById('zlVal');
+const canvas = document.getElementById('waveCanvas');
+const ctx = canvas.getContext('2d');
+let animId;
+let phase = 0;
+
+function calc() {
+  const z0 = parseFloat(z0S.value);
+  let zl = parseFloat(zlS.value);
+  if (zl > 1e5) zl = Infinity;
+  const gamma = (zl === Infinity) ? 1 : (zl - z0) / (zl + z0);
+  const absG = Math.abs(gamma);
+  const refPow = absG * absG;
+  const absPow = 1 - refPow;
+  const vswr = absG < 0.999 ? (1 + absG) / (1 - absG) : Infinity;
+  const rl = absG > 0.0001 ? -20 * Math.log10(absG) : Infinity;
+  return { z0, zl, gamma, absG, refPow, absPow, vswr, rl };
+}
+
+function update() {
+  const d = calc();
+
+  z0V.textContent = d.z0 + ' Ω';
+  zlV.textContent = d.zl > 1e5 ? '∞ (Open)' : (d.zl < 0.1 ? '≈0 (Short)' : d.zl + ' Ω');
+
+  // SVG updates
+  document.getElementById('z0Label').textContent = 'Z₀ = ' + d.z0 + ' Ω';
+  document.getElementById('zlLabel2').textContent = d.zl > 1e5 ? '∞' : (d.zl < 0.1 ? '≈0' : d.zl + ' Ω');
+  document.getElementById('gammaLabel').textContent = 'Γ_L = ' + d.gamma.toFixed(3);
+
+  const rl = document.getElementById('reflectedLine');
+  rl.setAttribute('opacity', Math.min(d.absG * 2, 1));
+  rl.setAttribute('stroke-width', 1 + d.absG * 3);
+
+  const lb = document.getElementById('loadBox');
+  if (d.absG < 0.05) {
+    lb.setAttribute('fill', '#e6f5ee'); lb.setAttribute('stroke', '#2a6e5a');
+  } else if (d.absG < 0.3) {
+    lb.setAttribute('fill', '#f5e6c8'); lb.setAttribute('stroke', '#c8a44e');
+  } else {
+    lb.setAttribute('fill', '#fce8e4'); lb.setAttribute('stroke', '#b44a2f');
+  }
+
+  // Power bars
+  const refP = (d.refPow * 100).toFixed(1);
+  const absP = (d.absPow * 100).toFixed(1);
+  document.getElementById('pRef').style.width = refP + '%';
+  document.getElementById('pRef').textContent = d.refPow > 0.02 ? refP + '%' : '';
+  document.getElementById('refPct').textContent = refP + '%';
+  document.getElementById('pAbs').style.width = absP + '%';
+  document.getElementById('pAbs').textContent = absP + '%';
+  document.getElementById('absPct').textContent = absP + '%';
+
+  // Metrics
+  const mG = document.getElementById('mGamma');
+  mG.textContent = d.gamma.toFixed(3);
+  mG.className = 'm-val ' + (d.absG < 0.1 ? 'good' : d.absG < 0.3 ? 'neutral' : 'bad');
+
+  const mR = document.getElementById('mRL');
+  mR.textContent = d.rl === Infinity ? '∞ dB' : d.rl.toFixed(1) + ' dB';
+
+  const mV = document.getElementById('mVSWR');
+  mV.textContent = d.vswr === Infinity ? '∞ : 1' : d.vswr.toFixed(2) + ' : 1';
+  mV.className = 'm-val ' + (d.vswr < 1.5 ? 'good' : d.vswr < 3 ? 'neutral' : 'bad');
+
+  // Insight
+  const ib = document.getElementById('insightBox');
+  if (d.absG < 0.05) {
+    ib.className = 'insight';
+    ib.innerHTML = '<strong>Perfect match!</strong> All incident power is delivered to the load. No standing wave on the line.';
+  } else if (d.absG < 0.2) {
+    ib.className = 'insight';
+    ib.innerHTML = '<strong>Good match.</strong> Only ' + (d.refPow*100).toFixed(1) + '% of power reflected. Acceptable for most RF systems (VSWR < 1.5).';
+  } else if (d.absG < 0.5) {
+    ib.className = 'insight warn';
+    ib.innerHTML = '<strong>Noticeable mismatch.</strong> ' + (d.refPow*100).toFixed(1) + '% power reflected. Standing waves form. In a noisy system, reflected noise re-enters and degrades noise figure.';
+  } else {
+    ib.className = 'insight warn';
+    ib.innerHTML = '<strong>Severe mismatch!</strong> ' + (d.refPow*100).toFixed(1) + '% power reflected back. Almost ' + (d.gamma > 0 ? 'open circuit' : 'short circuit') + ' behavior. VSWR = ' + (d.vswr === Infinity ? '∞' : d.vswr.toFixed(1)) + '. Large standing waves destroy signal integrity.';
+  }
+}
+
+function drawWaves() {
+  const d = calc();
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const midY = H / 2;
+  const amp = 55;
+  const wl = 120;
+  const k = 2 * Math.PI / wl;
+
+  // Incident wave
+  ctx.beginPath();
+  ctx.strokeStyle = '#3a5998';
+  ctx.lineWidth = 2.5;
+  for (let x = 0; x < W; x++) {
+    const y = midY - amp * Math.sin(k * x - phase);
+    x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Reflected wave
+  if (d.absG > 0.01) {
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(180,74,47,' + Math.min(d.absG * 1.5, 0.9) + ')';
+    ctx.lineWidth = 1.5 + d.absG * 2;
+    ctx.setLineDash([8, 4]);
+    for (let x = 0; x < W; x++) {
+      const y = midY - amp * d.gamma * Math.sin(-k * x - phase);
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Superposition (standing wave pattern)
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(42,110,90,0.6)';
+  ctx.lineWidth = 2;
+  for (let x = 0; x < W; x++) {
+    const inc = Math.sin(k * x - phase);
+    const ref = d.gamma * Math.sin(-k * x - phase);
+    const y = midY - amp * (inc + ref);
+    x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Legend
+  ctx.font = '600 12px DM Sans';
+  ctx.fillStyle = '#3a5998';
+  ctx.fillRect(15, 10, 16, 3); ctx.fillText('Incident', 36, 15);
+  if (d.absG > 0.01) {
+    ctx.fillStyle = '#b44a2f';
+    ctx.setLineDash([4,3]); ctx.beginPath(); ctx.moveTo(15,28); ctx.lineTo(31,28); ctx.strokeStyle='#b44a2f'; ctx.lineWidth=2; ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillText('Reflected', 36, 32);
+  }
+  ctx.fillStyle = '#2a6e5a';
+  ctx.fillRect(15, d.absG > 0.01 ? 42 : 28, 16, 3);
+  ctx.fillText('Total', 36, d.absG > 0.01 ? 47 : 33);
+
+  phase += 0.06;
+  animId = requestAnimationFrame(drawWaves);
+}
+
+function setPreset(z0, zl) {
+  z0S.value = z0;
+  zlS.value = Math.min(zl, 300);
+  if (zl > 300) zlS.value = 300;
+  if (zl > 1e5) zlS.value = zlS.max;
+  if (zl < 1) zlS.value = zlS.min;
+  update();
+}
+
+z0S.addEventListener('input', update);
+zlS.addEventListener('input', update);
+
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * (window.devicePixelRatio || 1);
+  canvas.height = rect.height * (window.devicePixelRatio || 1);
+  ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+update();
+drawWaves();
+</script>
+
+</body>
+</html>
