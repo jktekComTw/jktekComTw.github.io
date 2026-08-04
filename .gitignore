@@ -1,0 +1,13 @@
+# Large textbook scans — kept on local disk only, never committed.
+#
+# GitHub Pages cannot serve Git LFS objects: it returns the 130-byte pointer
+# file instead of the document. Storing these in the repo therefore consumed
+# the account's LFS storage and bandwidth budget for no benefit, and an
+# exhausted budget blocked every push to GitHub.
+/textbook/Signal&system/*.pdf
+/textbook/magnetelectronics/David-K-Cheng-Field-and-Wave-Electromagnetics-z-lib-org-pdf.pdf
+/textbook/magnetelectronics/solution-manual.pdf
+
+# Editor / OS / tooling artifacts
+Thumbs.db
+.playwright-mcp/
