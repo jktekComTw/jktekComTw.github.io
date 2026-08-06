@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Misc Ideas — Notes & Study Guides | 昭群科技 JiaoKuan Technology</title>
-<meta name="description" content="A running list of side notes and small explorations from JiaoKuan Technology: pharmacokinetics steady-state dosing, electromagnetics and signals & systems study guides, RF/radio-frequency circuit notes on noise, distortion, amplifier design, mixers, oscillators &amp; synthesizers and receivers/transmitters, a digital logic & Verilog study guide, a Terasic DE25 HSMC↔ADA FPGA pin map, a SIL / DSIL radar sensitivity design note, an Agilex 5 SMMU / FPGA bitstream load failure analysis and its device-tree iommus / svc Q&amp;A companion, a VCU118 PGOOD / VCCINT power-up failure diagnostic report, a URSI GASS 2026 session browser, and PhD mentoring / credit-transfer notes.">
-<meta name="keywords" content="misc ideas, study notes, study guides, pharmacokinetics, steady-state dosing, electromagnetics, signals and systems, RF circuits, radio frequency circuit design, noise figure, distortion, amplifier design, mixers, conversion gain, spurious response, oscillators, phase noise, frequency synthesizer, PLL, transceiver architecture, receiver, transmitter, link budget, 混頻器, 振盪器, 相位雜訊, 頻率合成器, 收發機, digital logic, Verilog, digital circuit design, 數位邏輯, 射頻電路, 電磁學, 信號與系統, DE25, Terasic DE25, HSMC pin map, FPGA, SIL radar, DSIL radar, self-injection-locked radar, radar sensitivity, 自我注入鎖定雷達, 雷達靈敏度, URSI GASS 2026, Kraków, SMMU, arm-smmu-v3, IOVA, DMA address, Agilex 5, DE25-Standard, RBF, FPGA bitstream, stratix10-svc, SDM, of_fpga_region, 位址轉譯, device tree, iommus, phandle, altr smmu_enable_quirk, method smc, SMCCC, VCU118, PGOOD, VCCINT, UltraScale+, VU9P, PMBus, power sequencing, power-up failure, FMC mezzanine, 電源時序, 上電失敗, 博士生指導, 學分抵免, 昭群科技, JiaoKuan Technology">
+<meta name="description" content="A running list of side notes and small explorations from JiaoKuan Technology: pharmacokinetics steady-state dosing, electromagnetics and signals & systems study guides, RF/radio-frequency circuit notes on noise, distortion, amplifier design, mixers, oscillators &amp; synthesizers and receivers/transmitters, a digital logic & Verilog study guide, a Terasic DE25 HSMC↔ADA FPGA pin map, a SIL / DSIL radar sensitivity design note, an Agilex 5 SMMU / FPGA bitstream load failure analysis and its device-tree iommus / svc Q&amp;A companion, a VCU118 PGOOD / VCCINT power-up failure diagnostic report, a phase-canceling self-injection-locked ultrasonic radar study guide, a URSI GASS 2026 session browser, and PhD mentoring / credit-transfer notes.">
+<meta name="keywords" content="misc ideas, study notes, study guides, pharmacokinetics, steady-state dosing, electromagnetics, signals and systems, RF circuits, radio frequency circuit design, noise figure, distortion, amplifier design, mixers, conversion gain, spurious response, oscillators, phase noise, frequency synthesizer, PLL, transceiver architecture, receiver, transmitter, link budget, 混頻器, 振盪器, 相位雜訊, 頻率合成器, 收發機, digital logic, Verilog, digital circuit design, 數位邏輯, 射頻電路, 電磁學, 信號與系統, DE25, Terasic DE25, HSMC pin map, FPGA, SIL radar, DSIL radar, self-injection-locked radar, radar sensitivity, 自我注入鎖定雷達, 雷達靈敏度, URSI GASS 2026, Kraków, SMMU, arm-smmu-v3, IOVA, DMA address, Agilex 5, DE25-Standard, RBF, FPGA bitstream, stratix10-svc, SDM, of_fpga_region, 位址轉譯, device tree, iommus, phandle, altr smmu_enable_quirk, method smc, SMCCC, VCU118, PGOOD, VCCINT, UltraScale+, VU9P, PMBus, power sequencing, power-up failure, FMC mezzanine, 電源時序, 上電失敗, phase-canceling SIL radar, ultrasonic radar, injection locking, PI feedback demodulation, vital sign radar, 相位消除, 超音波雷達, 注入鎖定, 生命徵象量測, 博士生指導, 學分抵免, 昭群科技, JiaoKuan Technology">
 <meta name="author" content="昭群科技 JiaoKuan Technology">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.jktek.com.tw/misc_ideas.html">
@@ -44,7 +44,7 @@
   "mainEntity": {
     "@type": "ItemList",
     "itemListOrder": "https://schema.org/ItemListOrderAscending",
-    "numberOfItems": 13,
+    "numberOfItems": 14,
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Steady-State Dosing: Single vs Split", "url": "https://www.jktek.com.tw/medicine/steady-state-dosing.html" },
       { "@type": "ListItem", "position": 2, "name": "Field and Wave Electromagnetics — Cheng", "url": "https://www.jktek.com.tw/textbook/magnetelectronics/electromagnetics_study_book.html" },
@@ -58,7 +58,8 @@
       { "@type": "ListItem", "position": 10, "name": "SIL / DSIL 雷達靈敏度設計", "url": "https://www.jktek.com.tw/misc/SIL_DSIL_Sensitivity_Design_Note.html" },
       { "@type": "ListItem", "position": 11, "name": "為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致", "url": "https://www.jktek.com.tw/misc/smmu_rbf_load_failure_zh.html" },
       { "@type": "ListItem", "position": 12, "name": "Device Tree 的 iommus、svc 與 method = \"smc\" — 逐項釋疑", "url": "https://www.jktek.com.tw/misc/dt_iommus_svc_qa_zh.html" },
-      { "@type": "ListItem", "position": 13, "name": "VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動", "url": "https://www.jktek.com.tw/misc/vcu118/vcu118-pgood-vccint-diagnostics.html" }
+      { "@type": "ListItem", "position": 13, "name": "VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動", "url": "https://www.jktek.com.tw/misc/vcu118/vcu118-pgood-vccint-diagnostics.html" },
+      { "@type": "ListItem", "position": 14, "name": "相位消除 SIL 超音波雷達 — 學習指南", "url": "https://www.jktek.com.tw/misc/dsil/Phase_Canceling_SIL_Ultrasonic_Radar_Study_Guide.html" }
     ]
   }
 }
@@ -229,6 +230,15 @@
                 <span>
                     <span class="title">VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動</span>
                     <div class="desc">隨機上電失敗的證據整理、根因假設排序、診斷決策樹與逐步排查 SOP（VCU118 Rev 2.0 / VU9P，含中英雙語版本）。</div>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="misc/dsil/Phase_Canceling_SIL_Ultrasonic_Radar_Study_Guide.html">
+                <span class="num">14</span>
+                <span>
+                    <span class="title">相位消除 SIL 超音波雷達 — 學習指南</span>
+                    <div class="desc">Yu &amp; Horng (IEEE TBioCAS 2020) 導讀：用可調延遲線 + PI 回授把 SIL 雷達釘在 &theta;=&pi; 線性工作點，於 14 個波長內線性量測呼吸與心跳；含小訊號模型、控制器設計與 DSIL 對照。</div>
                 </span>
             </a>
         </li>
