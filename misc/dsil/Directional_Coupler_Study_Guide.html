@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Directional Coupler in an RF Front-End — Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], tags: 'ams' },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<style>
+:root {
+  --bg: #faf8f5; --bg2: #f0ece6; --text: #1a1a1a; --text2: #4a4a4a;
+  --accent: #b44a2f; --accent2: #2a6e5a; --accent3: #3a5998;
+  --border: #d4cfc7; --card: #ffffff; --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --yellow: #f5e6c8; --blue-light: #e8f0fa; --green-light: #e6f5ee; --red-light: #fce8e4;
+  --purple-light: #f0e8f5;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:'Source Serif 4',Georgia,serif; background:var(--bg); color:var(--text); line-height:1.75; font-size:17px; }
+.container { max-width:880px; margin:0 auto; padding:0 28px; }
+header { background:linear-gradient(135deg,#1a1a1a,#2d2520); color:#f0ece6; padding:60px 0 50px; border-bottom:4px solid var(--accent); }
+header .chap-label { font-family:'DM Sans',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+header h1 { font-size:2.5rem; font-weight:700; line-height:1.2; margin-bottom:16px; }
+header .subtitle { font-size:1.05rem; color:#b5ada3; font-style:italic; max-width:620px; }
+.toc { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:32px 36px; margin:40px 0; box-shadow:var(--shadow); }
+.toc h2 { font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
+.toc ol { padding-left:22px; } .toc li { margin-bottom:6px; }
+.toc a { color:var(--text); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s; }
+.toc a:hover { border-bottom-color:var(--accent); }
+.toc .sub { padding-left:22px; list-style-type:disc; }
+.toc .sub li { font-size:0.95rem; color:var(--text2); margin-bottom:3px; }
+section { margin:48px 0; }
+h2.section-title { font-size:1.8rem; font-weight:700; color:var(--text); margin-bottom:8px; padding-bottom:10px; border-bottom:3px solid var(--accent); display:inline-block; }
+h3 { font-family:'DM Sans',sans-serif; font-size:1.15rem; font-weight:700; color:var(--accent2); margin:32px 0 12px; }
+h4 { font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:600; color:var(--accent3); margin:24px 0 8px; }
+p { margin-bottom:14px; }
+ul,ol { margin-left:24px; margin-bottom:14px; }
+.callout { border-radius:6px; padding:20px 24px; margin:20px 0; border-left:4px solid; }
+.callout.concept { background:var(--blue-light); border-color:var(--accent3); }
+.callout.key { background:var(--yellow); border-color:#c8a44e; }
+.callout.warning { background:var(--red-light); border-color:var(--accent); }
+.callout.tip { background:var(--green-light); border-color:var(--accent2); }
+.callout .callout-title { font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+.callout.concept .callout-title { color:var(--accent3); }
+.callout.key .callout-title { color:#8a7030; }
+.callout.warning .callout-title { color:var(--accent); }
+.callout.tip .callout-title { color:var(--accent2); }
+.eq-box { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:18px 24px; margin:18px 0; text-align:center; box-shadow:var(--shadow); overflow-x:auto; }
+.eq-box .eq-label { font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px; text-align:left; }
+.example { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:24px 28px; margin:24px 0; box-shadow:var(--shadow); }
+.example .ex-title { font-family:'DM Sans',sans-serif; font-weight:700; font-size:1rem; color:var(--accent); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+.example .step { margin:10px 0; padding-left:16px; border-left:2px solid var(--accent2); }
+.practice { background:var(--purple-light); border:2px solid #9b7cc8; border-radius:8px; padding:24px 28px; margin:24px 0; }
+.practice .pr-title { font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.95rem; color:#6b4c9a; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+.practice .pr-answer { margin-top:12px; padding:16px 20px; background:rgba(255,255,255,0.7); border-radius:6px; border:1px dashed #9b7cc8; }
+.practice .pr-answer summary { font-family:'DM Sans',sans-serif; font-weight:600; color:#6b4c9a; cursor:pointer; font-size:0.95rem; }
+.practice .pr-answer summary:hover { text-decoration:underline; }
+.practice .pr-answer .sol { margin-top:10px; }
+table { width:100%; border-collapse:collapse; margin:18px 0; font-size:0.95rem; }
+th { font-family:'DM Sans',sans-serif; background:var(--bg2); font-weight:600; text-align:left; padding:10px 14px; border-bottom:2px solid var(--border); }
+td { padding:8px 14px; border-bottom:1px solid var(--border); }
+tr:hover td { background:var(--bg2); }
+.summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+.summary-card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:18px 20px; box-shadow:var(--shadow); }
+.summary-card h5 { font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:700; color:var(--accent2); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+footer { margin-top:60px; padding:30px 0; text-align:center; border-top:2px solid var(--border); color:var(--text2); font-size:0.9rem; }
+.lf { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; margin:20px 0; box-shadow:var(--shadow); text-align:center; }
+.lf svg { max-width:100%; height:auto; }
+.lf .cap { font-family:'DM Sans',sans-serif; font-size:0.85rem; color:var(--text2); margin-top:10px; line-height:1.5; }
+@media (max-width:640px) { header h1{font-size:1.8rem;} .summary-grid{grid-template-columns:1fr;} .container{padding:0 16px;} body{font-size:16px;} }
+
+/* ===== Collapsible outline — fixed on the left empty space ===== */
+.outline {
+  position: fixed;
+  left: 14px;
+  top: 70px;
+  width: 250px;
+  box-sizing: border-box;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px 18px;
+  box-shadow:var(--shadow);
+  z-index: 50;
+  scrollbar-width: thin;
+}
+.outline::-webkit-scrollbar { width:6px; }
+.outline::-webkit-scrollbar-thumb { background: var(--border); border-radius:3px; }
+.outline > summary {
+  font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent);
+  cursor:pointer; list-style:revert; padding:4px 0; margin-bottom:6px; border-bottom:1px solid var(--border);
+}
+.outline > summary:hover { color:#8a3a22; }
+.outline details { margin:4px 0; }
+.outline details > summary {
+  cursor:pointer; list-style:revert; font-family:'DM Sans',sans-serif; font-weight:700; color:var(--accent3); padding:3px 0; font-size:0.82rem;
+}
+.outline details > summary:hover { color:var(--accent); }
+.outline ul { list-style:none; margin:4px 0 6px 14px; padding:0; }
+.outline ul li { margin:2px 0; }
+.outline ul li a { color:var(--text2); text-decoration:none; padding:2px 6px; border-left:2px solid transparent; display:block; border-radius:3px; transition:all 0.15s; font-size:0.89rem; font-weight:700; line-height:1.4; }
+.outline ul li a:hover { color:var(--accent); background:var(--bg2); border-left-color:var(--accent); }
+.outline a.ex { color:var(--accent2); font-style:italic; padding-left:6px; }
+.outline a.ex::before { content:"▸ "; color:var(--accent2); }
+@media (max-width: 1280px) { .outline { display: none; } }
+@media (min-width: 1281px) {
+  body > .container {
+    max-width: none;
+    margin: 0;
+    padding-left: 290px;
+    padding-right: 36px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+  <div class="chap-label">RF Front-End &middot; Passive Components</div>
+  <h1>The Directional Coupler</h1>
+  <p class="subtitle">Why a wrist-sensing RFFE puts a coupler between the PA and the coil &mdash; four-port theory, directivity, reflectometry, and the calibration limit it imposes</p>
+</div>
+</header>
+
+<div class="container">
+
+<details class="outline" open>
+<summary>Outline &mdash; click chapter to expand</summary>
+
+<details open>
+<summary>1. What the Coupler Is For</summary>
+<ul>
+  <li><a href="#sec-1-1">1.1 One coil, two jobs</a></li>
+  <li><a href="#sec-1-2">1.2 Four ports, one rule</a></li>
+  <li><a href="#sec-1-3">1.3 The four defining parameters</a></li>
+  <li class="ex"><a href="#ex-1" class="ex">Practice 1 &mdash; Power budget</a></li>
+</ul>
+</details>
+
+<details>
+<summary>2. How Directivity Arises</summary>
+<ul>
+  <li><a href="#sec-2-1">2.1 Two coupling mechanisms</a></li>
+  <li><a href="#sec-2-2">2.2 Even/odd-mode design</a></li>
+  <li><a href="#sec-2-3">2.3 Frequency response</a></li>
+  <li class="ex"><a href="#ex-2" class="ex">Practice 2 &mdash; Coupled-line design</a></li>
+</ul>
+</details>
+
+<details>
+<summary>3. Reading the RFFE Diagram</summary>
+<ul>
+  <li><a href="#sec-3-1">3.1 Signal-path walkthrough</a></li>
+  <li><a href="#sec-3-2">3.2 Reflectometer &mdash; measuring &Gamma;</a></li>
+  <li><a href="#sec-3-3">3.3 Why the I/Q mixer matters</a></li>
+  <li><a href="#sec-3-4">3.4 LNA protection &amp; charger isolation</a></li>
+  <li class="ex"><a href="#ex-3" class="ex">Practice 3 &mdash; Sensing signal vs leakage</a></li>
+</ul>
+</details>
+
+<details>
+<summary>4. Directivity Sets the Floor</summary>
+<ul>
+  <li><a href="#sec-4-1">4.1 The error circle</a></li>
+  <li><a href="#sec-4-2">4.2 One-port calibration</a></li>
+  <li><a href="#sec-4-3">4.3 Drift is the real enemy</a></li>
+  <li class="ex"><a href="#ex-4" class="ex">Practice 4 &mdash; Return-loss uncertainty</a></li>
+</ul>
+</details>
+
+<details>
+<summary>5. Implementation &amp; Alternatives</summary>
+<ul>
+  <li><a href="#sec-5-1">5.1 Coupled-line, transformer, bridge</a></li>
+  <li><a href="#sec-5-2">5.2 Coupler vs circulator vs switch</a></li>
+  <li><a href="#sec-5-3">5.3 Design trade-offs</a></li>
+</ul>
+</details>
+
+<details>
+<summary>Reference</summary>
+<ul>
+  <li><a href="#quick-reference">Quick Reference</a></li>
+  <li><a href="#summary-checklist">Self-Study Checklist</a></li>
+</ul>
+</details>
+
+</details>
+
+<div class="toc">
+<h2>Contents</h2>
+<ol>
+  <li><a href="#sec-1">What the Coupler Is For</a>
+    <ul class="sub">
+      <li>One coil, two jobs &middot; four-port definition &middot; coupling, directivity, isolation, insertion loss</li>
+    </ul>
+  </li>
+  <li><a href="#sec-2">How Directivity Arises</a>
+    <ul class="sub">
+      <li>Capacitive + inductive cancellation &middot; even/odd-mode impedances &middot; bandwidth</li>
+    </ul>
+  </li>
+  <li><a href="#sec-3">Reading the RFFE Diagram</a>
+    <ul class="sub">
+      <li>The reflectometer &middot; vector &Gamma; via I/Q &middot; protecting the receiver</li>
+    </ul>
+  </li>
+  <li><a href="#sec-4">Directivity Sets the Sensitivity Floor</a>
+    <ul class="sub">
+      <li>Error circle &middot; one-port error model &middot; baseline drift</li>
+    </ul>
+  </li>
+  <li><a href="#sec-5">Implementation &amp; Alternatives</a>
+    <ul class="sub">
+      <li>Distributed vs lumped &middot; circulator and T/R switch compared</li>
+    </ul>
+  </li>
+  <li><a href="#quick-reference">Quick Reference</a> &middot; <a href="#summary-checklist">Checklist</a></li>
+</ol>
+</div>
+
+<!-- ==================== SECTION 1 ==================== -->
+<section id="sec-1">
+<h2 class="section-title">1. What the Coupler Is For</h2>
+
+<h3 id="sec-1-1">1.1 One coil, two jobs</h3>
+
+<p>In the RF front-end (RFFE) block diagram, the transmit chain runs
+<em>DAC &rarr; LPF &rarr; I/Q mixer &rarr; PA &rarr; BPF &rarr; <strong>coupler</strong> &rarr; coil</em>,
+and the receive chain runs <em>coil &rarr; <strong>coupler</strong> &rarr; BPF &rarr; LNA &rarr; I/Q mixer &rarr; LPF &rarr; ADC</em>.
+Both chains terminate on the <strong>same coil</strong>. That is the whole design problem: the coil must
+radiate an interrogating field into the wrist <em>and</em> report back what the tissue did to it,
+simultaneously and on one physical port.</p>
+
+<p>You cannot simply wire the PA output and the LNA input to the same node. The PA output is on the
+order of $+20$ dBm; the quantity you want to measure is a small change in the wave coming
+<em>back</em> from the coil. Tied together directly, the LNA sees the transmitter, not the tissue.</p>
+
+<div class="callout key">
+<div class="callout-title">The one-sentence answer</div>
+The directional coupler（定向耦合器）is a four-port passive device that separates waves by
+<strong>direction of travel</strong>, so the receiver can be handed the wave returning from the coil
+while the far larger wave heading toward the coil is rejected.
+</div>
+
+<h3 id="sec-1-2">1.2 Four ports, one rule</h3>
+
+<p>Label the ports 1&ndash;4 as in Figure 1. Two transmission lines run alongside each other over a
+region short enough to be treated as a single component but long enough for fields to leak between
+them. The device obeys one rule:</p>
+
+<div class="callout concept">
+<div class="callout-title">The directionality rule</div>
+Energy entering a port leaves by <strong>three</strong> paths, not four: it goes mostly straight
+<em>through</em>, a defined small fraction appears at the <em>coupled</em> port, and almost nothing
+reaches the <em>isolated</em> port. Reverse the direction of travel and the coupled and isolated
+ports <strong>swap</strong>.
+</div>
+
+<div class="lf">
+<svg viewBox="0 0 700 560" font-family="'DM Sans',sans-serif" style="width:100%;max-width:660px;display:block;margin:8px auto">
+<defs>
+  <marker id="arrB" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,9 L9,4.5 z" fill="#3a5998"/>
+  </marker>
+  <marker id="arrR" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,9 L9,4.5 z" fill="#c00000"/>
+  </marker>
+</defs>
+
+<!-- ============ PANEL (a) ============ -->
+<text x="24" y="28" font-size="15" font-weight="700" fill="#1a1a1a">(a) Forward wave &mdash; drive at P1 (toward the coil)</text>
+
+<line x1="160" y1="90"  x2="540" y2="90"  stroke="#333" stroke-width="2.5"/>
+<line x1="160" y1="210" x2="540" y2="210" stroke="#333" stroke-width="2.5"/>
+<rect x="250" y="78" width="200" height="144" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="6,5"/>
+<text x="350" y="144" text-anchor="middle" font-size="13" fill="#777">coupled section</text>
+<text x="350" y="164" text-anchor="middle" font-size="13" fill="#777">&#8467; = &lambda;/4</text>
+
+<text x="154" y="90"  text-anchor="end"   dominant-baseline="middle" font-size="14" font-weight="700" fill="#1a1a1a">P1  INPUT</text>
+<text x="546" y="90"  text-anchor="start" dominant-baseline="middle" font-size="14" font-weight="700" fill="#1a1a1a">P2  THROUGH</text>
+<text x="154" y="210" text-anchor="end"   dominant-baseline="middle" font-size="14" font-weight="700" fill="#1a1a1a">P3  COUPLED</text>
+<text x="546" y="210" text-anchor="start" dominant-baseline="middle" font-size="14" font-weight="700" fill="#1a1a1a">P4  ISOLATED</text>
+
+<line x1="185" y1="90" x2="240" y2="90" stroke="#3a5998" stroke-width="3.5" marker-end="url(#arrB)"/>
+<text x="212" y="74" text-anchor="middle" font-size="14" font-weight="700" fill="#3a5998">a</text>
+<line x1="462" y1="90" x2="517" y2="90" stroke="#3a5998" stroke-width="3.5" marker-end="url(#arrB)"/>
+<text x="490" y="74" text-anchor="middle" font-size="14" font-weight="700" fill="#3a5998">&radic;(1&minus;c&sup2;)&middot;a</text>
+<line x1="240" y1="210" x2="185" y2="210" stroke="#3a5998" stroke-width="3.5" marker-end="url(#arrB)"/>
+<text x="212" y="234" text-anchor="middle" font-size="14" font-weight="700" fill="#3a5998">c&middot;a</text>
+<text x="490" y="234" text-anchor="middle" font-size="14" font-weight="700" fill="#888">&asymp; 0</text>
+
+<!-- ============ PANEL (b) ============ -->
+<text x="24" y="308" font-size="15" font-weight="700" fill="#1a1a1a">(b) Reverse wave &mdash; return from the coil enters at P2</text>
+
+<line x1="160" y1="370" x2="540" y2="370" stroke="#333" stroke-width="2.5"/>
+<line x1="160" y1="490" x2="540" y2="490" stroke="#333" stroke-width="2.5"/>
+<rect x="250" y="358" width="200" height="144" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="6,5"/>
+<text x="350" y="424" text-anchor="middle" font-size="13" fill="#777">coupled section</text>
+<text x="350" y="444" text-anchor="middle" font-size="13" fill="#777">&#8467; = &lambda;/4</text>
+
+<text x="154" y="370" text-anchor="end"   dominant-baseline="middle" font-size="14" font-weight="700" fill="#1a1a1a">P1</text>
+<text x="546" y="370" text-anchor="start" dominant-baseline="middle" font-size="14" font-weight="700" fill="#1a1a1a">P2</text>
+<text x="154" y="490" text-anchor="end"   dominant-baseline="middle" font-size="14" font-weight="700" fill="#1a1a1a">P3  now isolated</text>
+<text x="546" y="490" text-anchor="start" dominant-baseline="middle" font-size="14" font-weight="700" fill="#c00000">P4  now coupled</text>
+
+<line x1="517" y1="370" x2="462" y2="370" stroke="#c00000" stroke-width="3.5" marker-end="url(#arrR)"/>
+<text x="490" y="354" text-anchor="middle" font-size="14" font-weight="700" fill="#c00000">b</text>
+<line x1="240" y1="370" x2="185" y2="370" stroke="#c00000" stroke-width="3.5" marker-end="url(#arrR)"/>
+<text x="212" y="354" text-anchor="middle" font-size="14" font-weight="700" fill="#c00000">&radic;(1&minus;c&sup2;)&middot;b</text>
+<line x1="462" y1="490" x2="517" y2="490" stroke="#c00000" stroke-width="3.5" marker-end="url(#arrR)"/>
+<text x="490" y="514" text-anchor="middle" font-size="14" font-weight="700" fill="#c00000">c&middot;b</text>
+<text x="212" y="514" text-anchor="middle" font-size="14" font-weight="700" fill="#888">&asymp; 0</text>
+</svg>
+<div class="cap"><strong>Figure 1.</strong> Port convention for a backward-wave (coupled-line) directional coupler.
+Panel (a): the transmit wave $a$ entering P1 emerges at P2 with amplitude $\sqrt{1-c^2}\,a$ and at P3
+with amplitude $c\,a$; P4 sees nothing. Panel (b): the wave $b$ returning from the coil enters P2 and
+now emerges at <strong>P4</strong>. <em>The two waves are physically sorted into different ports</em> &mdash;
+that is the entire function of the device. Tap P4 and you are listening only to the return.</div>
+</div>
+
+<div class="callout tip">
+<div class="callout-title">Which port is &ldquo;coupled&rdquo;?</div>
+For the <strong>backward-wave</strong> coupler drawn above (the coupled-line / microstrip case), the coupled
+port sits at the <em>same end</em> as the driven port. Some lumped and waveguide structures are
+<strong>forward-wave</strong> couplers, where P3 and P4 swap roles. Do not memorise the picture &mdash; memorise
+the rule: <em>forward and reverse waves leave by different ports</em>, and read the datasheet to find out
+which is which for your part.
+</div>
+
+<h3 id="sec-1-3">1.3 The four defining parameters</h3>
+
+<p>All four are dB numbers referred to the incident power at P1.</p>
+
+<div class="eq-box">
+<span class="eq-label">Coupling</span>
+$$C = 10\log_{10}\frac{P_1}{P_3} = -20\log_{10}|S_{31}| \qquad\text{(how big the tap is)}$$
+</div>
+
+<div class="eq-box">
+<span class="eq-label">Isolation</span>
+$$I = 10\log_{10}\frac{P_1}{P_4} = -20\log_{10}|S_{41}| \qquad\text{(leakage to the wrong port)}$$
+</div>
+
+<div class="eq-box">
+<span class="eq-label">Directivity &mdash; the figure of merit</span>
+$$\boxed{\;D = 10\log_{10}\frac{P_3}{P_4} = 20\log_{10}\left|\frac{S_{31}}{S_{41}}\right| = I - C\;}$$
+</div>
+
+<div class="eq-box">
+<span class="eq-label">Insertion loss (lossless case)</span>
+$$L = -20\log_{10}|S_{21}| = -10\log_{10}\!\left(1 - 10^{-C/10}\right)$$
+</div>
+
+<div class="callout warning">
+<div class="callout-title">Coupling and directivity are not the same thing</div>
+<strong>Coupling</strong> tells you how much signal you get. <strong>Directivity</strong> tells you how much
+you can <em>trust</em> it. A 20 dB coupler with 10 dB directivity is nearly useless for a reflectometer
+&mdash; a third of what reaches the receive port is transmitter leakage masquerading as a reflection.
+Directivity, not coupling, is what limits the measurement.
+</div>
+
+<p>Typical values for a PCB or surface-mount coupler at UHF / low microwave: $C = 10$&ndash;$20$ dB,
+$D = 20$&ndash;$35$ dB, $L = 0.05$&ndash;$0.5$ dB.</p>
+
+<div class="practice">
+<div class="pr-title" id="ex-1">Practice Example 1 &mdash; Power budget through the coupler</div>
+<p><strong>Problem:</strong> The PA delivers $+20$ dBm into a $C = 20$ dB coupler with directivity
+$D = 25$ dB. Assume the coupler itself is lossless.</p>
+<ol>
+<li>How much power reaches the coil?</li>
+<li>How much appears at the coupled port?</li>
+<li>How much transmitter power leaks into the isolated port?</li>
+</ol>
+<details class="pr-answer"><summary>Click to reveal solution</summary>
+<div class="sol">
+<p><strong>(a)</strong> The voltage coupling coefficient is $c = 10^{-C/20} = 10^{-1} = 0.1$, so a
+fraction $c^2 = 0.01$ of the power is tapped off:</p>
+$$L = -10\log_{10}(1-0.01) = 0.044\ \text{dB} \;\Rightarrow\; P_{\text{coil}} = 20 - 0.044 \approx +19.96\ \text{dBm}$$
+<p>Essentially all of it. A 20 dB coupler is almost invisible to the main path &mdash; this is why you
+can leave one permanently in-line.</p>
+<p><strong>(b)</strong> $P_3 = 20 - C = 20 - 20 = \mathbf{0\ dBm}$.</p>
+<p><strong>(c)</strong> Isolation is $I = C + D = 20 + 25 = 45$ dB, so</p>
+$$P_4 = 20 - 45 = \mathbf{-25\ dBm}$$
+<p><strong>Sanity check（合理性驗証）:</strong> $-25$ dBm is 45 dB below the PA but still a large signal
+for an LNA. Remember this number &mdash; Practice 3 shows it is comparable to the entire sensing signal.</p>
+</div>
+</details>
+</div>
+</section>
+
+<!-- ==================== SECTION 2 ==================== -->
+<section id="sec-2">
+<h2 class="section-title">2. How Directivity Actually Arises</h2>
+
+<h3 id="sec-2-1">2.1 Two coupling mechanisms that cancel</h3>
+
+<p>Bring two transmission lines close together and energy leaks across by <strong>two independent
+mechanisms at once</strong>. This is the physical heart of the device.</p>
+
+<ul>
+<li><strong>Capacitive (electric) coupling.</strong> The mutual capacitance $C_m$ between the traces
+injects a displacement current into the second line. That current splits <em>symmetrically</em>, flowing
+equally toward both ends of the coupled line &mdash; <em>in phase</em> at P3 and P4.</li>
+<li><strong>Inductive (magnetic) coupling.</strong> The mutual inductance $L_m$ induces an EMF in the
+second line. A series EMF drives an <em>antisymmetric</em> current: equal magnitude but
+<em>opposite sign</em> at P3 and P4.</li>
+</ul>
+
+<div class="callout key">
+<div class="callout-title">The cancellation</div>
+Design the geometry so the two contributions are <strong>equal in magnitude</strong>. Then at P3 they
+<em>add</em>, and at P4 they <em>cancel</em>. The cancellation at the isolated port is the entire trick,
+and the accuracy of that cancellation <em>is</em> the directivity.
+</div>
+
+<p>The balance condition is that both mechanisms scale the same way relative to the line impedance:</p>
+
+<div class="eq-box">
+<span class="eq-label">Balance condition</span>
+$$\frac{L_m}{L} = \frac{C_m}{C} \quad\Longleftrightarrow\quad Z_0 = \sqrt{Z_{0e}Z_{0o}}$$
+</div>
+
+<p>In a homogeneous medium (stripline, coax) this holds exactly and directivity can exceed 40 dB.
+In an <strong>inhomogeneous</strong> medium &mdash; ordinary microstrip, where the even and odd modes see
+different mixtures of substrate and air &mdash; the two modes travel at different velocities, the
+cancellation is imperfect, and directivity typically caps out near 15&ndash;25 dB.</p>
+
+<div class="callout tip">
+<div class="callout-title">Practical consequence</div>
+If you need high directivity on microstrip, do not just make a longer coupled line. Use a
+<em>wiggly</em> (serrated) coupled edge to equalise the even/odd velocities, add a lumped compensation
+capacitor across the gap, or move to stripline / a transformer-based part.
+</div>
+
+<h3 id="sec-2-2">2.2 Even/odd-mode design equations</h3>
+
+<p>For a quarter-wave coupled-line coupler in a $Z_0$ system with voltage coupling coefficient
+$c = 10^{-C/20}$, the two mode impedances follow directly:</p>
+
+<div class="eq-box">
+<span class="eq-label">Coupled-line synthesis</span>
+$$Z_{0e} = Z_0\sqrt{\frac{1+c}{1-c}}\ ,\qquad Z_{0o} = Z_0\sqrt{\frac{1-c}{1+c}}\ ,\qquad Z_0=\sqrt{Z_{0e}Z_{0o}}$$
+</div>
+
+<p>These two numbers are then turned into a physical trace width $w$ and gap $s$ by a field solver or
+by closed-form microstrip formulas. Tighter coupling means a narrower gap, which is why couplers
+tighter than about 6 dB are hard to fabricate as a simple edge-coupled pair.</p>
+
+<div class="lf">
+<svg viewBox="0 0 620 210" font-family="'DM Sans',sans-serif" style="width:100%;max-width:600px;display:block;margin:8px auto">
+<defs>
+  <marker id="dimA" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,8 L8,4 z" fill="#555"/>
+  </marker>
+</defs>
+<!-- substrate -->
+<rect x="30" y="40" width="560" height="118" fill="#f4efe6" stroke="#d4cfc7" stroke-width="1"/>
+<!-- traces -->
+<rect x="60"  y="62"  width="500" height="14" fill="#b87333"/>
+<rect x="60"  y="114" width="500" height="14" fill="#b87333"/>
+<!-- coupled region highlight -->
+<rect x="170" y="56" width="280" height="78" fill="none" stroke="#3a5998" stroke-width="1.5" stroke-dasharray="6,4"/>
+<!-- gap dimension -->
+<line x1="310" y1="76" x2="310" y2="114" stroke="#555" stroke-width="1.2" marker-start="url(#dimA)" marker-end="url(#dimA)"/>
+<text x="322" y="99" font-size="14" font-weight="700" fill="#555">s</text>
+<!-- width dimension (on the lower trace, where there is clear space) -->
+<line x1="115" y1="106" x2="115" y2="136" stroke="#555" stroke-width="1.2" marker-start="url(#dimA)" marker-end="url(#dimA)"/>
+<text x="115" y="152" text-anchor="middle" font-size="14" font-weight="700" fill="#555">w</text>
+<!-- length dimension -->
+<line x1="170" y1="172" x2="450" y2="172" stroke="#555" stroke-width="1.2" marker-start="url(#dimA)" marker-end="url(#dimA)"/>
+<text x="310" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="#555">&#8467; = &lambda;/4 at f&#8320;</text>
+<line x1="170" y1="134" x2="170" y2="176" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+<line x1="450" y1="134" x2="450" y2="176" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+<!-- port labels -->
+<text x="52" y="69"  text-anchor="end"   dominant-baseline="middle" font-size="13" font-weight="700">P1</text>
+<text x="568" y="69" text-anchor="start" dominant-baseline="middle" font-size="13" font-weight="700">P2</text>
+<text x="52" y="121" text-anchor="end"   dominant-baseline="middle" font-size="13" font-weight="700">P3</text>
+<text x="568" y="121" text-anchor="start" dominant-baseline="middle" font-size="13" font-weight="700">P4</text>
+<text x="310" y="30" text-anchor="middle" font-size="13" fill="#777">edge-coupled microstrip, top view</text>
+</svg>
+<div class="cap"><strong>Figure 2.</strong> The distributed realisation. Coupling is set by the gap $s$;
+the impedance level by the width $w$; the centre frequency by the length $\ell = \lambda_g/4$, where
+$\lambda_g = c_0/(f\sqrt{\varepsilon_{\text{eff}}})$.</div>
+</div>
+
+<h3 id="sec-2-3">2.3 Frequency response</h3>
+
+<p>The coupled-port response of an ideal quarter-wave coupler is</p>
+
+<div class="eq-box">
+<span class="eq-label">Coupled port vs electrical length</span>
+$$S_{31}(\theta) = \frac{j\,c\,\sin\theta}{\sqrt{1-c^2}\,\cos\theta + j\sin\theta}\ ,\qquad \theta = \frac{\pi}{2}\frac{f}{f_0}$$
+</div>
+
+<p>Coupling peaks at $\theta = 90^\circ$ ($\ell = \lambda/4$) and falls off as $\sin\theta$ on either
+side, giving a broad response &mdash; roughly an octave for $\pm 1$ dB flatness. That is far wider than a
+ferrite circulator, and it is one of the practical reasons couplers dominate in instrumentation.</p>
+
+<div class="practice">
+<div class="pr-title" id="ex-2">Practice Example 2 &mdash; Synthesising a 20 dB coupled-line coupler</div>
+<p><strong>Problem:</strong> Design a 20 dB coupled-line coupler in a 50 &Omega; system at
+$f_0 = 1$ GHz on a board with $\varepsilon_{\text{eff}} = 3.0$. Find $Z_{0e}$, $Z_{0o}$, and the
+physical length.</p>
+<details class="pr-answer"><summary>Click to reveal solution</summary>
+<div class="sol">
+<p><strong>Coupling coefficient:</strong> $c = 10^{-20/20} = 0.100$.</p>
+$$Z_{0e} = 50\sqrt{\frac{1.1}{0.9}} = 50(1.1055) = \mathbf{55.3\ \Omega}$$
+$$Z_{0o} = 50\sqrt{\frac{0.9}{1.1}} = 50(0.9045) = \mathbf{45.2\ \Omega}$$
+<p><strong>Check:</strong> $\sqrt{55.3 \times 45.2} = 50.0\ \Omega$. Correct.</p>
+<p><strong>Length:</strong></p>
+$$\lambda_g = \frac{c_0}{f\sqrt{\varepsilon_{\text{eff}}}} = \frac{3\times10^8}{10^9\sqrt{3}} = 173.2\ \text{mm}
+\;\Rightarrow\; \ell = \lambda_g/4 = \mathbf{43.3\ mm}$$
+<p><strong>Comment:</strong> Note how close $Z_{0e}$ and $Z_{0o}$ are &mdash; only 10 &Omega; apart. Loose
+coupling means a <em>wide</em> gap and a nearly uncoupled pair, which is easy to fabricate but leaves
+directivity vulnerable to small etch and dielectric variations. Also note the length: 43 mm at 1 GHz
+is already awkward on a wearable board, and at 100 MHz it would be 43 cm. See &sect;5.1.</p>
+</div>
+</details>
+</div>
+</section>
+
+<!-- ==================== SECTION 3 ==================== -->
+<section id="sec-3">
+<h2 class="section-title">3. Reading the RFFE Block Diagram</h2>
+
+<h3 id="sec-3-1">3.1 Signal-path walkthrough</h3>
+
+<p>Trace the highlighted coupler in the RFFE figure and everything falls into place:</p>
+
+<table>
+<tr><th>Port</th><th>Connected to</th><th>Carries</th></tr>
+<tr><td><strong>P1</strong></td><td>PA &rarr; BPF</td><td>Transmit drive, the interrogating tone</td></tr>
+<tr><td><strong>P2</strong></td><td>Coil</td><td>Nearly all the TX power out; the tissue-modulated return back in</td></tr>
+<tr><td><strong>P3</strong></td><td>Terminated (the ground symbol)</td><td>A sample of the <em>forward</em> wave &mdash; discarded, or used as a power monitor</td></tr>
+<tr><td><strong>P4</strong></td><td>BPF &rarr; LNA &rarr; I/Q mixer &rarr; ADC</td><td><strong>The measurement</strong>: the wave reflected by the coil</td></tr>
+</table>
+
+<div class="callout concept">
+<div class="callout-title">Why the ground symbols matter</div>
+The grounded port in the diagram is not a decorative detail &mdash; it is a <strong>50 &Omega;
+termination</strong>. An unused coupler port <em>must</em> be terminated in the system impedance. Leave it
+open or shorted and the wave that should have been absorbed is re-reflected back into the coupled
+section, destroying directivity. A badly terminated port is the single most common cause of a
+reflectometer that will not calibrate.
+</div>
+
+<h3 id="sec-3-2">3.2 The reflectometer &mdash; what is actually being measured</h3>
+
+<p>The coil presents an impedance $Z_L$ to the front end. Presenting the wrist changes the coil's
+near-field environment: tissue permittivity and conductivity load the coil, shifting both its
+inductance and its loss. The front end reads this out as a <strong>complex reflection
+coefficient</strong>:</p>
+
+<div class="eq-box">
+<span class="eq-label">The measurand</span>
+$$\Gamma = \frac{b}{a} = \frac{Z_L - Z_0}{Z_L + Z_0} = |\Gamma|e^{j\phi} \;\approx\; S_{11}$$
+</div>
+
+<div class="lf">
+<svg viewBox="0 0 720 320" font-family="'DM Sans',sans-serif" style="width:100%;max-width:700px;display:block;margin:8px auto">
+<defs>
+  <marker id="ar2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,9 L9,4.5 z" fill="#333"/>
+  </marker>
+  <marker id="ar2b" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,9 L9,4.5 z" fill="#3a5998"/>
+  </marker>
+  <marker id="ar2r" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,9 L9,4.5 z" fill="#c00000"/>
+  </marker>
+  <marker id="ar2g" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,9 L9,4.5 z" fill="#2a6e5a"/>
+  </marker>
+</defs>
+
+<!-- wrist -->
+<rect x="640" y="34" width="58" height="150" rx="26" fill="#fce8e4" stroke="#b44a2f" stroke-width="2"/>
+<text x="669" y="109" text-anchor="middle" font-size="14" font-weight="700" fill="#b44a2f" transform="rotate(-90 669 109)">WRIST</text>
+
+<!-- TX main line -->
+<line x1="40" y1="76" x2="230" y2="76" stroke="#333" stroke-width="2.5"/>
+<text x="135" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#555">from PA + BPF</text>
+<line x1="340" y1="76" x2="560" y2="76" stroke="#333" stroke-width="2.5"/>
+
+<!-- coupler -->
+<rect x="230" y="44" width="110" height="64" fill="#fff" stroke="#b44a2f" stroke-width="2.5"/>
+<line x1="230" y1="44" x2="340" y2="108" stroke="#b44a2f" stroke-width="2"/>
+<line x1="230" y1="108" x2="340" y2="44" stroke="#b44a2f" stroke-width="2"/>
+<text x="285" y="32" text-anchor="middle" font-size="14" font-weight="700" fill="#b44a2f">COUPLER</text>
+
+<!-- forward / reverse arrows -->
+<line x1="395" y1="76" x2="445" y2="76" stroke="#3a5998" stroke-width="3" marker-end="url(#ar2b)"/>
+<text x="420" y="64" text-anchor="middle" font-size="14" font-weight="700" fill="#3a5998">a</text>
+<line x1="545" y1="100" x2="400" y2="100" stroke="#c00000" stroke-width="3" stroke-dasharray="7,4" marker-end="url(#ar2r)"/>
+<text x="470" y="120" text-anchor="middle" font-size="14" font-weight="700" fill="#c00000">b = &Gamma;&middot;a</text>
+
+<!-- P3 termination -->
+<line x1="260" y1="108" x2="260" y2="142" stroke="#333" stroke-width="2"/>
+<line x1="248" y1="142" x2="272" y2="142" stroke="#333" stroke-width="2.5"/>
+<line x1="252" y1="149" x2="268" y2="149" stroke="#333" stroke-width="2.5"/>
+<line x1="256" y1="156" x2="264" y2="156" stroke="#333" stroke-width="2.5"/>
+<text x="238" y="132" text-anchor="end" font-size="12.5" font-weight="700" fill="#555">50 &Omega;</text>
+
+<!-- coil -->
+<text x="560" y="34" text-anchor="middle" font-size="13.5" font-weight="700" fill="#b44a2f">COIL</text>
+<path d="M560,76 a7,7 0 0 1 0,14 a7,7 0 0 1 0,14 a7,7 0 0 1 0,14 a7,7 0 0 1 0,14 a7,7 0 0 1 0,14"
+      fill="none" stroke="#b44a2f" stroke-width="2.5"/>
+<line x1="560" y1="146" x2="560" y2="156" stroke="#333" stroke-width="2"/>
+<line x1="548" y1="156" x2="572" y2="156" stroke="#333" stroke-width="2.5"/>
+<line x1="552" y1="163" x2="568" y2="163" stroke="#333" stroke-width="2.5"/>
+<line x1="556" y1="170" x2="564" y2="170" stroke="#333" stroke-width="2.5"/>
+<text x="560" y="196" text-anchor="middle" font-size="13" fill="#555">&Gamma; = b / a</text>
+
+<!-- near-field arcs -->
+<path d="M580,88 a28,28 0 0 1 0,46" fill="none" stroke="#2a6e5a" stroke-width="2"/>
+<path d="M592,82 a34,34 0 0 1 0,58" fill="none" stroke="#2a6e5a" stroke-width="2"/>
+<path d="M604,74 a40,40 0 0 1 0,70" fill="none" stroke="#2a6e5a" stroke-width="2"/>
+
+<!-- RX chain -->
+<line x1="312" y1="108" x2="312" y2="255" stroke="#333" stroke-width="2.5"/>
+<line x1="312" y1="255" x2="345" y2="255" stroke="#333" stroke-width="2.5"/>
+<text x="322" y="150" font-size="13" font-weight="700" fill="#c00000">P4</text>
+
+<rect x="345" y="237" width="46" height="36" fill="#fff" stroke="#333" stroke-width="2"/>
+<text x="368" y="255" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700">BPF</text>
+<line x1="391" y1="255" x2="407" y2="255" stroke="#333" stroke-width="2.5"/>
+
+<polygon points="407,235 407,275 450,255" fill="#fff" stroke="#333" stroke-width="2"/>
+<text x="423" y="255" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="700">LNA</text>
+<line x1="450" y1="255" x2="483" y2="255" stroke="#333" stroke-width="2.5"/>
+
+<circle cx="505" cy="255" r="22" fill="#fff" stroke="#3a5998" stroke-width="2"/>
+<line x1="490" y1="240" x2="520" y2="270" stroke="#3a5998" stroke-width="2"/>
+<line x1="490" y1="270" x2="520" y2="240" stroke="#3a5998" stroke-width="2"/>
+<text x="505" y="296" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3a5998">I/Q</text>
+
+<line x1="527" y1="255" x2="592" y2="255" stroke="#333" stroke-width="2.5" marker-end="url(#ar2)"/>
+<text x="600" y="255" dominant-baseline="middle" font-size="13" font-weight="700" fill="#555">to ADC</text>
+
+<line x1="505" y1="198" x2="505" y2="229" stroke="#2a6e5a" stroke-width="2" marker-end="url(#ar2g)"/>
+<text x="496" y="192" text-anchor="end" font-size="12.5" font-weight="700" fill="#2a6e5a">LO from SG</text>
+</svg>
+<div class="cap"><strong>Figure 3.</strong> The coupler as a reflectometer. The transmit wave $a$ passes
+through to the coil; the tissue-loaded coil returns $b = \Gamma a$; the coupler sorts $b$ into P4 and
+hands it to the receive chain. Because the LO comes from the same synthesiser that generated the
+transmit tone, the I/Q mixer recovers $\Gamma$ as a <em>complex</em> quantity. The unused coupler port
+is terminated in 50 &Omega;.</div>
+</div>
+
+<h3 id="sec-3-3">3.3 Why the I/Q mixer &mdash; scalar vs vector</h3>
+
+<p>Notice in the RFFE diagram that the <strong>splitter</strong> feeds the same signal generator (SG) tone
+to both the transmit and receive I/Q mixers. This is not incidental. It makes the receiver
+<em>phase-coherent</em> with the transmitter, so the baseband outputs are</p>
+
+<div class="eq-box">
+<span class="eq-label">Coherent detection</span>
+$$I = K|\Gamma|\cos\phi\ ,\qquad Q = K|\Gamma|\sin\phi \qquad\Longrightarrow\qquad \Gamma = \frac{I + jQ}{K}$$
+</div>
+
+<div class="callout key">
+<div class="callout-title">Coupler + coherent LO = vector measurement</div>
+A diode detector on the coupled port would give you only $|\Gamma|$ &mdash; a <strong>scalar</strong>
+reflectometer. Adding a phase-locked I/Q downconverter gives you $|\Gamma|$ <em>and</em> $\phi$ &mdash; a
+<strong>vector</strong> reflectometer, i.e. a single-port VNA on a wearable board. Phase is where most of
+the tissue information lives, because a change in tissue permittivity shifts the coil's reactance far
+more than it changes its loss.
+</div>
+
+<h3 id="sec-3-4">3.4 LNA protection and wireless-charger isolation</h3>
+
+<p>Two secondary functions, both important in practice:</p>
+
+<ul>
+<li><strong>Receiver protection.</strong> Without the coupler's isolation, the LNA input would see the
+full PA output. Practice 1 showed the coupler knocks transmit leakage down to $-25$ dBm &mdash; below
+the $P_{1\text{dB}}$ of a typical LNA, so the receiver stays linear instead of being compressed (or
+destroyed) by its own transmitter.</li>
+<li><strong>Charger isolation.</strong> The greyed-out <em>rectifier / wireless charger</em> path shares
+the same coil. The coupler's directivity, together with the BPFs on both chains, keeps the strong
+low-frequency charging field out of the sensitive receive path. Note that this relies on
+<em>frequency</em> separation as much as on the coupler; a coupler alone does not reject an out-of-band
+interferer.</li>
+</ul>
+
+<div class="practice">
+<div class="pr-title" id="ex-3">Practice Example 3 &mdash; Is the sensing signal above the leakage?</div>
+<p><strong>Problem:</strong> With $P_{\text{TX}} = +20$ dBm, a 20 dB coupler and $D = 25$ dB, the coil's
+reflection coefficient measures $\Gamma_{\text{off}} = 0.20\angle 30^\circ$ with no wrist present and
+$\Gamma_{\text{on}} = 0.26\angle 42^\circ$ with the wrist in place.</p>
+<ol>
+<li>What is the differential (useful) signal level at the receive port?</li>
+<li>How does it compare with the directivity leakage?</li>
+<li>What does this imply for the system design?</li>
+</ol>
+<details class="pr-answer"><summary>Click to reveal solution</summary>
+<div class="sol">
+<p><strong>(a)</strong> Work in the complex plane &mdash; this is exactly why you need a vector receiver.</p>
+$$\Gamma_{\text{on}} = 0.1932 + j0.1740\ ,\qquad \Gamma_{\text{off}} = 0.1732 + j0.1000$$
+$$\Delta\Gamma = 0.0200 + j0.0740 \;\Rightarrow\; |\Delta\Gamma| = 0.0766\ ,\ \ \angle\Delta\Gamma = 74.9^\circ$$
+<p>Note that $|\Gamma|$ alone changed only from 0.20 to 0.26, but the <em>vector</em> change is 0.0766 &mdash;
+a magnitude-only receiver would have thrown away most of the phase information.</p>
+<p>The forward wave at the coil is $\approx +20$ dBm, so the differential reflected wave is
+$20 + 20\log_{10}(0.0766) = 20 - 22.3 = -2.3$ dBm at the coil, and after the 20 dB coupling:</p>
+$$P_{\Delta} = -2.3 - 20 = \mathbf{-22.3\ dBm}\ \text{at P4}$$
+<p><strong>(b)</strong> From Practice 1, transmit leakage at P4 is $-25$ dBm. The useful differential
+signal is therefore only</p>
+$$-22.3 - (-25) = \mathbf{2.7\ dB}$$
+<p>above the leakage. They are the same order of magnitude.</p>
+<p><strong>(c)</strong> Two conclusions. First, the leakage is <em>static and coherent</em>, so it can be
+removed by subtracting a stored baseline vector &mdash; the measurement is not hopeless. Second, and more
+importantly, any <strong>drift</strong> in that leakage (temperature, cable flex, ageing) appears directly
+as a false $\Delta\Gamma$. With only 2.7 dB of margin, a 1 dB drift in leakage is a large fraction of
+the signal. This is why such systems need periodic re-baselining, and why coupler directivity is the
+specification that actually limits sensitivity.</p>
+</div>
+</details>
+</div>
+</section>
+
+<!-- ==================== SECTION 4 ==================== -->
+<section id="sec-4">
+<h2 class="section-title">4. Directivity Sets the Sensitivity Floor</h2>
+
+<h3 id="sec-4-1">4.1 The error circle</h3>
+
+<p>Finite directivity means a fixed fraction of the <em>forward</em> wave always leaks into the receive
+port, where it is indistinguishable from a genuine reflection. The receiver therefore reads</p>
+
+<div class="eq-box">
+<span class="eq-label">Directivity error</span>
+$$\Gamma_{\text{meas}} = \Gamma_{\text{true}} + \delta\ ,\qquad |\delta| = 10^{-D/20},\quad \angle\delta \ \text{unknown}$$
+</div>
+
+<p>Because the phase of $\delta$ is unknown a priori, the true value lies somewhere on a circle of
+radius $|\delta|$ around the measured point:</p>
+
+<div class="lf">
+<svg viewBox="0 0 460 400" font-family="'DM Sans',sans-serif" style="width:100%;max-width:440px;display:block;margin:8px auto">
+<defs>
+  <marker id="ar3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,8 L8,4 z" fill="#333"/>
+  </marker>
+  <marker id="ar3b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,8 L8,4 z" fill="#3a5998"/>
+  </marker>
+  <marker id="ar3g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,8 L8,4 z" fill="#777"/>
+  </marker>
+</defs>
+<!-- unit circle -->
+<circle cx="200" cy="215" r="130" fill="none" stroke="#c8c2b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<text x="86" y="120" text-anchor="end" font-size="13" font-weight="700" fill="#999">|&Gamma;| = 1</text>
+<!-- axes -->
+<line x1="55" y1="215" x2="380" y2="215" stroke="#333" stroke-width="1.5" marker-end="url(#ar3)"/>
+<line x1="200" y1="370" x2="200" y2="46" stroke="#333" stroke-width="1.5" marker-end="url(#ar3)"/>
+<text x="388" y="220" font-size="13" font-weight="700" fill="#333">Re &Gamma;</text>
+<text x="208" y="52" font-size="13" font-weight="700" fill="#333">Im &Gamma;</text>
+<!-- measured vector (drawn first, sits under) -->
+<line x1="200" y1="215" x2="231" y2="173" stroke="#777" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ar3g)"/>
+<line x1="231" y1="173" x2="176" y2="142" stroke="#999" stroke-width="1"/>
+<text x="172" y="138" text-anchor="end" font-size="14" font-weight="700" fill="#777">&Gamma; measured</text>
+<!-- true vector -->
+<line x1="200" y1="215" x2="255" y2="169" stroke="#3a5998" stroke-width="3" marker-end="url(#ar3b)"/>
+<line x1="279" y1="171" x2="298" y2="178" stroke="#3a5998" stroke-width="1"/>
+<text x="302" y="182" font-size="14" font-weight="700" fill="#3a5998">&Gamma; true</text>
+<!-- error circle -->
+<circle cx="255" cy="169" r="24" fill="none" stroke="#c00000" stroke-width="2" stroke-dasharray="5,3"/>
+<line x1="267" y1="148" x2="298" y2="104" stroke="#c00000" stroke-width="1"/>
+<text x="302" y="100" font-size="13" font-weight="700" fill="#c00000">radius = 10<tspan baseline-shift="super" font-size="10">&minus;D/20</tspan></text>
+<circle cx="255" cy="169" r="3.5" fill="#3a5998"/>
+<circle cx="231" cy="173" r="3.5" fill="#777"/>
+</svg>
+<div class="cap"><strong>Figure 4.</strong> The directivity error circle. The measured point can lie
+anywhere on a circle of radius $10^{-D/20}$ about the true reflection coefficient. Any change in
+$\Gamma$ smaller than this radius is <em>not resolvable</em> without calibration &mdash; this is the
+uncalibrated sensitivity floor of the whole sensor.</div>
+</div>
+
+<p>The resulting uncertainty on a return-loss reading follows directly:</p>
+
+<div class="eq-box">
+<span class="eq-label">Return-loss uncertainty</span>
+$$\Delta\text{RL} = -20\log_{10}\!\left(1 \mp 10^{-(D-\text{RL})/20}\right)$$
+</div>
+
+<h3 id="sec-4-2">4.2 One-port calibration removes it</h3>
+
+<p>The directivity error is <strong>systematic</strong>, not random &mdash; so it can be measured once and
+subtracted. The standard one-port error model has three terms:</p>
+
+<div class="eq-box">
+<span class="eq-label">One-port error model</span>
+$$\Gamma_{\text{meas}} = e_{00} + \frac{e_{10}e_{01}\,\Gamma}{1 - e_{11}\Gamma}$$
+</div>
+
+<ul>
+<li>$e_{00}$ &mdash; <strong>directivity error</strong> (the leakage term above)</li>
+<li>$e_{11}$ &mdash; <strong>source match</strong> (re-reflection at the coupler port)</li>
+<li>$e_{10}e_{01}$ &mdash; <strong>reflection tracking</strong> (frequency-dependent gain and phase of the path)</li>
+</ul>
+
+<p>Three known standards &mdash; <strong>open, short, load</strong> (OSL) &mdash; give three equations for the
+three unknowns, and $\Gamma$ can then be solved exactly. After calibration, residual directivity is
+typically improved by 15&ndash;20 dB.</p>
+
+<div class="callout tip">
+<div class="callout-title">In a wearable, you rarely get OSL</div>
+You cannot ask a user to screw calibration standards onto a wrist strap. The practical substitute is
+a <strong>stored baseline</strong>: record $\Gamma_0$ with no wrist present (or at a known reference state)
+and report $\Delta\Gamma = \Gamma_{\text{meas}} - \Gamma_0$. This cancels $e_{00}$ and most of the
+tracking term at the operating point, and is why the sensing quantity in such systems is almost always
+a <em>differential</em> reading rather than an absolute impedance.
+</div>
+
+<h3 id="sec-4-3">4.3 Drift is the real enemy</h3>
+
+<p>Once you subtract a baseline, the static leakage no longer matters. What matters is how far the
+leakage moves between calibration and measurement. Dominant contributors, roughly in order:</p>
+
+<table>
+<tr><th>Source</th><th>Mechanism</th><th>Mitigation</th></tr>
+<tr><td>Temperature</td><td>$\varepsilon_r$ and copper resistivity shift, changing even/odd velocity balance</td><td>Temperature sensor + correction, or re-baseline periodically</td></tr>
+<tr><td>Cable / strap flex</td><td>Physical movement changes the reference plane and coil match</td><td>Rigid mounting; keep the coupler as close to the coil as possible</td></tr>
+<tr><td>Coil detuning</td><td>Mechanical strap tension alters coil inductance independently of tissue</td><td>Mechanical design; measure over frequency to separate tuning from loss</td></tr>
+<tr><td>LO phase noise</td><td>Degrades the phase resolution of the I/Q readout</td><td>Common LO for TX and RX (already done via the splitter) cancels most of it</td></tr>
+</table>
+
+<div class="callout concept">
+<div class="callout-title">Why the shared SG helps more than it looks</div>
+Because the transmit and receive mixers share one source through the splitter, phase noise appearing
+in the transmitted tone also appears in the LO, and the two <strong>correlate</strong> at the mixer output.
+This <em>range correlation</em> effect suppresses close-in phase noise substantially &mdash; the same
+principle that makes CW Doppler radar viable. The short electrical path from coupler to coil makes the
+correlation nearly perfect.
+</div>
+
+<div class="practice">
+<div class="pr-title" id="ex-4">Practice Example 4 &mdash; Return-loss uncertainty from directivity</div>
+<p><strong>Problem:</strong> A coupler has $D = 30$ dB directivity. You measure a return loss of 15 dB
+on the coil. What is the uncertainty on that reading, and what would it take to halve it?</p>
+<details class="pr-answer"><summary>Click to reveal solution</summary>
+<div class="sol">
+<p><strong>Setup:</strong> RL $=15$ dB $\Rightarrow |\Gamma| = 10^{-15/20} = 0.1778$. The error term is
+$|\delta| = 10^{-30/20} = 0.0316$.</p>
+<p><strong>Bounds on $|\Gamma|$:</strong></p>
+$$|\Gamma|_{\max} = 0.1778 + 0.0316 = 0.2094 \;\Rightarrow\; \text{RL} = 13.58\ \text{dB}$$
+$$|\Gamma|_{\min} = 0.1778 - 0.0316 = 0.1462 \;\Rightarrow\; \text{RL} = 16.70\ \text{dB}$$
+<p>So the reading is $15\ \text{dB}\ ^{+1.70}_{-1.42}$ &mdash; roughly $\pm 1.5$ dB. Cross-checking with
+the closed form, with $D - \text{RL} = 15$ dB:</p>
+$$\Delta\text{RL} = -20\log_{10}(1 \mp 0.1778) = \{+1.70,\ -1.42\}\ \text{dB}\quad\checkmark$$
+<p><strong>To halve it:</strong> the uncertainty depends on the <em>ratio</em> $D - \text{RL}$, so you need
+about 6 dB more directivity ($D \approx 36$ dB) to roughly halve the error &mdash; a hard ask from a
+microstrip coupler, which is exactly why calibration (&sect;4.2) is the practical route rather than
+better hardware.</p>
+<p><strong>Note the asymmetry:</strong> the $+$ and $-$ bounds are not equal, because dB is logarithmic.
+Always compute in linear $\Gamma$ and convert at the end.</p>
+</div>
+</details>
+</div>
+</section>
+
+<!-- ==================== SECTION 5 ==================== -->
+<section id="sec-5">
+<h2 class="section-title">5. Implementation and Alternatives</h2>
+
+<h3 id="sec-5-1">5.1 Coupled-line, transformer, or bridge</h3>
+
+<p>Practice 2 exposed the problem: a quarter-wave coupled line is 43 mm at 1 GHz and 43 cm at
+100 MHz. For a wrist-worn coil operating anywhere below roughly 1 GHz, the distributed structure is
+simply too big. Three realisations cover the range:</p>
+
+<table>
+<tr><th>Type</th><th>Frequency range</th><th>Typical directivity</th><th>Notes</th></tr>
+<tr><td><strong>Coupled-line</strong> (microstrip/stripline)</td><td>&gt; 500 MHz</td><td>15&ndash;25 dB microstrip, 35&ndash;45 dB stripline</td><td>Free &mdash; it is just copper. Size set by $\lambda/4$.</td></tr>
+<tr><td><strong>Transformer / lumped</strong></td><td>1 MHz &ndash; 3 GHz</td><td>20&ndash;35 dB</td><td>Ferrite or air-core bifilar transformer in a small SMT package. The usual choice for HF/VHF coil systems.</td></tr>
+<tr><td><strong>Resistive bridge</strong></td><td>DC &ndash; 6 GHz</td><td>35&ndash;45 dB</td><td>Extremely broadband and very high directivity, but $\ge 6$ dB loss in both directions &mdash; a real noise-figure and TX-power penalty.</td></tr>
+</table>
+
+<div class="callout tip">
+<div class="callout-title">Which one for a wrist coil?</div>
+If the coil is resonant somewhere in the HF/VHF range, the coupler in the block diagram is almost
+certainly a <strong>transformer-based SMT part</strong>, not a printed coupled line &mdash; the schematic
+symbol (a box with an X) is drawn the same way regardless of the physical realisation. If the coil
+runs at low GHz, a printed coupled line becomes practical and free.
+</div>
+
+<h3 id="sec-5-2">5.2 Coupler vs circulator vs T/R switch</h3>
+
+<p>All three can separate transmit from receive. The coupler wins here for specific reasons:</p>
+
+<table>
+<tr><th></th><th>Directional coupler</th><th>Circulator</th><th>T/R switch</th></tr>
+<tr><td>Simultaneous TX/RX</td><td>Yes</td><td>Yes</td><td><strong>No</strong> &mdash; time-multiplexed</td></tr>
+<tr><td>Bandwidth</td><td>Wide (octave+)</td><td>Narrow (ferrite resonance)</td><td>Wide</td></tr>
+<tr><td>Size / cost at &lt; 1 GHz</td><td>Small (transformer)</td><td>Large, expensive, magnetic</td><td>Small</td></tr>
+<tr><td>TX&rarr;RX rejection</td><td>$C + D$, e.g. 45 dB</td><td>Isolation ~20 dB</td><td>Very high when off</td></tr>
+<tr><td>Loss in main path</td><td>&lt; 0.1 dB</td><td>0.3&ndash;0.5 dB</td><td>0.5&ndash;1.5 dB</td></tr>
+<tr><td>Phase stability</td><td>Excellent (passive, planar)</td><td>Temperature-sensitive ferrite</td><td>Switching transients</td></tr>
+</table>
+
+<p>For a continuous-wave reflectometer that must hold phase to a fraction of a degree, the coupler's
+combination of low loss, wide bandwidth, small size and thermal stability is decisive. A switch
+cannot transmit and receive at once, and a circulator at these frequencies would dominate the board
+area and drift with temperature.</p>
+
+<h3 id="sec-5-3">5.3 Design trade-offs, summarised</h3>
+
+<div class="summary-grid">
+<div class="summary-card">
+<h5>Tighter coupling (e.g. 10 dB)</h5>
+<p>More signal at the receive port, better SNR at the ADC. But higher insertion loss on the main path
+(0.46 dB at 10 dB coupling), and <em>more</em> absolute transmitter leakage for the same directivity.</p>
+</div>
+<div class="summary-card">
+<h5>Looser coupling (e.g. 20&ndash;30 dB)</h5>
+<p>Nearly invisible to the transmit path and less absolute leakage, but the receive chain must supply
+more gain, so LNA noise figure becomes the limiting factor instead.</p>
+</div>
+<div class="summary-card">
+<h5>Higher directivity</h5>
+<p>Always good, never free. Costs board area (stripline, compensation structures) or insertion loss
+(resistive bridge). Beyond ~30 dB, calibration is cheaper than hardware.</p>
+</div>
+<div class="summary-card">
+<h5>Placement</h5>
+<p>Put the coupler as close to the coil as the layout allows. Every millimetre of line between coupler
+and coil is reference-plane error that drifts with temperature and flex.</p>
+</div>
+</div>
+
+<div class="callout key">
+<div class="callout-title">The design rule of thumb</div>
+Choose coupling so that the expected <em>differential</em> reflected signal lands comfortably above the
+LNA noise floor, then choose directivity so that leakage drift over the operating temperature range
+stays below the smallest $\Delta\Gamma$ you need to resolve. In practice the second constraint binds
+first &mdash; which is why Practice 3's 2.7 dB margin, not the noise figure, is the number to worry about.
+</div>
+</section>
+
+<!-- ==================== QUICK REFERENCE ==================== -->
+<section id="quick-reference">
+<h2 class="section-title">Quick Reference</h2>
+
+<table>
+<tr><th>Quantity</th><th>Formula</th><th>Comment</th></tr>
+<tr><td>Coupling</td><td>$C = -20\log_{10}|S_{31}|$</td><td>Size of the tap</td></tr>
+<tr><td>Isolation</td><td>$I = -20\log_{10}|S_{41}| = C + D$</td><td>Total TX&rarr;RX rejection</td></tr>
+<tr><td>Directivity</td><td>$D = I - C$</td><td><strong>The figure of merit</strong></td></tr>
+<tr><td>Insertion loss</td><td>$L = -10\log_{10}(1 - 10^{-C/10})$</td><td>0.044 dB for $C=20$ dB</td></tr>
+<tr><td>Voltage coupling</td><td>$c = 10^{-C/20}$</td><td>Linear amplitude ratio</td></tr>
+<tr><td>Even/odd impedances</td><td>$Z_{0e,0o} = Z_0\sqrt{(1\pm c)/(1\mp c)}$</td><td>$Z_0 = \sqrt{Z_{0e}Z_{0o}}$</td></tr>
+<tr><td>Coupled length</td><td>$\ell = \lambda_g/4$, $\lambda_g = c_0/(f\sqrt{\varepsilon_{\text{eff}}})$</td><td>Sets $f_0$</td></tr>
+<tr><td>Reflection coefficient</td><td>$\Gamma = (Z_L - Z_0)/(Z_L + Z_0)$</td><td>The measurand</td></tr>
+<tr><td>Directivity error</td><td>$|\delta| = 10^{-D/20}$</td><td>Radius of the error circle</td></tr>
+<tr><td>RL uncertainty</td><td>$\Delta\text{RL} = -20\log_{10}(1 \mp 10^{-(D-\text{RL})/20})$</td><td>Asymmetric in dB</td></tr>
+<tr><td>I/Q recovery</td><td>$\Gamma = (I + jQ)/K$</td><td>Requires coherent LO</td></tr>
+</table>
+
+<div class="callout key">
+<div class="callout-title">Three sentences, if you remember nothing else</div>
+<p>1. The coupler exists so that <strong>one coil can transmit and be measured at the same time</strong>,
+by sorting waves according to which way they travel.</p>
+<p>2. It works because <strong>capacitive and inductive coupling cancel</strong> at the isolated port; how
+well they cancel is the <strong>directivity</strong>.</p>
+<p>3. Directivity &mdash; not coupling, not noise figure &mdash; sets how small a change in tissue loading
+the sensor can actually resolve.</p>
+</div>
+</section>
+
+<!-- ==================== CHECKLIST ==================== -->
+<section id="summary-checklist">
+<h2 class="section-title">Self-Study Checklist</h2>
+
+<ul>
+<li>Can you state the four port names and say which two swap when the wave direction reverses?</li>
+<li>Can you write down coupling, isolation, directivity and insertion loss from the S-parameters, and
+explain why $I = C + D$?</li>
+<li>Can you explain <em>physically</em> why the isolated port is isolated &mdash; naming both coupling
+mechanisms and the sign difference between them?</li>
+<li>Why does an inhomogeneous medium (microstrip) limit directivity, while stripline does not?</li>
+<li>Given $C$ and $Z_0$, can you synthesise $Z_{0e}$ and $Z_{0o}$ and check them with
+$Z_0 = \sqrt{Z_{0e}Z_{0o}}$?</li>
+<li>In the RFFE diagram, which port goes to the LNA and which is terminated &mdash; and what breaks if
+the termination is wrong?</li>
+<li>Why does the receiver need an I/Q mixer fed from the transmit synthesiser rather than a diode
+detector?</li>
+<li>Can you compute the directivity error circle radius and convert it into a return-loss uncertainty?</li>
+<li>Why is a stored baseline used instead of OSL calibration in a wearable, and what does baselining
+fail to remove?</li>
+<li>Why a coupler here rather than a circulator or a T/R switch? Name at least three reasons.</li>
+</ul>
+</section>
+
+<footer>
+<p>Directional Coupler &mdash; RF Front-End Study Guide</p>
+<p>Companion to the wrist-sensing RFFE block diagram &middot; single-file, self-contained</p>
+</footer>
+
+</div>
+</body>
+</html>
