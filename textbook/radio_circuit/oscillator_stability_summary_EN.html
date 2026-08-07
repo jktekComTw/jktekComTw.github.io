@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>振盪器穩定性:從 Phase Margin 到 Van der Pol</title>
+<title>Oscillator Stability: From Phase Margin to Van der Pol</title>
 <script>
   MathJax = {
     tex: {
@@ -205,35 +205,35 @@
 </style>
 </head>
 <body>
-<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">中文</span><a href="oscillator_stability_summary_EN.html" hreflang="en" lang="en" title="English version">EN</a></div>
+<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">EN</span><a href="oscillator_stability_summary.html" hreflang="zh-Hant" lang="zh-Hant" title="中文版本">中文</a></div>
 
 
 <header>
-  <h1>振盪器穩定性:從 Phase Margin 到 Van der Pol</h1>
-  <div class="subtitle">線性與非線性穩定性理論的銜接 · Loop Gain, Barkhausen, Limit Cycle, Describing Function</div>
+  <h1>Oscillator Stability: From Phase Margin to Van der Pol</h1>
+  <div class="subtitle">Bridging linear and nonlinear stability theory · Loop Gain, Barkhausen, Limit Cycle, Describing Function</div>
 </header>
 
 <div class="toc">
   <h3>Contents</h3>
   <ol>
-    <li><a href="#sec1">Phase Margin 定義</a></li>
-    <li><a href="#sec2">Barkhausen 振盪準則</a></li>
-    <li><a href="#sec3">LTI vs. 非線性:兩種穩定性</a></li>
+    <li><a href="#sec1">Definition of Phase Margin</a></li>
+    <li><a href="#sec2">The Barkhausen Oscillation Criterion</a></li>
+    <li><a href="#sec3">LTI vs. Nonlinear: Two Kinds of Stability</a></li>
     <li><a href="#sec4">Van der Pol Equation</a></li>
-    <li><a href="#sec5">Describing Function 方法</a></li>
-    <li><a href="#sec6">實際電路中的 \(g_m\) 設計</a></li>
-    <li><a href="#sec7">與 Radar / RF 系統的關聯</a></li>
-    <li><a href="#sec8">總結</a></li>
+    <li><a href="#sec5">The Describing Function Method</a></li>
+    <li><a href="#sec6">Designing \(g_m\) in a Real Circuit</a></li>
+    <li><a href="#sec7">Connections to Radar / RF Systems</a></li>
+    <li><a href="#sec8">Summary</a></li>
   </ol>
 </div>
 
 <!-- ====================================================== -->
-<h2 id="sec1">1. Phase Margin 定義</h2>
+<h2 id="sec1">1. Definition of Phase Margin</h2>
 
-<p><strong>Phase Margin (PM, 相位裕度)</strong> 是控制系統與回授放大器中衡量系統<strong>穩定度</strong>的關鍵指標。</p>
+<p><strong>Phase margin (PM)</strong> is the key metric for the<strong>stability</strong>of a control system or feedback amplifier.</p>
 
-<h3>數學定義</h3>
-<p>對開迴路轉移函數 \( L(j\omega) = G(j\omega)H(j\omega) \):</p>
+<h3>Mathematical definition</h3>
+<p>For the open-loop transfer function \( L(j\omega) = G(j\omega)H(j\omega) \):</p>
 
 <div class="formula-box">
 \[
@@ -241,95 +241,95 @@ PM = 180° + \angle L(j\omega_{gc})
 \]
 </div>
 
-<p>其中 \( \omega_{gc} \) 為<strong>增益交越頻率 (gain crossover frequency)</strong>,使 \( |L(j\omega_{gc})| = 1 \)(即 0 dB)。</p>
+<p>where \( \omega_{gc} \) is the<strong>gain crossover frequency</strong>, the frequency at which \( |L(j\omega_{gc})| = 1 \) (i.e. 0 dB).</p>
 
-<h3>穩定性判讀</h3>
+<h3>Reading off stability</h3>
 <table>
-  <tr><th>Phase Margin</th><th>系統行為</th></tr>
-  <tr><td>PM &gt; 0°</td><td>穩定</td></tr>
-  <tr><td>PM &lt; 0°</td><td>不穩定</td></tr>
-  <tr><td>PM ≈ 45°–60°</td><td>良好暫態響應(業界常用設計目標)</td></tr>
-  <tr><td>PM &lt; 30°</td><td>響應震盪嚴重、ringing 明顯</td></tr>
-  <tr><td>PM → 0°</td><td>接近振盪邊界</td></tr>
+  <tr><th>Phase Margin</th><th>System behaviour</th></tr>
+  <tr><td>PM &gt; 0°</td><td>Stable</td></tr>
+  <tr><td>PM &lt; 0°</td><td>Unstable</td></tr>
+  <tr><td>PM ≈ 45°–60°</td><td>Well-behaved transient response (the usual industry design target)</td></tr>
+  <tr><td>PM &lt; 30°</td><td>Heavily oscillatory response, pronounced ringing</td></tr>
+  <tr><td>PM → 0°</td><td>Close to the oscillation boundary</td></tr>
 </table>
 
 <!-- ====================================================== -->
-<h2 id="sec2">2. Barkhausen 振盪準則</h2>
+<h2 id="sec2">2. The Barkhausen Oscillation Criterion</h2>
 
-<p>振盪器設計時,需同時滿足<strong>兩個條件</strong>:</p>
+<p>When designing an oscillator you must simultaneously satisfy<strong>two conditions</strong>:</p>
 
 <table>
-  <tr><th>條件</th><th>數學式</th><th>物理意義</th></tr>
+  <tr><th>Condition</th><th>Expression</th><th>Physical meaning</th></tr>
   <tr>
     <td><strong>Magnitude condition</strong></td>
     <td>\( |AH(\omega_0)| = 1 \)</td>
-    <td>迴路增益大小為 1,訊號繞一圈不衰減</td>
+    <td>The loop gain magnitude is 1 — the signal is not attenuated on one trip round the loop</td>
   </tr>
   <tr>
     <td><strong>Phase condition</strong></td>
     <td>\( \angle AH(\omega_0) = 0° \pmod{360°} \)</td>
-    <td>訊號繞一圈相位對齊,正回授成立</td>
+    <td>The signal comes back in phase after one trip round the loop, so positive feedback holds</td>
   </tr>
 </table>
 
-<p>其中:</p>
+<p>where:</p>
 <ul>
-  <li>\( A \):放大器增益</li>
-  <li>\( H \):回授網路轉移函數</li>
-  <li>\( AH \):<strong>迴路增益 (loop gain)</strong></li>
-  <li>\( \omega_0 \):振盪頻率</li>
+  <li>\( A \): amplifier gain</li>
+  <li>\( H \): feedback-network transfer function</li>
+  <li>\( AH \):<strong>loop gain</strong></li>
+  <li>\( \omega_0 \): oscillation frequency</li>
 </ul>
 
 <blockquote>
-振盪器設計就是<strong>故意</strong>讓 \( \angle AH = 0° \)(等效於負回授下相位 = −180°)且 \( |AH| \geq 1 \) → <strong>故意讓 PM = 0</strong>,讓電路振盪。
+Designing an oscillator means<strong>deliberately</strong>forcing \( \angle AH = 0° \) (equivalently a phase of −180° under negative feedback) with \( |AH| \geq 1 \) → <strong>deliberately making PM = 0</strong>so that the circuit oscillates.
 </blockquote>
 
 <!-- ====================================================== -->
-<h2 id="sec3">3. LTI vs. 非線性:兩種穩定性</h2>
+<h2 id="sec3">3. LTI vs. Nonlinear: Two Kinds of Stability</h2>
 
-<h3>LTI 觀點:振盪器是「不穩定」的</h3>
-<p>從小訊號 LTI 分析(Bode / Nyquist / pole location):</p>
+<h3>The LTI view: an oscillator is “unstable”</h3>
+<p>From small-signal LTI analysis (Bode / Nyquist / pole location):</p>
 <ul>
   <li>Loop gain \( |AH(\omega_0)| \geq 1 \)</li>
   <li>Phase \( \angle AH(\omega_0) = 0° \)</li>
-  <li>極點位於 \( j\omega \) 軸甚至右半平面 (RHP)</li>
-  <li><strong>PM ≤ 0、GM ≤ 0</strong>,系統「不穩定」</li>
+  <li>the poles sit on the \( j\omega \) axis or even in the right half-plane (RHP)</li>
+  <li><strong>PM ≤ 0, GM ≤ 0</strong>, so the system is “unstable”</li>
 </ul>
 
-<p>這也是為什麼啟動時 (start-up),熱雜訊或開機暫態會被指數放大 → 振盪建立。</p>
+<p>This is also why, at start-up, thermal noise or the power-on transient is amplified exponentially → oscillation builds up.</p>
 
-<h3>非線性觀點:存在穩定的 Limit Cycle</h3>
-<p>但實際電路<strong>不會炸掉</strong>,因為:</p>
+<h3>The nonlinear view: a stable limit cycle exists</h3>
+<p>But a real circuit<strong>does not blow up</strong>, because:</p>
 <ol>
-  <li>Transistor 進入飽和 / cut-off / triode → 跨導 \( g_m \) <strong>隨振幅下降</strong></li>
-  <li>等效迴路增益是<strong>振幅相依</strong>的:\( |AH| = f(A) \)</li>
-  <li>系統收斂到一個<strong>穩定極限環 (stable limit cycle)</strong></li>
+  <li>The transistor enters saturation / cut-off / triode → the transconductance \( g_m \) <strong>falls as the amplitude grows</strong></li>
+  <li>The effective loop gain is<strong>amplitude-dependent</strong>: \( |AH| = f(A) \)</li>
+  <li>The system converges to a<strong>stable limit cycle</strong></li>
 </ol>
 
-<h3>兩種穩定性對照</h3>
+<h3>The two kinds of stability side by side</h3>
 <table>
-  <tr><th>觀點</th><th>分析工具</th><th>平衡點</th><th>振盪器判定</th></tr>
+  <tr><th>Viewpoint</th><th>Analysis tools</th><th>Equilibrium</th><th>Verdict on the oscillator</th></tr>
   <tr>
-    <td><strong>LTI / 局部線性化</strong></td>
-    <td>Bode, Nyquist, Routh, 極點</td>
-    <td>原點 \( x = 0 \)</td>
-    <td>不穩定(極點在 RHP 或 jω 軸)</td>
+    <td><strong>LTI / local linearization</strong></td>
+    <td>Bode, Nyquist, Routh, poles</td>
+    <td>The origin \( x = 0 \)</td>
+    <td>Unstable (poles in the RHP or on the jω axis)</td>
   </tr>
   <tr>
-    <td><strong>非線性 / 全域</strong></td>
+    <td><strong>Nonlinear / global</strong></td>
     <td>Lyapunov, Poincaré-Bendixson, describing function</td>
-    <td>極限環 \( \Gamma \)</td>
-    <td>穩定(極限環 orbital stable)</td>
+    <td>The limit cycle \( \Gamma \)</td>
+    <td>Stable (the limit cycle is orbitally stable)</td>
   </tr>
 </table>
 
 <div class="key-takeaway">
-<strong>關鍵差異:</strong>
+<strong>The key difference:</strong>
 <ul style="margin-bottom: 0;">
-  <li>LTI 問的是「<strong>原點是否穩定</strong>」→ 不穩定</li>
-  <li>非線性問的是「<strong>極限環是否穩定</strong>」→ 穩定</li>
+  <li>LTI asks “<strong>is the origin stable?</strong>” → unstable</li>
+  <li>The nonlinear view asks “<strong>is the limit cycle stable?</strong>” → stable</li>
 </ul>
-兩者<strong>並不矛盾</strong>,而是描述同一個系統的不同特徵。
+The two are<strong>not contradictory</strong>; they describe different features of the very same system.
 </div>
 
 <!-- ====================================================== -->
@@ -341,16 +341,16 @@ PM = 180° + \angle L(j\omega_{gc})
 \]
 </div>
 
-<p>關鍵在於阻尼項 \( -\mu(1 - x^2) \):</p>
+<p>Everything hinges on the damping term \( -\mu(1 - x^2) \):</p>
 
 <table>
-  <tr><th>振幅狀態</th><th>\( (1 - x^2) \)</th><th>等效阻尼</th><th>行為</th></tr>
-  <tr><td>小訊號 \( |x| &lt; 1 \)</td><td>&gt; 0</td><td><strong>負阻尼</strong></td><td>振幅成長(等同 LTI 不穩定)</td></tr>
-  <tr><td>大訊號 \( |x| &gt; 1 \)</td><td>&lt; 0</td><td><strong>正阻尼</strong></td><td>振幅衰減</td></tr>
-  <tr><td>\( |x| = 1 \) 附近</td><td>0</td><td>中性</td><td><strong>穩定極限環</strong></td></tr>
+  <tr><th>Amplitude regime</th><th>\( (1 - x^2) \)</th><th>Effective damping</th><th>Behaviour</th></tr>
+  <tr><td>Small signal \( |x| &lt; 1 \)</td><td>&gt; 0</td><td><strong>Negative damping</strong></td><td>Amplitude grows (equivalent to LTI instability)</td></tr>
+  <tr><td>Large signal \( |x| &gt; 1 \)</td><td>&lt; 0</td><td><strong>Positive damping</strong></td><td>Amplitude decays</td></tr>
+  <tr><td>Near \( |x| = 1 \)</td><td>0</td><td>Neutral</td><td><strong>Stable limit cycle</strong></td></tr>
 </table>
 
-<h3>相平面 (Phase Plane) 圖像</h3>
+<h3>The phase-plane picture</h3>
 <div class="svg-container">
   <svg viewBox="0 0 580 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Van der Pol phase plane: unstable origin with stable limit cycle">
     <defs>
@@ -413,103 +413,103 @@ PM = 180° + \angle L(j\omega_{gc})
     <circle cx="280" cy="220" r="4.5" fill="#c0392b" stroke="#fff" stroke-width="1.5"/>
 
     <text x="430" y="115" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#0a6e6e">Stable Limit Cycle Γ</text>
-    <text x="430" y="132" font-family="-apple-system, sans-serif" font-size="11" fill="#0a6e6e">振盪穩態軌跡</text>
+    <text x="430" y="132" font-family="-apple-system, sans-serif" font-size="11" fill="#0a6e6e">Steady-state oscillation trajectory</text>
     <line x1="428" y1="118" x2="395" y2="148" stroke="#0a6e6e" stroke-width="1"/>
 
     <text x="50"  y="412" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#c0392b">Unstable Equilibrium</text>
-    <text x="50"  y="428" font-family="-apple-system, sans-serif" font-size="11" fill="#c0392b">LTI 線性化看到的原點(0,0)</text>
+    <text x="50"  y="428" font-family="-apple-system, sans-serif" font-size="11" fill="#c0392b">The origin (0,0) seen by LTI linearization</text>
     <line x1="180" y1="402" x2="275" y2="226" stroke="#c0392b" stroke-width="1"/>
 
-    <text x="340" y="175" font-family="-apple-system, sans-serif" font-size="11" fill="#c0392b">從原點向外螺旋發散</text>
+    <text x="340" y="175" font-family="-apple-system, sans-serif" font-size="11" fill="#c0392b">Spiralling outward from the origin</text>
 
-    <text x="435" y="160" font-family="-apple-system, sans-serif" font-size="11" fill="#2874a6">從外圍向內收斂</text>
+    <text x="435" y="160" font-family="-apple-system, sans-serif" font-size="11" fill="#2874a6">Converging inward from outside</text>
   </svg>
-  <div class="svg-caption">Van der Pol 系統相平面:原點為 unstable spiral(紅),Γ 為 stable limit cycle(綠),任何非零初始狀態都收斂到 Γ(藍)</div>
+  <div class="svg-caption">Phase plane of the Van der Pol system: the origin is an unstable spiral (red), Γ is a stable limit cycle (green), and every non-zero initial state converges to Γ (blue)</div>
 </div>
 
 <ul>
-  <li><strong>原點是 unstable spiral</strong>(LTI 看到的)</li>
-  <li><strong>極限環是 stable orbit</strong>(非線性看到的)</li>
-  <li>任何<strong>非零</strong>初始條件最終都收斂到極限環 → 這就是「振盪器一定會起振且穩定振盪」的數學保證</li>
+  <li><strong>The origin is an unstable spiral</strong>(what LTI sees)</li>
+  <li><strong>The limit cycle is a stable orbit</strong>(what the nonlinear view sees)</li>
+  <li>Any<strong>non-zero</strong>initial condition eventually converges to the limit cycle → this is the mathematical guarantee that “an oscillator will always start up and settle into steady oscillation”</li>
 </ul>
 
 <!-- ====================================================== -->
-<h2 id="sec5">5. Describing Function 方法</h2>
+<h2 id="sec5">5. The Describing Function Method</h2>
 
-<p>實務上分析振盪器穩態振幅,常用 <strong>Describing Function (描述函數)</strong> 把非線性元件線性化為<strong>振幅相依增益</strong> \( N(A) \)。</p>
+<p>In practice, the steady-state amplitude of an oscillator is usually analysed with the <strong>describing function</strong> , which linearizes the nonlinear element into an<strong>amplitude-dependent gain</strong> \( N(A) \).</p>
 
-<h3>穩態振盪條件</h3>
+<h3>Steady-state oscillation condition</h3>
 <div class="formula-box">
 \[
 N(A_0) \cdot H(j\omega_0) = 1
 \]
 </div>
 
-<h3>極限環穩定性判據</h3>
+<h3>Stability criterion for the limit cycle</h3>
 <div class="formula-box">
 \[
 \left.\frac{\partial |NH|}{\partial A}\right|_{A=A_0} < 0 \quad \Rightarrow \text{stable limit cycle}
 \]
 </div>
 
-<p><strong>物理意義:</strong>振幅變大時 loop gain 必須下降,才有負回授機制把振幅拉回 \( A_0 \)。</p>
+<p><strong>Physical meaning:</strong>the loop gain must fall as the amplitude grows, so that a negative-feedback mechanism pulls the amplitude back to \( A_0 \).</p>
 
 <!-- ====================================================== -->
-<h2 id="sec6">6. 實際電路中的 \(g_m\) 設計</h2>
+<h2 id="sec6">6. Designing \(g_m\) in a Real Circuit</h2>
 
-<h3>振幅相依的 \( g_m \) 機制</h3>
+<h3>Mechanisms that make \( g_m \) amplitude-dependent</h3>
 <table>
-  <tr><th>元件 / 機制</th><th>振幅相依行為</th></tr>
-  <tr><td><strong>Cross-coupled LC VCO</strong></td><td>NMOS 進入 triode → \( g_m \downarrow \)</td></tr>
-  <tr><td><strong>Colpitts oscillator</strong></td><td>BJT 進入 cut-off (class-C 操作) → 平均 \( g_m \downarrow \)</td></tr>
-  <tr><td><strong>Ring oscillator</strong></td><td>Inverter 完全 swing rail-to-rail → 等效增益限制</td></tr>
-  <tr><td><strong>AGC-based 振盪器</strong>(Wien bridge)</td><td>外部 AGC 主動調整 \( g_m \)</td></tr>
+  <tr><th>Device / mechanism</th><th>Amplitude-dependent behaviour</th></tr>
+  <tr><td><strong>Cross-coupled LC VCO</strong></td><td>The NMOS enters triode → \( g_m \downarrow \)</td></tr>
+  <tr><td><strong>Colpitts oscillator</strong></td><td>The BJT enters cut-off (class-C operation) → average \( g_m \downarrow \)</td></tr>
+  <tr><td><strong>Ring oscillator</strong></td><td>The inverter swings fully rail-to-rail → the effective gain is limited</td></tr>
+  <tr><td><strong>AGC-based oscillator</strong>(Wien bridge)</td><td>An external AGC loop actively adjusts \( g_m \)</td></tr>
 </table>
 
-<h3>典型的 \( g_m \) 過設計倍數</h3>
+<h3>Typical \( g_m \) over-design factors</h3>
 <table>
-  <tr><th>振盪器類型</th><th>\( g_m \cdot R_p \) 設計值</th><th>理由</th></tr>
-  <tr><td>LC VCO</td><td>2~3</td><td>確保 PVT corner 下都能起振</td></tr>
-  <tr><td>Crystal oscillator</td><td>3~5(甚至 10)</td><td>晶體 ESR 變動大、startup time 要求</td></tr>
-  <tr><td>Ring oscillator</td><td>自然滿足(數位 swing)</td><td>不需特別設計</td></tr>
+  <tr><th>Oscillator type</th><th>Design value of \( g_m \cdot R_p \)</th><th>Rationale</th></tr>
+  <tr><td>LC VCO</td><td>2~3</td><td>Guarantees start-up across every PVT corner</td></tr>
+  <tr><td>Crystal oscillator</td><td>3–5 (or even 10)</td><td>The crystal ESR varies widely and start-up time is specified</td></tr>
+  <tr><td>Ring oscillator</td><td>Naturally satisfied (digital swing)</td><td>No special design needed</td></tr>
 </table>
 
 <blockquote>
-太小 → 起振失敗;太大 → phase noise 變差、功耗浪費、harmonics 增加。
+Too small → start-up fails; too large → worse phase noise, wasted power and more harmonics.
 </blockquote>
 
 <!-- ====================================================== -->
-<h2 id="sec7">7. 與 Radar / RF 系統的關聯</h2>
+<h2 id="sec7">7. Connections to Radar / RF Systems</h2>
 
 <ol>
-  <li><strong>Phase noise 分析</strong>:Leeson's model 本質上是極限環受雜訊擾動的 perturbation 分析,屬於<strong>極限環附近的線性化</strong>(linearize <em>around</em> the limit cycle, not around the origin)。</li>
-  <li><strong>Injection locking</strong>:外部訊號注入振盪器使其同步,只能用非線性方法分析(Adler's equation),LTI 完全失效。</li>
-  <li><strong>PLL 鎖定動態</strong>:小訊號鎖定後可用 LTI loop dynamics 分析,但<strong>大訊號 acquisition、cycle slip</strong> 必須回到非線性。</li>
-  <li><strong>Mixer / PA 的飽和行為</strong>:同樣是 describing function 的應用場景。</li>
+  <li><strong>Phase-noise analysis</strong>: Leeson's model is essentially a perturbation analysis of a limit cycle disturbed by noise — that is,<strong>linearization about the limit cycle</strong>(linearize <em>around</em> the limit cycle, not around the origin).</li>
+  <li><strong>Injection locking</strong>: an external signal injected into the oscillator locks it. This can only be analysed with nonlinear methods (Adler's equation); LTI fails completely.</li>
+  <li><strong>PLL locking dynamics</strong>: once locked, the small-signal behaviour can be analysed with LTI loop dynamics, but<strong>large-signal acquisition and cycle slipping</strong> must go back to nonlinear analysis.</li>
+  <li><strong>Saturation behaviour of mixers / PAs</strong>: another application of the describing function.</li>
 </ol>
 
 <!-- ====================================================== -->
-<h2 id="sec8">8. 總結</h2>
+<h2 id="sec8">8. Summary</h2>
 
 <div class="key-takeaway">
-<strong>核心觀念:</strong><br>
-振盪器的設計目標,是讓「<strong>原點</strong>」LTI-不穩定,但讓「<strong>極限環</strong>」非線性-穩定。<br><br>
-兩種穩定性描述的是不同的<strong>不變集 (invariant set)</strong>:
+<strong>Core idea:</strong><br>
+The design goal of an oscillator is to make the “<strong>origin</strong>” LTI-unstable while making the “<strong>limit cycle</strong>” nonlinearly stable.<br><br>
+The two notions of stability describe different<strong>invariant sets</strong>:
 <ul style="margin-bottom: 0;">
-  <li>Bode / PM / GM → 看<strong>原點</strong></li>
-  <li>Van der Pol / Lyapunov / Describing Function → 看 <strong>limit cycle</strong></li>
+  <li>Bode / PM / GM → look at the<strong>origin</strong></li>
+  <li>Van der Pol / Lyapunov / describing function → look at the <strong>limit cycle</strong></li>
 </ul>
 </div>
 
-<h3>設計流程速查</h3>
+<h3>Design-flow quick reference</h3>
 <ol>
-  <li><strong>小訊號階段</strong>(start-up):設計 \( |AH| \gg 1 \) 與正確相位 → LTI 角度「不穩定」,讓雜訊指數放大</li>
-  <li><strong>大訊號階段</strong>(穩態):非線性使 \( g_m \) 自動下降,\( |NH| = 1 \) → 收斂到穩定極限環</li>
-  <li><strong>擾動分析</strong>(phase noise):極限環附近線性化,套用 Leeson model</li>
+  <li><strong>Small-signal stage</strong>(start-up): design for \( |AH| \gg 1 \) with the correct phase → “unstable” in the LTI sense, so that noise is amplified exponentially</li>
+  <li><strong>Large-signal stage</strong>(steady state): nonlinearity makes \( g_m \) drop automatically, \( |NH| = 1 \) → convergence to a stable limit cycle</li>
+  <li><strong>Perturbation analysis</strong>(phase noise): linearize about the limit cycle and apply the Leeson model</li>
 </ol>
 
 <footer>
-  振盪器穩定性整理 · 線性回授 ↔ 非線性極限環 · 適用 LC VCO / Crystal Osc / Ring Osc / Radar LO 設計
+  Oscillator stability summary · linear feedback ↔ nonlinear limit cycle · applies to LC VCO / crystal oscillator / ring oscillator / radar LO design
 </footer>
 
 </body>

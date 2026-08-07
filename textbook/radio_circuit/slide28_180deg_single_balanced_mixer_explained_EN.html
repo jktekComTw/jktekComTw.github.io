@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>180° Hybrid 單平衡混頻器方塊圖逐元素解析</title>
+<title>180° Hybrid Single-Balanced Mixer — Block Diagram, Element by Element</title>
 <script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}}</script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 <style>
@@ -58,11 +58,11 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid #d4c9a8;font-size:0
 </style>
 </head>
 <body>
-<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">中文</span><a href="slide28_180deg_single_balanced_mixer_explained_EN.html" hreflang="en" lang="en" title="English version">EN</a></div>
+<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">EN</span><a href="slide28_180deg_single_balanced_mixer_explained.html" hreflang="zh-Hant" lang="zh-Hant" title="中文版本">中文</a></div>
 
 
-<h1>180° Hybrid 單平衡混頻器方塊圖<br><span style="font-size:0.7em;color:#666">slide 28 — element-by-element explained</span></h1>
-<p class="subtitle">與 90° 版本的鏡像：LO 隔離度無條件完美、RF 匹配取決於二極體</p>
+<h1>180° Hybrid Single-Balanced Mixer Block Diagram<br><span style="font-size:0.7em;color:#666">slide 28 — element-by-element explained</span></h1>
+<p class="subtitle">The mirror image of the 90° version: LO isolation is unconditionally perfect, the RF match depends on the diodes</p>
 
 <!-- ============== Annotated SVG diagram ============== -->
 <div class="diagram-box">
@@ -210,55 +210,55 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid #d4c9a8;font-size:0
 
 <!-- ============== Walkthrough ============== -->
 
-<h2>圖中每個元件的意義</h2>
+<h2>What every element in the figure means</h2>
 
-<h3>① 兩個輸入埠：RF input (Σ port) 與 LO input (Δ port)</h3>
-<p>左側兩條箭頭分別注入：</p>
+<h3>① The two input ports: RF input (Σ port) and LO input (Δ port)</h3>
+<p>The two arrows on the left inject, respectively:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>RF input</strong>（藍色，進入 port 1 = <strong>Σ port</strong>，sum port）：要被降頻的射頻訊號 $v_{RF}(t)=V_{RF}\cos\omega_{RF}t$。Σ 表示<strong>同相分配</strong> — RF 會以同樣相位等分到兩個二極體。</li>
-<li><strong>LO input</strong>（紅色，進入 port 4 = <strong>Δ port</strong>，difference port）：本振訊號 $v_{LO}(t)=V_{LO}\cos\omega_{LO}t$，<strong style="color:#c01020">負責驅動二極體開關</strong>。Δ 表示<strong>反相分配</strong> — LO 會以相反相位（差 $180°$）分到兩個二極體。</li>
+<li><strong>RF input</strong>(blue, entering port 1 = <strong>Σ port</strong>, the sum port): the radio-frequency signal to be downconverted, $v_{RF}(t)=V_{RF}\cos\omega_{RF}t$. Σ denotes<strong>in-phase splitting</strong> — the RF is divided equally between the two diodes with the same phase.</li>
+<li><strong>LO input</strong>(red, entering port 4 = <strong>Δ port</strong>, the difference port): the local-oscillator signal $v_{LO}(t)=V_{LO}\cos\omega_{LO}t$, which is<strong style="color:#c01020">responsible for switching the diodes</strong>. Δ denotes<strong>anti-phase splitting</strong> — the LO reaches the two diodes in opposite phase (a $180°$ difference).</li>
 </ul>
 <div class="callout warn">
-<div class="callout-title">90° 與 180° 拓樸的根本差異</div>
-90° hybrid：兩條路徑的 RF/LO 相位差<strong>互相交換</strong>（不對稱）。<br>
-180° hybrid：<strong>RF 同相、LO 反相</strong> — 這個 Σ/Δ 結構是 180° 拓樸的招牌。結果是 RF 反射在<em>兩個</em>二極體上相同 ($V_\Gamma^1=V_\Gamma^2$)，所以走回 Δ 埠（LO）剛好對消，走回 Σ 埠（RF）剛好相加。
+<div class="callout-title">The fundamental difference between the 90° and 180° topologies</div>
+90° hybrid: the RF/LO phase differences of the two paths are<strong>swapped with each other</strong>(asymmetric).<br>
+180° hybrid:<strong>RF in phase, LO in anti-phase</strong> — this Σ/Δ structure is the hallmark of the 180° topology. As a result, the RF reflections at the<em>two</em>diodes are identical ($V_\Gamma^1=V_\Gamma^2$), so travelling back to the Δ port (LO) they cancel exactly, while travelling back to the Σ port (RF) they add exactly.
 </div>
 
 <details style="margin:10px 0;background:#eef6fc;border:1px solid #a8c4e8;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:8px 12px;font-weight:600;color:#1a4a8a">名詞解釋：「hybrid」到底是什麼？</summary>
+<summary style="cursor:pointer;list-style:revert;padding:8px 12px;font-weight:600;color:#1a4a8a">Terminology: what exactly is a “hybrid”?</summary>
 <div style="padding:6px 14px 12px;font-size:0.95em;line-height:1.7">
 
-<p><strong>Hybrid</strong>（hybrid junction / hybrid coupler）是微波工程界對一類特定<strong>四埠被動元件</strong>的稱呼。把一個訊號<em>分成兩份</em>，或把兩個訊號<em>合成一份</em>，並嚴格控制兩條路徑之間的<strong>相位差與功率比</strong>。</p>
+<p><strong>Hybrid</strong>(hybrid junction / hybrid coupler) is the microwave-engineering name for a particular class of<strong>four-port passive component</strong>. It splits one signal<em>into two</em>, or combines two signals<em>into one</em>, while strictly controlling the<strong>phase difference and power ratio</strong>of the image-reject mixer at low IF.</p>
 
-<p style="margin-top:6px;font-weight:600;color:#1a4a8a">定義性的四個性質</p>
+<p style="margin-top:6px;font-weight:600;color:#1a4a8a">The four defining properties</p>
 <ol style="margin:4px 0 6px 22px">
-<li><strong>四個埠（4-port）</strong>，每個埠單獨來看都<strong>完美匹配</strong>（$S_{ii}=0$）。</li>
-<li><strong>等功率分配</strong>（3 dB）：訊號從任一埠入射 → 兩個輸出埠各拿一半的功率。</li>
-<li>兩個輸出埠之間有<strong>固定相位差</strong>（本拓樸為 $180°$）。</li>
-<li>剩下那個埠跟入射埠<strong>完全隔離</strong>。</li>
+<li><strong>Four ports (4-port)</strong>, each of which, taken on its own, is<strong>perfectly matched</strong>($S_{ii}=0$).</li>
+<li><strong>Equal power split</strong>(3 dB): a signal incident on any port → each of the two output ports takes half the power.</li>
+<li>There is a<strong>fixed phase difference</strong>between the two output ports ($180°$ for this topology).</li>
+<li>The remaining port is<strong>completely isolated</strong>of the image-reject mixer at low IF.</li>
 </ol>
 
-<p style="margin-top:6px;font-weight:600;color:#1a4a8a">180° hybrid 的具體實作</p>
+<p style="margin-top:6px;font-weight:600;color:#1a4a8a">Concrete implementations of the 180° hybrid</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>Rat-race ring</strong>（上圖）：環狀傳輸線，總周長 $3\lambda/2$；四個埠中，相鄰三對埠距 $\lambda/4$（短臂），剩下一對埠距 $3\lambda/4$（長臂）。最常見的實現方式。</li>
-<li><strong>Magic-T</strong>：波導實作；同樣是 Σ/Δ 結構，但工作於 mm-wave。</li>
-<li><strong>Transformer 平衡轉換器</strong>：低頻 ($&lt; 1$ GHz) 用磁性元件做的 180° balun。</li>
+<li><strong>Rat-race ring</strong>(figure above): a ring of transmission line with a total circumference of $3\lambda/2$; of the four ports, three adjacent pairs are $\lambda/4$ apart (the short arms) and the remaining pair is $3\lambda/4$ apart (the long arm). By far the most common implementation.</li>
+<li><strong>Magic-T</strong>: a waveguide implementation; the same Σ/Δ structure, but working at mm-wave.</li>
+<li><strong>Transformer balun</strong>: a 180° balun built from magnetic components at low frequencies ($&lt; 1$ GHz).</li>
 </ul>
 
-<p style="margin-top:6px"><strong>180° vs. 90°：</strong> 90° 用於需要正交 (I/Q) 輸出的場合（image-reject mixer、quadrature splitter）；180° 用於需要差動驅動（differential drive）的場合 — 反向二極體對混頻器、平衡放大器、Σ/Δ 接收器。</p>
+<p style="margin-top:6px"><strong>180° vs. 90°:</strong> the 90° version is used where quadrature (I/Q) outputs are needed (image-reject mixers, quadrature splitters); the 180° version is used where differential drive is needed — anti-parallel diode-pair mixers, balanced amplifiers, Σ/Δ receivers.</p>
 </div>
 </details>
 
-<h3>② 中央方塊：3 dB 180° hybrid（rat-race ring 實作）</h3>
-<p>方塊裡畫的是 <strong>rat-race（環形）耦合器</strong>：一個總周長 $3\lambda/2$ 的環狀傳輸線。</p>
+<h3>② The central block: a 3 dB 180° hybrid (rat-race ring implementation)</h3>
+<p>What is drawn inside the block is a <strong>rat-race (ring) coupler</strong>: a ring of transmission line with a total circumference of $3\lambda/2$.</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>三條 $\lambda/4$ 短臂（藍）</strong>：分別連接 port 1–2、port 2–3、port 3–4。</li>
-<li><strong>一條 $3\lambda/4$ 長臂（紅）</strong>：從 port 4 繞遠路回到 port 1。</li>
-<li>四個埠特性阻抗都是 $\sqrt{2}Z_0\approx 70.7\,\Omega$（50 Ω 系統下），透過 $\lambda/4$ 阻抗變換接到外部 50 Ω。</li>
+<li><strong>Three $\lambda/4$ short arms (blue)</strong>: connecting ports 1–2, 2–3 and 3–4 respectively.</li>
+<li><strong>One $3\lambda/4$ long arm (red)</strong>: taking the long way round from port 4 back to port 1.</li>
+<li>All four ports have a characteristic impedance of $\sqrt{2}Z_0\approx 70.7\,\Omega$ (in a 50 Ω system), connected to the external 50 Ω through a $\lambda/4$ impedance transformation.</li>
 </ul>
-<p>$\lambda/4$ 與 $3\lambda/4$ 的<strong>路徑長度差 $\lambda/2$</strong> 就是<strong>整顆 hybrid 之所以能做出 $180°$ 相位差</strong>的根源（每多走 $\lambda/2$ 多 $180°$）。</p>
+<p>The $\lambda/2$ path-length difference<strong>between $\lambda/4$ and $3\lambda/4$</strong> is<strong>the very reason the whole hybrid can produce a $180°$ phase difference</strong>(every extra $\lambda/2$ travelled adds $180°$).</p>
 
-<p>整顆 4-port 結構的散射矩陣（埠號照 ①②③④）為：</p>
+<p>The scattering matrix of the complete 4-port structure (port numbering as in ①②③④) is:</p>
 <div class="eq-box">
 $$[S] = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{rfd1a}{1} & \cssId{rfd2a}{1} & 0 \\ \cssId{rfd1b}{1} & 0 & 0 & \cssId{lod1a}{-1} \\ \cssId{rfd2b}{1} & 0 & 0 & \cssId{lod2a}{1} \\ 0 & \cssId{lod1b}{-1} & \cssId{lod2b}{1} & 0 \end{bmatrix}$$
 </div>
@@ -270,172 +270,172 @@ $$[S] = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{rfd1a}{1} & \cssId{rfd2a}{
 </style>
 
 <div class="callout warn">
-<div class="callout-title">[S] 矩陣元素解讀（port 1 = RF/Σ, 2 = diode 1, 3 = diode 2, 4 = LO/Δ）</div>
+<div class="callout-title">Reading the [S]-matrix elements (port 1 = RF/Σ, 2 = diode 1, 3 = diode 2, 4 = LO/Δ)</div>
 
-<p style="margin:4px 0"><strong>讀法：</strong> $S_{ij}=$ 從 port $j$ 入射 → 在 port $i$ 出射的複數電壓比。所有非零元素的<strong>大小都是 $1/\sqrt{2}$</strong>（3 dB 等分），加上一個總體 $-j$ 前綴；矩陣裡的 $\pm 1$ 決定額外的 $0°$ 或 $180°$ 相位。</p>
+<p style="margin:4px 0"><strong>How to read it:</strong> $S_{ij}=$ the complex voltage ratio for a wave incident at port $j$ and emerging at port $i$. Every non-zero element has<strong>magnitude $1/\sqrt{2}$</strong>(an equal 3 dB split) plus an overall $-j$ prefix; the $\pm 1$ in the matrix sets the additional $0°$ or $180°$ of phase.</p>
 
 <div style="overflow-x:auto">
 <table style="border-collapse:collapse;font-size:0.92em;margin:6px 0;min-width:520px">
 <thead style="background:#f3e6c8">
-<tr><th style="padding:4px 8px;border:1px solid #d8b070">元素</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">值</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">路徑（$j\to i$）</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">物理意義</th></tr>
+<tr><th style="padding:4px 8px;border:1px solid #d8b070">Element</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Value</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Path ($j\to i$)</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Physical meaning</th></tr>
 </thead>
 <tbody>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{11},S_{22},S_{33},S_{44}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">自己 → 自己</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">四個埠都<strong>完美匹配</strong>（return loss = ∞）</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">self → self</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">All four ports are<strong>perfectly matched</strong>(return loss = ∞)</td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{14}=S_{41}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">RF(Σ) ↔ LO(Δ)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ 與 Δ 埠<strong>天生隔離</strong>（不靠對稱）</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">The Σ and Δ ports are<strong>inherently isolated</strong>(not by virtue of symmetry)</td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{23}=S_{32}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">diode 1 ↔ diode 2</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">兩個二極體埠互相隔離</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">The two diode ports are isolated from each other</td></tr>
 <tr style="background:#fff2c4"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{21}=S_{12}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">RF (1) → diode 1 (2)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ 同相分配：半功率、<strong>$-90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ in-phase split: half power,<strong>$-90°$</strong></td></tr>
 <tr style="background:#ffd9b0"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{31}=S_{13}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">RF (1) → diode 2 (3)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ 同相分配：半功率、<strong>$-90°$</strong>（與上一格<strong>同相</strong>！）</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ in-phase split: half power,<strong>$-90°$</strong>(<strong>in phase</strong>with the cell above!)</td></tr>
 <tr style="background:#ffb8a8"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{24}=S_{42}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{+j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">LO (4) → diode 1 (2)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ 反相分配：半功率、<strong>$+90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ anti-phase split: half power,<strong>$+90°$</strong></td></tr>
 <tr style="background:#a8d8ff"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{34}=S_{43}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">LO (4) → diode 2 (3)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ 反相分配：半功率、<strong>$-90°$</strong>（與上一格<strong>反相</strong>！）</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ anti-phase split: half power,<strong>$-90°$</strong>(<strong>in anti-phase</strong>with the cell above!)</td></tr>
 </tbody>
 </table>
 </div>
 
-<p style="margin:6px 0"><strong>核心對稱性：</strong> $S_{21}=S_{31}$（RF 同相到兩顆二極體）但 $S_{24}=-S_{34}$（LO 反相到兩顆二極體）。這是 Σ/Δ 行為的數學定義。</p>
+<p style="margin:6px 0"><strong>The core symmetry:</strong> $S_{21}=S_{31}$ (RF reaches both diodes in phase) but $S_{24}=-S_{34}$ (the LO reaches the two diodes in anti-phase). This is the mathematical definition of Σ/Δ behaviour.</p>
 
-<p style="margin:4px 0;color:#7a4a10"><strong>幺正性與互易：</strong> 矩陣對稱（reciprocal）、$[S]^\dagger[S]=[I]$（lossless）、對角線全 0（matched）。三條性質一起把它鎖死為理想的 180° 4-port hybrid。</p>
+<p style="margin:4px 0;color:#7a4a10"><strong>Unitarity and reciprocity:</strong> the matrix is symmetric (reciprocal), $[S]^\dagger[S]=[I]$ (lossless), and the diagonal is all zeros (matched). Together these three properties pin it down as an ideal 180° 4-port hybrid.</p>
 </div>
 
-<h3>③ 標在 port 2 / port 3 旁的「$-90°$」與「$+90°$」</h3>
-<p>圖上的角度標的是 <strong>LO 訊號</strong>從 port 4 進入後，分別到達 port 2、3 時的相位（取適當參考）：</p>
+<h3>③ The “$-90°$” and “$+90°$” marked beside port 2 / port 3</h3>
+<p>The angles in the figure are the phases of the <strong>LO signal</strong>as it arrives at ports 2 and 3 after entering at port 4 (to a suitable reference):</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>LO (4) → diode 1 (port 2)：</strong> 經 $S_{24}=+j/\sqrt{2}$ → 相位 $\mathbf{+90°}$</li>
-<li><strong>LO (4) → diode 2 (port 3)：</strong> 經 $S_{34}=-j/\sqrt{2}$ → 相位 $\mathbf{-90°}$</li>
+<li><strong>LO (4) → diode 1 (port 2):</strong> via $S_{24}=+j/\sqrt{2}$ → phase $\mathbf{+90°}$</li>
+<li><strong>LO (4) → diode 2 (port 3):</strong> via $S_{34}=-j/\sqrt{2}$ → phase $\mathbf{-90°}$</li>
 </ul>
-<p>兩個埠的 LO 相位差 $180°$ — 這就是 180° hybrid 名稱的由來，也是 Δ 埠的反相分配。</p>
-<p style="font-size:0.88em;color:#444">⚠ 注意：圖上的「$\pm 90°$」<em>不</em>是 RF 的相位。RF 從 Σ 埠進來後，會以<strong>同樣的 $-90°$</strong>到達兩個二極體（$S_{21}=S_{31}=-j/\sqrt{2}$）— 也就是 RF 是「共模」、LO 是「差模」。要顯式比較的話：</p>
+<p>The LO phases at the two ports differ by $180°$ — that is where the name “180° hybrid” comes from, and it is the anti-phase split of the Δ port.</p>
+<p style="font-size:0.88em;color:#444">⚠ Note: the “$\pm 90°$” in the figure is<em>not</em>the phase of the RF. Once the RF enters from the Σ port it reaches both diodes with<strong>the same $-90°$</strong>($S_{21}=S_{31}=-j/\sqrt{2}$) — that is, the RF is common-mode and the LO is differential-mode. Comparing them explicitly:</p>
 <table>
-<tr><th>路徑</th><th>相位</th><th>注解</th></tr>
-<tr><td>RF (1) → diode 1</td><td class="c">$-90°$</td><td>Σ 行為 — 兩條同相</td></tr>
+<tr><th>Path</th><th>Phase</th><th>Comment</th></tr>
+<tr><td>RF (1) → diode 1</td><td class="c">$-90°$</td><td>Σ behaviour — the two are in phase</td></tr>
 <tr><td>RF (1) → diode 2</td><td class="c">$-90°$</td><td></td></tr>
-<tr><td>LO (4) → diode 1</td><td class="c">$+90°$</td><td>Δ 行為 — 兩條反相</td></tr>
+<tr><td>LO (4) → diode 1</td><td class="c">$+90°$</td><td>Δ behaviour — the two are in anti-phase</td></tr>
 <tr><td>LO (4) → diode 2</td><td class="c">$-90°$</td><td></td></tr>
 </table>
 
-<h3>④ 兩個二極體（反向對 anti-parallel pair）</h3>
-<p>跟 90° 版本完全一樣 — 兩個二極體<strong>方向反過來</strong>串接，使得上面那顆等效係數 $+a_1$、下面 $-a_1$。</p>
+<h3>④ The two diodes (an anti-parallel pair)</h3>
+<p>Exactly as in the 90° version — the two diodes are connected in series with<strong>opposite orientation</strong>, so that the upper one has an effective coefficient of $+a_1$ and the lower one $-a_1$.</p>
 
 <div class="callout">
-<div class="callout-title">為什麼信號流圖上寫「diode pair, ±a₁v²」？</div>
+<div class="callout-title">Why does the signal-flow diagram say “diode pair, ±a₁v²”?</div>
 
-<p style="margin:4px 0"><strong>① $a_1 v^2$ 從哪來？</strong> 單一二極體的 I-V 曲線非線性，把電流對外加電壓做 Taylor 展開：</p>
+<p style="margin:4px 0"><strong>① Where does $a_1 v^2$ come from?</strong> The I–V curve of a single diode is nonlinear; expanding the current as a Taylor series in the applied voltage:</p>
 <div class="eq-box">$$i(v) = a_0 v + a_1 v^2 + a_2 v^3 + \cdots$$</div>
-<p style="margin:4px 0;font-size:0.92em">本課/Pozar 的編號慣例是把<em>二次項</em>叫 $a_1$。$a_1$ 是<strong>平方律係數</strong>，是<strong>整顆混頻器的引擎</strong> — 沒有 $v^2$ 項就沒有混頻。</p>
+<p style="margin:4px 0;font-size:0.92em">The numbering convention in this course (and in Pozar) calls the<em>second-order term</em>$a_1$. So $a_1$ is the<strong>square-law coefficient</strong>, and it is<strong>the engine of the entire mixer</strong> — without the $v^2$ term there is no mixing.</p>
 
-<p style="margin:6px 0"><strong>② 「$\pm$」從哪來？</strong> 兩個二極體是反向串接，下面那顆帶<strong>負號</strong>：</p>
+<p style="margin:6px 0"><strong>② Where does the “$\pm$” come from?</strong> The two diodes are connected in series back to back, so the lower one carries a<strong>minus sign</strong>at some port:</p>
 <div class="eq-box">
 $$i_1(t) \approx \mathbf{+}a_1\bigl[v_1(t)+v_n(t)\bigr]^2, \qquad i_2(t) \approx \mathbf{-}a_1\bigl[v_2(t)+v_n(t)\bigr]^2$$
 </div>
-<p style="margin:4px 0;font-size:0.9em;background:#fff7c2;padding:6px 10px;border-radius:4px"><strong>$v_n(t)$</strong> = LO 上的 AM 噪聲；因為 hybrid 線性，兩顆二極體看到同一個 $v_n(t)$（共模）。</p>
+<p style="margin:4px 0;font-size:0.9em;background:#fff7c2;padding:6px 10px;border-radius:4px"><strong>$v_n(t)$</strong> = the AM noise on the LO; because the hybrid is linear, both diodes see the same $v_n(t)$ (common mode).</p>
 
-<p style="margin:6px 0"><strong>③ 加總：</strong></p>
+<p style="margin:6px 0"><strong>③ Summing:</strong></p>
 <div class="eq-box">
 $$i_o = i_1 + i_2 \approx a_1\bigl[v_1^2 - v_2^2\bigr] + 2a_1 v_n(t)\bigl[v_1 - v_2\bigr]$$
 </div>
-<p style="margin:4px 0">$v_1^2 - v_2^2$ 把共模東西對消，只保留 RF×LO 的差頻乘積。</p>
+<p style="margin:4px 0">$v_1^2 - v_2^2$ cancels the common-mode terms and keeps only the RF×LO difference-frequency product.</p>
 </div>
 
-<h3>⑤ 右側方塊（summing junction）+ ⑥ Low-pass filter</h3>
-<p>$i_1, i_2$ 在共同節點相加 → 全部低通濾波，留下 IF tone。對 180° 版本，$v_1, v_2$ 與 RF/LO 的關係是：</p>
+<h3>⑤ The block on the right (summing junction) + ⑥ Low-pass filter</h3>
+<p>$i_1$ and $i_2$ add at a common node → the whole lot is low-pass filtered, leaving the IF tone. For the 180° version, $v_1$ and $v_2$ relate to the RF/LO as:</p>
 <div class="eq-box">
 $$v_1 = \tfrac{1}{\sqrt{2}}\bigl[V_{RF}\sin\omega_{RF}t - V_{LO}\sin\omega_{LO}t\bigr], \quad v_2 = \tfrac{1}{\sqrt{2}}\bigl[V_{RF}\sin\omega_{RF}t + V_{LO}\sin\omega_{LO}t\bigr]$$
 </div>
-<p>注意 RF 部分在 $v_1, v_2$ 是<strong>同號</strong>（共模），LO 部分是<strong>反號</strong>（差模）。代入 $v_1^2-v_2^2$ 得</p>
+<p>Note that the RF parts of $v_1$ and $v_2$ have<strong>the same sign</strong>(common mode) while the LO parts have<strong>opposite signs</strong>(differential mode). Substituting into $v_1^2-v_2^2$ gives</p>
 <div class="eq-box">
 $$v_1^2 - v_2^2 = -2 V_{RF} V_{LO} \sin\omega_{RF}t \sin\omega_{LO}t = -V_{RF}V_{LO}\bigl[\cos(\omega_{RF}-\omega_{LO})t - \cos(\omega_{RF}+\omega_{LO})t\bigr]$$
 </div>
-<p>過 LPF 後 IF 輸出：</p>
+<p>After the LPF, the IF output is:</p>
 <div class="eq-box">
 $$\color{#c01020}{\boldsymbol{i_{IF}(t) \approx -a_1 V_{RF}V_{LO}\cos(\omega_{RF}-\omega_{LO})t = -\tfrac{1}{2}g'_{DC}V_{RF}V_{LO}\cos\omega_{IF}t}}$$
 </div>
-<p style="font-size:0.92em">注意：180° 版本的 IF 是<strong>cos</strong>形式（相對 90° 版本的 sin）；兩者振幅相同，只差 $90°$ 相位。</p>
+<p style="font-size:0.92em">Note: the IF of the 180° version has a<strong>cos</strong>form (versus sin for the 90° version); the amplitudes are identical and only the $90°$ of phase differs.</p>
 
-<h3>⑦ 紅色的捲回箭頭：$V_\Gamma^{RF}, V_\Gamma^{LO}, V_\Gamma^1, V_\Gamma^2$</h3>
-<p>每個紅色「捲一圈回頭」的箭頭都是某個埠的<strong>反射電壓相量</strong>：</p>
+<h3>⑦ The red curled-back arrows: $V_\Gamma^{RF}, V_\Gamma^{LO}, V_\Gamma^1, V_\Gamma^2$</h3>
+<p>Every red “curl back on itself” arrow is the<strong>reflected voltage phasor</strong>at some port:</p>
 <table>
-<tr><th>符號</th><th>位置</th><th>意義</th></tr>
-<tr><td class="c">$V_\Gamma^1$</td><td>port 2 內側</td><td>diode 1 因不匹配反射回來的電壓</td></tr>
-<tr><td class="c">$V_\Gamma^2$</td><td>port 3 內側</td><td>diode 2 因不匹配反射回來的電壓</td></tr>
-<tr><td class="c">$V_\Gamma^{RF}$</td><td>port 1 外側</td><td>從 RF/Σ 輸入埠看回去的總反射</td></tr>
-<tr><td class="c">$V_\Gamma^{LO}$</td><td>port 4 外側</td><td>從 LO/Δ 輸入埠看回去的總反射</td></tr>
+<tr><th>Symbol</th><th>Location</th><th>Meaning</th></tr>
+<tr><td class="c">$V_\Gamma^1$</td><td>Inside port 2</td><td>The voltage reflected by diode 1 because it is mismatched</td></tr>
+<tr><td class="c">$V_\Gamma^2$</td><td>Inside port 3</td><td>The voltage reflected by diode 2 because it is mismatched</td></tr>
+<tr><td class="c">$V_\Gamma^{RF}$</td><td>Outside port 1</td><td>The total reflection looking back into the RF/Σ input port</td></tr>
+<tr><td class="c">$V_\Gamma^{LO}$</td><td>Outside port 4</td><td>The total reflection looking back into the LO/Δ input port</td></tr>
 </table>
 
 <div class="callout">
-<div class="callout-title">$V_\Gamma^1, V_\Gamma^2$ 是怎麼來的？(180° 版本：兩顆二極體看到同樣的 RF 電壓)</div>
+<div class="callout-title">Where do $V_\Gamma^1, V_\Gamma^2$ come from? (180° version: both diodes see the same RF voltage)</div>
 
-<p style="margin:4px 0"><strong>Step 1 — Σ 把 RF 同相送到兩個二極體。</strong> 從 $[S]$ 矩陣：</p>
+<p style="margin:4px 0"><strong>Step 1 — Σ sends the RF to both diodes in phase.</strong> From the $[S]$ matrix:</p>
 <div class="eq-box">
 $$V_1 = S_{21}V_{RF} = \frac{-j}{\sqrt{2}}V_{RF}, \qquad V_2 = S_{31}V_{RF} = \frac{-j}{\sqrt{2}}V_{RF}$$
 </div>
-<p style="margin:4px 0;font-size:0.92em"><strong>注意 $V_1 = V_2$！</strong> 這就是 Σ 同相分配的關鍵 — 兩顆二極體看到完全一樣的 RF 電壓相量。（對比 90° 版本：$V_1\propto -j$、$V_2\propto -1$ 是差 $90°$，不相等。）</p>
+<p style="margin:4px 0;font-size:0.92em"><strong>Note that $V_1 = V_2$!</strong> This is the crux of the Σ in-phase split — both diodes see exactly the same RF voltage phasor. (Contrast the 90° version: $V_1\propto -j$ and $V_2\propto -1$ differ by $90°$ and are not equal.)</p>
 
-<p style="margin:4px 0"><strong>Step 2 — 不匹配的二極體把 $\Gamma$ 倍反射回去。</strong></p>
+<p style="margin:4px 0"><strong>Step 2 — the mismatched diodes reflect $\Gamma$ times as much back.</strong></p>
 <div class="eq-box">
 $$V_\Gamma^1 = \Gamma\,V_1 = \frac{-j\Gamma V_{RF}}{\sqrt{2}}, \qquad V_\Gamma^2 = \Gamma\,V_2 = \frac{-j\Gamma V_{RF}}{\sqrt{2}}$$
 </div>
-<p style="margin:4px 0;font-size:0.92em">$V_\Gamma^1 = V_\Gamma^2$（同樣的振幅、同樣的相位）。</p>
+<p style="margin:4px 0;font-size:0.92em">$V_\Gamma^1 = V_\Gamma^2$ (same amplitude, same phase).</p>
 
-<p style="margin:4px 0"><strong>Step 3 — hybrid 把這兩道<em>相同的</em>反射再分配到 port 1（Σ/RF）與 port 4（Δ/LO）：</strong></p>
+<p style="margin:4px 0"><strong>Step 3 — the hybrid redistributes these two<em>identical</em>reflections to port 1 (Σ/RF) and port 4 (Δ/LO):</strong></p>
 <div class="eq-box">
 $$V_\Gamma^{RF} = S_{12}V_\Gamma^1 + S_{13}V_\Gamma^2, \qquad V_\Gamma^{LO} = S_{42}V_\Gamma^1 + S_{43}V_\Gamma^2$$
 </div>
 </div>
 
 <div class="callout key">
-<div class="callout-title">關鍵結果（重點）</div>
-代入後：
+<div class="callout-title">The key result (the main point)</div>
+Substituting:
 <div class="eq-box">
 $$\begin{aligned}
 V_\Gamma^{RF} &= \frac{-j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} + \frac{-j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} = \frac{-\Gamma V_{RF}}{2} + \frac{-\Gamma V_{RF}}{2} = -\Gamma V_{RF} \\[4pt]
-\color{#c01020}{\boldsymbol{V_\Gamma^{LO}}} &\color{#c01020}{\boldsymbol{= \frac{+j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} + \frac{-j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} = \frac{\Gamma V_{RF}}{2} + \frac{-\Gamma V_{RF}}{2} = 0}} \quad\color{#c01020}{\boldsymbol{\text{(LO 端反射係數為 0)}}}
+\color{#c01020}{\boldsymbol{V_\Gamma^{LO}}} &\color{#c01020}{\boldsymbol{= \frac{+j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} + \frac{-j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} = \frac{\Gamma V_{RF}}{2} + \frac{-\Gamma V_{RF}}{2} = 0}} \quad\color{#c01020}{\boldsymbol{\text{(the reflection coefficient at the LO port is 0)}}}
 \end{aligned}$$
 </div>
-即使兩個二極體完全不匹配，<strong>LO 埠看起來都是完美隔離（$V_\Gamma^{LO}=0$）</strong> — Δ 分配的兩條路徑相位差 $180°$ 對消。反射全部跑去 RF 埠（同相相加），$|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$。所以這顆 180° hybrid 給你的好處是「<strong>RF-LO 隔離度永遠完美</strong>」，代價是「RF 匹配取決於二極體匹配程度」。
+Even if the two diodes are completely mismatched,<strong>the LO port always looks perfectly isolated ($V_\Gamma^{LO}=0$)</strong> — the two paths of the Δ split are $180°$ apart and cancel. All of the reflection goes to the RF port instead (adding in phase), giving $|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$. So what this 180° hybrid buys you is “<strong>RF-to-LO isolation is always perfect</strong>”, at the cost of “the RF match depends on how well the diodes are matched”.
 </div>
 
 <div class="callout">
-<div class="callout-title">解讀 $-\Gamma V_{RF}$ 與 $|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$</div>
+<div class="callout-title">Interpreting $-\Gamma V_{RF}$ and $|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$</div>
 
-<p style="margin:6px 0"><strong>① $-\Gamma V_{RF}$ 是 $V_\Gamma^{RF}$ 的值</strong> — 反射「漏」回 RF 輸入埠的電壓。拆解：振幅 $= |\Gamma|\!\cdot\!|V_{RF}|$、相位反相（$180°$）。</p>
+<p style="margin:6px 0"><strong>① $-\Gamma V_{RF}$ is the value of $V_\Gamma^{RF}$</strong> — the voltage that “leaks” back to the RF input port as reflection. Broken down: amplitude $= |\Gamma|\!\cdot\!|V_{RF}|$, phase inverted ($180°$).</p>
 
-<p style="margin:6px 0"><strong>② $|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$ 是 RF 埠的反射係數大小。</strong></p>
+<p style="margin:6px 0"><strong>② $|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$ is the magnitude of the reflection coefficient at the RF port.</strong></p>
 <table>
-<tr><th>二極體匹配品質</th><th>$|\Gamma|$</th><th>RF 反射比例</th><th>RF Return loss (dB)</th></tr>
-<tr><td>理想匹配</td><td class="c">0</td><td class="c">0</td><td class="c">∞</td></tr>
-<tr><td>很好</td><td class="c">0.05</td><td class="c">5%</td><td class="c">26 dB</td></tr>
-<tr><td>典型</td><td class="c">0.2</td><td class="c">20%</td><td class="c">14 dB</td></tr>
-<tr><td>差</td><td class="c">0.5</td><td class="c">50%</td><td class="c">6 dB</td></tr>
+<tr><th>Diode match quality</th><th>$|\Gamma|$</th><th>Fraction of RF reflected</th><th>RF Return loss (dB)</th></tr>
+<tr><td>Ideal match</td><td class="c">0</td><td class="c">0</td><td class="c">∞</td></tr>
+<tr><td>Good</td><td class="c">0.05</td><td class="c">5%</td><td class="c">26 dB</td></tr>
+<tr><td>Typical</td><td class="c">0.2</td><td class="c">20%</td><td class="c">14 dB</td></tr>
+<tr><td>Poor</td><td class="c">0.5</td><td class="c">50%</td><td class="c">6 dB</td></tr>
 </table>
 
-<p style="margin:8px 0;padding:6px 10px;background:#fceaea;border-left:3px solid #a02020"><strong>整體結論（180° 版本）：</strong> LO 埠<strong>無條件完美隔離</strong>（$V_\Gamma^{LO}=0$）✅；RF 匹配<strong>取決於二極體匹配品質</strong>（$|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$）⚠。這正好是 90° 版本的<strong>鏡像</strong>。</p>
+<p style="margin:8px 0;padding:6px 10px;background:#fceaea;border-left:3px solid #a02020"><strong>Overall conclusion (180° version):</strong> the LO port is<strong>unconditionally and perfectly isolated</strong>($V_\Gamma^{LO}=0$) ✅; the RF match<strong>depends on how well the diodes are matched</strong>($|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$) ⚠. This is precisely the 90° version's<strong>mirror image</strong>of the image-reject mixer at low IF.</p>
 </div>
 
 <!-- ============== Signal-flow summary ============== -->
-<h2>訊號流總覽（一條算式講完）</h2>
+<h2>Signal-flow overview (the whole thing in one equation)</h2>
 <div class="eq-box">
 $$\underbrace{V_{RF}\cos\omega_{RF}t}_{\text{port 1 = Σ}} + \underbrace{V_{LO}\cos\omega_{LO}t}_{\text{port 4 = Δ}}
 \xrightarrow{\text{[S]}_{180°}}
@@ -447,49 +447,49 @@ i_{IF}(t)$$
 </div>
 
 <details style="margin:8px 0;background:#f0f2ff;border:1px solid #b0a0e0;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#3a2080;font-size:0.92em">逐步推導：從 LHS（RF + LO 輸入）到 RHS（$i_{IF}(t)$）三個 transition 的完整代數</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#3a2080;font-size:0.92em">Step-by-step derivation: the complete algebra of the three transitions from the LHS (RF + LO inputs) to the RHS ($i_{IF}(t)$)</summary>
 <div style="padding:6px 14px 12px;font-size:0.93em;line-height:1.75">
 
 <h3 style="color:#3a2080;margin-top:6px">Transition 1: $[S]_{180°}$ matrix → $v_1, v_2$</h3>
-<p>RF 從 port 1 (Σ) 入射、LO 從 port 4 (Δ) 入射。對 port 2、port 3 套 hybrid 的散射矩陣：</p>
+<p>The RF is incident at port 1 (Σ) and the LO at port 4 (Δ). Applying the hybrid's scattering matrix at ports 2 and 3:</p>
 <div class="eq-box">
 $$V_2 = S_{21}V_{RF} + S_{24}V_{LO} = \tfrac{-j}{\sqrt{2}}V_{RF} + \tfrac{+j}{\sqrt{2}}V_{LO}$$
 $$V_3 = S_{31}V_{RF} + S_{34}V_{LO} = \tfrac{-j}{\sqrt{2}}V_{RF} + \tfrac{-j}{\sqrt{2}}V_{LO}$$
 </div>
 
-<p><strong>相量轉時域：</strong> 乘 $-j$ ⇒ $\cos\omega t \to \sin\omega t$；乘 $+j$ ⇒ $\cos\omega t \to -\sin\omega t$。</p>
+<p><strong>Phasors back to the time domain:</strong> Multiplying by $-j$ ⇒ $\cos\omega t \to \sin\omega t$; multiplying by $+j$ ⇒ $\cos\omega t \to -\sin\omega t$.</p>
 
 <div class="eq-box">
 $$v_1 = \tfrac{1}{\sqrt{2}}\bigl[V_{RF}\sin\omega_{RF}t - V_{LO}\sin\omega_{LO}t\bigr], \quad v_2 = \tfrac{1}{\sqrt{2}}\bigl[V_{RF}\sin\omega_{RF}t + V_{LO}\sin\omega_{LO}t\bigr]$$
 </div>
-<p style="font-size:0.92em">注意 RF 部分在 $v_1, v_2$ 同號（Σ 共模）、LO 部分反號（Δ 差模）。這是與 90° 版本最大的不同。</p>
+<p style="font-size:0.92em">Note that the RF parts of $v_1$ and $v_2$ have the same sign (Σ, common mode) while the LO parts have opposite signs (Δ, differential mode). This is the biggest difference from the 90° version.</p>
 
 <hr style="border:none;border-top:1px solid #b0a0e0;margin:12px 0">
 
-<h3 style="color:#3a2080">Transition 2: 反向二極體對（$\pm a_1 v^2$）→ $i_o(t)$</h3>
-<p>$i_o = a_1[v_1^2 - v_2^2] + 2a_1 v_n(t)[v_1 - v_2]$。展開 $v_1^2$、$v_2^2$：</p>
+<h3 style="color:#3a2080">Transition 2: the anti-parallel diode pair ($\pm a_1 v^2$) → $i_o(t)$</h3>
+<p>$i_o = a_1[v_1^2 - v_2^2] + 2a_1 v_n(t)[v_1 - v_2]$. Expanding $v_1^2$ and $v_2^2$:</p>
 
 <div class="eq-box">
 $$v_1^2 = \tfrac{1}{2}\bigl[V_{RF}^2\sin^2\omega_{RF}t - 2V_{RF}V_{LO}\sin\omega_{RF}t\sin\omega_{LO}t + V_{LO}^2\sin^2\omega_{LO}t\bigr]$$
 $$v_2^2 = \tfrac{1}{2}\bigl[V_{RF}^2\sin^2\omega_{RF}t + 2V_{RF}V_{LO}\sin\omega_{RF}t\sin\omega_{LO}t + V_{LO}^2\sin^2\omega_{LO}t\bigr]$$
 </div>
 
-<p>相減：<strong>$V_{RF}^2$ 與 $V_{LO}^2$ 項剛好對消</strong>（因為兩邊同號）！剩下：</p>
+<p>Subtracting:<strong>The $V_{RF}^2$ and $V_{LO}^2$ terms cancel exactly</strong>(because both sides have the same sign)! What remains is:</p>
 <div class="eq-box">
 $$v_1^2 - v_2^2 = -2 V_{RF}V_{LO}\sin\omega_{RF}t\sin\omega_{LO}t$$
 </div>
-<p>套積化和差 $\sin A\sin B = \tfrac{1}{2}[\cos(A-B)-\cos(A+B)]$：</p>
+<p>Applying the product-to-sum identity $\sin A\sin B = \tfrac{1}{2}[\cos(A-B)-\cos(A+B)]$:</p>
 <div class="eq-box">
 $$v_1^2 - v_2^2 = -V_{RF}V_{LO}\bigl[\cos(\omega_{RF}-\omega_{LO})t - \cos(\omega_{RF}+\omega_{LO})t\bigr]$$
 </div>
 
-<p><strong>$v_1 - v_2$（AM 噪聲項用）：</strong></p>
+<p><strong>$v_1 - v_2$ (needed for the AM-noise term):</strong></p>
 <div class="eq-box">
 $$v_1 - v_2 = -\sqrt{2}\,V_{LO}\sin\omega_{LO}t$$
 </div>
-<p style="font-size:0.9em">RF 部分自動對消（兩邊同號），只剩 LO 基頻 — 這是 180° 拓樸抑制 RF 漏到 IF 的好處！</p>
+<p style="font-size:0.9em">The RF part cancels automatically (both sides have the same sign), leaving only the LO fundamental — this is how the 180° topology suppresses RF leakage into the IF!</p>
 
-<p>合併：</p>
+<p>Combining:</p>
 <div class="eq-box">
 $$i_o(t) \approx -a_1 V_{RF}V_{LO}\bigl[\cos(\omega_{RF}-\omega_{LO})t - \cos(\omega_{RF}+\omega_{LO})t\bigr] - 2\sqrt{2}\,a_1 v_n(t) V_{LO}\sin\omega_{LO}t$$
 </div>
@@ -497,48 +497,48 @@ $$i_o(t) \approx -a_1 V_{RF}V_{LO}\bigl[\cos(\omega_{RF}-\omega_{LO})t - \cos(\o
 <hr style="border:none;border-top:1px solid #b0a0e0;margin:12px 0">
 
 <h3 style="color:#3a2080">Transition 3: LPF → $i_{IF}(t)$</h3>
-<p>低通濾波器擋掉 $\omega_{RF}+\omega_{LO}$ 的和頻、AM 噪聲與 LO 基頻乘積（都在 RF/LO 頻段附近），留下：</p>
+<p>The low-pass filter blocks the sum frequency $\omega_{RF}+\omega_{LO}$, the AM noise and the LO-fundamental product (all near the RF/LO band), leaving:</p>
 <div class="eq-box">
 $$\color{#c01020}{\boldsymbol{i_{IF}(t) \approx -a_1 V_{RF}V_{LO}\cos(\omega_{RF}-\omega_{LO})t = -\tfrac{1}{2}g'_{DC}V_{RF}V_{LO}\cos\omega_{IF}t}}$$
 </div>
 
-<p style="margin-top:8px;color:#3a2080"><strong>結果與 90° 版本比較：</strong></p>
+<p style="margin-top:8px;color:#3a2080"><strong>Comparing the result with the 90° version:</strong></p>
 <table>
 <tr><th></th><th>90° hybrid</th><th>180° hybrid</th></tr>
-<tr><td>$i_{IF}$ 形式</td><td class="c">$\sin\omega_{IF}t$</td><td class="c">$\cos\omega_{IF}t$</td></tr>
-<tr><td>振幅</td><td class="c">$a_1 V_{RF}V_{LO}$</td><td class="c">$a_1 V_{RF}V_{LO}$（相同）</td></tr>
-<tr><td>$V_\Gamma^{RF}$</td><td class="c">$0$（無條件匹配）</td><td class="c">$-\Gamma V_{RF}$（依 $\Gamma$）</td></tr>
-<tr><td>$V_\Gamma^{LO}$</td><td class="c">$j\Gamma V_{RF}$（依 $\Gamma$）</td><td class="c">$0$（無條件隔離）</td></tr>
-<tr><td>主要優點</td><td class="c">RF 端永遠匹配</td><td class="c">RF-LO 永遠隔離</td></tr>
+<tr><td>Form of $i_{IF}$</td><td class="c">$\sin\omega_{IF}t$</td><td class="c">$\cos\omega_{IF}t$</td></tr>
+<tr><td>Amplitude</td><td class="c">$a_1 V_{RF}V_{LO}$</td><td class="c">$a_1 V_{RF}V_{LO}$ (identical)</td></tr>
+<tr><td>$V_\Gamma^{RF}$</td><td class="c">$0$ (unconditionally matched)</td><td class="c">$-\Gamma V_{RF}$ (depends on $\Gamma$)</td></tr>
+<tr><td>$V_\Gamma^{LO}$</td><td class="c">$j\Gamma V_{RF}$ (depends on $\Gamma$)</td><td class="c">$0$ (unconditionally isolated)</td></tr>
+<tr><td>Main advantage</td><td class="c">The RF port is always matched</td><td class="c">RF and LO are always isolated</td></tr>
 </table>
 </div>
 </details>
 
 <!-- ============== Color legend ============== -->
-<h2>顏色對照</h2>
+<h2>Colour key</h2>
 <div class="legend">
-  <div class="legend-item"><span class="sw" style="background:#1a4a8a"></span> RF 路徑 / Σ port / $\lambda/4$ 短臂（藍）</div>
-  <div class="legend-item"><span class="sw" style="background:#a02020"></span> LO 路徑 / Δ port / $3\lambda/4$ 長臂（紅）</div>
-  <div class="legend-item"><span class="sw" style="background:#c01020"></span> 反射電壓 $V_\Gamma$（深紅，捲回箭頭）</div>
-  <div class="legend-item"><span class="sw" style="background:#1a5a30"></span> 二極體電流 $i_1, i_2$（綠）</div>
+  <div class="legend-item"><span class="sw" style="background:#1a4a8a"></span> RF path / Σ port / $\lambda/4$ short arm (blue)</div>
+  <div class="legend-item"><span class="sw" style="background:#a02020"></span> LO path / Δ port / $3\lambda/4$ long arm (red)</div>
+  <div class="legend-item"><span class="sw" style="background:#c01020"></span> Reflected voltage $V_\Gamma$ (dark red, curled-back arrows)</div>
+  <div class="legend-item"><span class="sw" style="background:#1a5a30"></span> Diode currents $i_1, i_2$ (green)</div>
 </div>
 
 <!-- ============== Key takeaways ============== -->
-<h2>三句話帶走</h2>
+<h2>Three sentences to take away</h2>
 <div class="callout tip">
 <ol style="margin:4px 0 4px 22px">
-<li><strong>180° hybrid 是 Σ/Δ 結構</strong> — RF 同相到兩顆二極體（共模），LO 反相到兩顆二極體（差模）。Pozar 用 rat-race ring 實作，三條 $\lambda/4$ + 一條 $3\lambda/4$。</li>
-<li><strong>跟 90° 版本是鏡像關係</strong>：90° 把反射全踢到 LO 埠（保 RF 匹配）；180° 把反射全踢到 RF 埠（保 LO 隔離）。兩者數學結構對稱但功能互補。</li>
-<li><strong>IF 輸出是 cos 形式</strong>（90° 版是 sin），振幅都是 $a_1 V_{RF}V_{LO}$。AM 噪聲透過反向對 $v_1^2-v_2^2$ 抑制機制依然成立。</li>
+<li><strong>The 180° hybrid is a Σ/Δ structure</strong> — the RF reaches both diodes in phase (common mode) and the LO reaches them in anti-phase (differential mode). Pozar implements it as a rat-race ring: three $\lambda/4$ arms plus one $3\lambda/4$ arm.</li>
+<li><strong>It is the mirror image of the 90° version</strong>: the 90° hybrid kicks all the reflection out to the LO port (preserving the RF match); the 180° hybrid kicks it all out to the RF port (preserving LO isolation). The two have symmetric mathematics but complementary strengths.</li>
+<li><strong>The IF output has a cos form</strong>(the 90° version has sin), and in both cases the amplitude is $a_1 V_{RF}V_{LO}$. The mechanism by which the anti-parallel pair suppresses AM noise through $v_1^2-v_2^2$ still applies.</li>
 </ol>
 </div>
 
 <p style="text-align:center;margin-top:24px;font-size:0.95em">
-🔗 與本檔配對的 90° 版本：<a href="slide26_90deg_single_balanced_mixer_explained.html" style="color:#1a4a8a;font-weight:600">slide26_90deg_single_balanced_mixer_explained.html</a>
+🔗 The 90° version that pairs with this page:<a href="slide26_90deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">slide26_90deg_single_balanced_mixer_explained.html</a>
 </p>
 
 <footer>
-為 Ch4 Mixers Study Guide 補充說明 — slide 28 detail expanded · 2026
+Supplementary notes for the Ch4 Mixers Study Guide — slide 28 detail expanded · 2026
 </footer>
 
 </body>

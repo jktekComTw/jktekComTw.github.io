@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>雙平衡二極體環式混頻器 — 互動式動畫解說</title>
+<title>Double-Balanced Diode Ring Mixer — Interactive Animated Walkthrough</title>
 <link rel="icon" type="image/svg+xml" href="favicon_mixer.svg">
 <script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}}</script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
@@ -77,19 +77,19 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
 </style>
 </head>
 <body>
-<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">中文</span><a href="slide29_double_balanced_ring_mixer_interactive_EN.html" hreflang="en" lang="en" title="English version">EN</a></div>
+<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">EN</span><a href="slide29_double_balanced_ring_mixer_interactive.html" hreflang="zh-Hant" lang="zh-Hant" title="中文版本">中文</a></div>
 
 
-<h1>雙平衡二極體環式混頻器 — 互動式動畫解說<br>
+<h1>Double-Balanced Diode Ring Mixer — Interactive Animated Walkthrough<br>
 <span style="font-size:0.65em;color:#666">slide 29: how 4 diodes switch & balun gives mixing & IF output</span></h1>
-<p class="subtitle">點擊 Phase A / Phase B，或按 ▶ 自動播放，觀察四顆二極體在 LO 正負半週的切換</p>
+<p class="subtitle">Click Phase A / Phase B, or press ▶ to play, and watch the four diodes commutate over the positive and negative half-cycles of the LO</p>
 
 <!-- ============ Controls ============ -->
 <div class="controls">
   <button id="btnA" class="active">Phase A (LO &gt; 0)</button>
   <button id="btnB">Phase B (LO &lt; 0)</button>
   <button id="btnPlay">▶ Auto Play</button>
-  <span class="lbl">LO phase 角度：</span>
+  <span class="lbl">LO phase angle:</span>
   <input type="range" id="phaseSlider" min="0" max="360" value="45" step="3">
   <span class="phaseLed" id="phaseLed"><span class="dot" id="phaseDot"></span><span id="phaseTxt">0°</span></span>
 </div>
@@ -300,7 +300,7 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
   <line x1="906" y1="625" x2="914" y2="625" stroke="#333" stroke-width="1"/>
 
   <!-- Note: same ground shared -->
-  <text x="1010" y="630" font-size="11" font-style="italic" fill="#888" text-anchor="end">↑ LO 源負端 = 同一個 chassis GND</text>
+  <text x="1010" y="630" font-size="11" font-style="italic" fill="#888" text-anchor="end">↑ the negative terminal of the LO source = the same chassis GND</text>
 
   <!-- Balun secondary (LO side) -->
   <rect x="820" y="500" width="180" height="50" fill="#fff7c2" stroke="#7a4a10" stroke-width="2.5"/>
@@ -330,14 +330,14 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
 
 <!-- ============ Status panel ============ -->
 <div class="status">
-  <div class="statBox blue"><h4>LO 半週相位</h4><div class="val" id="statPhase">Phase A · LO &gt; 0</div></div>
-  <div class="statBox green"><h4>導通的二極體</h4><div class="val" id="statOnDiodes">D1, D2</div></div>
-  <div class="statBox"><h4>切斷的二極體</h4><div class="val" id="statOffDiodes">D3, D4</div></div>
-  <div class="statBox green"><h4>當前 IF 極性</h4><div class="val" id="statIF">+RF</div></div>
+  <div class="statBox blue"><h4>LO half-cycle phase</h4><div class="val" id="statPhase">Phase A · LO &gt; 0</div></div>
+  <div class="statBox green"><h4>Conducting diodes</h4><div class="val" id="statOnDiodes">D1, D2</div></div>
+  <div class="statBox"><h4>Cut-off diodes</h4><div class="val" id="statOffDiodes">D3, D4</div></div>
+  <div class="statBox green"><h4>Current IF polarity</h4><div class="val" id="statIF">+RF</div></div>
 </div>
 
 <!-- ============ Mini waveforms (LO, RF, IF chopper output) ============ -->
-<h2>同步波形圖（時間軸跟著 LO 走）</h2>
+<h2>Synchronised waveform plot (the time axis follows the LO)</h2>
 <div class="viz" style="padding:8px 14px">
 <svg viewBox="0 0 1100 200" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif">
   <!-- Time axis -->
@@ -374,30 +374,30 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
   <!-- Transparent overlay capturing click/drag (must be LAST so it's on top) -->
   <rect id="wavOverlay" x="60" y="20" width="1020" height="160" fill="transparent" style="cursor:ew-resize"/>
 </svg>
-<p style="text-align:center;margin:4px 0 0;font-size:0.86em;color:#666"><em>↔ 點擊或拖曳波形圖上任意位置，<strong>紅色游標</strong>會跟著移動，旁邊小框即時顯示該時刻的 LO / RF / IF 數值</em></p>
+<p style="text-align:center;margin:4px 0 0;font-size:0.86em;color:#666"><em>↔ Click or drag anywhere on the waveform plot and the<strong>red cursor</strong>follows; the small box beside it shows the LO / RF / IF values at that instant in real time</em></p>
 </div>
 
 <!-- ============ Explanations ============ -->
-<h2>它是怎麼運作的？</h2>
+<h2>How does it work?</h2>
 
 <div class="callout tip">
-<div class="callout-title">核心觀念：四顆二極體 = 一個被 LO 控制的「斬波開關」</div>
-<p>把 4 顆二極體想像成<strong>一組由 LO 切換的開關</strong>。在 LO 的<em>每半週</em>，剛好有兩顆二極體導通、另外兩顆切斷：</p>
+<div class="callout-title">The core idea: four diodes = a “chopping switch” controlled by the LO</div>
+<p>Think of the 4 diodes as<strong>a set of switches commutated by the LO</strong>. On<em>each half-cycle</em>of the LO, exactly two diodes conduct while the other two are cut off:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>Phase A（LO &gt; 0）：</strong>D1, D2 導通 → RF 訊號以「正極性」連到 IF 輸出。</li>
-<li><strong>Phase B（LO &lt; 0）：</strong>D3, D4 導通 → RF 訊號以「負極性」連到 IF 輸出。</li>
+<li><strong>Phase A (LO &gt; 0):</strong>D1 and D2 conduct → the RF signal is connected to the IF output with “positive polarity”.</li>
+<li><strong>Phase B (LO &lt; 0):</strong>D3 and D4 conduct → the RF signal is connected to the IF output with “negative polarity”.</li>
 </ul>
-<p>結果：IF 看到的是 <strong>RF × sgn(LO)</strong> — 一個被 LO 方波斬波過的 RF，這就是混頻！</p>
+<p>The result: what the IF sees is <strong>RF × sgn(LO)</strong> — an RF chopped by the LO square wave, and that is mixing!</p>
 </div>
 
-<h3 id="howRF">① 180° hybrid 把 RF 分成 +RF 與 −RF</h3>
-<p>RF 進入 Δ 埠（Σ 埠以 $Z_0$ 終結），hybrid 在兩個輸出產生<strong>反相 (anti-phase)</strong> 的 RF：</p>
+<h3 id="howRF">① The 180° hybrid splits the RF into +RF and −RF</h3>
+<p>The RF enters the Δ port (the Σ port is terminated in $Z_0$), and the hybrid produces<strong>anti-phase</strong> RF at its two outputs:</p>
 <div class="eq-box">
 $$v_{T}(t) = +\tfrac{1}{\sqrt{2}}\,V_{RF}\cos\omega_{RF}t, \qquad v_{B}(t) = -\tfrac{1}{\sqrt{2}}\,V_{RF}\cos\omega_{RF}t$$
 </div>
-<p>分別接到二極體環的<strong>上頂點 T</strong> 與<strong>下頂點 B</strong>。</p>
+<p>which connect respectively to the diode ring's<strong>top vertex T</strong> and<strong>bottom vertex B</strong>of the image-reject mixer at low IF.</p>
 
-<p>整顆 180° hybrid 的<strong>散射矩陣</strong>（埠號照 ①②③④，Δ = port 4，Σ = port 1，輸出 port 2 接 T、port 3 接 B）：</p>
+<p>The<strong>scattering matrix</strong>of the complete 180° hybrid (port numbering as ①②③④, with Δ = port 4, Σ = port 1, output port 2 to T and port 3 to B):</p>
 <div class="eq-box">
 $$[S]_{180°} = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{s12r}{1} & \cssId{s13r}{1} & 0 \\ \cssId{s21r}{1} & 0 & 0 & \cssId{s24r}{-1} \\ \cssId{s31r}{1} & 0 & 0 & \cssId{s34r}{1} \\ 0 & \cssId{s42r}{-1} & \cssId{s43r}{1} & 0 \end{bmatrix}$$
 </div>
@@ -409,116 +409,116 @@ $$[S]_{180°} = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{s12r}{1} & \cssId{
 </style>
 
 <div class="callout warn" style="margin-top:8px">
-<div class="callout-title">[S] 矩陣元素解讀（port 1 = Σ, 2 = T (上 diode), 3 = B (下 diode), 4 = Δ = RF in）</div>
+<div class="callout-title">Reading the [S]-matrix elements (port 1 = Σ, 2 = T (upper diode), 3 = B (lower diode), 4 = Δ = RF in)</div>
 
-<p style="margin:4px 0"><strong>讀法：</strong> $S_{ij}=$ 從 port $j$ 入射 → 在 port $i$ 出射的複數電壓比。所有非零元素的大小都是 $1/\sqrt{2}$（3 dB 等分），加上總體 $-j$ 前綴；矩陣裡的 $\pm 1$ 決定 $0°$ 或 $180°$ 的額外相位。</p>
+<p style="margin:4px 0"><strong>How to read it:</strong> $S_{ij}=$ the complex voltage ratio for a wave incident at port $j$ and emerging at port $i$. Every non-zero element has magnitude $1/\sqrt{2}$ (an equal 3 dB split) plus an overall $-j$ prefix; the $\pm 1$ in the matrix sets the extra $0°$ or $180°$ of phase.</p>
 
 <div style="overflow-x:auto">
 <table style="border-collapse:collapse;font-size:0.92em;margin:6px 0;min-width:540px">
 <thead style="background:#f3e6c8">
-<tr><th style="padding:4px 8px;border:1px solid #d8b070">元素</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">值</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">路徑（$j\to i$）</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">物理意義</th></tr>
+<tr><th style="padding:4px 8px;border:1px solid #d8b070">Element</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Value</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Path ($j\to i$)</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Physical meaning</th></tr>
 </thead>
 <tbody>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{ii}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">自己 → 自己</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">四個埠都<strong>完美匹配</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">self → self</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">All four ports are<strong>perfectly matched</strong></td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{14}=S_{41}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">Σ ↔ Δ</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ 與 Δ 兩埠<strong>天生隔離</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">The Σ and Δ ports<strong>inherently isolated</strong></td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{23}=S_{32}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">T ↔ B</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">兩個輸出埠互相隔離</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">The two output ports are isolated from each other</td></tr>
 <tr style="background:#fff2c4"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{21}=S_{12}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">Σ → T</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ 同相分配到 T：半功率、<strong>$-90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ splits in phase to T: half power,<strong>$-90°$</strong></td></tr>
 <tr style="background:#ffd9b0"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{31}=S_{13}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">Σ → B</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ 同相分配到 B：<strong>$-90°$</strong>（與上一格<strong>同相</strong>）</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ splits in phase to B:<strong>$-90°$</strong>(<strong>in phase</strong>)</td></tr>
 <tr style="background:#ffb8a8"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{24}=S_{42}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{+j}{\sqrt{2}}$</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070"><strong>Δ → T（RF 走這條）</strong></td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ 反相分配到 T：<strong>$+90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070"><strong>Δ → T (the RF takes this route)</strong></td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ splits in anti-phase to T:<strong>$+90°$</strong></td></tr>
 <tr style="background:#a8d8ff"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{34}=S_{43}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070"><strong>Δ → B（RF 走這條）</strong></td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ 反相分配到 B：<strong>$-90°$</strong>（與上一格<strong>反相</strong>！）</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070"><strong>Δ → B (the RF takes this route)</strong></td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ splits in anti-phase to B:<strong>$-90°$</strong>(<strong>in anti-phase</strong>with the cell above!)</td></tr>
 </tbody>
 </table>
 </div>
 
-<p style="margin:6px 0"><strong>核心非對稱性：</strong> $S_{24}=+j/\sqrt{2}$ 但 $S_{34}=-j/\sqrt{2}$ — Δ 輸入時，兩個輸出埠收到的訊號<strong>相位差 180°</strong>。這就是 Δ port 的「difference」分配，也是 ring mixer 把 RF 注入二極體環 T 和 B 時讓兩個二極體看到 $\pm V_{RF}$（差動）的根本原因。</p>
+<p style="margin:6px 0"><strong>The core asymmetry:</strong> $S_{24}=+j/\sqrt{2}$ but $S_{34}=-j/\sqrt{2}$ — with an input at Δ, the signals received at the two output ports are<strong>180° apart in phase</strong>. This is the “difference” split of the Δ port, and it is the fundamental reason the ring mixer's diodes at T and B see $\pm V_{RF}$ (differentially) when the RF is injected into the ring.</p>
 
-<p style="margin:4px 0;color:#7a4a10;font-size:0.9em"><strong>幺正性檢查：</strong> $[S]^\dagger[S] = [I]$（lossless）；矩陣對稱（reciprocal）；對角線全 0（全埠匹配）。三項一起鎖死為理想 180° hybrid。</p>
+<p style="margin:4px 0;color:#7a4a10;font-size:0.9em"><strong>Unitarity check:</strong> $[S]^\dagger[S] = [I]$ (lossless); the matrix is symmetric (reciprocal); the diagonal is all zeros (every port matched). Together these three pin it down as an ideal 180° hybrid.</p>
 </div>
 
 <details style="margin:8px 0;background:#f0f2ff;border:1px solid #b0a0e0;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#3a2080;font-size:0.92em">⚠ 為什麼把 arm 上的相位延遲加起來（-270° + -90° = 0°）≠ port 3 的輸出相位 (±90°)？</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#3a2080;font-size:0.92em">⚠ Why does adding up the phase delays along the arms (−270° + −90° = 0°) ≠ the output phase at port 3 (±90°)?</summary>
 <div style="padding:6px 14px 12px;font-size:0.93em;line-height:1.7">
 
-<p>圖上的每個 arm 標籤（λ/4 (−90°)、3λ/4 (−270°)）標的是<strong>該 arm 上的傳播相位延遲</strong> — 訊號穿過這段傳輸線時會多走多少電氣長度，對應多少相位。這個數值對「單條路徑」是對的。</p>
+<p>Each arm label in the figure (λ/4 (−90°), 3λ/4 (−270°)) gives<strong>the propagation phase delay along that arm</strong> — how much extra electrical length, and hence phase, the signal picks up crossing that section of line. That number is correct for a *single* path.</p>
 
-<p>但 port 3 的輸出相位<strong>不是</strong>沿單條路徑相加的結果。</p>
+<p>But the output phase at port 3 is<strong>not</strong>the result of adding up along a single path.</p>
 
-<p><strong>看起來合理的單路徑算法：</strong></p>
+<p><strong>The seemingly reasonable single-path calculation:</strong></p>
 <div class="eq-box">
 $$\Delta \xrightarrow{3\lambda/4\;(-270°)} \Sigma \xrightarrow{\lambda/4\;(-90°)} \text{port 3} \quad\Rightarrow\quad -270° + (-90°) = -360° \equiv 0°$$
 </div>
-<p>但實際 port 3 的相位是 <strong>±90°</strong>（依符號慣例），不是 0°。為什麼？</p>
+<p>But the actual phase at port 3 is <strong>±90°</strong>(depending on sign convention), not 0°. Why?</p>
 
-<p style="margin-top:6px;color:#3a2080;font-weight:600">真相 ① — RF 在 Δ 同時往「兩個方向」傳播：</p>
+<p style="margin-top:6px;color:#3a2080;font-weight:600">Truth ① — the RF at Δ propagates in *both* directions at once:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>順時針（CW）：Δ → 上臂 → port 2 → 右臂 → port 3，總長 $\lambda/2$，相位 $-180°$</li>
-<li>逆時針（CCW）：Δ → 長臂 → Σ → 底臂 → port 3，總長 $\lambda$，相位 $0°$</li>
+<li>Clockwise (CW): Δ → top arm → port 2 → right arm → port 3, total length $\lambda/2$, phase $-180°$</li>
+<li>Anticlockwise (CCW): Δ → long arm → Σ → bottom arm → port 3, total length $\lambda$, phase $0°$</li>
 </ul>
-<p>兩條波抵達 port 3 後<strong>相干疊加</strong>：</p>
+<p>The two waves arriving at port 3 then<strong>add coherently</strong>at some port:</p>
 <div class="eq-box">
-$$V_3 \propto e^{j(-180°)} + e^{j(0°)} = -1 + 1 = 0 \;? \quad\text{(看起來該對消...)}$$
+$$V_3 \propto e^{j(-180°)} + e^{j(0°)} = -1 + 1 = 0 \;? \quad\text{(so they ought to cancel…)}$$
 </div>
 
-<p style="margin-top:6px;color:#3a2080;font-weight:600">真相 ② — 每個 ring junction 還有「散射」：</p>
-<p>每個 port 節點其實是一個 3-port tee junction。波到達節點時不會「全部走過去」，而是同時：</p>
+<p style="margin-top:6px;color:#3a2080;font-weight:600">Truth ② — every ring junction also *scatters*:</p>
+<p>Each port node is really a 3-port tee junction. A wave reaching the node does not simply “all carry on through”; instead it simultaneously:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>部分穿過</strong>（沿 ring 繼續走）</li>
-<li><strong>部分從這個埠出去</strong>（被該埠的負載吸走）</li>
-<li><strong>部分反射回來</strong>（沿 ring 倒退）</li>
+<li><strong>partly transmits</strong>(carrying on around the ring)</li>
+<li><strong>partly couples out</strong>(absorbed by that port's load)</li>
+<li><strong>partly reflects</strong>(travelling back around the ring)</li>
 </ul>
-<p>所以兩條路徑到 port 3 時，<strong>振幅不相等</strong>，相位也會因 junction 處的散射而<strong>多加幾度</strong>。整個 ring 的完整行為要靠 <strong>[S]-matrix</strong> 一次性算出來。</p>
+<p>So when the two paths reach port 3 their<strong>amplitudes are not equal</strong>, and their phases have picked up<strong>a few extra degrees</strong>from the scattering at the junctions. The full behaviour of the whole ring has to be <strong>[S]-matrix</strong> computed in one go.</p>
 
-<p style="margin-top:6px;color:#3a2080;font-weight:600">真相 ③ — [S]-matrix 給出的最終答案：</p>
+<p style="margin-top:6px;color:#3a2080;font-weight:600">Truth ③ — the final answer from the [S] matrix:</p>
 <div class="eq-box">
-$$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarrow\; \pm 90°\;\text{相位}$$
+$$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarrow\; \pm 90°\;\text{phase}$$
 </div>
-<p>port 2 和 port 3 相位差 $180°$ — 這就是 Δ 端口輸入該產生的差動 (anti-phase) 輸出。</p>
+<p>Ports 2 and 3 are $180°$ apart in phase — exactly the differential (anti-phase) output that a Δ-port input should produce.</p>
 
 <table>
-<tr><th>單路徑相位相加</th><th>完整 ring 分析（[S]-matrix）</th></tr>
-<tr><td>✅ 對「propagation phase delay」正確</td><td>✅ 加上 junction 散射</td></tr>
-<tr><td>❌ 沒考慮反向波</td><td>✅ 加上反向波相干疊加</td></tr>
-<tr><td>❌ 沒考慮每個 junction 的分流</td><td>✅ 給出最終振幅 + 相位</td></tr>
-<tr><td>結果：誤導</td><td>結果：±90°（正確）</td></tr>
+<tr><th>Adding phases along a single path</th><th>Full ring analysis ([S] matrix)</th></tr>
+<tr><td>✅ Correct for the “propagation phase delay”</td><td>✅ Includes junction scattering</td></tr>
+<tr><td>❌ Ignores the reverse wave</td><td>✅ Includes coherent addition of the reverse wave</td></tr>
+<tr><td>❌ Ignores the split at each junction</td><td>✅ Gives the final amplitude and phase</td></tr>
+<tr><td>Result: misleading</td><td>Result: ±90° (correct)</td></tr>
 </table>
 
-<p style="margin-top:8px;background:#e8f8ee;border-left:3px solid #1a5a30;padding:6px 10px;font-size:0.92em"><strong>那 arm 上的 -90° / -270° 標籤還有用嗎？</strong> 有 — 它們的意義是「每段 arm 的電氣長度」，幫你理解：<br>
-&nbsp;&nbsp;• 為什麼短臂和長臂差 $\lambda/2 = 180°$ → 這是 rat-race 能做 Σ/Δ 分離的<em>根本原因</em><br>
-&nbsp;&nbsp;• 為什麼這顆元件叫「180° hybrid」<br>
-但它們<strong>不是</strong>沿某條路徑累積到輸出埠的相位 — 那需要 [S]-matrix。</p>
+<p style="margin-top:8px;background:#e8f8ee;border-left:3px solid #1a5a30;padding:6px 10px;font-size:0.92em"><strong>So are the −90° / −270° arm labels of any use?</strong> Yes — they mean “the electrical length of each arm”, which helps you understand:<br>
+&nbsp;&nbsp;• why the short and long arms differ by $\lambda/2 = 180°$ → this is the<em>fundamental reason</em><br>
+a rat-race can separate Σ from Δ; &nbsp;&nbsp;• why the component is called a “180° hybrid”<br>
+But they are<strong>not</strong>the phase accumulated along some path to an output port — that requires the [S] matrix.</p>
 </div>
 </details>
 
 <!-- ============ Tee junction explainer ============ -->
 <details style="margin:8px 0;background:#fff8e8;border:1px solid #d8b070;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#7a4a10;font-size:0.92em">📚 名詞解釋：什麼是「tee junction」？為什麼它讓 ring 分析變複雜？</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#7a4a10;font-size:0.92em">📚 Terminology: what is a “tee junction”, and why does it complicate the ring analysis?</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
 
-<p><strong>Tee junction</strong>（T 接點）是 RF 電路中<strong>三條傳輸線匯合於一點</strong>的 3-port 元件，形狀像字母「T」：</p>
+<p><strong>Tee junction</strong>(a T-junction) is a 3-port component in RF circuits where<strong>three transmission lines meet at a point</strong>, shaped like the letter “T”:</p>
 
 <div style="text-align:center;margin:8px 0">
 <svg viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" style="max-width:580px;width:100%;height:auto">
@@ -541,7 +541,7 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
   <rect x="0" y="0" width="580" height="360" fill="#fffdf6" stroke="#d4c9a8" stroke-width="1" rx="6"/>
 
   <!-- Port 1 (vertical, up): external Z0 -->
-  <text x="290" y="35" font-size="20" font-weight="700" fill="#7a1a1a" text-anchor="middle">Port 1（外部 Z₀）</text>
+  <text x="290" y="35" font-size="20" font-weight="700" fill="#7a1a1a" text-anchor="middle">Port 1 (external Z₀)</text>
   <line x1="290" y1="50" x2="290" y2="170" stroke="#7a1a1a" stroke-width="3"/>
 
   <!-- Port 2 (horizontal, left): ring CW -->
@@ -560,59 +560,59 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
   <!-- Three outcome arrows at the junction -->
   <!-- 1. Transmit through to Port 3 (label above the right wire, no overlap) -->
   <line x1="305" y1="158" x2="395" y2="158" stroke="#1a6a1a" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrTee)"/>
-  <text x="350" y="150" font-size="14" font-style="italic" fill="#1a6a1a" text-anchor="middle">穿透 (transmit)</text>
+  <text x="350" y="150" font-size="14" font-style="italic" fill="#1a6a1a" text-anchor="middle">transmit</text>
 
   <!-- 2. Couple out to Port 1 (label to the right of the vertical wire) -->
   <line x1="290" y1="158" x2="290" y2="95" stroke="#c89020" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrTee2)"/>
-  <text x="305" y="115" font-size="14" font-style="italic" fill="#7a4a10" text-anchor="start">耦合出去 (couple out)</text>
+  <text x="305" y="115" font-size="14" font-style="italic" fill="#7a4a10" text-anchor="start">couple out</text>
 
   <!-- 3. Reflect back along Port 2 (label above the reflect arrow, between 'Port 2' label & line) -->
   <line x1="275" y1="183" x2="195" y2="183" stroke="#c01020" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrTee3)"/>
-  <text x="235" y="200" font-size="14" font-style="italic" fill="#c01020" text-anchor="middle">反射 (reflect)</text>
+  <text x="235" y="200" font-size="14" font-style="italic" fill="#c01020" text-anchor="middle">reflect</text>
 
   <!-- Incident wave arrow + label — placed lower so it doesn't overlap anything -->
   <line x1="80" y1="270" x2="200" y2="270" stroke="#27ae60" stroke-width="2.5" marker-end="url(#arrInc)"/>
   <text x="140" y="293" font-size="15" font-style="italic" fill="#1a5a30" text-anchor="middle">incident wave</text>
 
   <!-- Title -->
-  <text x="290" y="340" font-size="17" font-style="italic" fill="#666" text-anchor="middle">3-port tee junction (三條傳輸線匯合於一點)</text>
+  <text x="290" y="340" font-size="17" font-style="italic" fill="#666" text-anchor="middle">3-port tee junction (three transmission lines meeting at a point)</text>
 </svg>
 </div>
 
-<h4 style="color:#7a4a10;margin-top:10px">回到 rat-race：每個 ring 角落都是這個 tee junction</h4>
-<p>rat-race ring 的四個角落（Δ、port 2、port 3、Σ）<strong>都對應到上面那個 3-port tee junction</strong>，只是「外部 $Z_0$ 那個 port」連接到不同的東西：</p>
+<h4 style="color:#7a4a10;margin-top:10px">Back to the rat-race: every corner of the ring is one of these tee junctions</h4>
+<p>The four corners of the rat-race ring (Δ, port 2, port 3, Σ)<strong>all correspond to the 3-port tee junction above</strong>, the only difference being what “the external $Z_0$ port” connects to:</p>
 
 <div style="overflow-x:auto">
 <table style="border-collapse:collapse;font-size:0.9em;margin:6px 0">
 <thead style="background:#f3e6c8">
-<tr><th style="padding:4px 8px;border:1px solid #d8b070">Ring 上的位置</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">Tee Port 1（外部 $Z_0$）</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">Tee Port 2（ring CW 方向）</th>
-    <th style="padding:4px 8px;border:1px solid #d8b070">Tee Port 3（ring CCW 方向）</th></tr>
+<tr><th style="padding:4px 8px;border:1px solid #d8b070">Position on the ring</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Tee port 1 (external $Z_0$)</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Tee port 2 (CW around the ring)</th>
+    <th style="padding:4px 8px;border:1px solid #d8b070">Tee port 3 (CCW around the ring)</th></tr>
 </thead>
 <tbody>
-<tr><td style="padding:3px 8px;border:1px solid #d8b070;background:#fff7c2"><strong>Δ 角</strong>（左上）</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center"><strong>RF 輸入</strong></td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">頂部 $\lambda/4$ → ring port 2</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">長臂 $3\lambda/4$ → Σ</td></tr>
-<tr><td style="padding:3px 8px;border:1px solid #d8b070"><strong>Ring port 2</strong>（右上）</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">到 diode <strong>T</strong>（RF+）</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">右側 $\lambda/4$ → ring port 3</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">頂部 $\lambda/4$ → Δ</td></tr>
-<tr><td style="padding:3px 8px;border:1px solid #d8b070"><strong>Ring port 3</strong>（右下）</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">到 diode <strong>B</strong>（RF−）</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">底部 $\lambda/4$ → Σ</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">右側 $\lambda/4$ → ring port 2</td></tr>
-<tr><td style="padding:3px 8px;border:1px solid #d8b070;background:#fceaea"><strong>Σ 角</strong>（左下）</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center"><strong>$Z_0$ 終結</strong></td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">長臂 $3\lambda/4$ → Δ</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">底部 $\lambda/4$ → ring port 3</td></tr>
+<tr><td style="padding:3px 8px;border:1px solid #d8b070;background:#fff7c2"><strong>The Δ corner</strong>(top left)</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center"><strong>RF input</strong></td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">top $\lambda/4$ → ring port 2</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">long arm $3\lambda/4$ → Σ</td></tr>
+<tr><td style="padding:3px 8px;border:1px solid #d8b070"><strong>Ring port 2</strong>(top right)</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">to the diode <strong>T</strong>(RF+)</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">right-hand $\lambda/4$ → ring port 3</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">top $\lambda/4$ → Δ</td></tr>
+<tr><td style="padding:3px 8px;border:1px solid #d8b070"><strong>Ring port 3</strong>(bottom right)</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">to the diode <strong>B</strong>(RF−)</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">bottom $\lambda/4$ → Σ</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">right-hand $\lambda/4$ → ring port 2</td></tr>
+<tr><td style="padding:3px 8px;border:1px solid #d8b070;background:#fceaea"><strong>The Σ corner</strong>(bottom left)</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center"><strong>$Z_0$ termination</strong></td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">long arm $3\lambda/4$ → Δ</td>
+    <td style="padding:3px 8px;border:1px solid #d8b070">bottom $\lambda/4$ → ring port 3</td></tr>
 </tbody>
 </table>
 </div>
 
 <!-- Zoomed Δ corner showing the tee-junction structure inline -->
-<p><strong>放大來看 Δ 這個角落，就是一個 tee junction：</strong></p>
+<p><strong>Zoom in on the Δ corner and it is exactly a tee junction:</strong></p>
 <div style="text-align:center;margin:8px 0">
 <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" style="max-width:500px;width:100%;height:auto">
   <defs>
@@ -625,7 +625,7 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
   <!-- RF input wire (Port 1 of tee = external Z₀) -->
   <line x1="40" y1="140" x2="245" y2="140" stroke="#7a1a1a" stroke-width="3" marker-end="url(#arrZoom)"/>
   <text x="40" y="125" font-size="16" font-weight="700" fill="#7a1a1a">RF input</text>
-  <text x="40" y="160" font-size="13" font-style="italic" fill="#7a1a1a">(Tee Port 1 ≡ 外部 Z₀)</text>
+  <text x="40" y="160" font-size="13" font-style="italic" fill="#7a1a1a">(Tee port 1 ≡ external Z₀)</text>
 
   <!-- Δ port circle (the tee junction) -->
   <circle cx="250" cy="140" r="14" fill="#fff" stroke="#7a1a1a" stroke-width="2.5"/>
@@ -633,105 +633,105 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
 
   <!-- Tee Port 2: CW direction → top short arm (λ/4) → ring port 2 -->
   <line x1="263" y1="138" x2="430" y2="60" stroke="#1a4a8a" stroke-width="3"/>
-  <text x="345" y="75" font-size="14" font-weight="700" fill="#1a4a8a" text-anchor="middle">頂部 λ/4</text>
+  <text x="345" y="75" font-size="14" font-weight="700" fill="#1a4a8a" text-anchor="middle">top λ/4</text>
   <text x="345" y="95" font-size="12" font-style="italic" fill="#1a4a8a" text-anchor="middle">(Tee Port 2 → ring port 2)</text>
   <circle cx="435" cy="58" r="10" fill="#fff" stroke="#333" stroke-width="1.5"/>
   <text x="435" y="62" font-size="12" font-weight="700" text-anchor="middle">2</text>
 
   <!-- Tee Port 3: CCW direction → long arm (3λ/4) → Σ -->
   <path d="M 256 154 Q 320 200 285 235" stroke="#a02020" stroke-width="3" fill="none"/>
-  <text x="370" y="200" font-size="14" font-weight="700" fill="#a02020" text-anchor="middle">長臂 3λ/4</text>
+  <text x="370" y="200" font-size="14" font-weight="700" fill="#a02020" text-anchor="middle">long arm 3λ/4</text>
   <text x="370" y="220" font-size="12" font-style="italic" fill="#a02020" text-anchor="middle">(Tee Port 3 → Σ)</text>
   <circle cx="285" cy="245" r="10" fill="#fff" stroke="#7a1a1a" stroke-width="1.5"/>
   <text x="285" y="249" font-size="11" font-weight="700" text-anchor="middle" fill="#7a1a1a">Σ</text>
 
   <!-- Caption -->
-  <text x="250" y="269" font-size="12" font-style="italic" fill="#666" text-anchor="middle">Δ 角的 zoom：RF 入射時，部分穿透到 port 2、部分繞長臂到 Σ、部分反射回 RF in</text>
+  <text x="250" y="269" font-size="12" font-style="italic" fill="#666" text-anchor="middle">Zoom on the Δ corner: when the RF is incident, part transmits through to port 2, part goes the long way round to Σ, and part reflects back into the RF input</text>
 </svg>
 </div>
 
-<p style="margin-top:6px;font-size:0.92em">每個 ring 角落都這樣分析 — 把 4 個 tee 串起來，加上兩道波（CW/CCW）的相干疊加，整顆 4-port hybrid 的 [S]-matrix 就出來了（見下一個 details 區塊的完整推導）。</p>
+<p style="margin-top:6px;font-size:0.92em">Analyse every corner of the ring this way — chain the 4 tees together, add the coherent superposition of the two waves (CW/CCW), and the [S] matrix of the whole 4-port hybrid falls out (see the full derivation in the next details block).</p>
 
-<p>在 rat-race ring 上，<strong>每個外部埠（port 1, 2, 3, 4）都是一個 tee junction</strong> — 一邊接外部負載 ($Z_0$)，另外兩邊接 ring 上的兩段傳輸線。</p>
+<p>On a rat-race ring,<strong>every external port (ports 1, 2, 3, 4) is a tee junction</strong> — one side connects to an external load ($Z_0$) and the other two to the two sections of ring transmission line.</p>
 
-<h4 style="color:#7a4a10">當訊號到達 tee junction 會發生什麼？</h4>
-<p>三件事同時發生：</p>
+<h4 style="color:#7a4a10">What happens when a signal reaches a tee junction?</h4>
+<p>Three things happen at once:</p>
 <ol style="margin:4px 0 6px 22px">
-<li><strong>Transmit through</strong>（穿透）— 部分能量沿 ring 繼續往下一段 arm 走。</li>
-<li><strong>Couple out</strong>（耦合出去）— 部分能量從外部 port 流出去（被 $Z_0$ 負載吸收）。</li>
-<li><strong>Reflect back</strong>（反射）— 部分能量沿 ring 倒回原來的方向。</li>
+<li><strong>Transmit through</strong>(transmit) — part of the energy carries on around the ring into the next arm.</li>
+<li><strong>Couple out</strong>(couple out) — part of the energy flows out of the external port (absorbed by the $Z_0$ load).</li>
+<li><strong>Reflect back</strong>(reflect) — part of the energy travels back around the ring the way it came.</li>
 </ol>
-<p>每項的比例由<strong>三條線的特性阻抗</strong>決定。對 rat-race 而言，環上 $Z_R = \sqrt{2}Z_0$、外部 port 是 $Z_0$，每個 tee 有特定散射係數 — 不能當「直線穿過」處理。</p>
+<p>The proportions are set by<strong>the characteristic impedances of the three lines</strong>. For a rat-race, the ring is $Z_R = \sqrt{2}Z_0$ and the external ports are $Z_0$, so each tee has particular scattering coefficients — you cannot treat it as “straight through”.</p>
 
 <div class="callout warn" style="margin:8px 0">
-<div class="callout-title">⚠ 重要定理：「ideal lossless matched 3-port」不存在</div>
-<p style="margin:4px 0">RF 教科書經典定理（Pozar §7.1）：<strong>沒有任何 3-port 元件能同時滿足下列三件事</strong>：</p>
+<div class="callout-title">⚠ An important theorem: an “ideal lossless matched 3-port” does not exist</div>
+<p style="margin:4px 0">A classic theorem of RF textbooks (Pozar §7.1):<strong>No 3-port component can satisfy all three of the following at once</strong>at some port:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>(a) 完美匹配（三個 port 都 $S_{ii}=0$）</li>
-<li>(b) Lossless（$[S]^\dagger[S]=[I]$）</li>
-<li>(c) Reciprocal（$S_{ij}=S_{ji}$）</li>
+<li>(a) perfectly matched (all three ports have $S_{ii}=0$)</li>
+<li>(b) lossless ($[S]^\dagger[S]=[I]$)</li>
+<li>(c) reciprocal ($S_{ij}=S_{ji}$)</li>
 </ul>
-<p style="margin:4px 0">證明：寫下三條件約束，發現 unitarity 條件無解 → 矛盾。</p>
-<p style="margin:4px 0">→ 任何 3-port tee <strong>至少要犧牲一個性質</strong>：</p>
+<p style="margin:4px 0">Proof: write down the three constraints and find that the unitarity condition has no solution → contradiction.</p>
+<p style="margin:4px 0">→ Any 3-port tee <strong>must sacrifice at least one property</strong>at some port:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>失去匹配</strong>：普通的 transmission-line tee（三個 port 都有反射）</li>
-<li><strong>加上損耗</strong>：電阻式 Wilkinson、衰減型功分器</li>
-<li><strong>失去 reciprocal</strong>：必須用鐵氧體 circulator（單向元件）</li>
+<li><strong>Give up the match</strong>: an ordinary transmission-line tee (all three ports reflect)</li>
+<li><strong>Add loss</strong>: a resistive Wilkinson or an attenuating power divider</li>
+<li><strong>Give up reciprocity</strong>: you need a ferrite circulator (a unidirectional component)</li>
 </ul>
 </div>
 
-<h4 style="color:#7a4a10">那 4-port hybrid 為什麼能突破限制？</h4>
-<p>Rat-race / branch-line / Wilkinson 等 4-port 元件其實是把<strong>多個 tee junction 串起來</strong>，再藉由<strong>波的干涉抵消</strong>讓每個 tee 的反射在外部 port 對消。</p>
+<h4 style="color:#7a4a10">So how does a 4-port hybrid get around the restriction?</h4>
+<p>4-port components such as the rat-race, branch-line and Wilkinson actually<strong>chain several tee junctions together</strong>and then use<strong>wave interference and cancellation</strong>to make each tee's reflection cancel at the external port.</p>
 
-<p>具體機制：</p>
+<p>The mechanism in detail:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>單看一個 tee → 不匹配（會反射）</li>
-<li>沿著兩條 ring 路徑（CW 和 CCW）走過的反射都會回到外部 port</li>
-<li>路徑長度差（在 rat-race 是 λ/2）讓兩道反射<strong>相位剛好差 180°</strong> → 相消</li>
-<li>從外面看：matched ✓、lossless ✓、reciprocal ✓ — 三項都成立！</li>
+<li>Taken on its own, one tee is not matched (it reflects)</li>
+<li>The reflections travelling along both ring paths (CW and CCW) return to the external port</li>
+<li>The path-length difference (λ/2 in a rat-race) leaves the two reflections<strong>exactly 180° apart in phase</strong> → they cancel</li>
+<li>Seen from outside: matched ✓, lossless ✓, reciprocal ✓ — all three hold!</li>
 </ul>
 
-<p>這正是 hybrid 的設計核心：<strong>用 4-port 結構 + 干涉抵消</strong>，繞過 3-port 元件的物理限制。</p>
+<p>This is the heart of hybrid design:<strong>use a 4-port structure plus interference cancellation</strong>to sidestep the physical limitation on 3-port components.</p>
 
-<h4 style="color:#7a4a10">為什麼這個概念在 rat-race [S]-matrix 推導中關鍵？</h4>
-<p>簡單的 "path-summing" 算法（把每段 arm 的相位延遲加起來）失敗，是因為它<strong>把每個 ring 節點當成「直通」</strong>，沒考慮 tee junction 的散射。</p>
-<p>正確分析（even-odd mode 或 ABCD matrix）：</p>
+<h4 style="color:#7a4a10">Why is this concept crucial to deriving the rat-race [S] matrix?</h4>
+<p>The naive “path-summing” calculation (adding up the phase delay of each arm) fails because it<strong>treats every ring node as a straight-through connection</strong>and ignores the scattering at the tee junctions.</p>
+<p>The correct analysis (even-odd mode or ABCD matrices):</p>
 <ul style="margin:4px 0 6px 22px">
-<li>把每個 tee 視為一個會散射的 3-port</li>
-<li>追蹤 CW 與 CCW 兩道波在 ring 中的多次反射</li>
-<li>讓所有反射相干疊加 → 得出 4-port [S]-matrix</li>
+<li>Treat each tee as a 3-port that scatters</li>
+<li>Track the multiple reflections of both the CW and CCW waves around the ring</li>
+<li>Let all the reflections add coherently → out comes the 4-port [S] matrix</li>
 </ul>
-<p>結果就是下一個 details 區塊裡展示的完整推導。</p>
+<p>The result is the full derivation presented in the next details block.</p>
 
-<h4 style="color:#7a4a10">其他 tee 變體</h4>
+<h4 style="color:#7a4a10">Other tee variants</h4>
 <table>
-<tr><th>類型</th><th>結構</th><th>用途</th></tr>
-<tr><td>E-plane tee</td><td>波導在 E 場方向相交</td><td>同相分配</td></tr>
-<tr><td>H-plane tee</td><td>波導在 H 場方向相交</td><td>反相分配</td></tr>
-<tr><td>Magic-T</td><td>E-plane + H-plane 結合的 4-port</td><td>波導版本的 180° hybrid</td></tr>
-<tr><td>微帶 tee</td><td>三條微帶線匯合</td><td>RF/IC 上的通用節點</td></tr>
+<tr><th>Type</th><th>Structure</th><th>Use</th></tr>
+<tr><td>E-plane tee</td><td>Waveguides meeting in the E-field direction</td><td>in-phase splitting</td></tr>
+<tr><td>H-plane tee</td><td>Waveguides meeting in the H-field direction</td><td>anti-phase splitting</td></tr>
+<tr><td>Magic-T</td><td>A 4-port combining an E-plane and an H-plane tee</td><td>The waveguide version of a 180° hybrid</td></tr>
+<tr><td>Microstrip tee</td><td>Three microstrip lines meeting</td><td>The general-purpose node in RF/IC work</td></tr>
 </table>
 </div>
 </details>
 
 <!-- ============ Full derivation via even-odd mode analysis ============ -->
 <details style="margin:8px 0;background:#f0f8f0;border:1px solid #7ab87a;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a5a30;font-size:0.92em">🔬 完整 ring 分析（even-odd mode decomposition）— 詳細計算公式</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a5a30;font-size:0.92em">🔬 The full ring analysis (even-odd mode decomposition) — detailed derivation</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
 
-<p>下面用 <strong>even-odd mode analysis</strong>（偶/奇模分解，Pozar §7.8）算出整顆 rat-race 的 [S]-matrix。這個方法同時處理：</p>
+<p>Below we use <strong>even-odd mode analysis</strong>(even/odd mode decomposition, Pozar §7.8) to compute the [S] matrix of the whole rat-race. This method handles all of the following at once:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>✅ 每個 junction 的散射（不只是「直走」）</li>
-<li>✅ CW 與 CCW 兩道波的相干疊加</li>
-<li>✅ 給出最終 amplitude + phase</li>
+<li>✅ the scattering at each junction (not just “straight through”)</li>
+<li>✅ the coherent superposition of the CW and CCW waves</li>
+<li>✅ it gives the final amplitude and phase</li>
 </ul>
 
-<h4 style="color:#1a5a30">設定（geometry）</h4>
+<h4 style="color:#1a5a30">Setup (geometry)</h4>
 <ul style="margin:4px 0 6px 22px">
-<li>四個外部埠都以 $Z_0$ 終結（典型 50 Ω）。</li>
-<li>環的<strong>特性阻抗 $Z_R = \sqrt{2}\,Z_0$</strong>（≈ 70.7 Ω）— 這個選擇使每個 tee junction 在分流後從外部看仍匹配。</li>
-<li>環上有三段 $\lambda/4$（埠 1→2→3→4，順時針）和一段 $3\lambda/4$（埠 4→1，長臂）。</li>
-<li>對稱平面：通過 port 1–port 2 短臂的中點，以及 port 3–port 4 短臂的中點。把 port 1 ↔ port 4、port 2 ↔ port 3 對應到鏡像對。</li>
+<li>All four external ports are terminated in $Z_0$ (typically 50 Ω).</li>
+<li>The ring's<strong>characteristic impedance is $Z_R = \sqrt{2}\,Z_0$</strong>(≈ 70.7 Ω) — a choice that leaves each tee junction matched as seen from outside once the split is taken into account.</li>
+<li>The ring has three $\lambda/4$ sections (ports 1→2→3→4, clockwise) and one $3\lambda/4$ section (ports 4→1, the long arm).</li>
+<li>Plane of symmetry: through the midpoint of the port 1–port 2 short arm and the midpoint of the port 3–port 4 short arm. It maps port 1 ↔ port 4 and port 2 ↔ port 3 onto mirror pairs.</li>
 </ul>
 
 <div style="text-align:center;margin:10px 0">
@@ -750,7 +750,7 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
 
   <!-- Symmetry plane (HORIZONTAL dashed line through ring center: maps Δ↔Σ, port2↔port3) -->
   <line x1="60" y1="225" x2="560" y2="225" stroke="#9d3a9d" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <text x="555" y="218" font-size="12" font-style="italic" fill="#9d3a9d" text-anchor="end">對稱平面 (symmetry plane)</text>
+  <text x="555" y="218" font-size="12" font-style="italic" fill="#9d3a9d" text-anchor="end">symmetry plane</text>
   <text x="555" y="242" font-size="10" font-style="italic" fill="#9d3a9d" text-anchor="end">→ Δ ↔ Σ;  port 2 ↔ port 3</text>
 
   <!-- The four port nodes (positions matching main interactive diagram: Δ top-left, Σ bottom-left) -->
@@ -776,21 +776,21 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
 
   <!-- TOP λ/4 arm (port 1 → port 2) -->
   <line x1="214" y1="130" x2="406" y2="130" stroke="#1a5a30" stroke-width="3.5"/>
-  <text x="310" y="115" font-size="14" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 短臂</text>
+  <text x="310" y="115" font-size="14" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 short arm</text>
   <text x="310" y="148" font-size="12" fill="#1a5a30" text-anchor="middle">$Z_R = \sqrt{2}Z_0$</text>
 
   <!-- RIGHT λ/4 arm (port 2 → port 3) -->
   <line x1="420" y1="144" x2="420" y2="306" stroke="#1a5a30" stroke-width="3.5"/>
-  <text x="435" y="180" font-size="14" font-weight="700" fill="#1a5a30" text-anchor="start">λ/4 短臂</text>
+  <text x="435" y="180" font-size="14" font-weight="700" fill="#1a5a30" text-anchor="start">λ/4 short arm</text>
 
   <!-- BOTTOM λ/4 arm (port 3 → port 4) -->
   <line x1="406" y1="320" x2="214" y2="320" stroke="#1a5a30" stroke-width="3.5"/>
-  <text x="310" y="338" font-size="14" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 短臂</text>
+  <text x="310" y="338" font-size="14" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 short arm</text>
   <text x="310" y="355" font-size="12" fill="#1a5a30" text-anchor="middle">$Z_R = \sqrt{2}Z_0$</text>
 
   <!-- LEFT 3λ/4 long arm (port 4 → port 1) — drawn as a curve bulging LEFT -->
   <path d="M 200 306 Q 90 225 200 144" stroke="#a02020" stroke-width="3.5" fill="none"/>
-  <text x="80" y="220" font-size="15" font-weight="700" fill="#a02020" text-anchor="middle">3λ/4 長臂</text>
+  <text x="80" y="220" font-size="15" font-weight="700" fill="#a02020" text-anchor="middle">3λ/4 long arm</text>
   <text x="80" y="238" font-size="12" fill="#a02020" text-anchor="middle">$Z_R = \sqrt{2}Z_0$</text>
 
   <!-- External Z0 leads from each port (going outward) -->
@@ -811,8 +811,8 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
   <text x="155" y="310" font-size="11" fill="#666" text-anchor="middle">$Z_0$</text>
 
   <!-- Annotations on Z0 -->
-  <text x="120" y="225" font-size="12" font-style="italic" fill="#444">外部 50 Ω</text>
-  <text x="120" y="240" font-size="12" font-style="italic" fill="#444">系統阻抗</text>
+  <text x="120" y="225" font-size="12" font-style="italic" fill="#444">external 50 Ω</text>
+  <text x="120" y="240" font-size="12" font-style="italic" fill="#444">system impedance</text>
 
   <!-- Ring direction arrows (small curved arrows showing CW direction) -->
   <text x="222" y="155" font-size="11" font-style="italic" fill="#444">→ CW</text>
@@ -820,52 +820,52 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
   <text x="222" y="345" font-size="11" font-style="italic" fill="#444">← CW</text>
 
   <!-- Note on symmetry mapping -->
-  <text x="310" y="390" font-size="11" font-style="italic" fill="#9d3a9d" text-anchor="middle">紫色虛線 = 對稱平面（horizontal symmetry axis），鏡射 port 1↔4、port 2↔3</text>
+  <text x="310" y="390" font-size="11" font-style="italic" fill="#9d3a9d" text-anchor="middle">The purple dashed line = the plane of symmetry (horizontal symmetry axis), mirroring port 1↔4 and port 2↔3</text>
 </svg>
 </div>
 
-<p style="font-size:0.91em;color:#444"><strong>圖示說明：</strong></p>
+<p style="font-size:0.91em;color:#444"><strong>Key to the figure:</strong></p>
 <ul style="margin:4px 0 6px 22px;font-size:0.91em">
-<li><span style="color:#1a5a30;font-weight:700">綠線</span>：三段 $\lambda/4$ 短臂（環上每對相鄰埠之間）</li>
-<li><span style="color:#a02020;font-weight:700">紅線</span>：一段 $3\lambda/4$ 長臂（port 4 經左側繞回 port 1）— 視覺上畫得比較長以對應實際電氣長度</li>
-<li><strong>環的特性阻抗</strong>：所有四段都用 $Z_R = \sqrt{2}Z_0$ 的傳輸線</li>
-<li><strong>外部埠</strong>（黑色短引線）：四個埠都以 $Z_0$（50 Ω 系統阻抗）終結</li>
-<li><span style="color:#9d3a9d;font-weight:700">紫色虛線</span>：對稱平面（穿過上臂中點與下臂中點的水平線），對稱性把 port 1 ↔ port 4 (Σ ↔ Δ) 對映、port 2 ↔ port 3 對映 — 這個對稱性是 even-odd mode 分析的關鍵</li>
+<li><span style="color:#1a5a30;font-weight:700">Green lines</span>: the three $\lambda/4$ short arms (between each adjacent pair of ports on the ring)</li>
+<li><span style="color:#a02020;font-weight:700">Red line</span>: the single $3\lambda/4$ long arm (from port 4 round the left back to port 1) — drawn visually longer to reflect its actual electrical length</li>
+<li><strong>Ring characteristic impedance</strong>: all four sections use $Z_R = \sqrt{2}Z_0$ line</li>
+<li><strong>External ports</strong>(the short black leads): all four ports are terminated in $Z_0$ (the 50 Ω system impedance)</li>
+<li><span style="color:#9d3a9d;font-weight:700">Purple dashed line</span>: the plane of symmetry (the horizontal line through the midpoints of the upper and lower arms). The symmetry maps port 1 ↔ port 4 (Σ ↔ Δ) and port 2 ↔ port 3 — and it is the key to the even-odd mode analysis</li>
 </ul>
 
 <div class="callout warn" style="margin:6px 0;font-size:0.92em">
-<div class="callout-title">為什麼 $Z_R = \sqrt{2}Z_0$？</div>
-若環的特性阻抗剛好是 $\sqrt{2}Z_0$，則每個 tee junction 從外部 port 看進去時：兩條相鄰的 $\lambda/4$ 線各把對面的 $Z_0$ 變換成 $Z_R^2/Z_0 = 2Z_0$；兩個 $2Z_0$ 並聯得到 $Z_0$ — <strong>剛好匹配外部</strong>。這就是 rat-race 在<em>每個埠</em>都做到 $S_{ii}=0$ 的物理機制。
+<div class="callout-title">Why $Z_R = \sqrt{2}Z_0$?</div>
+If the ring's characteristic impedance is exactly $\sqrt{2}Z_0$, then looking into any tee junction from its external port: each of the two adjacent $\lambda/4$ lines transforms the $Z_0$ at the far end into $Z_R^2/Z_0 = 2Z_0$; two $2Z_0$ in parallel give $Z_0$ — <strong>exactly matching the outside</strong>. That is the physical mechanism by which a rat-race achieves $S_{ii}=0$ at<em>every port</em>.
 </div>
 
-<h4 style="color:#1a5a30">Step 1 — 在 port 1（Σ）以振幅 $a_1=1$ 激發；對稱化分解</h4>
-<p>把單一激發 $a_1 = 1$ 寫成兩個對稱激發的疊加：</p>
+<h4 style="color:#1a5a30">Step 1 — excite port 1 (Σ) with amplitude $a_1=1$; decompose symmetrically</h4>
+<p>Write the single excitation $a_1 = 1$ as the superposition of two symmetric excitations:</p>
 <div class="eq-box">
-$$\underbrace{a_1 = 1, a_4 = 0}_{\text{原始激發}} = \underbrace{\tfrac{1}{2}(a_1=1,\,a_4=+1)}_{\text{even mode (e)}} + \underbrace{\tfrac{1}{2}(a_1=1,\,a_4=-1)}_{\text{odd mode (o)}}$$
+$$\underbrace{a_1 = 1, a_4 = 0}_{\text{original excitation}} = \underbrace{\tfrac{1}{2}(a_1=1,\,a_4=+1)}_{\text{even mode (e)}} + \underbrace{\tfrac{1}{2}(a_1=1,\,a_4=-1)}_{\text{odd mode (o)}}$$
 </div>
-<p>每個模式都有自己的反射係數 $\Gamma$ 與透射係數 $T$。我們分別計算。</p>
+<p>Each mode has its own reflection coefficient $\Gamma$ and transmission coefficient $T$. We compute them separately.</p>
 
-<h4 style="color:#1a5a30">Step 2 — Even mode：對稱平面 = magnetic wall（開路）</h4>
-<p>偶模時，對稱平面上電流為零（如同開路）。把環沿著對稱平面剖開，得到兩個獨立的半環，每個由<strong>一段 $\lambda/8$ 開路線</strong>（從 port 1 到對稱面）<strong>串聯一段 $3\lambda/8$ 開路線</strong>（從 port 1 經長臂到另一個對稱面點）構成。</p>
+<h4 style="color:#1a5a30">Step 2 — even mode: the plane of symmetry is a magnetic wall (open circuit)</h4>
+<p>In the even mode the current on the plane of symmetry is zero (as if it were an open circuit). Cutting the ring along the plane of symmetry gives two independent half-rings, each consisting of<strong>a $\lambda/8$ open-circuited line</strong>(from port 1 to the symmetry plane)<strong>in series with a $3\lambda/8$ open-circuited line</strong>(from port 1 round the long arm to the other point on the symmetry plane).</p>
 
 <details style="margin:6px 0;background:#f0f6fc;border:1px solid #a0b8d8;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.92em">🤔 為什麼「偶模時對稱平面上電流為零」?</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.92em">🤔 Why is the current on the plane of symmetry zero in the even mode?</summary>
 <div style="padding:6px 14px 12px;font-size:0.92em;line-height:1.7">
 
-<p>這不是巧合，而是<strong>對稱性的直接結果</strong>。讓我用幾個角度解釋：</p>
+<p>This is no coincidence but<strong>a direct consequence of the symmetry</strong>. Let me explain it from several angles:</p>
 
-<h5 style="color:#1a4a8a;margin-top:6px">① 從「對稱激發」的定義出發</h5>
-<p><strong>偶模 (even mode)</strong> 定義為：對稱面兩側施加<em>等振幅、同相位</em>的激發。例如同時從 port 1 和 port 4（兩個鏡像對應的埠）注入相同的訊號 $V_0$：</p>
+<h5 style="color:#1a4a8a;margin-top:6px">① Starting from the definition of “symmetric excitation”</h5>
+<p><strong>The even mode</strong> is defined as an excitation applied on both sides of the symmetry plane with<em>equal amplitude and the same phase</em>. For example, injecting the same signal $V_0$ into port 1 and port 4 (the two mirror-image ports) simultaneously:</p>
 <div class="eq-box">
-$$a_1 = a_4 = V_0 \quad\text{(同相、同振幅)}$$
+$$a_1 = a_4 = V_0 \quad\text{(same phase, same amplitude)}$$
 </div>
-<p>由電路的鏡像對稱性，整個解（電壓、電流分佈）也必須鏡像對稱。</p>
+<p>By the mirror symmetry of the circuit, the entire solution (the voltage and current distributions) must also be mirror-symmetric.</p>
 
-<h5 style="color:#1a4a8a">② 在對稱平面上會發生什麼？</h5>
-<p>把任何一點 P 和它的鏡像點 P' 放在對稱平面兩側：</p>
+<h5 style="color:#1a4a8a">② What happens on the plane of symmetry?</h5>
+<p>Place any point P and its mirror image P' on either side of the symmetry plane:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>電壓</strong>是「scalar 量」 — 鏡像下 $V(\text{P}) = V(\text{P}')$（純粹相等）</li>
-<li><strong>電流</strong>是「vector 量」 — 鏡像下方向會「反過來」。如果 P 的電流朝向對稱面為正方向，P' 那邊的電流也朝向對稱面為正方向（因為對稱）。但<em>它們流動的「絕對方向」是相反的</em>（一個向右、一個向左，沿著 ring）</li>
+<li><strong>Voltage</strong>is a scalar — under the mirror $V(\text{P}) = V(\text{P}')$ (simply equal)</li>
+<li><strong>Current</strong>is a vector — under the mirror its direction is reversed. If the current at P is positive when directed towards the symmetry plane, then by symmetry the current at P' is likewise positive towards the plane. But<em>their absolute directions of flow are opposite</em>(one to the right, one to the left, along the ring)</li>
 </ul>
 
 <div style="text-align:center;margin:8px 0">
@@ -884,7 +884,7 @@ $$a_1 = a_4 = V_0 \quad\text{(同相、同振幅)}$$
 
   <!-- Symmetry plane (vertical dashed line in middle) -->
   <line x1="270" y1="40" x2="270" y2="240" stroke="#9d3a9d" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <text x="270" y="32" font-size="12" font-style="italic" fill="#9d3a9d" text-anchor="middle">對稱平面</text>
+  <text x="270" y="32" font-size="12" font-style="italic" fill="#9d3a9d" text-anchor="middle">plane of symmetry</text>
 
   <!-- Transmission line (horizontal across) -->
   <line x1="60" y1="140" x2="480" y2="140" stroke="#333" stroke-width="2.5"/>
@@ -897,85 +897,85 @@ $$a_1 = a_4 = V_0 \quad\text{(同相、同振幅)}$$
   <!-- Port 4 (right) — mirror of Port 1 -->
   <circle cx="480" cy="140" r="10" fill="#fff" stroke="#1a4a8a" stroke-width="2"/>
   <text x="480" y="170" font-size="13" font-weight="700" fill="#1a4a8a" text-anchor="middle">Port 4</text>
-  <text x="480" y="185" font-size="11" fill="#1a4a8a" text-anchor="middle">$+V_0$（同相）</text>
+  <text x="480" y="185" font-size="11" fill="#1a4a8a" text-anchor="middle">$+V_0$ (in phase)</text>
 
   <!-- Current arrow from left going RIGHT (toward symmetry plane) -->
   <line x1="120" y1="120" x2="220" y2="120" stroke="#27ae60" stroke-width="2.5" marker-end="url(#arrEv)"/>
-  <text x="170" y="110" font-size="12" font-weight="700" fill="#1a5a30" text-anchor="middle">I (向右)</text>
+  <text x="170" y="110" font-size="12" font-weight="700" fill="#1a5a30" text-anchor="middle">I (to the right)</text>
 
   <!-- Current arrow from right going LEFT (toward symmetry plane) -->
   <line x1="420" y1="120" x2="320" y2="120" stroke="#27ae60" stroke-width="2.5" marker-end="url(#arrEv2)"/>
-  <text x="370" y="110" font-size="12" font-weight="700" fill="#1a5a30" text-anchor="middle">I (向左)</text>
+  <text x="370" y="110" font-size="12" font-weight="700" fill="#1a5a30" text-anchor="middle">I (to the left)</text>
 
   <!-- At symmetry plane: I=0 marker -->
   <circle cx="270" cy="140" r="8" fill="#fff7c2" stroke="#7a4a10" stroke-width="2"/>
-  <text x="270" y="220" font-size="14" font-weight="700" fill="#a02020" text-anchor="middle">I = 0 在對稱平面</text>
-  <text x="270" y="240" font-size="11" font-style="italic" fill="#666" text-anchor="middle">(兩側電流方向相反，匯合處 = 0)</text>
+  <text x="270" y="220" font-size="14" font-weight="700" fill="#a02020" text-anchor="middle">I = 0 on the plane of symmetry</text>
+  <text x="270" y="240" font-size="11" font-style="italic" fill="#666" text-anchor="middle">(the currents on the two sides flow in opposite directions, so where they meet = 0)</text>
 
   <!-- Title -->
-  <text x="270" y="265" font-size="11" font-style="italic" fill="#666" text-anchor="middle">Even mode：兩側電流相向流入 → 在對稱面強制為零（KCL）</text>
+  <text x="270" y="265" font-size="11" font-style="italic" fill="#666" text-anchor="middle">Even mode: the currents on both sides flow towards each other → forced to zero on the symmetry plane (KCL)</text>
 </svg>
 </div>
 
-<h5 style="color:#1a4a8a">③ KCL 強制：電流不能在某點累積</h5>
-<p>對稱平面上的某一點 X：</p>
+<h5 style="color:#1a4a8a">③ KCL enforces it: charge cannot accumulate at a point</h5>
+<p>Take a point X on the plane of symmetry:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>左側流向 X 的電流 = $I_L$</li>
-<li>右側流向 X 的電流 = $I_R$</li>
-<li>由偶模對稱性：$I_L = I_R$（大小相等、都朝向 X）</li>
-<li>由 <strong>Kirchhoff 電流定律 (KCL)</strong>：穩態下電荷不能累積，所以 $I_L + I_R = 0$</li>
-<li>聯立兩條件 → $2 I_L = 0$ → $\boxed{I_L = I_R = 0}$</li>
+<li>the current flowing into X from the left = $I_L$</li>
+<li>the current flowing into X from the right = $I_R$</li>
+<li>by even-mode symmetry: $I_L = I_R$ (equal in magnitude, both directed at X)</li>
+<li>by <strong>Kirchhoff's current law (KCL)</strong>: charge cannot accumulate in the steady state, so $I_L + I_R = 0$</li>
+<li>Combining the two conditions → $2 I_L = 0$ → $\boxed{I_L = I_R = 0}$</li>
 </ul>
 
-<h5 style="color:#1a4a8a">④ 邊界條件 = open circuit (magnetic wall)</h5>
-<p>「電流 = 0」就是「斷路」的定義。所以在對稱平面上插入<strong>開路 (open circuit) 邊界條件</strong>等價於原始的偶模對稱激發。這稱為 <strong>magnetic wall</strong>，因為傳輸線中 $I=0$ 對應到磁場為零（電場可以存在 → 開路）。</p>
+<h5 style="color:#1a4a8a">④ The boundary condition = an open circuit (magnetic wall)</h5>
+<p>“Current = 0” is the definition of an open circuit. So inserting an<strong>open-circuit boundary condition</strong>on the plane of symmetry is equivalent to the original symmetric even-mode excitation. It is called a <strong>magnetic wall</strong>, because $I=0$ on a transmission line corresponds to zero magnetic field (an electric field may still exist → an open circuit).</p>
 
-<h5 style="color:#1a4a8a">⑤ 奇模 (odd mode) 為什麼是「短路」？</h5>
-<p>對偶定理：把激發改成 $a_1 = +V_0, a_4 = -V_0$（反相）。同樣對稱性分析：</p>
+<h5 style="color:#1a4a8a">⑤ Why is the odd mode a “short circuit”?</h5>
+<p>By duality: change the excitation to $a_1 = +V_0, a_4 = -V_0$ (anti-phase). The same symmetry argument gives:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>對稱平面上的電壓：左側 $V_L$，右側 $V_R = -V_L$（反相對稱）</li>
-<li>在對稱面這同一個點上，$V$ 必須既等於 $V_L$ 又等於 $V_R$，但 $V_R = -V_L$</li>
-<li>→ $V_L = -V_L$ → $V_L = 0$ → <strong>對稱平面上電壓為零 = short circuit (electric wall)</strong></li>
+<li>the voltage on the plane of symmetry: $V_L$ on the left, $V_R = -V_L$ on the right (antisymmetric)</li>
+<li>at the same point on the symmetry plane, $V$ must equal both $V_L$ and $V_R$, yet $V_R = -V_L$</li>
+<li>→ $V_L = -V_L$ → $V_L = 0$ → <strong>the voltage on the plane of symmetry is zero = a short circuit (electric wall)</strong></li>
 </ul>
 
-<h5 style="color:#1a4a8a">⑥ 把兩個 mode 加起來 = 還原原始問題</h5>
-<p>關鍵的線性疊加：任何單一埠的激發（例如只從 port 1 注入 $V_0$、port 4 不接）都可以拆成：</p>
+<h5 style="color:#1a4a8a">⑥ Adding the two modes back together recovers the original problem</h5>
+<p>The crucial linear superposition: any single-port excitation (say injecting $V_0$ into port 1 only, with port 4 unconnected) can be split as:</p>
 <div class="eq-box">
 $$(a_1=V_0,\;a_4=0) = \underbrace{\tfrac{V_0}{2}(a_1=1,\,a_4=+1)}_{\text{even mode}} + \underbrace{\tfrac{V_0}{2}(a_1=1,\,a_4=-1)}_{\text{odd mode}}$$
 </div>
-<p>每個 mode 分別計算（套用開路/短路邊界），最後線性疊加就得到單埠激發的完整解 — 而且<strong>每個 mode 的分析複雜度只有原問題的一半</strong>（因為我們只看半個對稱電路）。這就是 even-odd mode 分析的威力。</p>
+<p>Compute each mode separately (applying the open-/short-circuit boundary) and superpose linearly at the end to obtain the complete solution for the single-port excitation — and<strong>each mode is only half as complex to analyse as the original problem</strong>(because we only look at half of the symmetric circuit). That is the power of even-odd mode analysis.</p>
 
 <div class="callout tip" style="margin:6px 0">
-<div class="callout-title">類比：兩列等大火車相向而行</div>
-想像兩列等質量、等速度的火車從兩側朝同一個點開過去（偶模）。在那個點上，兩列火車的「淨運動量」對消，那個點看起來是靜止的（電流 = 0）。<br>
-若兩列火車是同方向、同速度（奇模），它們會在那個點「無縫接續」，就像沒有界面（電壓 = 0，無電位差）。
+<div class="callout-title">An analogy: two identical trains running towards each other</div>
+Imagine two trains of equal mass and equal speed driving towards the same point from either side (the even mode). At that point the net momentum of the two trains cancels, and the point appears to be at rest (current = 0).<br>
+If the two trains travel in the same direction at the same speed (the odd mode), they join up seamlessly at that point as though there were no interface at all (voltage = 0, no potential difference).
 </div>
 </div>
 </details>
 
-<p>從 port 1 看進去，這兩條 stub 的並聯輸入阻抗：</p>
+<p>Looking in from port 1, the parallel input impedance of these two stubs is:</p>
 <div class="eq-box">
 $$Z_e^{in} = \bigl[\,Z_R\,\tfrac{1}{j}\cot(\beta\!\cdot\!\lambda/8) \,\parallel\, Z_R\,\tfrac{1}{j}\cot(\beta\!\cdot\!3\lambda/8)\,\bigr]$$
 </div>
 
 <details style="margin:6px 0;background:#fef8ff;border:1px solid #c0a0d0;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#5a2080;font-size:0.92em">📐 詳細展開這個公式（含 Smith chart 視覺化）</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#5a2080;font-size:0.92em">📐 Expanding the formula in detail (with a Smith chart visualization)</summary>
 <div style="padding:6px 14px 12px;font-size:0.92em;line-height:1.7">
 
-<h5 style="color:#5a2080;margin-top:6px">① 公式從哪來？— 開路 stub 的輸入阻抗</h5>
-<p>一段<strong>長度 $L$、特性阻抗 $Z_R$、末端開路</strong>的傳輸線，從另一端看進去的輸入阻抗是：</p>
+<h5 style="color:#5a2080;margin-top:6px">① Where does the formula come from? — the input impedance of an open stub</h5>
+<p>For a length<strong>$L$ of line with characteristic impedance $Z_R$, open-circuited at the far end</strong>, the input impedance seen from the other end is:</p>
 <div class="eq-box">
 $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
 </div>
-<p>其中 $\beta = 2\pi/\lambda$ 是傳播常數。公式可由 transmission-line 通用式 $Z_{in} = Z_0\,\dfrac{Z_L+jZ_0\tan\beta L}{Z_0+jZ_L\tan\beta L}$ 取 $Z_L \to \infty$ 得到。</p>
+<p>where $\beta = 2\pi/\lambda$ is the propagation constant. The formula follows from the general transmission-line expression $Z_{in} = Z_0\,\dfrac{Z_L+jZ_0\tan\beta L}{Z_0+jZ_L\tan\beta L}$ by taking $Z_L \to \infty$.</p>
 
-<h5 style="color:#5a2080">② 對應到 rat-race 的兩條 stub</h5>
-<p>從 port 1 (Σ) 看進 ring。在這裡我們用 <strong>rat-race 的雙對稱（bisymmetric）</strong>性質 — 環本身對<em>兩個正交對稱平面</em>都對稱，所以可以同時在所有 4 段 arm 的中點切開（偶模 → 全部變成 open）。從 port 1 看，<strong>緊鄰</strong>的兩條 stub 是：</p>
+<h5 style="color:#5a2080">② Applying it to the rat-race's two stubs</h5>
+<p>Look into the ring from port 1 (Σ). Here we use the <strong>bisymmetric property of the rat-race</strong>— the ring is symmetric about<em>two orthogonal planes of symmetry</em>, so we can cut it at the midpoints of all 4 arms at once (in the even mode they all become opens). Seen from port 1, the two<strong>immediately adjacent</strong>stubs are:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>短路徑</strong>：port 1 → 沿<em>左下短臂 (port 1 → port 2)</em>的一半 → 切點（open）。長度 <strong>$\lambda/8$</strong></li>
-<li><strong>長路徑</strong>：port 1 → 沿<em>長臂</em>的一半 → 切點（open）。長度 <strong>$3\lambda/8$</strong></li>
+<li><strong>The short path</strong>: port 1 → along half of the<em>lower-left short arm (port 1 → port 2)</em>→ the cut (open). Length <strong>$\lambda/8$</strong></li>
+<li><strong>The long path</strong>: port 1 → along half of the<em>long arm</em>→ the cut (open). Length <strong>$3\lambda/8$</strong></li>
 </ul>
-<p>這兩條 stub 都直接從 port 1 出發到最近的切點，所以從 port 1 看是<strong>並聯</strong>。</p>
+<p>Both stubs run directly from port 1 to the nearest cut, so from port 1 they appear<strong>in parallel with</strong>of the image-reject mixer at low IF.</p>
 
 <div style="text-align:center;margin:8px 0">
 <svg viewBox="0 0 620 460" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" style="max-width:620px;width:100%;height:auto">
@@ -989,35 +989,35 @@ $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
   <rect x="0" y="0" width="620" height="460" fill="#fffdff" stroke="#c0a0d0" stroke-width="1" rx="6"/>
 
   <!-- Title -->
-  <text x="310" y="28" font-size="15" font-weight="700" fill="#5a2080" text-anchor="middle">Bisymmetric decomposition: 兩個正交對稱平面 → 切 4 個 arm 中點</text>
+  <text x="310" y="28" font-size="15" font-weight="700" fill="#5a2080" text-anchor="middle">Bisymmetric decomposition: two orthogonal symmetry planes → cut at the midpoints of all 4 arms</text>
 
   <!-- BOTH symmetry planes -->
   <!-- Horizontal symmetry plane at y=240 -->
   <line x1="80" y1="240" x2="540" y2="240" stroke="#9d3a9d" stroke-width="1.8" stroke-dasharray="6 4"/>
-  <text x="548" y="237" font-size="11" font-style="italic" fill="#9d3a9d" text-anchor="start">水平對稱面</text>
+  <text x="548" y="237" font-size="11" font-style="italic" fill="#9d3a9d" text-anchor="start">horizontal symmetry plane</text>
   <text x="548" y="252" font-size="11" font-style="italic" fill="#9d3a9d" text-anchor="start">(1↔4, 2↔3)</text>
 
   <!-- Vertical symmetry plane at x=310 -->
   <line x1="310" y1="60" x2="310" y2="420" stroke="#1a8a3a" stroke-width="1.8" stroke-dasharray="6 4"/>
-  <text x="316" y="60" font-size="11" font-style="italic" fill="#1a8a3a" text-anchor="start">垂直對稱面 (1↔2, 3↔4)</text>
+  <text x="316" y="60" font-size="11" font-style="italic" fill="#1a8a3a" text-anchor="start">vertical symmetry plane (1↔2, 3↔4)</text>
 
   <!-- Ring arms (3 short λ/4 + 1 long 3λ/4) -->
   <!-- Top arm (port 4 ↔ port 3): horizontal at y=140 -->
   <line x1="200" y1="140" x2="420" y2="140" stroke="#1a5a30" stroke-width="3"/>
-  <text x="310" y="128" font-size="11" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 短臂</text>
+  <text x="310" y="128" font-size="11" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 short arm</text>
 
   <!-- Right arm (port 3 ↔ port 2): vertical at x=420 -->
   <line x1="420" y1="140" x2="420" y2="340" stroke="#1a5a30" stroke-width="3"/>
-  <text x="432" y="240" font-size="11" font-weight="700" fill="#1a5a30" text-anchor="start">λ/4 短臂</text>
+  <text x="432" y="240" font-size="11" font-weight="700" fill="#1a5a30" text-anchor="start">λ/4 short arm</text>
 
   <!-- Bottom short arm (port 2 ↔ port 1): horizontal at y=340 -->
   <line x1="420" y1="340" x2="200" y2="340" stroke="#1a5a30" stroke-width="3"/>
-  <text x="310" y="358" font-size="11" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 短臂 (port 1 → port 2)</text>
+  <text x="310" y="358" font-size="11" font-weight="700" fill="#1a5a30" text-anchor="middle">λ/4 short arm (port 1 → port 2)</text>
 
   <!-- Long arm (port 1 ↔ port 4): curved on the left -->
   <path d="M 200 340 Q 80 240 200 140" fill="none" stroke="#a02020" stroke-width="3"/>
   <text x="80" y="240" font-size="11" font-weight="700" fill="#a02020" text-anchor="middle">3λ/4</text>
-  <text x="80" y="256" font-size="11" font-weight="700" fill="#a02020" text-anchor="middle">長臂</text>
+  <text x="80" y="256" font-size="11" font-weight="700" fill="#a02020" text-anchor="middle">long arm</text>
 
   <!-- Port nodes -->
   <!-- Port 4 (Δ) top-left -->
@@ -1077,48 +1077,48 @@ $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
   <text x="120" y="320" font-size="12" font-weight="700" fill="#5a2080" text-anchor="middle">3λ/8 stub</text>
 
   <!-- Bottom annotation -->
-  <text x="310" y="395" font-size="12" font-weight="700" fill="#5a2080" text-anchor="middle">port 1 看到兩條相鄰的 open stub：λ/8（短臂半邊）並聯 3λ/8（長臂半邊）</text>
-  <text x="310" y="412" font-size="11" font-style="italic" fill="#666" text-anchor="middle">注意：切 4 個中點後，只有緊鄰長臂的 Σ/Δ 埠 (port 1, 4) 看到 (λ/8, 3λ/8)；port 2, 3 夾在兩短臂間 → (λ/8, λ/8)</text>
+  <text x="310" y="395" font-size="12" font-weight="700" fill="#5a2080" text-anchor="middle">Port 1 sees two adjacent open stubs: λ/8 (half of a short arm) in parallel with 3λ/8 (half of the long arm)</text>
+  <text x="310" y="412" font-size="11" font-style="italic" fill="#666" text-anchor="middle">Note: after cutting all 4 midpoints, only the Σ/Δ ports adjacent to the long arm (ports 1 and 4) see (λ/8, 3λ/8); ports 2 and 3 sit between two short arms → (λ/8, λ/8)</text>
 
   <!-- Legend (top-right) -->
   <rect x="450" y="40" width="160" height="60" fill="rgba(255,255,255,0.85)" stroke="#999" stroke-width="0.5" rx="4"/>
   <line x1="458" y1="56" x2="478" y2="56" stroke="#9d3a9d" stroke-width="1.8" stroke-dasharray="6 4"/>
-  <text x="482" y="59" font-size="10" fill="#9d3a9d">水平對稱面</text>
+  <text x="482" y="59" font-size="10" fill="#9d3a9d">horizontal symmetry plane</text>
   <line x1="458" y1="76" x2="478" y2="76" stroke="#1a8a3a" stroke-width="1.8" stroke-dasharray="6 4"/>
-  <text x="482" y="79" font-size="10" fill="#1a8a3a">垂直對稱面</text>
+  <text x="482" y="79" font-size="10" fill="#1a8a3a">vertical symmetry plane</text>
   <g transform="translate(468,92)">
     <line x1="-5" y1="-5" x2="5" y2="5" stroke="#ff7a00" stroke-width="2"/>
     <line x1="-5" y1="5" x2="5" y2="-5" stroke="#ff7a00" stroke-width="2"/>
   </g>
-  <text x="482" y="95" font-size="10" fill="#ff7a00">arm 中點 (open)</text>
+  <text x="482" y="95" font-size="10" fill="#ff7a00">arm midpoint (open)</text>
 </svg>
 </div>
 
 <details style="margin:6px 0;background:#f0fff4;border:1px solid #7ab87a;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a5a30;font-size:0.92em">⚠ 但是直覺上「port 1 經短臂到對稱面」應該是 3λ/8 才對啊？</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a5a30;font-size:0.92em">⚠ But intuitively, “port 1 through the short arm to the symmetry plane” ought to be 3λ/8, surely?</summary>
 <div style="padding:6px 14px 12px;font-size:0.92em">
-<p>你的直覺沒錯！只用<strong>一個</strong>對稱平面（例如水平面，只 map port 1↔4 和 port 2↔3）時：</p>
+<p>Your intuition is right! With only<strong>one</strong>plane of symmetry (say the horizontal one, mapping only port 1↔4 and port 2↔3):</p>
 <ul style="margin:4px 0 6px 22px">
-<li>水平面只切兩條 arm 的中點：長臂中點、右臂中點</li>
-<li>從 port 1 (BL) 經短臂到右臂中點：底臂 (λ/4) + 右臂一半 (λ/8) = <strong>3λ/8</strong></li>
-<li>從 port 1 經長臂到長臂中點：<strong>3λ/8</strong></li>
-<li>兩條都 3λ/8 → 並聯後變成 $+jZ_R/2$，<strong>不是 ∞</strong></li>
+<li>the horizontal plane cuts the midpoints of just two arms: the long arm and the right arm</li>
+<li>from port 1 (BL) through the short arm to the midpoint of the right arm: bottom arm (λ/4) + half the right arm (λ/8) = <strong>3λ/8</strong></li>
+<li>from port 1 through the long arm to its midpoint:<strong>3λ/8</strong></li>
+<li>both are 3λ/8 → in parallel they give $+jZ_R/2$,<strong>not ∞</strong></li>
 </ul>
-<p>所以「單一對稱」確實算不出 $\Gamma_e=+1$。要得到漂亮的答案必須用<strong>雙對稱 (bisymmetric)</strong> — 同時利用環的兩個正交對稱性，這樣可以在所有 4 段 arm 中點同時切開，從 port 1 看到的兩條相鄰 stub 才會是 (λ/8, 3λ/8)。</p>
+<p>So a single symmetry really does not yield $\Gamma_e=+1$. To get the elegant answer you must use<strong>bisymmetry</strong> — exploiting both orthogonal symmetries of the ring at once, which lets you cut all 4 arm midpoints simultaneously, so that the two adjacent stubs seen from port 1 really are (λ/8, 3λ/8).</p>
 
-<p style="margin-top:6px;background:#fff7c2;padding:6px 10px;border-radius:4px"><strong>本文用的版本是 bisymmetric 簡化版</strong> — 這是 Pozar §7.8 隱含但沒明講的捷徑。嚴格用單一對稱平面 + ABCD matrix 也能算出 $\Gamma_e=+1$，但代數複雜得多。</p>
+<p style="margin-top:6px;background:#fff7c2;padding:6px 10px;border-radius:4px"><strong>The version used here is the simplified bisymmetric one</strong> — a shortcut that Pozar §7.8 implies but does not spell out. You can also obtain $\Gamma_e=+1$ rigorously with a single symmetry plane plus ABCD matrices, but the algebra is far messier.</p>
 </div>
 </details>
 
 <!-- ============ Clarify: each port sees DIFFERENT stubs ============ -->
 <details style="margin:6px 0;background:#fff5ed;border:1.5px solid #e8a060;border-radius:6px;padding:0" open>
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:700;color:#a05000;font-size:0.93em">⚠ 重要更正：port 2、port 3 看到的 stub 跟 port 1、4 <em>不一樣</em></summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:700;color:#a05000;font-size:0.93em">⚠ An important correction: the stubs seen by ports 2 and 3 are <em>not the same</em></summary>
 <div style="padding:8px 14px 12px;font-size:0.93em">
-<p>切完 4 個 arm 中點後，<strong>不是每個 port 都看到 (λ/8, 3λ/8)</strong>。關鍵差別在於：哪些埠「緊鄰那條 3λ/4 長臂」。</p>
+<p>as those seen by ports 1 and 4. After cutting all 4 arm midpoints,<strong>not every port sees (λ/8, 3λ/8)</strong>. The crucial difference is which ports are “immediately adjacent to the 3λ/4 long arm”.</p>
 
 <figure style="margin:10px auto;text-align:center">
 <svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;height:auto;display:block;margin:0 auto;background:#fff;border:1px solid #e0dcd4;border-radius:6px" font-family="Georgia,serif">
-  <text x="360" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a4a">每個埠的相鄰半臂（cut 在每段中點）</text>
+  <text x="360" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a4a">The adjacent half-arms of each port (cut at the midpoint of each section)</text>
 
   <!-- Ring (left) -->
   <g transform="translate(0,30)">
@@ -1154,64 +1154,64 @@ $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
 
   <!-- table (right) -->
   <g transform="translate(360,40)">
-    <text x="0" y="14" font-size="12" font-weight="700" fill="#1a3a4a">每個埠的兩條相鄰半臂</text>
+    <text x="0" y="14" font-size="12" font-weight="700" fill="#1a3a4a">The two adjacent half-arms of each port</text>
     <line x1="0" y1="22" x2="330" y2="22" stroke="#999"/>
-    <text x="8" y="40" font-size="11" font-weight="700">埠</text>
-    <text x="70" y="40" font-size="11" font-weight="700">相鄰兩臂</text>
-    <text x="210" y="40" font-size="11" font-weight="700">看到 stub</text>
+    <text x="8" y="40" font-size="11" font-weight="700">Port</text>
+    <text x="70" y="40" font-size="11" font-weight="700">Two adjacent arms</text>
+    <text x="210" y="40" font-size="11" font-weight="700">Stubs seen</text>
     <line x1="0" y1="48" x2="330" y2="48" stroke="#ddd"/>
 
     <text x="8" y="68" font-size="11" font-weight="700" fill="#7a1a1a">1 (Σ)</text>
-    <text x="70" y="68" font-size="10.5">λ/4 短臂 + 3λ/4 長臂</text>
+    <text x="70" y="68" font-size="10.5">λ/4 short arm + 3λ/4 long arm</text>
     <text x="210" y="68" font-size="11" font-weight="700" fill="#5a2080">(λ/8, 3λ/8)</text>
 
     <text x="8" y="92" font-size="11" font-weight="700" fill="#1a5a30">2</text>
-    <text x="70" y="92" font-size="10.5">λ/4 短臂 + λ/4 短臂</text>
+    <text x="70" y="92" font-size="10.5">λ/4 short arm + λ/4 short arm</text>
     <text x="210" y="92" font-size="11" font-weight="700" fill="#c01020">(λ/8, λ/8)</text>
 
     <text x="8" y="116" font-size="11" font-weight="700" fill="#1a5a30">3</text>
-    <text x="70" y="116" font-size="10.5">λ/4 短臂 + λ/4 短臂</text>
+    <text x="70" y="116" font-size="10.5">λ/4 short arm + λ/4 short arm</text>
     <text x="210" y="116" font-size="11" font-weight="700" fill="#c01020">(λ/8, λ/8)</text>
 
     <text x="8" y="140" font-size="11" font-weight="700" fill="#1a4a8a">4 (Δ)</text>
-    <text x="70" y="140" font-size="10.5">λ/4 短臂 + 3λ/4 長臂</text>
+    <text x="70" y="140" font-size="10.5">λ/4 short arm + 3λ/4 long arm</text>
     <text x="210" y="140" font-size="11" font-weight="700" fill="#5a2080">(λ/8, 3λ/8)</text>
     <line x1="0" y1="150" x2="330" y2="150" stroke="#999"/>
 
-    <text x="0" y="174" font-size="10.5" fill="#4a4a4a">只有 <tspan font-weight="700" fill="#7a1a1a">Σ(1)</tspan> 與 <tspan font-weight="700" fill="#1a4a8a">Δ(4)</tspan> 緊鄰 3λ/4 長臂，</text>
-    <text x="0" y="190" font-size="10.5" fill="#4a4a4a">才會出現 3λ/8 那條 stub。</text>
+    <text x="0" y="174" font-size="10.5" fill="#4a4a4a">Only <tspan font-weight="700" fill="#7a1a1a">Σ(1)</tspan> and <tspan font-weight="700" fill="#1a4a8a">Δ(4)</tspan> are adjacent to the 3λ/4 long arm, so only they</text>
+    <text x="0" y="190" font-size="10.5" fill="#4a4a4a">produce that 3λ/8 stub.</text>
 
     <rect x="0" y="204" width="330" height="92" rx="5" fill="#eef4fb" stroke="#aac4e8" stroke-width="1.2"/>
-    <text x="10" y="222" font-size="10.5" font-weight="700" fill="#26456e">那 port 2,3 的 (λ/8, λ/8) 共振嗎？</text>
-    <text x="10" y="240" font-size="10" fill="#1a1a1a">偶模開路：(−jZ_R) ∥ (−jZ_R) = −jZ_R/2</text>
-    <text x="10" y="256" font-size="10" fill="#1a1a1a">→ <tspan font-weight="700" fill="#c01020">不是 open（不是並聯諧振）</tspan>。</text>
-    <text x="10" y="274" font-size="10" fill="#1a1a1a">所以「並聯諧振=open」這招是針對<tspan font-weight="700">被激發的</tspan></text>
-    <text x="10" y="289" font-size="10" fill="#1a1a1a">Σ 埠（port 1）。port 2,3 要從它們自己的激發分析。</text>
+    <text x="10" y="222" font-size="10.5" font-weight="700" fill="#26456e">So do ports 2 and 3, with (λ/8, λ/8), resonate?</text>
+    <text x="10" y="240" font-size="10" fill="#1a1a1a">Even mode, open-circuited: (−jZ_R) ∥ (−jZ_R) = −jZ_R/2</text>
+    <text x="10" y="256" font-size="10" fill="#1a1a1a">→ <tspan font-weight="700" fill="#c01020">Not an open circuit (not a parallel resonance)</tspan>of the image-reject mixer at low IF.</text>
+    <text x="10" y="274" font-size="10" fill="#1a1a1a">So the “parallel resonance = open” trick applies specifically to the<tspan font-weight="700">excited</tspan></text>
+    <text x="10" y="289" font-size="10" fill="#1a1a1a">Σ port (port 1). Ports 2 and 3 must be analysed from their own excitation.</text>
   </g>
 </svg>
-<figcaption style="font-size:0.86em;color:#555;margin-top:6px;text-align:center;font-style:italic">沿環一圈：三段 λ/4 短臂（藍）+ 一段 3λ/4 長臂（紅）。在每段中點切開後，<strong>埠所夾的兩條半臂長度</strong>取決於它鄰接哪些臂：Σ(1)、Δ(4) 鄰接長臂 → (λ/8, 3λ/8)；port 2、3 兩側都是短臂 → (λ/8, λ/8)。</figcaption>
+<figcaption style="font-size:0.86em;color:#555;margin-top:6px;text-align:center;font-style:italic">Round the ring: three λ/4 short arms (blue) plus one 3λ/4 long arm (red). Once each section is cut at its midpoint,<strong>the lengths of the two half-arms flanking a port</strong>depend on which arms it adjoins: Σ(1) and Δ(4) adjoin the long arm → (λ/8, 3λ/8); ports 2 and 3 have short arms on both sides → (λ/8, λ/8).</figcaption>
 </figure>
 
-<p style="margin-bottom:0"><strong>為什麼分析只看 port 1？</strong>因為這個 even-odd 推導是<strong>從 Σ 埠（port 1）激發</strong>出發、要算 $S_{11}$（與經由對稱得到的 $S_{41},S_{21},S_{31}$）。port 1 剛好緊鄰長臂，所以它看到的 (λ/8, 3λ/8) 在偶模下並聯成 open（$+jZ_R \parallel -jZ_R = \infty$）。port 2、3 的匹配（$S_{22}=S_{33}=0$）要改從 port 2 或 port 3 激發、用它們各自的 (λ/8, λ/8) 幾何（或直接靠整體對稱性 + 互易）來證明，不能套用同一張 (λ/8, 3λ/8) 圖。</p>
+<p style="margin-bottom:0"><strong>Why does the analysis look only at port 1?</strong>Because this even-odd derivation starts from<strong>an excitation at the Σ port (port 1)</strong>and is out to compute $S_{11}$ (and, via symmetry, $S_{41},S_{21},S_{31}$). Port 1 happens to be adjacent to the long arm, so the (λ/8, 3λ/8) it sees combine in parallel to an open in the even mode ($+jZ_R \parallel -jZ_R = \infty$). The match at ports 2 and 3 ($S_{22}=S_{33}=0$) has to be proved by exciting port 2 or port 3 and using their own (λ/8, λ/8) geometry (or directly from overall symmetry plus reciprocity); the same (λ/8, 3λ/8) picture cannot simply be reused.</p>
 </div>
 </details>
 
 <!-- ============ Rigorous derivation: S22 = 0 ============ -->
 <details style="margin:6px 0;background:#eef4fb;border:1.5px solid #aac4e8;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:8px 12px;font-weight:700;color:#26456e;font-size:0.94em">🧮 完整推導：怎麼證明 $S_{22} = S_{33} = 0$？— 從 port 2 激發</summary>
+<summary style="cursor:pointer;list-style:revert;padding:8px 12px;font-weight:700;color:#26456e;font-size:0.94em">🧮 The full derivation: how do you prove $S_{22} = S_{33} = 0$? — exciting port 2</summary>
 <div style="padding:10px 16px 14px;font-size:0.94em;line-height:1.7">
 
-<p><strong>先說結論為什麼 (λ/8, λ/8) 並聯<em>不夠</em>：</strong>把 port 2 兩側兩條 λ/8 開路 stub 直接並聯，偶模下得 $(-jZ_R)\parallel(-jZ_R) = -jZ_R/2$（純電抗，不是 open，也不是 $Z_0$）。所以「bisymmetric 雙對稱切 4 中點」這招對 port 2 不能直接給 $\Gamma=0$。要真正算出 $S_{22}=0$，必須用 <strong>單一對稱平面 + 完整的 half-circuit（包含 λ/4 主線與鄰埠的 $Z_0$ 載入）</strong>。下面是完整步驟。</p>
+<p><strong>First, why (λ/8, λ/8) in parallel is<em>not enough</em>at some port:</strong>Putting the two λ/8 open stubs on either side of port 2 straight in parallel gives $(-jZ_R)\parallel(-jZ_R) = -jZ_R/2$ in the even mode (a pure reactance — neither an open nor $Z_0$). So the “bisymmetric cut at all 4 midpoints” trick cannot give $\Gamma=0$ at port 2 directly. To genuinely compute $S_{22}=0$ you must use <strong>a single plane of symmetry plus the complete half-circuit (including the λ/4 main line and the $Z_0$ loading of the neighbouring ports)</strong>. Here are the full steps.</p>
 
-<h5 style="color:#26456e">Step A — 用單一對稱平面做 even-odd 分解</h5>
-<p>rat-race 的對稱平面把 port 2 對映到它的「鏡像埠」（依埠號慣例可能是 port 3 或 port 4）。激發 port 2、其鏡像埠用 even/odd 分解：</p>
+<h5 style="color:#26456e">Step A — even-odd decomposition using a single plane of symmetry</h5>
+<p>The rat-race's plane of symmetry maps port 2 onto its “mirror port” (which may be port 3 or port 4 depending on the numbering convention). Excite port 2 and decompose it and its mirror port into even/odd modes:</p>
 <div class="eq-box" style="margin:6px 0">
 $$\begin{pmatrix}a_2\\a_{\text{mirror}}\end{pmatrix} = \tfrac{1}{2}\begin{pmatrix}1\\+1\end{pmatrix}_{\text{even}} + \tfrac{1}{2}\begin{pmatrix}1\\-1\end{pmatrix}_{\text{odd}}$$
 $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o)$$
 </div>
 
-<h5 style="color:#26456e">Step B — port 2 的半電路（剖開後）</h5>
-<p>對稱平面剖開後，port 2 所在的半電路長這樣（從 port 2 看進去）：</p>
+<h5 style="color:#26456e">Step B — the half-circuit at port 2 (after cutting)</h5>
+<p>Once the symmetry plane has been cut, the half-circuit containing port 2 looks like this (seen from port 2):</p>
 
 <figure style="margin:10px auto;text-align:center">
 <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" style="background:#fff;border:1px solid #d4cfc7;border-radius:4px;max-width:720px;width:100%;height:auto" font-family="Georgia,serif">
@@ -1220,7 +1220,7 @@ $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o)$$
   <!-- port 2 circle on left -->
   <circle cx="100" cy="130" r="6" fill="none" stroke="#1a5a30" stroke-width="2"/>
   <text x="100" y="156" text-anchor="middle" font-size="12" font-weight="700" fill="#1a5a30">Port 2</text>
-  <text x="100" y="172" text-anchor="middle" font-size="10" fill="#4a4a4a">(輸入 a₂)</text>
+  <text x="100" y="172" text-anchor="middle" font-size="10" fill="#4a4a4a">(input a₂)</text>
   <!-- Γ readout arrow -->
   <line x1="76" y1="118" x2="100" y2="118" stroke="#b44a2f" stroke-width="1.2" marker-end="url(#aaa2)"/>
   <text x="74" y="115" text-anchor="end" font-size="11" font-weight="700" fill="#b44a2f">Γ₂ (e/o)</text>
@@ -1244,7 +1244,7 @@ $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o)$$
   <!-- λ/4 main line: from x=215 to x=435, y centered at 130 -->
   <line x1="160" y1="130" x2="215" y2="130" stroke="#1a1a1a" stroke-width="2"/>
   <rect x="215" y="118" width="220" height="24" fill="#fff3d8" stroke="#1a3a4a" stroke-width="2"/>
-  <text x="325" y="135" text-anchor="middle" font-size="12" font-weight="700" fill="#7a4a10">λ/4 線,  Z_R = √2·Z₀</text>
+  <text x="325" y="135" text-anchor="middle" font-size="12" font-weight="700" fill="#7a4a10">λ/4 line,  Z_R = √2·Z₀</text>
   <!-- length dimension under λ/4 line -->
   <line x1="215" y1="160" x2="435" y2="160" stroke="#7a4a10" stroke-width="1"/>
   <line x1="215" y1="156" x2="215" y2="164" stroke="#7a4a10" stroke-width="1.4"/>
@@ -1255,7 +1255,7 @@ $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o)$$
   <!-- neighbor port (port 1) -->
   <line x1="435" y1="130" x2="475" y2="130" stroke="#1a1a1a" stroke-width="2"/>
   <circle cx="475" cy="130" r="5" fill="#1a1a1a"/>
-  <text x="475" y="156" text-anchor="middle" font-size="12" font-weight="700">鄰埠 (port 1)</text>
+  <text x="475" y="156" text-anchor="middle" font-size="12" font-weight="700">neighbouring port (port 1)</text>
   <text x="475" y="172" text-anchor="middle" font-size="10" fill="#4a4a4a">terminated in Z₀</text>
 
   <!-- 3λ/8 stub at neighbor -->
@@ -1274,81 +1274,81 @@ $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o)$$
   <line x1="475" y1="130" x2="540" y2="130" stroke="#1a1a1a" stroke-width="2"/>
   <rect x="540" y="118" width="60" height="24" fill="#e8f0fa" stroke="#3a5998" stroke-width="1.5"/>
   <text x="570" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#3a5998">Z₀</text>
-  <text x="570" y="156" text-anchor="middle" font-size="10" fill="#3a5998">外部負載</text>
+  <text x="570" y="156" text-anchor="middle" font-size="10" fill="#3a5998">external load</text>
 
   <!-- bottom annotation -->
-  <text x="360" y="218" text-anchor="middle" font-size="11" fill="#4a4a4a" font-style="italic">從 port 2 看：(λ/8 stub) ∥ [λ/4 線 → port 1 (Z₀ ∥ 3λ/8 stub)]</text>
+  <text x="360" y="218" text-anchor="middle" font-size="11" fill="#4a4a4a" font-style="italic">Seen from port 2: (λ/8 stub) ∥ [λ/4 line → port 1 (Z₀ ∥ 3λ/8 stub)]</text>
 
   <defs><marker id="aaa2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#b44a2f"/></marker></defs>
 </svg>
-<figcaption style="font-size:0.85em;color:#555">Port 2 的半電路：port 2 端有 λ/8 stub，經 λ/4 主線連到鄰埠（port 1），鄰埠端有 3λ/8 stub 並聯 $Z_0$。注意這跟 port 1 的半電路是<strong>同一個 2-port</strong>，只是從另一端看。</figcaption>
+<figcaption style="font-size:0.85em;color:#555">The port 2 half-circuit: a λ/8 stub at the port 2 end, connected through the λ/4 main line to the neighbouring port (port 1), which has a 3λ/8 stub in parallel with $Z_0$. Note that this is<strong>the very same 2-port</strong>as the port 1 half-circuit, merely viewed from the other end.</figcaption>
 </figure>
 
-<h5 style="color:#26456e">Step C — Even mode（stub 末端 O.C.）的 $\Gamma_2^e$</h5>
-<p>各 stub 的<strong>導納</strong>（歸一化到 $Y_0 = 1/Z_0$，記 $z_R = \sqrt2$）：</p>
+<h5 style="color:#26456e">Step C — $\Gamma_2^e$ in the even mode (stub ends open-circuited)</h5>
+<p>The<strong>admittance</strong>of each stub (normalized to $Y_0 = 1/Z_0$, writing $z_R = \sqrt2$):</p>
 <ul>
-<li>port 2 的 λ/8 開路 stub：$Z = -jZ_R\cot(\pi/4) = -j\sqrt2$，所以 $y_{\text{stub2}} = +j/\sqrt2$</li>
-<li>鄰埠的 3λ/8 開路 stub：$Z = -jZ_R\cot(3\pi/4) = +j\sqrt2$，所以 $y_{\text{stub1}} = -j/\sqrt2$</li>
+<li>the λ/8 open stub at port 2: $Z = -jZ_R\cot(\pi/4) = -j\sqrt2$, so $y_{\text{stub2}} = +j/\sqrt2$</li>
+<li>the 3λ/8 open stub at the neighbouring port: $Z = -jZ_R\cot(3\pi/4) = +j\sqrt2$, so $y_{\text{stub1}} = -j/\sqrt2$</li>
 </ul>
-<p>鄰埠看回去（stub 並聯 $Z_0$）：</p>
+<p>Looking back from the neighbouring port (the stub in parallel with $Z_0$):</p>
 <div class="eq-box" style="margin:6px 0">$$y_{\text{port1}} = 1 + (-j/\sqrt2) = 1 - j/\sqrt2 \;\Rightarrow\; z_{\text{port1}} = \tfrac{2}{3}\!\left(1 + j/\sqrt2\right) = \tfrac{2}{3} + j\tfrac{\sqrt2}{3}$$</div>
-<p>經 λ/4 變換到 port 2 那一側：</p>
+<p>Transformed through the λ/4 line to the port 2 side:</p>
 <div class="eq-box" style="margin:6px 0">$$z_{\text{line}} = \frac{z_R^2}{z_{\text{port1}}} = \frac{2}{\tfrac{2}{3}+j\tfrac{\sqrt2}{3}} = 2 - j\sqrt2 \;\Rightarrow\; y_{\text{line}} = \tfrac{1}{3} + j\tfrac{\sqrt2}{6}$$</div>
-<p>並上 port 2 自己的 λ/8 stub：</p>
+<p>In parallel with port 2's own λ/8 stub:</p>
 <div class="eq-box" style="margin:6px 0">
 $$y_2^e = y_{\text{line}} + y_{\text{stub2}} = \tfrac{1}{3} + j\tfrac{\sqrt2}{6} + \tfrac{j}{\sqrt2} = \tfrac{1}{3} + j\tfrac{2\sqrt2}{3}$$
 $$z_2^e = \tfrac{1}{y_2^e} = \tfrac{1}{3} - j\tfrac{2\sqrt2}{3}$$
 $$\Gamma_2^e = \frac{z_2^e - 1}{z_2^e + 1} = \frac{-\tfrac{2}{3} - j\tfrac{2\sqrt2}{3}}{\tfrac{4}{3} - j\tfrac{2\sqrt2}{3}} = \boxed{\;-\frac{j}{\sqrt2}\;}$$
 </div>
 
-<h5 style="color:#26456e">Step D — Odd mode（stub 末端 S.C.）的 $\Gamma_2^o$</h5>
-<p>所有 stub 換成短路：$y_{\text{stub2}}=-j/\sqrt2$、$y_{\text{stub1}}=+j/\sqrt2$。重複同樣的代數（所有虛部變號）：</p>
+<h5 style="color:#26456e">Step D — $\Gamma_2^o$ in the odd mode (stub ends short-circuited)</h5>
+<p>All the stubs become short circuits: $y_{\text{stub2}}=-j/\sqrt2$ and $y_{\text{stub1}}=+j/\sqrt2$. Repeating the same algebra (every imaginary part changes sign):</p>
 <div class="eq-box" style="margin:6px 0">
 $$z_{\text{port1}} = \tfrac{2}{3} - j\tfrac{\sqrt2}{3}, \quad z_{\text{line}} = 2+j\sqrt2, \quad y_{\text{line}} = \tfrac{1}{3} - j\tfrac{\sqrt2}{6}$$
 $$y_2^o = \tfrac{1}{3} - j\tfrac{2\sqrt2}{3}, \quad z_2^o = \tfrac{1}{3} + j\tfrac{2\sqrt2}{3}$$
 $$\Gamma_2^o = \boxed{\;+\frac{j}{\sqrt2}\;}$$
 </div>
 
-<h5 style="color:#26456e">Step E — 合成 → $S_{22} = 0$</h5>
+<h5 style="color:#26456e">Step E — combine → $S_{22} = 0$</h5>
 <div class="eq-box" style="margin:6px 0">
 $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o) = \tfrac{1}{2}\!\left(-\tfrac{j}{\sqrt2} + \tfrac{j}{\sqrt2}\right) = 0 \;\checkmark$$
 </div>
-<p>$\Gamma_2^e$ 與 $\Gamma_2^o$ 是<strong>純虛數共軛</strong>（如同 port 1 的情形），相加為 0 → port 2 完全匹配。由 port 2 ↔ port 3 的對稱性，$S_{33} = 0$ 自動成立。</p>
+<p>$\Gamma_2^e$ and $\Gamma_2^o$ are<strong>purely imaginary conjugates</strong>(just as for port 1), so they sum to 0 → port 2 is perfectly matched. By the port 2 ↔ port 3 symmetry, $S_{33} = 0$ follows automatically.</p>
 
 <div class="callout key" style="margin:8px 0">
-<div class="callout-title">關鍵觀察</div>
+<div class="callout-title">The key observation</div>
 <ul style="margin:4px 0 4px 22px">
-<li>Port 2 的半電路<strong>恰好就是 port 1 半電路</strong>，只是從另一端看；所以兩者的 $\Gamma^e, \Gamma^o$ 數值<strong>完全相同</strong>（$\mp j/\sqrt2$）。這保證了 $S_{11}=S_{22}=0$ 同時成立。</li>
-<li>$\frac{1}{2}(\Gamma_2^e - \Gamma_2^o) = -j/\sqrt2$ 不為零 — 這是 port 2 到<strong>它鏡像埠</strong>的耦合（rat-race 的功率分配，$|S_{2,\text{mirror}}| = 1/\sqrt2$），不是 isolation。Port 2 與 port 3 之間的隔離（$S_{23}=0$）來自<strong>不同</strong>的分析（兩條路徑相消干涉）。</li>
-<li>之所以「(λ/8, λ/8) 並聯」算不出 $\Gamma=0$，是因為它<strong>缺少了鄰埠那段 λ/4 線和 $Z_0$ 載入</strong>的貢獻。把它們算進來就回到上面這個完整的半電路。</li>
+<li>The port 2 half-circuit<strong>is precisely the port 1 half-circuit</strong>, merely viewed from the other end; hence the values of $\Gamma^e, \Gamma^o$ for the two are<strong>exactly identical</strong>($\mp j/\sqrt2$). That guarantees $S_{11}=S_{22}=0$ hold together.</li>
+<li>$\frac{1}{2}(\Gamma_2^e - \Gamma_2^o) = -j/\sqrt2$ is not zero — it is the coupling from port 2 to<strong>its mirror port</strong>(the rat-race's power split, $|S_{2,\text{mirror}}| = 1/\sqrt2$), not isolation. The isolation between ports 2 and 3 ($S_{23}=0$) comes from a<strong>different</strong>argument (destructive interference of two paths).</li>
+<li>The reason “(λ/8, λ/8) in parallel” fails to give $\Gamma=0$ is that it<strong>omits the contribution of the neighbouring port's λ/4 line and its $Z_0$ loading</strong>. Include those and you are back to the complete half-circuit above.</li>
 </ul>
 </div>
 
-<p style="margin-bottom:0"><strong>更簡單的另一條路：對稱 + 互易。</strong>rat-race 是被動互易、無耗的四埠網路。已證 $S_{11}=0$ 和 isolation/分配比例。把 $[S]$ 完整寫出來、套用 $[S]^*[S] = U$（unitarity，無耗）與 $[S]^T=[S]$（reciprocity）兩條件，剩下的元素被唯一決定 — 直接給出 $S_{22}=S_{33}=0$。這條路不用再算半電路，但要先有 unitarity/reciprocity 框架。</p>
+<p style="margin-bottom:0"><strong>A simpler alternative route: symmetry plus reciprocity.</strong>The rat-race is a passive, reciprocal, lossless four-port. We have already proved $S_{11}=0$ along with the isolation and split ratios. Write out $[S]$ in full and impose $[S]^*[S] = U$ (unitarity, losslessness) and $[S]^T=[S]$ (reciprocity), and the remaining elements are uniquely determined — giving $S_{22}=S_{33}=0$ directly. This route needs no further half-circuit algebra, but it does require the unitarity/reciprocity framework first.</p>
 </div>
 </details>
 
-<h5 style="color:#5a2080">③ 代入 $\beta L$</h5>
-<p>計算每條 stub 的電氣長度：</p>
+<h5 style="color:#5a2080">③ Substituting $\beta L$</h5>
+<p>Compute the electrical length of each stub:</p>
 <div class="eq-box">
 $$\beta\!\cdot\!\tfrac{\lambda}{8} = \tfrac{2\pi}{\lambda}\!\cdot\!\tfrac{\lambda}{8} = \tfrac{\pi}{4} = 45°$$
 $$\beta\!\cdot\!\tfrac{3\lambda}{8} = \tfrac{2\pi}{\lambda}\!\cdot\!\tfrac{3\lambda}{8} = \tfrac{3\pi}{4} = 135°$$
 </div>
 
-<p>查 cot 值：</p>
+<p>Look up the cot values:</p>
 <div class="eq-box">
 $$\cot(\pi/4) = +1, \qquad \cot(3\pi/4) = -1$$
 </div>
 
-<h5 style="color:#5a2080">④ 結果：兩條 stub 各自的阻抗</h5>
+<h5 style="color:#5a2080">④ The result: the impedance of each stub</h5>
 <div class="eq-box">
-$$Z_{\lambda/8} = -jZ_R\cot(\pi/4) = \boxed{-jZ_R}\quad\text{(電容性)}$$
-$$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{(電感性)}$$
+$$Z_{\lambda/8} = -jZ_R\cot(\pi/4) = \boxed{-jZ_R}\quad\text{(capacitive)}$$
+$$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{(inductive)}$$
 </div>
-<p>兩個阻抗都是純虛數，大小相等、符號相反 — 一個是電容、一個是電感。</p>
+<p>Both impedances are purely imaginary, equal in magnitude and opposite in sign — one capacitive, one inductive.</p>
 
-<h5 style="color:#5a2080">⑤ Smith chart 視覺化</h5>
-<p>把這兩條開路 stub 在 Smith chart 上走一遍：</p>
+<h5 style="color:#5a2080">⑤ Smith chart visualization</h5>
+<p>Walk these two open stubs around the Smith chart:</p>
 
 <div style="text-align:center;margin:8px 0">
 <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" style="max-width:600px;width:100%;height:auto">
@@ -1394,7 +1394,7 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
   <circle cx="420" cy="250" r="6" fill="#27ae60" stroke="#0a3a18" stroke-width="1.5"/>
   <text x="430" y="248" font-size="13" font-weight="700" fill="#1a5a30">Open (Z=∞)</text>
   <text x="430" y="262" font-size="11" fill="#1a5a30">Γ = +1</text>
-  <text x="430" y="275" font-size="11" fill="#1a5a30">起點 (start)</text>
+  <text x="430" y="275" font-size="11" fill="#1a5a30">start</text>
 
   <!-- +j at top: (240, 70) -->
   <circle cx="240" cy="70" r="6" fill="#1060d0" stroke="#08306a" stroke-width="1.5"/>
@@ -1418,42 +1418,42 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
   <!-- Path 1: λ/8 stub from open → -j (rotate 90° CW) -->
   <path d="M 420 250 A 180 180 0 0 1 240 430" fill="none" stroke="#a02020" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrSmith)"/>
   <text x="365" y="395" font-size="12" font-weight="700" fill="#a02020">λ/8 stub</text>
-  <text x="365" y="412" font-size="11" fill="#a02020">轉 90° CW</text>
+  <text x="365" y="412" font-size="11" fill="#a02020">rotate 90° CW</text>
 
   <!-- Path 2: 3λ/8 stub from open → +j (rotate 270° CW, equivalent to 90° CCW shown shorter) -->
   <path d="M 420 250 A 180 180 0 0 0 240 70" fill="none" stroke="#1060d0" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrSmith2)"/>
   <text x="365" y="115" font-size="12" font-weight="700" fill="#1060d0">3λ/8 stub</text>
-  <text x="365" y="100" font-size="11" fill="#1060d0">轉 270° CW</text>
+  <text x="365" y="100" font-size="11" fill="#1060d0">rotate 270° CW</text>
   <text x="365" y="130" font-size="10" font-style="italic" fill="#1060d0">(= 90° CCW)</text>
 
   <!-- Annotation: parallel combination -->
-  <text x="240" y="460" font-size="13" font-weight="700" fill="#5a2080" text-anchor="middle">兩個阻抗在虛軸上對稱 → 並聯時分母 = 0 → $Z_{in}$ = ∞</text>
+  <text x="240" y="460" font-size="13" font-weight="700" fill="#5a2080" text-anchor="middle">The two impedances are symmetric about the imaginary axis → in parallel the denominator = 0 → $Z_{in}$ = ∞</text>
 </svg>
 </div>
 
-<p style="font-size:0.92em">圖示解讀：</p>
+<p style="font-size:0.92em">Reading the figure:</p>
 <ul style="margin:4px 0 6px 22px;font-size:0.92em">
-<li><strong>起點</strong>：兩條 stub 末端都是<strong>開路</strong>（綠點，Smith chart 最右端 $\Gamma=+1$）</li>
-<li><strong>紅色路徑（λ/8 stub）</strong>：沿 Smith chart 順時針旋轉 $2\beta L = 90°$（朝向 generator），終點在 $-j$（最下面），對應阻抗 $-jZ_R$ — <strong>純電容</strong></li>
-<li><strong>藍色路徑（3λ/8 stub）</strong>：沿 Smith chart 順時針旋轉 $2\beta L = 270°$（= 逆時針 90°），終點在 $+j$（最上面），對應阻抗 $+jZ_R$ — <strong>純電感</strong></li>
-<li><strong>並聯結果</strong>：兩個阻抗在虛軸上對稱（$+jZ_R$ 與 $-jZ_R$），形成<strong>並聯 LC 共振</strong>，總阻抗 $\to \infty$</li>
+<li><strong>starting point</strong>: both stubs are terminated in<strong>open-circuit</strong>(the green dot, at the far right of the Smith chart, $\Gamma=+1$)</li>
+<li><strong>The red path (the λ/8 stub)</strong>: rotates clockwise around the Smith chart by $2\beta L = 90°$ (towards the generator), ending at $-j$ (the very bottom), corresponding to an impedance of $-jZ_R$ — <strong>purely capacitive</strong></li>
+<li><strong>The blue path (the 3λ/8 stub)</strong>: rotates clockwise by $2\beta L = 270°$ (= 90° anticlockwise), ending at $+j$ (the very top), corresponding to an impedance of $+jZ_R$ — <strong>purely inductive</strong></li>
+<li><strong>The parallel combination</strong>: the two impedances are symmetric about the imaginary axis ($+jZ_R$ and $-jZ_R$), forming a<strong>parallel LC resonance</strong>, so the total impedance $\to \infty$</li>
 </ul>
 
-<h5 style="color:#5a2080">⑥ 物理直覺：為何剛好是 LC 共振？</h5>
-<p>這不是巧合 — $\lambda/8$ 加上 $3\lambda/8$ 剛好等於 $\lambda/2$（總路徑長為半波長）。沿著環走完半圈時的相位累積是 $\beta\cdot\lambda/2 = \pi = 180°$。所以兩條 stub 的反射波到達 port 1 時剛好相位差 $180°$ → <strong>對消干涉</strong>。</p>
+<h5 style="color:#5a2080">⑥ Physical intuition: why does it land exactly on LC resonance?</h5>
+<p>This is no coincidence — $\lambda/8$ plus $3\lambda/8$ is exactly $\lambda/2$ (a total path of half a wavelength). The phase accumulated over half a turn around the ring is $\beta\cdot\lambda/2 = \pi = 180°$. So the reflected waves from the two stubs arrive back at port 1 exactly $180°$ apart in phase → <strong>destructive interference</strong>of the image-reject mixer at low IF.</p>
 
-<p>從 Smith chart 上看，這就是：起點同位置（都從開路出發），但兩條路徑長度相差 $\lambda/2$（對應 Smith chart 上 $360°$ 的相對旋轉差），所以兩個終點恰好<em>在 Smith chart 上對稱於實軸</em>（一個在 $+j$、一個在 $-j$）→ 形成 LC 共振 → 並聯 = ∞。</p>
+<p>On the Smith chart this reads as: the two paths start at the same place (both from an open circuit) but differ in length by $\lambda/2$ (a relative rotation of $360°$ on the Smith chart), so their two end points are exactly<em>symmetric about the real axis of the Smith chart</em>(one at $+j$, one at $-j$) → they form an LC resonance → in parallel = ∞.</p>
 
 <!-- ============== Animated parallel-LC resonance ============== -->
 <div id="lcAnim" style="background:#fafbfc;border:1px solid #d4cfc7;border-radius:8px;padding:14px;margin:16px 0">
   <div style="text-align:center;margin-bottom:6px">
-    <div style="font-size:13px;font-weight:700;color:#3a5998;font-family:'DM Sans',sans-serif">並聯諧振動畫 — 為什麼 $+jZ_R \parallel -jZ_R \to \infty$（open）</div>
-    <div style="font-size:11px;color:#4a4a4a;font-style:italic">無耗 tank：$\ddot v + \tfrac{1}{LC}v = 0 \Rightarrow v(t)=V_0\cos\omega_0 t$，$\omega_0=1/\sqrt{LC}$，電壓與電流相差 90°。共振時 $i_L$ 與 $i_C$ 大小相等、方向相反 → 端點淨電流 = 0 → 阻抗 $\to\infty$ = open。</div>
-    <div style="font-size:10.5px;color:#7a4a10;margin-top:3px">對應 rat-race：$\lambda/8$ stub 的 $-jZ_R$（容性）與 $3\lambda/8$ stub 的 $+jZ_R$（感性）並聯，正是這個並聯 LC 共振 → 每個埠看到 open。</div>
+    <div style="font-size:13px;font-weight:700;color:#3a5998;font-family:'DM Sans',sans-serif">Parallel-resonance animation — why $+jZ_R \parallel -jZ_R \to \infty$ (an open circuit)</div>
+    <div style="font-size:11px;color:#4a4a4a;font-style:italic">A lossless tank: $\ddot v + \tfrac{1}{LC}v = 0 \Rightarrow v(t)=V_0\cos\omega_0 t$ with $\omega_0=1/\sqrt{LC}$, and voltage and current 90° apart. At resonance $i_L$ and $i_C$ are equal in magnitude and opposite in direction → the net current at the terminals = 0 → the impedance $\to\infty$ = an open circuit.</div>
+    <div style="font-size:10.5px;color:#7a4a10;margin-top:3px">Applied to the rat-race: the $-jZ_R$ (capacitive) of the $\lambda/8$ stub in parallel with the $+jZ_R$ (inductive) of the $3\lambda/8$ stub is exactly this parallel LC resonance → every port sees an open circuit.</div>
   </div>
   <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:6px 0">
-    <button id="lcPlay" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:5px 16px;border-radius:14px;border:1.5px solid #2a6e5a;background:#fff;color:#2a6e5a;cursor:pointer">▶ 播放</button>
-    <label style="font-size:11px;font-family:'DM Sans',sans-serif;color:#4a4a4a">速度
+    <button id="lcPlay" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:5px 16px;border-radius:14px;border:1.5px solid #2a6e5a;background:#fff;color:#2a6e5a;cursor:pointer">▶ Play</button>
+    <label style="font-size:11px;font-family:'DM Sans',sans-serif;color:#4a4a4a">Speed
       <input id="lcSpeed" type="range" min="0.2" max="2" step="0.1" value="1" style="vertical-align:middle;width:120px;accent-color:#b44a2f">
     </label>
   </div>
@@ -1487,17 +1487,17 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
     <line id="iBot" x1="187" y1="240" x2="155" y2="240" stroke="#b44a2f" stroke-width="3" marker-end="url(#lcArr)" opacity="0"/>
 
     <!-- energy bars -->
-    <text x="340" y="74" text-anchor="middle" font-size="11" font-weight="700" fill="#3a5998">能量</text>
+    <text x="340" y="74" text-anchor="middle" font-size="11" font-weight="700" fill="#3a5998">Energy</text>
     <line x1="300" y1="240" x2="392" y2="240" stroke="#1a1a1a" stroke-width="1.5"/>
     <rect id="ecBar" x="312" y="120" width="26" height="120" fill="#3a5998" opacity="0.85"/>
     <rect id="elBar" x="354" y="120" width="26" height="120" fill="#b44a2f" opacity="0.85"/>
     <text x="325" y="256" text-anchor="middle" font-size="10" fill="#3a5998" font-weight="700">E_C</text>
     <text x="367" y="256" text-anchor="middle" font-size="10" fill="#b44a2f" font-weight="700">E_L</text>
     <line x1="300" y1="90" x2="392" y2="90" stroke="#888" stroke-width="1" stroke-dasharray="4,3"/>
-    <text x="396" y="93" font-size="9" fill="#888">E_total (固定)</text>
+    <text x="396" y="93" font-size="9" fill="#888">E_total (constant)</text>
 
     <!-- waveform -->
-    <text x="510" y="74" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">波形 v(t), i(t)</text>
+    <text x="510" y="74" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Waveforms v(t), i(t)</text>
     <line x1="400" y1="165" x2="620" y2="165" stroke="#bbb" stroke-width="1"/>
     <polyline id="vCurve" points="" fill="none" stroke="#3a5998" stroke-width="2"/>
     <polyline id="iCurve" points="" fill="none" stroke="#b44a2f" stroke-width="2" stroke-dasharray="5,3"/>
@@ -1579,12 +1579,12 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
     iDot.setAttribute('cx',cx);iDot.setAttribute('cy',YC-AMP*i);
 
     // status text
-    if(Ec>0.92){ status.textContent='能量全在 C（電場最強）'; status.setAttribute('fill','#3a5998');
-                 status2.textContent='v = ±max, i = 0 — 電容充飽、無電流'; }
-    else if(El>0.92){ status.textContent='能量全在 L（磁場最強）'; status.setAttribute('fill','#b44a2f');
-                 status2.textContent='v = 0, i = ±max — 電容放空、電流最大'; }
-    else { status.textContent='能量在 L↔C 之間轉移中'; status.setAttribute('fill','#2a6e5a');
-                 status2.textContent='E_C + E_L = 定值（無耗時總能量守恆）'; }
+    if(Ec>0.92){ status.textContent='All the energy is in C (the electric field is strongest)'; status.setAttribute('fill','#3a5998');
+                 status2.textContent='v = ±max, i = 0 — the capacitor is fully charged and no current flows'; }
+    else if(El>0.92){ status.textContent='All the energy is in L (the magnetic field is strongest)'; status.setAttribute('fill','#b44a2f');
+                 status2.textContent='v = 0, i = ±max — the capacitor is discharged and the current is at its maximum'; }
+    else { status.textContent='Energy is in transit between L and C'; status.setAttribute('fill','#2a6e5a');
+                 status2.textContent='E_C + E_L = constant (total energy is conserved when lossless)'; }
   }
   function loop(now){
     const dt=(now-last)/1000; last=now;
@@ -1593,7 +1593,7 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
   }
   playBtn.addEventListener('click',()=>{
     playing=!playing;
-    playBtn.textContent = playing?'⏸ 暫停':'▶ 播放';
+    playBtn.textContent = playing?'⏸ Pause':'▶ Play';
     playBtn.style.background = playing?'#2a6e5a':'#fff';
     playBtn.style.color = playing?'#fff':'#2a6e5a';
   });
@@ -1605,25 +1605,25 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
 
 
 <div class="callout key" style="margin:6px 0">
-<div class="callout-title">這就是 rat-race 的「魔法」</div>
-$\sqrt{2}Z_0$ 的環阻抗 + 三段 $\lambda/4$ + 一段 $3\lambda/4$ 的不對稱設計，讓<strong>每個 mode 在每個埠都看到「並聯諧振 = open」</strong>。再經過外部 $\lambda/4$ 線段的阻抗變換後，就剛好匹配到 $Z_0$（外部 50 Ω）。這就是為什麼 rat-race 能做到「四個埠都 $S_{ii}=0$」這個 3-port tee 做不到的事。
+<div class="callout-title">This is the rat-race's “magic”</div>
+A ring impedance of $\sqrt{2}Z_0$ plus the asymmetric design of three $\lambda/4$ sections and one $3\lambda/4$ section makes<strong>every mode see a “parallel resonance = open circuit” at every port</strong>. After the impedance transformation of the external $\lambda/4$ sections, that comes out matched to $Z_0$ (the external 50 Ω). This is how a rat-race achieves “$S_{ii}=0$ at all four ports”, something a 3-port tee cannot do.
 </div>
 
 <!-- ============ SVG: λ/4 impedance transformer → port match to Z0 ============ -->
 <figure style="margin:14px 0;text-align:center">
 <svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;height:auto;display:block;margin:0 auto;background:#fafbfc;border:1px solid #d4cfc7;border-radius:6px" font-family="'Source Serif 4',Georgia,serif">
-  <text x="380" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a4a">λ/4 阻抗變換：為什麼每個埠剛好匹配到 Z₀</text>
+  <text x="380" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a4a">The λ/4 impedance transformation: why every port comes out matched to Z₀</text>
 
   <!-- ===== Panel 1: the λ/4 transformer principle ===== -->
   <g transform="translate(0,40)">
-    <text x="380" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#3a5998">① 原理：λ/4 線段是「阻抗反相器」</text>
+    <text x="380" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#3a5998">① The principle: a λ/4 section is an “impedance inverter”</text>
 
     <!-- Z_in arrow on left -->
     <text x="70" y="78" text-anchor="middle" font-size="13" fill="#b44a2f" font-weight="700">Z_in</text>
     <line x1="70" y1="84" x2="70" y2="100" stroke="#b44a2f" stroke-width="1.5" marker-end="url(#xfArr)"/>
     <!-- transmission line (λ/4, Z_R) -->
     <rect x="100" y="86" width="220" height="28" fill="#fff3d8" stroke="#1a3a4a" stroke-width="2"/>
-    <text x="210" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#7a4a10">λ/4 線，Z_R</text>
+    <text x="210" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#7a4a10">λ/4 line, Z_R</text>
     <!-- explicit length dimension under panel 1 line -->
     <line x1="100" y1="124" x2="320" y2="124" stroke="#7a4a10" stroke-width="1"/>
     <line x1="100" y1="120" x2="100" y2="130" stroke="#7a4a10" stroke-width="1.4"/>
@@ -1638,7 +1638,7 @@ $\sqrt{2}Z_0$ 的環阻抗 + 三段 $\lambda/4$ + 一段 $3\lambda/4$ 的不對�
 
     <!-- formula -->
     <text x="500" y="96" font-size="14" font-weight="700" fill="#1a1a1a">Z_in = Z_R² / Z_L</text>
-    <text x="500" y="128" font-size="10.5" fill="#4a4a4a" font-style="italic">負載大 → 輸入小，負載小 → 輸入大（反相）</text>
+    <text x="500" y="128" font-size="10.5" fill="#4a4a4a" font-style="italic">A large load → a small input; a small load → a large input (inverted)</text>
   </g>
 
   <!-- divider -->
@@ -1646,15 +1646,15 @@ $\sqrt{2}Z_0$ 的環阻抗 + 三段 $\lambda/4$ + 一段 $3\lambda/4$ 的不對�
 
   <!-- ===== Panel 2: rat-race port tee — two λ/4 arms in parallel ===== -->
   <g transform="translate(0,200)">
-    <text x="380" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#2a6e5a">② 套用到 rat-race 埠：兩條相鄰 λ/4 臂並聯</text>
+    <text x="380" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#2a6e5a">② Applied to a rat-race port: two adjacent λ/4 arms in parallel</text>
 
     <!-- External port (top), Z0 feed -->
     <circle cx="380" cy="56" r="5" fill="none" stroke="#1a1a1a" stroke-width="2"/>
-    <text x="398" y="50" font-size="12" font-weight="700">埠 (外部 Z₀ = 50 Ω)</text>
+    <text x="398" y="50" font-size="12" font-weight="700">Port (external Z₀ = 50 Ω)</text>
     <line x1="380" y1="61" x2="380" y2="92" stroke="#1a1a1a" stroke-width="2"/>
     <!-- junction node -->
     <circle cx="380" cy="92" r="4" fill="#1a1a1a"/>
-    <text x="392" y="90" font-size="10" fill="#b44a2f" font-weight="700">看進環 = ?</text>
+    <text x="392" y="90" font-size="10" fill="#b44a2f" font-weight="700">Looking into the ring = ?</text>
 
     <!-- left λ/4 arm -->
     <line x1="380" y1="92" x2="200" y2="92" stroke="#1a1a1a" stroke-width="2"/>
@@ -1691,61 +1691,61 @@ $\sqrt{2}Z_0$ 的環阻抗 + 三段 $\lambda/4$ + 一段 $3\lambda/4$ 的不對�
 
     <!-- parallel result -->
     <rect x="250" y="148" width="260" height="40" rx="6" fill="#e6f5ee" stroke="#2a6e5a" stroke-width="1.8"/>
-    <text x="380" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="#2a6e5a">節點看進環 = 2Z₀ ∥ 2Z₀ = Z₀</text>
-    <text x="380" y="181" text-anchor="middle" font-size="10.5" fill="#1a5a30">與外部 Z₀ 完全相同 → 無反射 → S_ii = 0 ✓</text>
+    <text x="380" y="165" text-anchor="middle" font-size="12" font-weight="700" fill="#2a6e5a">Looking into the ring from the node = 2Z₀ ∥ 2Z₀ = Z₀</text>
+    <text x="380" y="181" text-anchor="middle" font-size="10.5" fill="#1a5a30">Identical to the external Z₀ → no reflection → S_ii = 0 ✓</text>
   </g>
 
   <defs><marker id="xfArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#b44a2f"/></marker></defs>
 </svg>
-<figcaption style="font-size:0.88em;color:#555;margin-top:6px;text-align:center;font-style:italic">$\lambda/4$ 線是「阻抗反相器」：$Z_\text{in}=Z_R^2/Z_L$。在 rat-race 的每個埠，兩條相鄰 $\lambda/4$ 臂各把對面的 $Z_0$ 變換成 $Z_R^2/Z_0 = 2Z_0$（因為 $Z_R=\sqrt2 Z_0$）；兩個 $2Z_0$ 並聯回到 $Z_0$，剛好等於外部饋入線阻抗 → 該埠匹配（$S_{ii}=0$）。這就是「外部 $\lambda/4$ 線段阻抗變換 → 匹配 $Z_0$」的具體機制。</figcaption>
+<figcaption style="font-size:0.88em;color:#555;margin-top:6px;text-align:center;font-style:italic">A $\lambda/4$ line is an “impedance inverter”: $Z_\text{in}=Z_R^2/Z_L$. At each rat-race port, the two adjacent $\lambda/4$ arms each transform the $Z_0$ at their far end into $Z_R^2/Z_0 = 2Z_0$ (since $Z_R=\sqrt2 Z_0$); two $2Z_0$ in parallel come back to $Z_0$, exactly equal to the external feed-line impedance → that port is matched ($S_{ii}=0$). That is the concrete mechanism behind “the external $\lambda/4$ impedance transformation → matched to $Z_0$”.</figcaption>
 </figure>
 
 <details style="background:#eef4fb;border:1.5px solid #aac4e8;border-radius:8px;padding:10px 16px;margin:12px 0">
-<summary style="cursor:pointer;font-weight:700;color:#26456e;font-size:0.96em">❓ 為什麼 $Z_R$ 在公式裡是「平方」？（點擊展開）</summary>
+<summary style="cursor:pointer;font-weight:700;color:#26456e;font-size:0.96em">❓ Why is $Z_R$ squared in the formula? (click to expand)</summary>
 <div style="margin-top:10px;line-height:1.65">
 
-<p>$Z_R^2$ 的「平方」可以從三個角度看，每個都揭示同一件事的不同面相。</p>
+<p>The “square” in $Z_R^2$ can be seen from three angles, each revealing a different facet of the same fact.</p>
 
-<h4 style="margin-top:10px;color:#3a5998">① 從一般傳輸線公式取極限</h4>
-<p>任意長度 $\ell$ 的無耗傳輸線（特性阻抗 $Z_R$、負載 $Z_L$）：</p>
+<h4 style="margin-top:10px;color:#3a5998">① Take the limit of the general transmission-line formula</h4>
+<p>A lossless line of arbitrary length $\ell$ (characteristic impedance $Z_R$, load $Z_L$):</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_\text{in}(\ell) = Z_R\cdot\frac{Z_L + jZ_R\tan(\beta\ell)}{Z_R + jZ_L\tan(\beta\ell)}$$
 </div>
 
 <details style="background:#fff6ed;border:1.5px solid #e8c49a;border-radius:6px;padding:8px 14px;margin:6px 0 12px">
-<summary style="cursor:pointer;font-weight:700;color:#8a4a10;font-size:0.93em">📐 這條公式怎麼來？（5 步推導，點擊展開）</summary>
+<summary style="cursor:pointer;font-weight:700;color:#8a4a10;font-size:0.93em">📐 Where does this formula come from? (a 5-step derivation, click to expand)</summary>
 <div style="margin-top:8px;line-height:1.6">
 
-<p><strong>Step 1 — 無耗線上的電壓與電流</strong>（前進波 $V^+$ + 反射波 $V^-$ 疊加）：</p>
+<p><strong>Step 1 — voltage and current on a lossless line</strong>(the superposition of a forward wave $V^+$ and a reflected wave $V^-$):</p>
 <div class="eq-box" style="margin:6px 0">
 $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta z} - V^- e^{+j\beta z}$$
 </div>
-<p>$I$ 前面的 $Z_R$ 是 Ohm's law 在行進波上的版本：前進波載電流 $V^+/Z_R$。</p>
+<p>The $Z_R$ in front of $I$ is Ohm's law in its travelling-wave form: the forward wave carries a current $V^+/Z_R$.</p>
 
 <details style="background:#fff6ed;border:1.5px solid #e8c49a;border-radius:6px;padding:8px 14px;margin:6px 0 12px" open>
-<summary style="cursor:pointer;font-weight:700;color:#8a4a10;font-size:0.94em">❓ 為什麼 $V$ 是「+」、$I$ 是「−」？— 互動展示</summary>
+<summary style="cursor:pointer;font-weight:700;color:#8a4a10;font-size:0.94em">❓ Why is $V$ a “+” and $I$ a “−”? — an interactive demonstration</summary>
 <div style="margin-top:8px;line-height:1.65">
 
-<p><strong>物理本源：</strong></p>
+<p><strong>The physical root:</strong></p>
 <ul style="margin:4px 0 8px 22px">
-<li>特性阻抗 $Z_R$ 定義為「<strong>波本身行進方向上的 V/I 比</strong>」。前進波（往 +z 走）的電流順著 +z 流：$I^+ = +V^+/Z_R$。</li>
-<li>反射波（往 −z 走）的「自然」電流方向是 −z；但我們用<strong>同一條 +z 參考線</strong>量電流，要加負號：$I^- = -V^-/Z_R$。</li>
-<li><strong>電壓</strong>是兩導線間的電位差，是純量 → 兩波直接相加 (+)。<strong>電流</strong>有方向 → backward wave 相對 +z 參考是反向，要相減 (−)。</li>
+<li>the characteristic impedance $Z_R$ is defined as “<strong>the V/I ratio in the direction the wave itself travels</strong>”. The forward wave (travelling towards +z) carries current along +z: $I^+ = +V^+/Z_R$.</li>
+<li>The reflected wave (travelling towards −z) has a “natural” current direction of −z; but we measure current against<strong>the same +z reference</strong>, so it takes a minus sign: $I^- = -V^-/Z_R$.</li>
+<li><strong>Voltage</strong>is the potential difference between the two conductors, a scalar → the two waves simply add (+).<strong>Current</strong>has direction → the backward wave runs opposite to the +z reference, so it must be subtracted (−).</li>
 </ul>
 
-<p style="margin:6px 0"><strong>下方互動：</strong>切換顯示前進波／反射波／兩者；拖動「時間」滑桿讓波移動，觀察上方導線的<strong>電流箭頭方向</strong>：前進波 → 永遠向右，反射波 → 永遠向左。</p>
+<p style="margin:6px 0"><strong>The interactive below:</strong>switch between showing the forward wave, the reflected wave, or both; drag the “time” slider to make the waves move and watch the<strong>direction of the current arrows</strong>on the upper conductor: the forward wave always points right, the reflected wave always points left.</p>
 
 <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 6px;flex-wrap:wrap">
-  <button class="wv-mb" data-mode="f" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #c01020;background:#fff;color:#c01020">前進波 V⁺ →</button>
-  <button class="wv-mb" data-mode="b" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #1060d0;background:#fff;color:#1060d0">反射波 V⁻ ←</button>
-  <button class="wv-mb" data-mode="both" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #2a6e5a;background:#2a6e5a;color:#fff">兩個都顯示</button>
-  <label style="font-size:11px;font-family:'DM Sans',sans-serif;color:#4a4a4a;margin-left:8px">時間 <input id="wvPhase" type="range" min="0" max="6.28" step="0.05" value="0" style="vertical-align:middle;width:130px;accent-color:#7a4a10"></label>
-  <button id="wvPlay" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #7a4a10;background:#fff;color:#7a4a10">▶ 播放</button>
+  <button class="wv-mb" data-mode="f" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #c01020;background:#fff;color:#c01020">Forward wave V⁺ →</button>
+  <button class="wv-mb" data-mode="b" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #1060d0;background:#fff;color:#1060d0">Reflected wave V⁻ ←</button>
+  <button class="wv-mb" data-mode="both" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #2a6e5a;background:#2a6e5a;color:#fff">Show both</button>
+  <label style="font-size:11px;font-family:'DM Sans',sans-serif;color:#4a4a4a;margin-left:8px">Time <input id="wvPhase" type="range" min="0" max="6.28" step="0.05" value="0" style="vertical-align:middle;width:130px;accent-color:#7a4a10"></label>
+  <button id="wvPlay" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #7a4a10;background:#fff;color:#7a4a10">▶ Play</button>
 </div>
 
 <svg id="wvSVG" viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;height:auto;display:block;margin:0 auto;background:#fff;border:1px solid #d4cfc7;border-radius:6px" font-family="'Source Serif 4',Georgia,serif">
   <!-- Title row -->
-  <text x="20" y="22" font-size="11" font-weight="700" fill="#7a4a10">電壓 V(z, t)</text>
+  <text x="20" y="22" font-size="11" font-weight="700" fill="#7a4a10">Voltage V(z, t)</text>
   <text x="700" y="22" text-anchor="end" font-size="10" font-style="italic" fill="#4a4a4a">z →</text>
 
   <!-- Voltage wave area: axis at y=80 -->
@@ -1762,13 +1762,13 @@ $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta 
   <text x="546" y="60" font-size="10" fill="#1060d0">V⁻ (backward, ←)</text>
 
   <!-- T-line conductors -->
-  <text x="20" y="174" font-size="10" font-weight="700" fill="#1a1a1a">傳輸線</text>
+  <text x="20" y="174" font-size="10" font-weight="700" fill="#1a1a1a">Transmission line</text>
   <line x1="80" y1="180" x2="660" y2="180" stroke="#1a1a1a" stroke-width="3"/>
   <line x1="80" y1="216" x2="660" y2="216" stroke="#1a1a1a" stroke-width="3"/>
   <text x="664" y="186" font-size="9" fill="#4a4a4a">top</text>
   <text x="664" y="220" font-size="9" fill="#4a4a4a">return</text>
   <!-- arrows between conductors -->
-  <text x="20" y="208" font-size="10" font-weight="700" fill="#7a4a10">I 方向</text>
+  <text x="20" y="208" font-size="10" font-weight="700" fill="#7a4a10">Direction of I</text>
   <g id="wvArrows"></g>
 
   <!-- Probe vertical line at center -->
@@ -1776,7 +1776,7 @@ $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta 
   <rect x="306" y="244" width="128" height="46" rx="4" fill="#fff5ed" stroke="#7a4a10" stroke-width="1"/>
   <text id="wvVlabel" x="370" y="260" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5a30">V = …</text>
   <text id="wvIlabel" x="370" y="278" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5a30">Z_R·I = …</text>
-  <text x="370" y="304" text-anchor="middle" font-size="10" fill="#7a4a10" font-style="italic">probe @ 中點</text>
+  <text x="370" y="304" text-anchor="middle" font-size="10" fill="#7a4a10" font-style="italic">probe @ midpoint</text>
 
   <defs>
     <marker id="wvArR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#c01020"/></marker>
@@ -1785,7 +1785,7 @@ $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta 
   </defs>
 </svg>
 
-<p style="font-size:0.9em;margin:8px 0 0;color:#4a4a4a"><strong>觀察重點：</strong>切到「兩個都顯示」，找一個 V⁺ 與 V⁻ <strong>同號的位置</strong> → V 相加變大、$Z_R\!\cdot\!I$ 相減趨近 0（電壓駐波<em>腹</em>、電流<em>節</em>）。再找一個 V⁺ 與 V⁻ <strong>異號的位置</strong> → V 相消、$Z_R\!\cdot\!I$ 相加變大（電壓<em>節</em>、電流<em>腹</em>）。這就是 $V$ 用「+」、$I$ 用「−」差別的最直接證據。</p>
+<p style="font-size:0.9em;margin:8px 0 0;color:#4a4a4a"><strong>What to look for:</strong>Switch to “show both” and find a position where V⁺ and V⁻ have <strong>the same sign</strong> → the V terms add and grow while the $Z_R\!\cdot\!I$ terms subtract towards 0 (a voltage<em>antinode</em>and a current<em>node</em>). Then find a position where V⁺ and V⁻ have <strong>opposite signs</strong> → the V terms cancel while the $Z_R\!\cdot\!I$ terms add and grow (a voltage<em>node</em>and a current<em>antinode</em>). That is the most direct evidence of the difference between the “+” for $V$ and the “−” for $I$.</p>
 
 </div>
 </details>
@@ -1881,7 +1881,7 @@ $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta 
   }
   playBtn.addEventListener('click', () => {
     playing = !playing;
-    playBtn.textContent = playing?'⏸ 暫停':'▶ 播放';
+    playBtn.textContent = playing?'⏸ Pause':'▶ Play';
     playBtn.style.background = playing?'#7a4a10':'#fff';
     playBtn.style.color      = playing?'#fff':'#7a4a10';
   });
@@ -1891,93 +1891,93 @@ $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta 
 })();
 </script>
 
-<p><strong>Step 2 — 在 $z=0$（負載端）套邊界條件，定義反射係數 $\Gamma$：</strong></p>
+<p><strong>Step 2 — apply the boundary condition at $z=0$ (the load end) and define the reflection coefficient $\Gamma$:</strong></p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_L = \frac{V(0)}{I(0)} = Z_R\cdot\frac{V^+ + V^-}{V^+ - V^-} \;\Rightarrow\; \Gamma \equiv \frac{V^-}{V^+} = \frac{Z_L - Z_R}{Z_L + Z_R}$$
 </div>
 
-<p><strong>Step 3 — 在輸入端 $z = -\ell$ 算 $Z_\text{in}$，分子分母同除 $V^+e^{j\beta\ell}$：</strong></p>
+<p><strong>Step 3 — compute $Z_\text{in}$ at the input $z = -\ell$, dividing numerator and denominator by $V^+e^{j\beta\ell}$:</strong></p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_\text{in} = Z_R\cdot\frac{V^+e^{j\beta\ell} + V^- e^{-j\beta\ell}}{V^+e^{j\beta\ell} - V^- e^{-j\beta\ell}} = Z_R\cdot\frac{1 + \Gamma\,e^{-j2\beta\ell}}{1 - \Gamma\,e^{-j2\beta\ell}}$$
 </div>
 
-<p><strong>Step 4 — 代入 $\Gamma=(Z_L-Z_R)/(Z_L+Z_R)$，分子分母再乘 $e^{j\beta\ell}$：</strong></p>
+<p><strong>Step 4 — substitute $\Gamma=(Z_L-Z_R)/(Z_L+Z_R)$ and multiply numerator and denominator by $e^{j\beta\ell}$:</strong></p>
 <div class="eq-box" style="margin:6px 0">
-$$\text{分子}=(Z_L+Z_R)e^{j\beta\ell}+(Z_L-Z_R)e^{-j\beta\ell} = Z_L\underbrace{(e^{j\beta\ell}{+}e^{-j\beta\ell})}_{2\cos\beta\ell}+Z_R\underbrace{(e^{j\beta\ell}{-}e^{-j\beta\ell})}_{2j\sin\beta\ell}$$
+$$\text{numerator}=(Z_L+Z_R)e^{j\beta\ell}+(Z_L-Z_R)e^{-j\beta\ell} = Z_L\underbrace{(e^{j\beta\ell}{+}e^{-j\beta\ell})}_{2\cos\beta\ell}+Z_R\underbrace{(e^{j\beta\ell}{-}e^{-j\beta\ell})}_{2j\sin\beta\ell}$$
 $$\quad= 2\bigl[\,Z_L\cos\beta\ell + jZ_R\sin\beta\ell\,\bigr]$$
-$$\text{分母}=2\bigl[\,Z_R\cos\beta\ell + jZ_L\sin\beta\ell\,\bigr]\quad\text{(同樣展開)}$$
+$$\text{denominator}=2\bigl[\,Z_R\cos\beta\ell + jZ_L\sin\beta\ell\,\bigr]\quad\text{(expanded the same way)}$$
 </div>
 
-<p><strong>Step 5 — 分子分母同除 $\cos\beta\ell$：</strong></p>
+<p><strong>Step 5 — divide numerator and denominator by $\cos\beta\ell$:</strong></p>
 <div class="eq-box" style="margin:6px 0">
 $$\boxed{\;Z_\text{in} = Z_R\cdot\frac{Z_L + jZ_R\tan\beta\ell}{Z_R + jZ_L\tan\beta\ell}\;}\quad\text{QED.}$$
 </div>
 
-<p style="margin-bottom:4px"><strong>檢驗（用三個極限）：</strong></p>
+<p style="margin-bottom:4px"><strong>Checks (three limiting cases):</strong></p>
 <ul style="margin:4px 0 0 22px">
-<li>$\ell\to 0$（沒有線）：$\tan\to 0 \Rightarrow Z_\text{in}=Z_R\cdot Z_L/Z_R = Z_L$ ✓</li>
-<li>$\ell=\lambda/4$：$\tan\to\infty$，分子分母同除 $\tan$ → $Z_\text{in}=Z_R\cdot(jZ_R)/(jZ_L)=Z_R^2/Z_L$ ✓（阻抗反相器）</li>
-<li>$\ell=\lambda/2$：$\tan=0 \Rightarrow Z_\text{in}=Z_L$ ✓（半波線「透明」）</li>
+<li>$\ell\to 0$ (no line at all): $\tan\to 0 \Rightarrow Z_\text{in}=Z_R\cdot Z_L/Z_R = Z_L$ ✓</li>
+<li>$\ell=\lambda/4$: $\tan\to\infty$; dividing numerator and denominator by $\tan$ → $Z_\text{in}=Z_R\cdot(jZ_R)/(jZ_L)=Z_R^2/Z_L$ ✓ (an impedance inverter)</li>
+<li>$\ell=\lambda/2$: $\tan=0 \Rightarrow Z_\text{in}=Z_L$ ✓ (a half-wave line is “transparent”)</li>
 </ul>
 
-<p style="margin:8px 0 0"><strong>幾何意義：</strong>分子分母裡的兩項 $(Z_L, jZ_R\tan)$ 與 $(Z_R, jZ_L\tan)$ 正是行進波展開成 cos 與 sin 後的「實部 + 虛部」 — $\cos\beta\ell$ 那項保留了「直接看到負載」的成分，$\sin\beta\ell$ 那項是「線本身的特性阻抗反映」。整個分式可看成<strong>$Z_L\leftrightarrow Z_R$ 在分子分母間互相交換</strong>，這正是線的「阻抗反相」性質的母體。</p>
+<p style="margin:8px 0 0"><strong>Geometric meaning:</strong>the two terms $(Z_L, jZ_R\tan)$ and $(Z_R, jZ_L\tan)$ in numerator and denominator are precisely the “real + imaginary parts” of the travelling waves expanded into cos and sin — the $\cos\beta\ell$ term retains the “looking straight at the load” component, while the $\sin\beta\ell$ term is “the line's own characteristic impedance showing through”. The whole fraction can be read as<strong>$Z_L\leftrightarrow Z_R$ swapping places between numerator and denominator</strong>, which is the parent of the line's impedance-inverting property.</p>
 </div>
 </details>
 
-<p>令 $\ell = \lambda/4 \Rightarrow \beta\ell = \tfrac{\pi}{2} \Rightarrow \tan(\beta\ell)\to\infty$。把分子分母同除以 $\tan$，沒有 $\tan$ 那兩項丟掉：</p>
+<p>Set $\ell = \lambda/4 \Rightarrow \beta\ell = \tfrac{\pi}{2} \Rightarrow \tan(\beta\ell)\to\infty$. Dividing numerator and denominator by $\tan$ discards the two terms without a $\tan$:</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_\text{in} = Z_R\cdot\frac{jZ_R}{jZ_L} = \boxed{\;\frac{Z_R^2}{Z_L}\;}$$
 </div>
-<p><strong>第一個 $Z_R$</strong> 是公式前面的固定係數（任何 T-line 公式都有）；<strong>第二個 $Z_R$</strong> 是分子裡唯一沒被丟掉的項。兩個 $Z_R$ 相乘 → $Z_R^2$。</p>
+<p><strong>The first $Z_R$</strong> is the fixed prefactor of the formula (present in every T-line formula);<strong>the second $Z_R$</strong> is the only surviving term in the numerator. Multiply the two $Z_R$ together → $Z_R^2$.</p>
 
-<h4 style="margin-top:14px;color:#2a6e5a">② 物理直覺：幾何平均</h4>
-<p>反過來解出讓 $Z_L$ 完美匹配到 $Z_\text{in}$ 所需的 $Z_R$：</p>
+<h4 style="margin-top:14px;color:#2a6e5a">② Physical intuition: the geometric mean</h4>
+<p>Turn it round and solve for the $Z_R$ needed to match $Z_L$ perfectly to $Z_\text{in}$:</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_R = \sqrt{Z_\text{in}\cdot Z_L}$$
 </div>
-<p>$\lambda/4$ 線是<strong>「幾何平均匹配段」</strong>。要把 $Z_L$ 變成 $Z_\text{in}$，中間插一段阻抗剛好<em>位於兩者對數中點</em>的傳輸線 — 那個中點就是幾何平均 $\sqrt{Z_\text{in}Z_L}$。兩邊平方就得到 $Z_R^2 = Z_\text{in}Z_L$。</p>
+<p>A $\lambda/4$ line is a<strong>“geometric-mean matching section”</strong>. To turn $Z_L$ into $Z_\text{in}$, insert a length of line whose impedance lies exactly<em>at the logarithmic midpoint of the two</em>— and that midpoint is the geometric mean $\sqrt{Z_\text{in}Z_L}$. Square both sides and you get $Z_R^2 = Z_\text{in}Z_L$.</p>
 
-<h4 style="margin-top:14px;color:#b44a2f">③ 波傳播觀點：兩端各貢獻一個 $Z_R$</h4>
-<p>$Z_R$ 線上電壓 $V$ 與電流 $I$ 由前進波 $V^+$ 與反射波 $V^-$ 組成：$V = V^+ + V^-$，$Z_R\cdot I = V^+ - V^-$。</p>
+<h4 style="margin-top:14px;color:#b44a2f">③ The wave-propagation view: each end contributes one $Z_R$</h4>
+<p>On a $Z_R$ line, the voltage $V$ and current $I$ are made up of the forward wave $V^+$ and the reflected wave $V^-$: $V = V^+ + V^-$ and $Z_R\cdot I = V^+ - V^-$.</p>
 
 <table style="font-size:0.9em;margin:6px 0">
-<tr><th>位置</th><th>$V$</th><th>$Z_R\cdot I$</th></tr>
-<tr><td>負載端 ($z=0$)</td><td>$V^+ + V^-$</td><td>$V^+ - V^-$</td></tr>
-<tr><td>輸入端 ($z=-\lambda/4$，相移 $\pm 90°$)</td><td>$j(V^+ - V^-)$</td><td>$j(V^+ + V^-)$</td></tr>
+<tr><th>Location</th><th>$V$</th><th>$Z_R\cdot I$</th></tr>
+<tr><td>Load end ($z=0$)</td><td>$V^+ + V^-$</td><td>$V^+ - V^-$</td></tr>
+<tr><td>Input end ($z=-\lambda/4$, a phase shift of $\pm 90°$)</td><td>$j(V^+ - V^-)$</td><td>$j(V^+ + V^-)$</td></tr>
 </table>
 
-<p>走完 $\lambda/4$ 後，<strong>$V$ 與 $Z_R\cdot I$ 的角色對調</strong>。所以：</p>
+<p>After travelling $\lambda/4$,<strong>the roles of $V$ and $Z_R\cdot I$ are exchanged</strong>the factor $(1-|S_{22}|^2)$ that was lost with $\Gamma_L = 0$. Hence:</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_L = Z_R\cdot\frac{V^+ + V^-}{V^+ - V^-}, \qquad Z_\text{in} = Z_R\cdot\frac{V^+ - V^-}{V^+ + V^-}$$
 $$\Rightarrow\; Z_\text{in}\cdot Z_L = Z_R^2 \;\Rightarrow\; Z_\text{in} = \frac{Z_R^2}{Z_L}$$
 </div>
-<p><strong>負載端用一個 $Z_R$ 把電流換成電壓</strong>（得到 $Z_L$）；<strong>輸入端再用一個 $Z_R$ 換回來</strong>（得到 $Z_\text{in}$）。中間那段 $\lambda/4$ 把分子分母對調 → $Z$ 反轉。兩個 $Z_R$ 各來自一端，乘起來 = $Z_R^2$。</p>
+<p><strong>At the load end one $Z_R$ converts current into voltage</strong>(giving $Z_L$);<strong>at the input end another $Z_R$ converts it back</strong>(giving $Z_\text{in}$). The $\lambda/4$ section in between swaps numerator and denominator → $Z$ is inverted. Each $Z_R$ comes from one end, and multiplied together they give $Z_R^2$.</p>
 
-<h4 style="margin-top:14px;color:#7a4a10">套用到 rat-race</h4>
-<p>環阻抗 $Z_R = \sqrt2\,Z_0$、負載 $Z_L = Z_0$：</p>
+<h4 style="margin-top:14px;color:#7a4a10">Applied to the rat-race</h4>
+<p>Ring impedance $Z_R = \sqrt2\,Z_0$ and load $Z_L = Z_0$:</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_\text{in} = \frac{Z_R^2}{Z_L} = \frac{(\sqrt2\,Z_0)^2}{Z_0} = \frac{2Z_0^2}{Z_0} = 2Z_0$$
 </div>
-<p>兩條這樣的臂並聯：$2Z_0 \parallel 2Z_0 = Z_0$ — 剛好匹配外部 50 Ω。$\sqrt2$ 之所以是 $\sqrt2$，就是因為它要被「<strong>平方掉</strong>」變成 2，才能配合「兩臂並聯」的因子 1/2 → 還原成 $Z_0$。</p>
+<p>Two such arms in parallel: $2Z_0 \parallel 2Z_0 = Z_0$ — exactly matching the external 50 Ω. The reason $\sqrt2$ is $\sqrt2$ is that it has to be<strong>squared away</strong>into a 2 in order to pair with the factor of 1/2 from “two arms in parallel” → returning to $Z_0$.</p>
 
-<p style="margin-bottom:0"><strong>一句話：</strong>$Z_R^2$ 是「$\lambda/4$ 線兩端各一個 $Z_R$」的乘積。$\lambda/4$ 不是讓 $Z_R$「自己平方」，而是讓 $Z_R$ 在兩端各扮演一次「電壓⇄電流轉換係數」的角色，乘起來就出現 $Z_R^2$。</p>
+<p style="margin-bottom:0"><strong>In one sentence:</strong>$Z_R^2$ is the product of “one $Z_R$ at each end of the $\lambda/4$ line”. The $\lambda/4$ does not make $Z_R$ “square itself”; rather, it makes $Z_R$ play the role of “voltage⇄current conversion factor” once at each end, and multiplying those gives $Z_R^2$.</p>
 </div>
 </details>
 </div>
 </details>
-<p>偶模的輸入阻抗為<strong>無限大</strong> → 從 port 1 看就是 open。所以：</p>
+<p>The even-mode input impedance is<strong>infinite</strong> → from port 1 it is simply an open circuit. Hence:</p>
 <div class="eq-box">
 $$\Gamma_e = +1$$
 </div>
-<p>偶模的傳輸 — 對稱地，port 2 與 port 3 接收同樣的訊號。算 $T_e$ 需要追蹤 $\lambda/4$ 線段的傳輸：</p>
+<p>Even-mode transmission — by symmetry, ports 2 and 3 receive the same signal. Computing $T_e$ requires tracking transmission along the $\lambda/4$ sections:</p>
 <div class="eq-box">
-$$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{至 port 2 與 port 3 各一份})$$
+$$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{one share each to ports 2 and 3})$$
 </div>
 
 <!-- ============ SVG: even-mode transmission Σ → port2 = port3 ============ -->
 <figure style="margin:14px 0;text-align:center">
 <svg viewBox="0 0 760 410" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;height:auto;display:block;margin:0 auto;background:#fafbfc;border:1px solid #d4cfc7;border-radius:6px" font-family="'Source Serif 4',Georgia,serif">
-  <text x="380" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a4a">偶模傳輸：為什麼 port 2 與 port 3 拿到相同的 $-j/\sqrt{2}$</text>
+  <text x="380" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a4a">Even-mode transmission: why ports 2 and 3 both receive $-j/\sqrt{2}$</text>
 
   <!-- ===== Left: the ring with signal paths ===== -->
   <g transform="translate(0,40)">
@@ -1986,7 +1986,7 @@ $$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{至 port 2 與 port 3 各一份})$$
 
     <!-- symmetry plane (horizontal dashed) -->
     <line x1="30" y1="170" x2="330" y2="170" stroke="#9d3a9d" stroke-width="1.5" stroke-dasharray="6,4"/>
-    <text x="338" y="174" font-size="10" fill="#9d3a9d" font-weight="700">對稱平面</text>
+    <text x="338" y="174" font-size="10" fill="#9d3a9d" font-weight="700">plane of symmetry</text>
 
     <!-- ports: 1(Σ) top, 2 right-top, 3 right-bottom, 4(Δ) bottom -->
     <!-- Port 1 (Σ) at top -->
@@ -2013,7 +2013,7 @@ $$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{至 port 2 與 port 3 各一份})$$
 
     <!-- path 1->3 (λ/4 + ... to lower-right; via port 2 side, the symmetric route) -->
     <path d="M 188 60 A 120 120 0 0 1 280 220" fill="none" stroke="#1060d0" stroke-width="3.5" stroke-dasharray="6,4" marker-end="url(#emArrB)"/>
-    <text x="300" y="180" font-size="10.5" font-weight="700" fill="#1060d0">對稱路徑</text>
+    <text x="300" y="180" font-size="10.5" font-weight="700" fill="#1060d0">symmetric paths</text>
 
     <!-- amplitude labels at outputs -->
     <text x="300" y="105" font-size="11" font-weight="700" fill="#1a5a30">$-j/\sqrt2$</text>
@@ -2022,31 +2022,31 @@ $$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{至 port 2 與 port 3 各一份})$$
 
   <!-- ===== Right: the breakdown ===== -->
   <g transform="translate(420,50)">
-    <text x="0" y="10" font-size="12" font-weight="700" fill="#3a5998">$T_e$ 拆成兩個因子</text>
+    <text x="0" y="10" font-size="12" font-weight="700" fill="#3a5998">$T_e$ splits into two factors</text>
 
     <!-- factor 1: power split -->
     <rect x="0" y="22" width="300" height="58" rx="5" fill="#e6f5ee" stroke="#2a6e5a" stroke-width="1.5"/>
-    <text x="12" y="42" font-size="11" font-weight="700" fill="#2a6e5a">① 等功率分配 (−3 dB)</text>
-    <text x="12" y="60" font-size="11" fill="#1a1a1a">輸入功率分到 2 個輸出 → 每個 $\tfrac12$ 功率</text>
-    <text x="12" y="75" font-size="11" fill="#1a1a1a">電壓係數 = $\sqrt{1/2} = 1/\sqrt2$</text>
+    <text x="12" y="42" font-size="11" font-weight="700" fill="#2a6e5a">① Equal power split (−3 dB)</text>
+    <text x="12" y="60" font-size="11" fill="#1a1a1a">The input power is divided between 2 outputs → each gets $\tfrac12$ the power</text>
+    <text x="12" y="75" font-size="11" fill="#1a1a1a">Voltage coefficient = $\sqrt{1/2} = 1/\sqrt2$</text>
 
     <!-- factor 2: λ/4 phase -->
     <rect x="0" y="92" width="300" height="58" rx="5" fill="#fff3d8" stroke="#7a4a10" stroke-width="1.5"/>
-    <text x="12" y="112" font-size="11" font-weight="700" fill="#7a4a10">② $\lambda/4$ 線相位延遲 90°</text>
-    <text x="12" y="130" font-size="11" fill="#1a1a1a">傳輸相位因子 $e^{-j\beta\ell}$，$\beta\ell=\tfrac{\pi}{2}$</text>
+    <text x="12" y="112" font-size="11" font-weight="700" fill="#7a4a10">② The λ/4 line's 90° phase delay</text>
+    <text x="12" y="130" font-size="11" fill="#1a1a1a">Transmission phase factor $e^{-j\beta\ell}$ with $\beta\ell=\tfrac{\pi}{2}$</text>
     <text x="12" y="145" font-size="11" fill="#1a1a1a">$\Rightarrow e^{-j\pi/2} = -j$</text>
 
     <!-- product -->
     <rect x="0" y="164" width="300" height="44" rx="5" fill="#fce8e4" stroke="#b44a2f" stroke-width="1.8"/>
     <text x="150" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#b44a2f">$T_e = \dfrac{1}{\sqrt2}\times(-j) = \dfrac{-j}{\sqrt2}$</text>
-    <text x="150" y="200" text-anchor="middle" font-size="10" fill="#7a1a1a">至 port 2 與 port 3 各一份</text>
+    <text x="150" y="200" text-anchor="middle" font-size="10" fill="#7a1a1a">One share each to ports 2 and 3</text>
 
     <!-- symmetry note -->
     <rect x="0" y="222" width="300" height="68" rx="5" fill="#f3eaf7" stroke="#9d3a9d" stroke-width="1.5"/>
-    <text x="12" y="242" font-size="11" font-weight="700" fill="#9d3a9d">為什麼 port 2 = port 3？</text>
-    <text x="12" y="259" font-size="10.5" fill="#1a1a1a">偶模 = 對稱激發，整個電路對</text>
-    <text x="12" y="274" font-size="10.5" fill="#1a1a1a">對稱平面鏡像 → port 2 與 port 3 是</text>
-    <text x="12" y="289" font-size="10.5" fill="#1a1a1a">鏡像對 → 收到<strong>完全相同</strong>（同相同幅）的訊號。</text>
+    <text x="12" y="242" font-size="11" font-weight="700" fill="#9d3a9d">Why is port 2 = port 3?</text>
+    <text x="12" y="259" font-size="10.5" fill="#1a1a1a">The even mode is a symmetric excitation, so the whole circuit is</text>
+    <text x="12" y="274" font-size="10.5" fill="#1a1a1a">mirror-symmetric about the symmetry plane → ports 2 and 3 are a</text>
+    <text x="12" y="289" font-size="10.5" fill="#1a1a1a">mirror pair → they receive<strong>exactly identical</strong>signals (same phase, same amplitude).</text>
   </g>
 
   <defs>
@@ -2055,212 +2055,212 @@ $$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{至 port 2 與 port 3 各一份})$$
     <marker id="emArrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1060d0"/></marker>
   </defs>
 </svg>
-<figcaption style="font-size:0.88em;color:#555;margin-top:6px;text-align:center;font-style:italic">偶模（Σ 激發）下，輸入從 port 1 經 $\lambda/4$ 臂傳到 port 2 與 port 3。傳輸係數 = <strong>等功率分配 $1/\sqrt2$</strong> × <strong>$\lambda/4$ 相位延遲 $e^{-j\pi/2}=-j$</strong> = $-j/\sqrt2$。因為偶模是對稱激發、port 2 與 port 3 對對稱平面互為鏡像，所以兩者收到<strong>同相同幅</strong>的訊號 — 這正是 Σ 埠「同相分配」的行為。</figcaption>
+<figcaption style="font-size:0.88em;color:#555;margin-top:6px;text-align:center;font-style:italic">In the even mode (Σ excitation) the input travels from port 1 along the $\lambda/4$ arms to ports 2 and 3. The transmission coefficient = <strong>an equal power split of $1/\sqrt2$</strong> × <strong>and the $\lambda/4$ phase delay $e^{-j\pi/2}=-j$</strong> = $-j/\sqrt2$. Because the even mode is a symmetric excitation and ports 2 and 3 are mirror images about the symmetry plane, they receive<strong>identical signals in phase and amplitude</strong>— which is exactly the “in-phase split” behaviour of the Σ port.</figcaption>
 </figure>
 
-<h4 style="color:#1a5a30">Step 3 — Odd mode：對稱平面 = electric wall（短路）</h4>
-<p>奇模時，對稱平面上電壓為零（如同短路）。兩個半環變成：<strong>$\lambda/8$ 短路 stub</strong> 並聯<strong>$3\lambda/8$ 短路 stub</strong>。</p>
+<h4 style="color:#1a5a30">Step 3 — odd mode: the plane of symmetry is an electric wall (short circuit)</h4>
+<p>In the odd mode the voltage on the plane of symmetry is zero (as if it were a short circuit). The two half-rings become:<strong>a $\lambda/8$ short-circuited stub</strong> in parallel with<strong>a $3\lambda/8$ short-circuited stub</strong>of the image-reject mixer at low IF.</p>
 <div class="eq-box">
 $$Z_o^{in} = \bigl[\,jZ_R\tan(\pi/4) \,\parallel\, jZ_R\tan(3\pi/4)\,\bigr] = \bigl[\,jZ_R \,\parallel\, -jZ_R\,\bigr] = \infty$$
 </div>
-<p>同樣是 open！所以：</p>
+<p>which is again an open circuit! Hence:</p>
 <div class="eq-box">
 $$\Gamma_o = +1$$
 </div>
-<p>但奇模的傳輸方向相反（兩邊反相）：</p>
+<p>But the odd mode transmits with the opposite sign (the two sides are in anti-phase):</p>
 <div class="eq-box">
 $$T_o = \tfrac{-j}{\sqrt{2}}\;\text{at port 2}, \quad T_o = \tfrac{+j}{\sqrt{2}}\;\text{at port 3}$$
 </div>
-<p>等等！這裡得到的 $\Gamma_e = \Gamma_o = +1$（兩種模式從 port 1 都看到開路），這代表整顆 port 1 在沒有對稱激發時看到的並非匹配。實際分析要更小心：需要把<strong>$\lambda/4$ 線段對 $Z_0$ 終結的影響</strong>納入計算。</p>
+<p>Hold on! We have found $\Gamma_e = \Gamma_o = +1$ (both modes see an open circuit from port 1), which would mean that port 1 as a whole is not matched in the absence of a symmetric excitation. The real analysis has to be more careful: it must include<strong>the effect of the $\lambda/4$ sections terminated in $Z_0$</strong>.</p>
 
-<h4 style="color:#1a5a30">Step 4 — 更嚴謹的做法：每段 $\lambda/4$ 線做阻抗轉換</h4>
-<p>$\lambda/4$ 變壓器把終端阻抗 $Z_L$ 轉成 $Z_R^2/Z_L$。port 2、3 看出去都是 $Z_0$，所以從環的「另一端」看回每個 port 是：</p>
+<h4 style="color:#1a5a30">Step 4 — a more rigorous approach: each $\lambda/4$ section performs an impedance transformation</h4>
+<p>A $\lambda/4$ transformer turns a terminating impedance $Z_L$ into $Z_R^2/Z_L$. Ports 2 and 3 both look out into $Z_0$, so looking back at each port from “the other side” of the ring gives:</p>
 <div class="eq-box">
 $$Z_R^2 / Z_0 = (\sqrt{2}Z_0)^2 / Z_0 = 2 Z_0$$
 </div>
-<p>在偶模/奇模分析裡，這些反射成份疊加後給出整顆 ring 的 $[S]$ matrix。Pozar §7.8 經完整計算後得到：</p>
+<p>In the even/odd mode analysis, superposing these reflected components yields the $[S]$ matrix of the entire ring. Pozar §7.8 works this through in full and obtains:</p>
 
 <div class="eq-box">
 $$\boxed{\;[S]_{180°} = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & -1 \\ 1 & 0 & 0 & 1 \\ 0 & -1 & 1 & 0 \end{bmatrix}\;}$$
 </div>
 
-<h4 style="color:#1a5a30">Step 5 — 驗證：對 Δ port (port 4) 激發給出 $\pm 90°$ 輸出</h4>
-<p>對 Δ 激發 $a_4 = V_{RF}$，其他 $a_i = 0$：</p>
+<h4 style="color:#1a5a30">Step 5 — verification: exciting the Δ port (port 4) gives $\pm 90°$ outputs</h4>
+<p>Excite Δ with $a_4 = V_{RF}$ and all other $a_i = 0$:</p>
 <div class="eq-box">
 $$\begin{aligned}
 b_2 &= S_{24}\,a_4 = \tfrac{-j}{\sqrt{2}}\!\cdot\!(-1)\!\cdot\!V_{RF} = \tfrac{+j}{\sqrt{2}}V_{RF} \;\Rightarrow\; |b_2|=\tfrac{V_{RF}}{\sqrt{2}},\;\angle b_2 = \mathbf{+90°}\\
 b_3 &= S_{34}\,a_4 = \tfrac{-j}{\sqrt{2}}\!\cdot\!(+1)\!\cdot\!V_{RF} = \tfrac{-j}{\sqrt{2}}V_{RF} \;\Rightarrow\; |b_3|=\tfrac{V_{RF}}{\sqrt{2}},\;\angle b_3 = \mathbf{-90°}\\
-b_1 &= S_{14}\,a_4 = 0 \quad\text{(Σ 隔離)}\\
-b_4 &= S_{44}\,a_4 = 0 \quad\text{(Δ 自我匹配)}
+b_1 &= S_{14}\,a_4 = 0 \quad\text{(Σ is isolated)}\\
+b_4 &= S_{44}\,a_4 = 0 \quad\text{(Δ is self-matched)}
 \end{aligned}$$
 </div>
 
-<p>所以 port 2 = $+90°$，port 3 = $-90°$，<strong>相差 $180°$</strong> — 正是 Δ-port 激發應該得到的差動輸出。</p>
+<p>So port 2 is at $+90°$ and port 3 at $-90°$,<strong>$180°$ apart</strong> — exactly the differential output a Δ-port excitation should produce.</p>
 
-<h4 style="color:#1a5a30">Step 6 — 驗證 [S] 滿足 unitarity（lossless）與 reciprocity</h4>
+<h4 style="color:#1a5a30">Step 6 — verify that [S] satisfies unitarity (losslessness) and reciprocity</h4>
 <div style="background:#fce8e8;border:1.5px solid #c01020;border-radius:6px;padding:10px 14px;margin:8px 0">
-<p><strong>Reciprocity</strong>: $[S]^T = [S]$ ✓ （矩陣對稱）</p>
-<p><strong>Unitarity</strong>: $[S]^\dagger[S] = [I]$。逐行檢查，例如第 2 列與自己內積：</p>
+<p><strong>Reciprocity</strong>: $[S]^T = [S]$ ✓ (the matrix is symmetric)</p>
+<p><strong>Unitarity</strong>: $[S]^\dagger[S] = [I]$. Check it row by row; for example, the inner product of row 2 with itself:</p>
 <div class="eq-box" style="background:#fff4f4">
 $$\sum_k |S_{2k}|^2 = \Bigl|\tfrac{-j}{\sqrt{2}}\Bigr|^2 + 0 + 0 + \Bigl|\tfrac{+j}{\sqrt{2}}\Bigr|^2 = \tfrac{1}{2} + \tfrac{1}{2} = 1 \;\checkmark$$
 </div>
-<p>不同列的內積（驗證正交性），如第 2 列 vs 第 3 列：</p>
+<p>And the inner product of different rows (verifying orthogonality), such as row 2 against row 3:</p>
 <div class="eq-box" style="background:#fff4f4">
 $$\sum_k S_{2k}^* S_{3k} = (\tfrac{+j}{\sqrt{2}})(\tfrac{-j}{\sqrt{2}}) + 0 + 0 + (\tfrac{-j}{\sqrt{2}})^*\!(\tfrac{-j}{\sqrt{2}}) = \tfrac{1}{2} - \tfrac{1}{2} = 0 \;\checkmark$$
 </div>
-<p style="margin-bottom:0">三個 sanity check 通通通過 → 矩陣正確。</p>
+<p style="margin-bottom:0">All three sanity checks pass → the matrix is correct.</p>
 </div>
 
-<h4 style="color:#1a5a30">總結對照</h4>
+<h4 style="color:#1a5a30">Summary comparison</h4>
 <table>
-<tr><th>分析方式</th><th>處理</th><th>port 3 結果</th></tr>
-<tr><td>單路徑相位相加</td><td>只看 $3\lambda/4 + \lambda/4$</td><td>$0°$ ❌</td></tr>
-<tr><td>CW+CCW 簡單疊加</td><td>$e^{-j180°} + e^{j0°}$（忽略 junction）</td><td>對消 = $0$ ❌</td></tr>
-<tr><td><strong>Even-odd mode (完整)</strong></td><td>含 junction 散射 + 兩道波相干</td><td><strong>$\pm 90°$ ✓</strong></td></tr>
+<tr><th>Method of analysis</th><th>Handles</th><th>Result at port 3</th></tr>
+<tr><td>Adding phases along a single path</td><td>Only considers $3\lambda/4 + \lambda/4$</td><td>$0°$ ❌</td></tr>
+<tr><td>Naive superposition of CW+CCW</td><td>$e^{-j180°} + e^{j0°}$ (ignoring the junctions)</td><td>Cancellation = $0$ ❌</td></tr>
+<tr><td><strong>Even-odd mode (complete)</strong></td><td>Includes junction scattering + coherence of the two waves</td><td><strong>$\pm 90°$ ✓</strong></td></tr>
 </table>
 
-<p style="margin-top:6px;font-size:0.88em;color:#666"><strong>📖 完整推導</strong>：Pozar, <em>Microwave Engineering</em>, §7.8 "The 180° Hybrid"，第 4 版 pp. 343–349。本節省略了 $\lambda/4$ 阻抗變壓的詳細阻抗計算，但結果與完整推導一致。</p>
+<p style="margin-top:6px;font-size:0.88em;color:#666"><strong>📖 The full derivation</strong>: Pozar, <em>Microwave Engineering</em>, §7.8 “The 180° Hybrid”, 4th edition, pp. 343–349. This section omits the detailed impedance arithmetic of the $\lambda/4$ transformers, but the result agrees with the complete derivation.</p>
 </div>
 </details>
 
 <details style="margin:8px 0;background:#fff8e8;border:1px solid #d8b070;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#7a4a10;font-size:0.92em">解釋：圖中 Σ 埠那個 <strong>Z₀ + 電阻 + 接地</strong> 符號是什麼意思？</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#7a4a10;font-size:0.92em">Explanation: what does the <strong>Z₀ + resistor + ground</strong> symbol at the Σ port in the figure mean?</summary>
 <div style="padding:6px 14px 12px;font-size:0.93em;line-height:1.7">
 
-<p>它是 Σ 埠的<strong>匹配終端（matched load termination）</strong> — 三個符號疊在一起：</p>
+<p>It is the Σ port's<strong>matched load termination</strong> — three symbols stacked together:</p>
 
 <table>
-<tr><th>符號</th><th>意義</th></tr>
-<tr><td class="c"><strong>Z₀</strong>（標籤）</td><td>電阻值，等於系統的特性阻抗，<strong>典型為 50 Ω</strong>。</td></tr>
-<tr><td class="c"><strong>鋸齒形（紅）</strong></td><td>一個阻值為 $Z_0$ 的電阻。</td></tr>
-<tr><td class="c"><strong>⏚（橫線）</strong></td><td>接地參考。</td></tr>
+<tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td class="c"><strong>Z₀</strong>(label)</td><td>the resistance value, equal to the system's characteristic impedance,<strong>typically 50 Ω</strong>of the image-reject mixer at low IF.</td></tr>
+<tr><td class="c"><strong>The zigzag (red)</strong></td><td>a resistor of value $Z_0$.</td></tr>
+<tr><td class="c"><strong>⏚ (the horizontal bars)</strong></td><td>the ground reference.</td></tr>
 </table>
 
-<p>整體就是：「<strong>一顆 $Z_0$ 的電阻，從 Σ 埠連到地</strong>」。</p>
+<p>Altogether it means: “<strong>a $Z_0$ resistor connected from the Σ port to ground</strong>”.</p>
 
-<h4 style="color:#7a4a10;margin-top:8px">那 Σ 埠到底是哪兩個訊號的「和」？</h4>
-<p>180° hybrid 的四個埠對應這個電路：</p>
+<h4 style="color:#7a4a10;margin-top:8px">So the Σ port is the “sum” of which two signals exactly?</h4>
+<p>The four ports of the 180° hybrid map onto this circuit as:</p>
 <table>
-<tr><th>埠</th><th>位置</th><th>連接到</th></tr>
-<tr><td class="c">Port 1 (<strong>Δ</strong>)</td><td>左上</td><td>RF 輸入</td></tr>
-<tr><td class="c">Port 2</td><td>右上</td><td>二極體環頂點 <strong>T</strong></td></tr>
-<tr><td class="c">Port 3</td><td>右下</td><td>二極體環底點 <strong>B</strong></td></tr>
-<tr><td class="c">Port 4 (<strong>Σ</strong>)</td><td>左下</td><td>$Z_0$ 終結</td></tr>
+<tr><th>Port</th><th>Location</th><th>Connected to</th></tr>
+<tr><td class="c">Port 1 (<strong>Δ</strong>)</td><td>top left</td><td>RF input</td></tr>
+<tr><td class="c">Port 2</td><td>top right</td><td>top vertex of the diode ring <strong>T</strong></td></tr>
+<tr><td class="c">Port 3</td><td>bottom right</td><td>bottom vertex of the diode ring <strong>B</strong></td></tr>
+<tr><td class="c">Port 4 (<strong>Σ</strong>)</td><td>bottom left</td><td>$Z_0$ termination</td></tr>
 </table>
 
-<p><strong>Σ 埠看到的是 port 2 + port 3 兩端訊號的「和」</strong>（共模 / common-mode 成份）：</p>
+<p><strong>The Σ port sees the “sum” of the signals at ports 2 and 3</strong>(the common-mode component):</p>
 <div class="eq-box">
-$$v_\Sigma = \tfrac{1}{\sqrt{2}}\bigl(v_T + v_B\bigr) \qquad\text{相對地}\qquad v_\Delta = \tfrac{1}{\sqrt{2}}\bigl(v_T - v_B\bigr)$$
+$$v_\Sigma = \tfrac{1}{\sqrt{2}}\bigl(v_T + v_B\bigr) \qquad\text{as against}\qquad v_\Delta = \tfrac{1}{\sqrt{2}}\bigl(v_T - v_B\bigr)$$
 </div>
-<p>就是 Σ/Δ 名字的由來 — <strong>sum</strong> port / <strong>difference</strong> port。</p>
+<p>which is where the names Σ/Δ come from — <strong>sum</strong> port / <strong>difference</strong> port.</p>
 
-<p style="margin-top:6px"><strong>為什麼 Σ 埠通常沒訊號（理想情況）？</strong> RF 從 Δ 進來後，hybrid 做反相分配：port 2 拿到 $+V_{RF}/\sqrt{2}$、port 3 拿到 $-V_{RF}/\sqrt{2}$。從二極體回看 Σ：</p>
+<p style="margin-top:6px"><strong>Why does the Σ port normally carry no signal (ideally)?</strong> Once the RF enters at Δ the hybrid splits it in anti-phase: port 2 receives $+V_{RF}/\sqrt{2}$ and port 3 receives $-V_{RF}/\sqrt{2}$. Looking back at Σ from the diodes:</p>
 <div class="eq-box">
 $$v_\Sigma = \tfrac{1}{\sqrt{2}}\Bigl[\underbrace{+V_{RF}/\sqrt{2}}_{v_T} \;+\; \underbrace{-V_{RF}/\sqrt{2}}_{v_B}\Bigr] = 0$$
 </div>
-<p>兩個訊號剛好反相相加 → <strong>完美對消</strong>，Σ 埠 RF 能量 = 0。這就是 $S_{14}=0$（RF↔LO 完美隔離）的物理意義。</p>
+<p>the two signals add exactly in anti-phase → <strong>perfect cancellation</strong>, so the RF energy at the Σ port = 0. That is the physical meaning of $S_{14}=0$ (perfect RF↔LO isolation).</p>
 
-<p style="margin-top:6px"><strong>那 Σ 埠真正吃到的是什麼？</strong> 當兩條路徑因不對稱而產生「共模殘餘」時 — 例如：</p>
+<p style="margin-top:6px"><strong>So what does the Σ port actually absorb?</strong> Whatever “common-mode residue” the two paths produce through asymmetry — for example:</p>
 <table>
-<tr><th>不對稱來源</th><th>對 Σ 的影響</th></tr>
-<tr><td>二極體 RF 反射 $\Gamma_T \ne \Gamma_B$ 的共模分量</td><td>$v_T^{refl}+v_B^{refl}\ne 0$ → Σ 吸收掉</td></tr>
-<tr><td>LO 不對稱漏到兩個二極體</td><td>共模 LO 跑到 Σ，<strong>不會回流到 RF</strong></td></tr>
-<tr><td>環境耦合、雜訊的共模成份</td><td>同樣被 Σ 的 $Z_0$ 吃掉</td></tr>
+<tr><th>Source of asymmetry</th><th>Effect on Σ</th></tr>
+<tr><td>the common-mode part of the diodes' RF reflections when $\Gamma_T \ne \Gamma_B$</td><td>$v_T^{refl}+v_B^{refl}\ne 0$ → absorbed by Σ</td></tr>
+<tr><td>asymmetric LO leakage into the two diodes</td><td>the common-mode LO goes to Σ and<strong>does not flow back into the RF</strong></td></tr>
+<tr><td>the common-mode part of environmental coupling and noise</td><td>likewise swallowed by the $Z_0$ at Σ</td></tr>
 </table>
 
 <div class="callout key" style="margin:8px 0">
-<div class="callout-title">直觀類比：Σ 埠是「共模垃圾桶」</div>
-任何兩端訊號 $(v_T, v_B)$ 都可以拆成<strong>共模</strong>（$v_{cm}=\tfrac{v_T+v_B}{2}$）和<strong>差模</strong>（$v_{dm}=\tfrac{v_T-v_B}{2}$）。180° hybrid 把這兩個分量<strong>物理分離到兩個埠</strong>：<br>
-&nbsp;&nbsp;• <strong>Δ 埠</strong> = 差模出口（RF 走這裡）<br>
-&nbsp;&nbsp;• <strong>Σ 埠</strong> = 共模出口（不要的東西全往這裡丟，被 $Z_0$ 吸收）<br>
-這就是為什麼把 Σ 接 $Z_0$ 終結會讓整顆 mixer「<em>所有不要的共模反射、共模雜訊都自動被處理掉</em>」 — 它就像差動放大器的 tail current source 一樣，提供共模消除的物理出口。
+<div class="callout-title">An intuitive analogy: the Σ port is the “common-mode waste bin”</div>
+Any pair of signals $(v_T, v_B)$ can be decomposed into a<strong>common mode</strong>($v_{cm}=\tfrac{v_T+v_B}{2}$) and a<strong>differential mode</strong>($v_{dm}=\tfrac{v_T-v_B}{2}$). The 180° hybrid<strong>physically separates these two components into two ports</strong>at some port:<br>
+&nbsp;&nbsp;• <strong>The Δ port</strong> = the differential-mode exit (the RF goes through here)<br>
+&nbsp;&nbsp;• <strong>The Σ port</strong> = the common-mode exit (everything unwanted is dumped here and absorbed by the $Z_0$)<br>
+That is why terminating Σ in $Z_0$ makes the whole mixer “<em>dispose of every unwanted common-mode reflection and common-mode noise automatically</em>” — it works just like the tail current source of a differential amplifier, providing a physical exit for common-mode rejection.
 </div>
 
-<h4 style="color:#7a4a10;margin-top:8px">為什麼要終結 Σ 埠？</h4>
-<p>180° hybrid 是個 <strong>4-port</strong> 元件，但在 ring mixer 拓樸下只用 Δ 埠來接 RF — 剩下的 Σ 埠用不到。但你<em>不能把它直接開路或短路</em>放著，原因有三：</p>
+<h4 style="color:#7a4a10;margin-top:8px">Why terminate the Σ port at all?</h4>
+<p>A 180° hybrid is a <strong>4-port</strong> component, but in the ring-mixer topology only the Δ port is used for the RF — the remaining Σ port is unused. Yet you<em>cannot simply leave it open- or short-circuited</em>, for three reasons:</p>
 <ol style="margin:4px 0 6px 22px">
-<li><strong>避免反射。</strong>Σ 埠開路/短路會造成全反射；二極體環產生的雜散訊號跑到 Σ 埠後會反彈回去汙染 RF 路徑。</li>
-<li><strong>維持 hybrid 的行為。</strong>$[S]$ 矩陣的推導假設<em>所有埠都以 $Z_0$ 終結</em>。未終結的埠破壞這個前提，Σ/Δ 分離就失準。</li>
-<li><strong>吸收雜散能量。</strong>因二極體不平衡而漏到 Σ 埠的訊號，會被電阻轉成熱消耗掉，不會再回流干擾。</li>
+<li><strong>To avoid reflections.</strong>An open or short at the Σ port causes total reflection; spurious signals generated by the diode ring that reach the Σ port would bounce back and contaminate the RF path.</li>
+<li><strong>To preserve the hybrid's behaviour.</strong>The derivation of the $[S]$ matrix assumes<em>every port is terminated in $Z_0$</em>. An unterminated port breaks that premise and the Σ/Δ separation goes off.</li>
+<li><strong>To absorb spurious energy.</strong>Signals that leak to the Σ port because of diode imbalance are turned into heat by the resistor and dissipated, so they cannot return to cause interference.</li>
 </ol>
 
-<h4 style="color:#7a4a10">為什麼是 $Z_0$、且接地？</h4>
+<h4 style="color:#7a4a10">Why $Z_0$, and why grounded?</h4>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>阻值 $Z_0$：</strong>反射係數 $\Gamma = (Z_L - Z_0)/(Z_L + Z_0) = 0$ → <strong>完美吸收，零反射</strong>。任何其他阻值都會部分反射回 hybrid。</li>
-<li><strong>接地：</strong>電阻需要兩端形成完整迴路才能消耗能量；接地提供電位參考。</li>
+<li><strong>The value $Z_0$:</strong>the reflection coefficient $\Gamma = (Z_L - Z_0)/(Z_L + Z_0) = 0$ → <strong>perfect absorption, zero reflection</strong>. Any other value reflects part of the energy back into the hybrid.</li>
+<li><strong>Grounding:</strong>a resistor needs a complete loop across its two ends to dissipate energy, and the ground provides the potential reference.</li>
 </ul>
 
-<h4 style="color:#7a4a10">其他相同套路</h4>
-<p>所有「閒置的耦合器埠」幾乎都這樣處理：</p>
+<h4 style="color:#7a4a10">The same trick elsewhere</h4>
+<p>Almost every “idle coupler port” is handled this way:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>Wilkinson 功分器的隔離埠 → $Z_0$ 接地</li>
-<li>方向耦合器的隔離埠 → $Z_0$ 負載</li>
-<li>Balun / N-port 元件閒置埠 → $Z_0$ 終結</li>
+<li>the isolated port of a Wilkinson divider → $Z_0$ to ground</li>
+<li>the isolated port of a directional coupler → a $Z_0$ load</li>
+<li>the idle port of a balun / N-port component → terminated in $Z_0$</li>
 </ul>
-<p>在 datasheet 上常稱為 <strong>"dummy load"</strong> 或 <strong>"termination resistor"</strong>。</p>
+<p>On datasheets this is usually called a <strong>"dummy load"</strong> or <strong>"termination resistor"</strong>of the image-reject mixer at low IF.</p>
 </div>
 </details>
 
-<h3 id="howLO">② Balun 把 LO 分成 +LO 與 −LO（並提供 IF 取出點）</h3>
-<p><strong>Balun</strong> = <em>bal</em>anced-to-<em>un</em>balanced transformer。它的工作：</p>
+<h3 id="howLO">② The balun splits the LO into +LO and −LO (and provides the IF take-off point)</h3>
+<p><strong>Balun</strong> = <em>bal</em>anced-to-<em>un</em>a balanced transformer. Its job:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>次級（下面那一組線圈）接<strong>單端 LO 源</strong>。</li>
-<li>初級（上面那一組）是<strong>中心抽頭式</strong>（center-tapped），兩端會出現大小相同、相位相反的訊號。</li>
-<li>初級的兩端連到二極體環的<strong>左頂點 L</strong> 與<strong>右頂點 R</strong>，分別得到 $+v_{LO}$ 與 $-v_{LO}$。</li>
-<li>中心抽頭就是 <strong>IF 輸出</strong>：因為兩半初級的 LO 電壓<em>互相抵消</em>，中心抽頭只剩下不平衡的部分，也就是 RF 混合產物。</li>
+<li>the secondary (the lower winding) connects to<strong>the single-ended LO source</strong>of the image-reject mixer at low IF.</li>
+<li>the primary (the upper winding) is<strong>centre-tapped</strong>, so signals of equal magnitude and opposite phase appear at its two ends.</li>
+<li>The two ends of the primary connect to the diode ring's<strong>left vertex L</strong> and<strong>right vertex R</strong>, receiving $+v_{LO}$ and $-v_{LO}$ respectively.</li>
+<li>The centre tap is the <strong>IF output</strong>: because the LO voltages of the two primary halves<em>cancel each other</em>, the centre tap is left with only the unbalanced part — that is, the RF mixing products.</li>
 </ul>
 <div class="callout warn">
-<div class="callout-title">為什麼 balun 中心抽頭天生抑制 LO？</div>
-LO 在初級兩半線圈的電壓<strong>反相</strong>，中心抽頭剛好是兩個訊號的中點 = 0（理想情況下）。所以 <strong>LO → IF 隔離度天生很好</strong>，不靠額外濾波。
+<div class="callout-title">Why does a balun centre tap inherently suppress the LO?</div>
+The LO voltages in the two halves of the primary winding are<strong>in anti-phase</strong>, and the centre tap sits exactly at the midpoint of the two signals = 0 (ideally). Hence <strong>LO → IF isolation is inherently excellent</strong>, without any additional filtering.
 </div>
 
-<h3 id="howSwitch">③ 二極體環的切換邏輯</h3>
-<p>假設 $|V_{LO}|\gg|V_{RF}|$（LO 強到能主導二極體的偏壓）：</p>
+<h3 id="howSwitch">③ The switching logic of the diode ring</h3>
+<p>Assume $|V_{LO}|\gg|V_{RF}|$ (the LO is strong enough to dominate the diode bias):</p>
 <table>
-<tr><th>狀態</th><th>L 端電位</th><th>R 端電位</th><th>導通</th><th>切斷</th><th>等效路徑</th></tr>
-<tr><td class="c"><strong>Phase A</strong><br>(LO &gt; 0)</td><td class="c">+$V_{LO}$</td><td class="c">−$V_{LO}$</td><td class="c" style="color:#1a6a1a">D1, D2</td><td class="c" style="color:#999">D3, D4</td><td>T → D1 → R 和 R → D2 → B<br>（R 變成「短路節點」）</td></tr>
-<tr><td class="c"><strong>Phase B</strong><br>(LO &lt; 0)</td><td class="c">−$V_{LO}$</td><td class="c">+$V_{LO}$</td><td class="c" style="color:#1a6a1a">D3, D4</td><td class="c" style="color:#999">D1, D2</td><td>B → D3 → L 和 L → D4 → T<br>（L 變成「短路節點」）</td></tr>
+<tr><th>State</th><th>Potential at L</th><th>Potential at R</th><th>Conducting</th><th>Cut off</th><th>Equivalent path</th></tr>
+<tr><td class="c"><strong>Phase A</strong><br>(LO &gt; 0)</td><td class="c">+$V_{LO}$</td><td class="c">−$V_{LO}$</td><td class="c" style="color:#1a6a1a">D1, D2</td><td class="c" style="color:#999">D3, D4</td><td>T → D1 → R and R → D2 → B<br>(R becomes the “short-circuit node”)</td></tr>
+<tr><td class="c"><strong>Phase B</strong><br>(LO &lt; 0)</td><td class="c">−$V_{LO}$</td><td class="c">+$V_{LO}$</td><td class="c" style="color:#1a6a1a">D3, D4</td><td class="c" style="color:#999">D1, D2</td><td>B → D3 → L and L → D4 → T<br>(L becomes the “short-circuit node”)</td></tr>
 </table>
 
-<h3 id="howIF">④ 為什麼 IF = RF × sgn(LO)?</h3>
-<p>因為 R 與 L 是接到 balun 初級的兩端，而 IF 取自<em>中心抽頭</em>：</p>
+<h3 id="howIF">④ Why is IF = RF × sgn(LO)?</h3>
+<p>Because R and L connect to the two ends of the balun primary, while the IF is taken from the<em>centre tap</em>at some port:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>Phase A：</strong>RF+ 的電流經 D1 進入 R（balun 初級下半），同時 RF− 的電流經 D2 也進入 R。電流在 R 注入 balun 後流向中心抽頭 → IF 看到 <strong>+RF</strong>。</li>
-<li><strong>Phase B：</strong>RF+ 經 D4 → L（balun 初級上半），RF− 經 D3 → L。電流在 L 注入 balun，方向<em>相反</em>於 Phase A → IF 看到 <strong>−RF</strong>。</li>
+<li><strong>Phase A:</strong>the current from RF+ enters R through D1 (the lower half of the balun primary), and at the same time the current from RF− also enters R through D2. Injected into the balun at R, the current flows towards the centre tap → the IF sees <strong>+RF</strong>of the image-reject mixer at low IF.</li>
+<li><strong>Phase B:</strong>RF+ goes through D4 → L (the upper half of the balun primary) and RF− through D3 → L. Injected into the balun at L, the current flows in the<em>opposite direction</em>to Phase A → the IF sees <strong>−RF</strong>of the image-reject mixer at low IF.</li>
 </ul>
-<p>所以隨著 LO 在正負之間切換，IF 在 +RF 與 −RF 之間切換。數學上：</p>
+<p>So as the LO alternates between positive and negative, the IF switches between +RF and −RF. Mathematically:</p>
 <div class="eq-box">
 $$i_{IF}(t) \propto v_{RF}(t)\cdot \text{sgn}\bigl[v_{LO}(t)\bigr]$$
 </div>
-<p>把方波 $\text{sgn}[\cos\omega_{LO}t]$ 做 Fourier 展開，主項是 $(4/\pi)\cos\omega_{LO}t$，所以：</p>
+<p>Taking the Fourier expansion of the square wave $\text{sgn}[\cos\omega_{LO}t]$, whose leading term is $(4/\pi)\cos\omega_{LO}t$:</p>
 <div class="eq-box">
 $$i_{IF}(t) \approx \tfrac{4}{\pi} v_{RF}(t)\cos\omega_{LO}t = \tfrac{2}{\pi}V_{RF}\bigl[\cos(\omega_{RF}-\omega_{LO})t + \cos(\omega_{RF}+\omega_{LO})t\bigr]$$
 </div>
-<p>後面接低通濾波器 → 留下差頻 $\omega_{IF}=\omega_{RF}-\omega_{LO}$ 的 IF 訊號。</p>
+<p>A low-pass filter then follows → leaving the IF signal at the difference frequency $\omega_{IF}=\omega_{RF}-\omega_{LO}$.</p>
 
-<h3 id="whyDouble">⑤ 為什麼叫「雙平衡 (double-balanced)」?</h3>
+<h3 id="whyDouble">⑤ Why is it called “double-balanced”?</h3>
 <div class="callout key">
-<div class="callout-title">三埠互相隔離 — 這就是 double-balanced 的招牌</div>
+<div class="callout-title">All three ports are isolated from one another — that is the hallmark of a double-balanced mixer</div>
 <table>
-<tr><th>洩漏路徑</th><th>對消機制</th></tr>
-<tr><td>RF → IF</td><td>180° hybrid 在 T 和 B 給出反相 RF；經過 ring 的對稱結構後，在 balun 中心抽頭上對消。</td></tr>
-<tr><td>LO → IF</td><td>Balun 初級兩半線圈反相，<strong>天生在中心抽頭對消</strong>。</td></tr>
-<tr><td>RF ↔ LO</td><td>180° hybrid 的 Σ-Δ 隔離 + ring 對稱性 → RF 入射不會洩漏到 LO 端。</td></tr>
+<tr><th>Leakage path</th><th>Cancellation mechanism</th></tr>
+<tr><td>RF → IF</td><td>The 180° hybrid delivers anti-phase RF to T and B; after passing through the ring's symmetric structure, they cancel at the balun centre tap.</td></tr>
+<tr><td>LO → IF</td><td>The two halves of the balun primary are in anti-phase, so they<strong>cancel inherently at the centre tap</strong>of the image-reject mixer at low IF.</td></tr>
+<tr><td>RF ↔ LO</td><td>The Σ-Δ isolation of the 180° hybrid plus the symmetry of the ring → incident RF cannot leak to the LO port.</td></tr>
 </table>
-所以這顆混頻器三個埠（RF / LO / IF）<strong>互相都有 20+ dB 隔離</strong>，是所有混頻拓樸中隔離度最好的。也<strong>抑制偶次諧波</strong>（$2\omega_{RF}$、$2\omega_{LO}$、$2\omega_{RF}\pm 2\omega_{LO}$ 等），spurs 表現最乾淨。
+So all three ports of this mixer (RF / LO / IF) have<strong>20+ dB of mutual isolation</strong>, the best of any mixer topology. It also<strong>suppresses even-order harmonics</strong>($2\omega_{RF}$, $2\omega_{LO}$, $2\omega_{RF}\pm 2\omega_{LO}$ and so on), giving the cleanest spur performance.
 </div>
 
-<h3>⑥ 三句話帶走</h3>
+<h3>⑥ Three sentences to take away</h3>
 <div class="callout tip">
 <ol style="margin:4px 0 4px 22px">
-<li><strong>180° hybrid + balun</strong> 把 RF、LO 都做成<strong>差動信號</strong>注入二極體環的對角頂點。</li>
-<li><strong>4 顆 ring 二極體</strong>當作「LO 控制的方波斬波器」— 每半週只有 2 顆導通，把 RF 切成 ±RF 交替輸出。</li>
-<li>結果：<strong>IF = RF × sgn(LO)</strong>，三埠互相隔離，雜訊與 spurs 都最低。</li>
+<li><strong>180° hybrid + balun</strong> Turn both the RF and the LO into<strong>differential signals</strong>and inject them at diagonally opposite vertices of the diode ring.</li>
+<li><strong>The 4 ring diodes</strong>act as a “square-wave chopper controlled by the LO” — only 2 conduct on each half-cycle, chopping the RF into an alternating ±RF output.</li>
+<li>The result:<strong>IF = RF × sgn(LO)</strong>, with all three ports mutually isolated and the lowest noise and spur levels of any topology.</li>
 </ol>
 </div>
 
 <footer>
-為 Ch4 Mixers Study Guide 補充說明 — slide 29 interactive · 2026
+Supplementary notes for the Ch4 Mixers Study Guide — slide 29 interactive · 2026
 </footer>
 
 <!-- ============ JS for interactivity ============ -->

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Image-Reject Diode Mixer — 鏡像抑制混頻器逐元素解析</title>
+<title>Image-Reject Diode Mixer — Element-by-Element Walkthrough</title>
 <script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}}</script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 <style>
@@ -58,12 +58,12 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
 </style>
 </head>
 <body>
-<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">中文</span><a href="slide30_image_reject_mixer_explained_EN.html" hreflang="en" lang="en" title="English version">EN</a></div>
+<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">EN</span><a href="slide30_image_reject_mixer_explained.html" hreflang="zh-Hant" lang="zh-Hant" title="中文版本">中文</a></div>
 
 
 <h1>Image-Reject Diode Mixer<br>
 <span style="font-size:0.65em;color:#666">slide 30/31 — how two 90° hybrids separate USB and LSB into different IF ports</span></h1>
-<p class="subtitle">RF 上下旁帶 → 兩個獨立的 IF 輸出，靠 RF 端與 IF 端各一個 90° hybrid 的相位魔術</p>
+<p class="subtitle">RF upper and lower sidebands → two independent IF outputs, thanks to the phase magic of one 90° hybrid at the RF end and another at the IF end</p>
 
 <!-- ============ Annotated SVG ============ -->
 <div class="diagram-box">
@@ -209,49 +209,49 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
 </div>
 
 <!-- ============ Why we need this ============ -->
-<h2>為什麼需要 image-reject mixer？</h2>
-<p>在下變頻接收機裡，RF 訊號跟 LO 混頻後會產生兩個 IF 候選：</p>
+<h2>Why do we need an image-reject mixer?</h2>
+<p>In a downconverting receiver, mixing the RF signal with the LO produces two candidate IFs:</p>
 <div class="eq-box">
 $$\omega_{IF} = |\omega_{RF} - \omega_{LO}|$$
 </div>
-<p>這意味著兩個不同的 RF 頻率 $\omega_{LO}+\omega_{IF}$（USB, upper sideband）跟 $\omega_{LO}-\omega_{IF}$（LSB, lower sideband）<strong>會被混到同一個 IF 頻率</strong>。其中一個是「想要的訊號」，另一個是「鏡像 (image)」。</p>
+<p>This means two different RF frequencies, $\omega_{LO}+\omega_{IF}$ (USB, upper sideband) and $\omega_{LO}-\omega_{IF}$ (LSB, lower sideband),<strong>are mixed down to the same IF frequency</strong>. One of them is the wanted signal, the other is the image.</p>
 
 <div class="callout warn">
-<div class="callout-title">傳統做法：用 RF 濾波器擋掉 image，但...</div>
-當 IF 很低（例如幾 MHz）時，RF 濾波器需要極窄頻、高 Q —— 在 GHz 級的 RF 上幾乎做不出來。這時就需要 <strong>image-reject mixer</strong>：不靠濾波，而是用<strong>相位魔術</strong>把 USB 跟 LSB 路由到<em>不同的輸出端口</em>，你可以挑一個用。
+<div class="callout-title">The traditional approach: block the image with an RF filter — but…</div>
+When the IF is low (a few MHz, say), the RF filter has to be extremely narrowband and high-Q — which is all but impossible to build at GHz RF. That is exactly where you need the <strong>image-reject mixer</strong>: rather than filtering, it uses<strong>phase magic</strong>to route the USB and the LSB to<em>different output ports</em>, so you can pick whichever one you want.
 </div>
 
 <!-- ============ Topology breakdown ============ -->
-<h2>拓樸拆解</h2>
+<h2>Breaking down the topology</h2>
 
-<h3>① 左邊 90° RF hybrid：把 RF 訊號分相注入兩個 mixer</h3>
+<h3>① The 90° RF hybrid on the left: splits the RF signal in quadrature into the two mixers</h3>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>Port 1</strong>：RF input</li>
-<li><strong>Port 2</strong> → $v_{RF}^A$（送到上面的 mixer A）— 相位差 $-90°$</li>
-<li><strong>Port 3</strong> → $v_{RF}^B$（送到下面的 mixer B）— 相位差 $-180°$</li>
-<li><strong>Port 4</strong>：以 $Z_0$ 終結（不接訊號）</li>
+<li><strong>Port 1</strong>: RF input</li>
+<li><strong>Port 2</strong> → $v_{RF}^A$ (feeding mixer A above) — phase shift $-90°$</li>
+<li><strong>Port 3</strong> → $v_{RF}^B$ (feeding mixer B below) — phase shift $-180°$</li>
+<li><strong>Port 4</strong>: terminated in $Z_0$ (no signal connected)</li>
 </ul>
 
-<h3>② 兩顆 mixer（diode 環）：各自跟同一個 LO 混頻</h3>
-<p>兩個 mixer 都吃同樣的 LO 訊號 $V_{LO}\cos\omega_{LO}t$，但 RF 端是相位差 $90°$ 的兩個版本。</p>
+<h3>② The two mixers (diode rings): each mixes against the same LO</h3>
+<p>Both mixers are fed the same LO signal $V_{LO}\cos\omega_{LO}t$, but their RF ports see two versions $90°$ apart in phase.</p>
 
-<h3>③ 兩個 LPF：濾掉和頻和倍頻，留下 IF</h3>
-<p>每個 mixer 出來都有 $\omega_{RF}\pm\omega_{LO}$ 等成份，LPF 把和頻 $\omega_{RF}+\omega_{LO}$ 擋掉，留下差頻 $|\omega_{RF}-\omega_{LO}|=\omega_{IF}$。</p>
+<h3>③ The two LPFs: strip off the sum and harmonic products, leaving the IF</h3>
+<p>Every mixer output contains components at $\omega_{RF}\pm\omega_{LO}$ and beyond; the LPF blocks the sum term $\omega_{RF}+\omega_{LO}$ and keeps the difference $|\omega_{RF}-\omega_{LO}|=\omega_{IF}$.</p>
 
-<h3>④ 右邊 90° IF hybrid：再做一次 90° 移相，做<strong>相位相干干涉</strong></h3>
-<p>關鍵就在這裡 — USB 跟 LSB 經過<strong>兩次</strong> $90°$ 移相累積後相位不同，在這個 hybrid 的兩個輸出埠分別<strong>建設性疊加</strong>或<strong>破壞性對消</strong>，因此被路由到不同的輸出。</p>
+<h3>④ The 90° IF hybrid on the right: one more 90° phase shift, producing<strong>coherent phase interference</strong></h3>
+<p>This is where the trick happens — after the USB and LSB have accumulated<strong>two</strong> $90°$ shifts their phases differ, so at the two output ports of this hybrid they respectively undergo<strong>constructive addition</strong>or<strong>destructive cancellation</strong>, and are therefore routed to different outputs.</p>
 
 <!-- ============ Small-signal analysis ============ -->
-<h2>小訊號分析（為什麼 USB 跟 LSB 會分到不同埠）</h2>
+<h2>Small-signal analysis (why the USB and LSB end up at different ports)</h2>
 
-<h3>Step 1 — RF 輸入含有 USB + LSB 兩個成份</h3>
+<h3>Step 1 — the RF input contains both a USB and an LSB component</h3>
 <div class="eq-box">
 $$v_{RF}(t) = \underbrace{V_U\cos(\omega_{LO}+\omega_{IF})t}_{\text{RF-USB}} + \underbrace{V_L\cos(\omega_{LO}-\omega_{IF})t}_{\text{RF-LSB}}$$
 </div>
-<p>假設這兩個 RF 成份都會打到 mixer。要看看最終誰跑到哪個 IF 輸出。</p>
+<p>Assume both RF components reach the mixer. Let us track which one ends up at which IF output.</p>
 
-<h3>Step 2 — 過 90° RF hybrid 後的兩條 RF 路徑</h3>
-<p>RF 由 port 1 進入，到 port 2 ($v_{RF}^A$) 的相位是 $-90°$，到 port 3 ($v_{RF}^B$) 的相位是 $-180°$：</p>
+<h3>Step 2 — the two RF paths after the 90° RF hybrid</h3>
+<p>The RF enters at port 1; the phase at port 2 ($v_{RF}^A$) is $-90°$ and the phase at port 3 ($v_{RF}^B$) is $-180°$:</p>
 <div class="eq-box">
 $$\begin{aligned}
 v_{RF}^A(t) &= \tfrac{1}{\sqrt{2}}\bigl[V_U\cos((\omega_{LO}+\omega_{IF})t - 90°) + V_L\cos((\omega_{LO}-\omega_{IF})t - 90°)\bigr] \\
@@ -260,98 +260,98 @@ v_{RF}^B(t) &= \tfrac{1}{\sqrt{2}}\bigl[V_U\cos((\omega_{LO}+\omega_{IF})t - 180
 &= -\tfrac{1}{\sqrt{2}}\bigl[V_U\cos(\omega_{LO}+\omega_{IF})t + V_L\cos(\omega_{LO}-\omega_{IF})t\bigr]
 \end{aligned}$$
 </div>
-<p style="font-size:0.9em;color:#444">注意：USB 跟 LSB 走的<strong>是同一條 hybrid 路徑</strong>，所以這裡兩者多 $-90°$（或多 $-180°$）的<strong>相位完全一樣</strong>。USB/LSB 的差別還沒展現出來 — 要等到 mixer 跟 LO 相乘後才會。</p>
+<p style="font-size:0.9em;color:#444">Note that the USB and the LSB travel<strong>along the same hybrid path</strong>, so the extra $-90°$ (or $-180°$) that each picks up here is<strong>exactly the same</strong>. The difference between USB and LSB has not appeared yet — it only emerges once the mixer multiplies them by the LO.</p>
 
-<h3>Step 3 — Mixer 跟 LO 相乘，LPF 留下 IF</h3>
-<p>每個 mixer 把 RF 跟 LO ($V_{LO}\cos\omega_{LO}t$) 相乘。用積化和差：</p>
+<h3>Step 3 — the mixer multiplies by the LO, the LPF keeps the IF</h3>
+<p>Each mixer multiplies the RF by the LO ($V_{LO}\cos\omega_{LO}t$). Using the product-to-sum identity:</p>
 <div class="eq-box">
 $$\cos A\cdot \cos B = \tfrac{1}{2}[\cos(A-B)+\cos(A+B)]$$
 $$\sin A\cdot \cos B = \tfrac{1}{2}[\sin(A-B)+\sin(A+B)]$$
 </div>
-<p>LPF 擋掉和頻（$A+B$ 約等於 $2\omega_{LO}$）、只留下差頻。代入後：</p>
+<p>The LPF blocks the sum term ($A+B$, roughly $2\omega_{LO}$) and keeps only the difference. Substituting:</p>
 <div class="eq-box">
 $$v_{IF}^A(t) = \frac{K V_{LO}}{2\sqrt{2}}\bigl[\underbrace{V_U\sin(+\omega_{IF}t)}_{\text{from USB}} + \underbrace{V_L\sin(-\omega_{IF}t)}_{\text{from LSB}}\bigr] = \frac{K V_{LO}}{2\sqrt{2}}(V_U - V_L)\sin\omega_{IF}t$$
 </div>
 <div class="eq-box">
 $$v_{IF}^B(t) = -\frac{K V_{LO}}{2\sqrt{2}}\bigl[V_U\cos\omega_{IF}t + V_L\cos\omega_{IF}t\bigr] = -\frac{K V_{LO}}{2\sqrt{2}}(V_U + V_L)\cos\omega_{IF}t$$
 </div>
-<p style="font-size:0.9em;color:#444"><strong>關鍵</strong>：USB 經 mixer 後保留正的 $\omega_{IF}$ 相位；LSB 因為頻率比 LO 低，混完後變成<strong>負的</strong> $\omega_{IF}$ 相位。$\sin(-x) = -\sin x$，所以路徑 A 上 USB 與 LSB 變成<strong>相減</strong>。路徑 B 則是相加。</p>
+<p style="font-size:0.9em;color:#444"><strong>The key point</strong>: after mixing, the USB retains a positive $\omega_{IF}$ phase; the LSB, being lower in frequency than the LO, comes out with a<strong>negative</strong> $\omega_{IF}$ phase. Since $\sin(-x) = -\sin x$, on path A the USB and LSB end up<strong>subtracting</strong>, while on path B they add.</p>
 
-<h3>Step 4 — 相量表示 (phasor form)</h3>
+<h3>Step 4 — phasor form</h3>
 <div class="eq-box">
 $$V_{IF}^A = \frac{-jKV_{LO}}{2\sqrt{2}}(V_U - V_L), \qquad V_{IF}^B = \frac{-KV_{LO}}{2\sqrt{2}}(V_U + V_L)$$
 </div>
 
-<h3>Step 5 — 過 90° IF hybrid 做最後一次干涉</h3>
-<p>IF hybrid 的兩個輸出端口 $V_1, V_2$ 分別是兩個輸入經過 $-90°$ 與 $-180°$ 移相後的和：</p>
+<h3>Step 5 — the 90° IF hybrid performs one last interference</h3>
+<p>The two output ports $V_1, V_2$ of the IF hybrid are the sums of the two inputs after $-90°$ and $-180°$ phase shifts respectively:</p>
 <div class="eq-box">
 $$\begin{aligned}
 V_1 &= -j\tfrac{V_{IF}^A}{\sqrt{2}} - \tfrac{V_{IF}^B}{\sqrt{2}} = \frac{K V_{LO} V_L}{2}\\[2pt]
 V_2 &= -\tfrac{V_{IF}^A}{\sqrt{2}} - j\tfrac{V_{IF}^B}{\sqrt{2}} = \frac{j K V_{LO} V_U}{2}
 \end{aligned}$$
 </div>
-<p>展開後（代入 step 4 的 $V_{IF}^A, V_{IF}^B$）就會發現 — $V_U$ 在 $V_1$ 對消、只剩 $V_L$；$V_L$ 在 $V_2$ 對消、只剩 $V_U$。轉回時域：</p>
+<p>Expanding (substituting $V_{IF}^A, V_{IF}^B$ from step 4) shows that $V_U$ cancels at $V_1$, leaving only $V_L$, while $V_L$ cancels at $V_2$, leaving only $V_U$. Back in the time domain:</p>
 <div class="eq-box">
-$$v_1(t) = \frac{K V_{LO} V_L}{2}\cos\omega_{IF}t \quad\Rightarrow\quad \text{IF-LSB (只有 LSB)}$$
-$$v_2(t) = -\frac{K V_{LO} V_U}{2}\sin\omega_{IF}t \quad\Rightarrow\quad \text{IF-USB (只有 USB)}$$
+$$v_1(t) = \frac{K V_{LO} V_L}{2}\cos\omega_{IF}t \quad\Rightarrow\quad \text{IF-LSB (LSB only)}$$
+$$v_2(t) = -\frac{K V_{LO} V_U}{2}\sin\omega_{IF}t \quad\Rightarrow\quad \text{IF-USB (USB only)}$$
 </div>
 
 <div class="callout key">
-<div class="callout-title">這就是 image rejection 的相位魔術</div>
-USB 走 RF→A 路徑跟 RF→B 路徑時都<em>各加了 90°</em>；經 IF hybrid 後在 $V_2$ 兩條路徑同相相加（建設性）、在 $V_1$ 兩條路徑反相相消（破壞性）→ <strong>USB 只跑到 $V_2$</strong>。
-LSB 因為 $\omega_{IF}$ 的「方向」相反，相位累積跟 USB 剛好差 $180°$，所以剛好走相反路 → <strong>LSB 只跑到 $V_1$</strong>。
+<div class="callout-title">This is the phase magic behind image rejection</div>
+On both the RF→A and the RF→B path the USB picks up<em>an extra 90° each</em>; after the IF hybrid the two paths add in phase at $V_2$ (constructive) and cancel in antiphase at $V_1$ (destructive) → <strong>the USB goes only to $V_2$</strong>.
+Because the “direction” of $\omega_{IF}$ is reversed for the LSB, its accumulated phase differs from the USB's by exactly $180°$, so it takes precisely the opposite route → <strong>the LSB goes only to $V_1$</strong>of the image-reject mixer at low IF.
 </div>
 
 <!-- ============ Practical issues ============ -->
-<h2>實務問題與限制</h2>
+<h2>Practical issues and limitations</h2>
 
 <table>
-<tr><th>項目</th><th>說明</th></tr>
-<tr><td><strong>影像抑制度</strong></td><td>典型 ~20–30 dB（取決於兩條 mixer 路徑的振幅/相位匹配）。要達到 40+ dB 需要 trim 或 calibration。</td></tr>
-<tr><td><strong>製造困難</strong></td><td>IF 頻率通常很低（幾 MHz ~ 數十 MHz），但要做<strong>低頻 90° hybrid</strong> 很困難 — 集中元件 (LC) 的精度有限，分散元件 ($\lambda/4$) 在低頻又會太大。這是 image-reject mixer 在低 IF 下的<strong>主要限制</strong>。</td></tr>
-<tr><td><strong>RF 端的優勢</strong></td><td>RF 端 hybrid 在 GHz 級容易做（branch-line、Lange coupler 都可以），不是瓶頸。</td></tr>
-<tr><td><strong>轉換損失</strong></td><td>因為訊號要 ×$\tfrac{1}{\sqrt{2}}$ 分配兩次，總損失約 6 dB 比單一 mixer 多。</td></tr>
-<tr><td><strong>適用場景</strong></td><td>當 IF 太低、RF 預選濾波器做不到夠窄時，唯一選擇。常見於通訊接收機（GSM/LTE）、雷達、頻譜儀。</td></tr>
+<tr><th>Item</th><th>Notes</th></tr>
+<tr><td><strong>Image rejection</strong></td><td>Typically ~20–30 dB (set by the amplitude/phase match of the two mixer paths). Reaching 40+ dB requires trimming or calibration.</td></tr>
+<tr><td><strong>Manufacturing difficulty</strong></td><td>The IF is usually very low (a few MHz to a few tens of MHz), yet building a<strong>low-frequency 90° hybrid</strong> is hard — lumped elements (LC) have limited accuracy, while distributed elements ($\lambda/4$) become far too large at low frequencies. This is the<strong>main limitation</strong>of the image-reject mixer at low IF.</td></tr>
+<tr><td><strong>The advantage at the RF end</strong></td><td>The RF-end hybrid is easy to build at GHz frequencies (branch-line or Lange couplers both work), so it is not the bottleneck.</td></tr>
+<tr><td><strong>Conversion loss</strong></td><td>Because the signal is split by ×$\tfrac{1}{\sqrt{2}}$ twice, the total loss is about 6 dB more than for a single mixer.</td></tr>
+<tr><td><strong>When to use it</strong></td><td>The only option when the IF is too low for the RF preselect filter to be made narrow enough. Common in communication receivers (GSM/LTE), radar and spectrum analysers.</td></tr>
 </table>
 
 <!-- ============ Up-conversion (SSB modulator) ============ -->
-<h2>反向用：SSB modulator (上變頻)</h2>
-<p>把整顆電路<strong>反過來</strong>用：</p>
+<h2>Running it backwards: an SSB modulator (upconversion)</h2>
+<p>Use the whole circuit<strong>in reverse</strong>:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>從 $v_1$ 端注入 IF 訊號 → 只輸出 RF-LSB（鏡像被天生抑制）</li>
-<li>從 $v_2$ 端注入 IF 訊號 → 只輸出 RF-USB</li>
+<li>Inject the IF signal at $v_1$ → only RF-LSB comes out (the image is inherently suppressed)</li>
+<li>Inject the IF signal at $v_2$ → only RF-USB comes out</li>
 </ul>
-<p>這就是<strong>單邊帶調變器</strong>（SSB modulator） — 不需要外加帶通濾波就能選擇要發射 USB 還是 LSB，傳統廣播、業餘無線電發射機常用。</p>
+<p>This is precisely a<strong>single-sideband modulator</strong>(SSB modulator) — you can choose whether to transmit USB or LSB without any additional bandpass filter, which is why it is a staple of traditional broadcast and amateur-radio transmitters.</p>
 
 <!-- ============ Color legend ============ -->
-<h2>顏色對照</h2>
+<h2>Colour key</h2>
 <div class="legend">
-  <div class="legend-item"><span class="sw" style="background:#1a4a8a"></span> RF 路徑（藍）</div>
-  <div class="legend-item"><span class="sw" style="background:#a02020"></span> LO 路徑（紅）</div>
-  <div class="legend-item"><span class="sw" style="background:#1a5a30"></span> IF 路徑（綠）</div>
-  <div class="legend-item"><span class="sw" style="background:#fff7c2"></span> 90° hybrid（黃）</div>
-  <div class="legend-item"><span class="sw" style="background:#c01020"></span> LSB 標籤</div>
-  <div class="legend-item"><span class="sw" style="background:#1060d0"></span> USB 標籤</div>
+  <div class="legend-item"><span class="sw" style="background:#1a4a8a"></span> RF path (blue)</div>
+  <div class="legend-item"><span class="sw" style="background:#a02020"></span> LO path (red)</div>
+  <div class="legend-item"><span class="sw" style="background:#1a5a30"></span> IF path (green)</div>
+  <div class="legend-item"><span class="sw" style="background:#fff7c2"></span> 90° hybrid (yellow)</div>
+  <div class="legend-item"><span class="sw" style="background:#c01020"></span> LSB label</div>
+  <div class="legend-item"><span class="sw" style="background:#1060d0"></span> USB label</div>
 </div>
 
 <!-- ============ Takeaways ============ -->
-<h2>三句話帶走</h2>
+<h2>Three sentences to take away</h2>
 <div class="callout tip">
 <ol style="margin:4px 0 4px 22px">
-<li><strong>RF 跟 LO 混頻時 USB 跟 LSB 會折到同一個 $\omega_{IF}$</strong> — 這就是「鏡像問題」。Image-reject mixer 不靠濾波，而靠<strong>相位干涉</strong>把它們分開。</li>
-<li><strong>兩個 90° hybrid（RF 端 + IF 端）讓 USB 跟 LSB 累積不同的相位</strong>，在 IF 兩個輸出端口分別建設性/破壞性疊加 → 一個輸出純 USB、一個輸出純 LSB。</li>
-<li><strong>主要瓶頸是 IF hybrid 在低頻難做</strong>。要達 40+ dB 影像抑制需精密匹配；總損失約多 6 dB；反向用則變成 SSB modulator。</li>
+<li><strong>When the RF mixes with the LO, the USB and the LSB fold onto the same $\omega_{IF}$</strong> — that is the image problem. An image-reject mixer separates them not by filtering but by<strong>phase interference</strong>.</li>
+<li><strong>Two 90° hybrids (one at the RF end, one at the IF end) give the USB and the LSB different accumulated phases</strong>, so at the two IF output ports they add constructively and destructively respectively → one output is pure USB, the other pure LSB.</li>
+<li><strong>The main bottleneck is that the IF hybrid is hard to build at low frequencies</strong>. Reaching 40+ dB of image rejection demands precise matching; the total loss is about 6 dB higher; and run in reverse it becomes an SSB modulator.</li>
 </ol>
 </div>
 
 <p style="text-align:center;margin-top:20px;font-size:0.92em">
-🔗 相關閱讀：<a href="slide26_90deg_single_balanced_mixer_explained.html" style="color:#1a4a8a;font-weight:600">90° hybrid 單平衡 mixer</a> ·
-<a href="slide28_180deg_single_balanced_mixer_explained.html" style="color:#1a4a8a;font-weight:600">180° hybrid 單平衡 mixer</a> ·
-<a href="slide29_double_balanced_ring_mixer_interactive.html" style="color:#1a4a8a;font-weight:600">雙平衡 ring mixer（互動式）</a>
+🔗 Related reading:<a href="slide26_90deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">90° hybrid single-balanced mixer</a> ·
+<a href="slide28_180deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">180° hybrid single-balanced mixer</a> ·
+<a href="slide29_double_balanced_ring_mixer_interactive_EN.html" style="color:#1a4a8a;font-weight:600">Double-balanced ring mixer (interactive)</a>
 </p>
 
 <footer>
-為 Ch4 Mixers Study Guide 補充說明 — slide 30/31 image-reject mixer · 2026
+Supplementary notes for the Ch4 Mixers Study Guide — slides 30/31, image-reject mixer · 2026
 </footer>
 
 </body>

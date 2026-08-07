@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Three Kinds of Circles on the Smith Chart</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+  body{font-family:'DM Sans','PingFang TC','Microsoft JhengHei',sans-serif;max-width:920px;margin:0 auto;padding:30px 24px;line-height:1.7;color:#222;background:#fafbfc}
+  h1{color:#3a5998;border-bottom:2px solid #cfdbef;padding-bottom:8px;margin-top:0}
+  h2{color:#3a5998;margin-top:30px;font-size:1.25em}
+  h3{color:#2a6e5a;margin-top:22px;font-size:1.08em}
+  .lead{font-size:1.05em;color:#444;background:#eef2f9;border-left:4px solid #3a5998;padding:10px 14px;border-radius:4px;margin:12px 0 22px}
+  table{border-collapse:collapse;margin:10px 0;font-size:0.95em;width:100%}
+  th{background:#eef2f9;text-align:left;padding:7px 12px;border-bottom:2px solid #cfdbef;color:#3a5998}
+  td{padding:6px 12px;border-bottom:1px solid #e3e8f0;vertical-align:top}
+  tr:nth-child(even) td{background:#f6fafd}
+  .circle-card{border:1px solid #cfdbef;border-radius:8px;padding:14px 18px;margin:14px 0;background:#fff}
+  .circle-card h3{margin-top:0}
+  .label-gamma{color:#0066cc;font-weight:700}
+  .label-gs{color:#c00;font-weight:700}
+  .label-g{color:#2a9d3a;font-weight:700}
+  .footnote{margin-top:30px;padding:12px 16px;background:#fff8e1;border-left:4px solid #f4b400;border-radius:4px;font-size:0.94em}
+  code{background:#f0f3f7;padding:1px 6px;border-radius:3px;font-size:0.92em}
+  .demo{margin-top:14px;background:#f9fbfd;border:1px dashed #b6c4dc;border-radius:6px;padding:12px 14px}
+  .demo-row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+  .demo-canvas{border:1px solid #ccc;border-radius:6px;background:#fff;flex:0 0 auto}
+  .demo-controls{flex:1 1 220px;min-width:200px;font-size:0.9em}
+  .demo-info{font-family:monospace;font-size:1.275em;background:#fff;border:1px solid #ddd;border-radius:4px;padding:8px 10px;margin-top:8px;line-height:1.5;white-space:pre-line}
+  .demo input[type=range]{width:100%}
+  .demo h4{margin:0 0 6px;font-size:0.95em;color:#3a5998}
+</style>
+<link rel="alternate" hreflang="zh-Hant" href="smith_chart_circles_explained.html">
+<link rel="alternate" hreflang="en" href="smith_chart_circles_explained_EN.html">
+<link rel="alternate" hreflang="x-default" href="smith_chart_circles_explained_EN.html">
+
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:.06em;display:flex;
+ align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch a,#lang-switch span{display:inline-block;padding:4px 11px;border-radius:999px;
+ text-decoration:none;color:#4a4a4a}
+#lang-switch a:hover{background:#f0ece6;color:#b44a2f}
+#lang-switch .cur{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+</style>
+</head>
+<body>
+<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">EN</span><a href="smith_chart_circles_explained.html" hreflang="zh-Hant" lang="zh-Hant" title="中文版本">中文</a></div>
+
+
+<h1>The difference between the “three kinds of circles” on the Smith chart</h1>
+
+<p class="lead">
+It depends which “circle” you mean — the Smith chart carries<strong>three different kinds of circle</strong>, and they are frequently conflated. Below, their centres, physical meanings and design uses are set out clearly.
+</p>
+
+<div class="circle-card">
+<h3><span class="label-gamma">Circle 1: the constant-$|\Gamma|$ circle (concentric circles)</span></h3>
+<ul>
+<li>The centre is always at the<strong>centre</strong></li>
+<li>of the Smith chart; radius = $|\Gamma|$</li>
+<li>Physical meaning: every point on the circle has<strong>the same VSWR / return loss</strong></li>
+<li>Use: the locus traced out by rotation along a series transmission line (which changes the phase but not $|\Gamma|$)</li>
+<li><strong>Nothing to do with gain</strong></li>
+</ul>
+
+<details style="margin:10px 0">
+<summary style="cursor:pointer;font-weight:600;color:#3a5998;font-size:0.95em">▸ How do you obtain this circle? (click to expand)</summary>
+<div style="margin-top:8px;font-size:0.95em">
+<p>It needs only one input: an impedance (or a reflection coefficient). The procedure is:</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Three steps</h4>
+<p><strong>Step 1 — compute the reflection coefficient from the impedance $Z$</strong></p>
+<p>Given any impedance $Z$ and a reference impedance $Z_0 = 50\,\Omega$:</p>
+$$\Gamma = \frac{Z - Z_0}{Z + Z_0}$$
+
+<p><strong>Step 2 — take the magnitude</strong></p>
+$$|\Gamma| = \left|\frac{Z - Z_0}{Z + Z_0}\right|$$
+<p>This value is the circle's<strong>Radius</strong>(in the range $0 \le |\Gamma| \le 1$).</p>
+
+<p><strong>Step 3 — draw the circle</strong></p>
+<p>Draw a circle of radius $|\Gamma|$ centred on the middle of the Smith chart (the point $\Gamma = 0$, corresponding to $Z_0 = 50\,\Omega$).</p>
+
+<h4 style="margin:14px 0 4px;color:#3a5998">A worked example</h4>
+<p>Take $Z = 100 + j50\,\Omega$:</p>
+$$\Gamma = \frac{(100+j50) - 50}{(100+j50) + 50} = \frac{50+j50}{150+j50} \approx 0.4 + j0.2 = 0.447\angle 26.6°$$
+$$\Rightarrow\;\; |\Gamma| = 0.447$$
+<p>→ draw a circle of radius $0.447$ about the origin, and that is the constant-$|\Gamma|$ circle corresponding to $Z = 100+j50$.</p>
+
+<h4 style="margin:14px 0 4px;color:#3a5998">Physical meaning — why a “circle” and not some other shape</h4>
+<p>If you connect a length of<strong>lossless 50 Ω transmission line</strong>to the load $Z$, then as you move along the line the impedance you see is different at every point, but the<strong>magnitude of the reflection coefficient does not change</strong>— only its<strong>phase changes</strong>at some port:</p>
+$$\Gamma(\ell) = \Gamma_L \cdot e^{-j2\beta\ell}$$
+<ul>
+<li>$|\Gamma(\ell)| = |\Gamma_L|$  ← the magnitude is unchanged</li>
+<li>$\angle\Gamma(\ell) = \angle\Gamma_L - 2\beta\ell$  ← the phase changes with distance</li>
+</ul>
+<p>In the complex plane, the locus of “constant magnitude, varying phase” is precisely<strong>a circle centred on the origin</strong> — that is the physical origin of the constant-$|\Gamma|$ circle.</p>
+
+<h4 style="margin:14px 0 4px;color:#3a5998">In the interactive figure below</h4>
+<ol style="margin:4px 0 0 22px">
+<li>Drag the “initial $|\Gamma_0|$” slider → changes the circle's<strong>Radius</strong></li>
+<li>Drag the “initial $\angle\Gamma_0$” slider → changes the<strong>starting position</strong></li>
+<li>of the grey start point on the circle. Drag the “series line length $\ell$” slider → the blue point rotates<strong>clockwise</strong>around the circle (toward the generator)</li>
+</ol>
+<p>However you drag them, the blue point never leaves that circle — which is exactly what makes the “constant-$|\Gamma|$ circle” visible.</p>
+</div>
+</details>
+
+<div class="demo">
+<h4>Interactive: a series line rotating along the constant-$|\Gamma|$ circle</h4>
+<div class="demo-row">
+  <canvas id="d1-cv" class="demo-canvas" width="280" height="280"></canvas>
+  <div class="demo-controls">
+    <label>Initial $|\Gamma_0|$: <strong><span id="d1-gm-v">0.5</span></strong></label>
+    <input type="range" id="d1-gm" min="0.05" max="0.9" value="0.5" step="0.01">
+    <label>Initial $\angle\Gamma_0$ (°): <strong><span id="d1-ga-v">60</span></strong></label>
+    <input type="range" id="d1-ga" min="-180" max="180" value="60" step="1">
+    <label>Series line length $\ell$ (λ): <strong><span id="d1-ll-v">0.000</span></strong></label>
+    <input type="range" id="d1-ll" min="0" max="0.5" value="0" step="0.001">
+    <div class="demo-info" id="d1-info"></div>
+    <div style="margin-top:6px;color:#666;font-size:0.85em">The blue locus = rotation on a concentric circle. Note that $|\Gamma|$, the VSWR and the return loss all<strong>stay constant</strong>of the image-reject mixer at low IF.</div>
+<details style="margin-top:8px">
+<summary style="cursor:pointer;font-weight:600;color:#3a5998;font-size:0.9em">▸ Why $2\beta\ell$ and not $\beta\ell$? (click to expand)</summary>
+<div style="margin-top:6px;font-size:0.92em">
+<p>The key point: $\Gamma$ is the ratio “reflected wave / incident wave” — its phase accumulates over<strong>both legs of the round trip</strong>along the line.</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Derivation</h4>
+<p>On a lossless line the voltage is the superposition of the forward wave (towards the load) and the reflected wave (towards the source):</p>
+$$V^+(z) = V_0^+ e^{-j\beta z}, \qquad V^-(z) = V_0^- e^{+j\beta z}$$
+<p>The<strong>local reflection coefficient</strong>at some port:</p>
+$$\Gamma(z) = \frac{V^-(z)}{V^+(z)} = \frac{V_0^- e^{+j\beta z}}{V_0^+ e^{-j\beta z}} = \underbrace{\frac{V_0^-}{V_0^+}}_{=\,\Gamma_L\text{ at }z=0} \cdot e^{+j2\beta z}$$
+<p>at position $z$. Placing the load at $z = 0$ and moving a distance $\ell$ towards the source (i.e. $z = -\ell$):</p>
+$$\boxed{\;\Gamma(\ell) = \Gamma_L \cdot e^{-j2\beta\ell}\;}$$
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Physical intuition: two legs, out and back</h4>
+<ul style="margin:4px 0 0 22px">
+<li>The wave travels from the input to the load: it accumulates a phase $\beta\ell$ (the first leg)</li>
+<li>After reflecting, it travels from the load back to the input: another $\beta\ell$ (the second leg)</li>
+<li>In total: the phase of $\Gamma$ changes by $= 2\beta\ell$ (one round trip)</li>
+</ul>
+<p>By contrast, the impedance $Z(\ell)$ is the instantaneous ratio “voltage / current”, not a round-trip quantity, which is why its formula contains $\tan(\beta\ell)$ and not $\tan(2\beta\ell)$.</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Converting to units of $\lambda$</h4>
+<p>$\beta = 2\pi/\lambda$, so:</p>
+$$2\beta\ell = 2 \cdot \frac{2\pi}{\lambda} \cdot \ell = 4\pi \cdot \frac{\ell}{\lambda} = 4\pi L$$
+<p>where $L = \ell/\lambda$ is the slider value. In the code this becomes:</p>
+<div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:10px 14px;font-family:'Consolas','Menlo',monospace;font-size:0.95em;margin:6px 0">
+const ang1 = ang0 - 4*Math.PI*L;  <span style="color:#008000">// 2βℓ = 4π·L</span>
+</div>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Key values of $\ell$</h4>
+<table>
+<tr><th>$\ell$</th><th>$2\beta\ell$</th><th>Rotation on the circle</th></tr>
+<tr><td>$\lambda/8$</td><td>$90°$</td><td>a quarter turn</td></tr>
+<tr><td>$\lambda/4$</td><td>$180°$</td><td>half a turn (impedance inversion, an inverter)</td></tr>
+<tr><td>$\lambda/2$</td><td>$360°$</td><td>a full turn back to the start — which is the slider's upper limit</td></tr>
+</table>
+<p>The full turn every $\lambda/2$ is exactly the “<strong>$\lambda/2$ periodicity of a transmission line</strong>” — adding or subtracting $\lambda/2$ from the same line length leaves the impedance and reflection coefficient completely unchanged.</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">So why is the stub formula $\tan(\beta\ell_s)$ and not $\tan(2\beta\ell_s)$?</h4>
+<p>This is<strong>the same physical fact expressed in two different domains</strong>at some port:</p>
+<table>
+<tr><th>Expression</th><th>Angle</th><th>Reason</th></tr>
+<tr><td>$\Gamma$ rotation (reflection-coefficient domain)</td><td>$2\beta\ell$</td><td>$\Gamma = V^-/V^+$ is the ratio of two counter-propagating waves; move by $\ell$ and their phases differ by $2\beta\ell$</td></tr>
+<tr><td>$\tan(\beta\ell)$ (impedance / admittance domain)</td><td>$\beta\ell$</td><td>$Z = V/I$ is the superposition of the two waves at<strong>the same point</strong>, and on simplification the factor of 2 is absorbed by a trigonometric identity</td></tr>
+</table>
+
+<p><strong>Verification: work it through once with a short-circuit stub.</strong> For a short circuit $\Gamma_L = -1$; moving $\ell_s$ towards the source:</p>
+$$\Gamma_{\text{in}} = -e^{-j2\beta\ell_s}$$
+<p>Converting $\Gamma_{\text{in}}$ back to an impedance:</p>
+$$Z_{\text{in}} = Z_0\,\frac{1+\Gamma_{\text{in}}}{1-\Gamma_{\text{in}}} = Z_0\,\frac{1-e^{-j2\beta\ell_s}}{1+e^{-j2\beta\ell_s}}$$
+<p>Using the trigonometric identity $\dfrac{1-e^{-j2x}}{1+e^{-j2x}} = j\tan x$:</p>
+$$\boxed{\;Z_{\text{in}} = jZ_0\tan(\beta\ell_s)\;}$$
+<p>The $2\beta\ell_s$ originally in the exponent is absorbed into $\tan(\beta\ell_s)$ during the simplification — the factor of 2 has not disappeared, it is merely “hidden” inside the trigonometric identity.</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">A mnemonic</h4>
+<table>
+<tr><th>Which quantity</th><th>Which angle</th></tr>
+<tr><td>Rotating around a circle on the Smith chart ($\Gamma$ domain)</td><td><strong>$2\beta\ell$</strong>(round trip)</td></tr>
+<tr><td>Computing a stub's $b$ or $x$ ($Y$ / $Z$ domain)</td><td><strong>$\beta\ell$</strong>(one way)</td></tr>
+</table>
+<p>Whenever you see a $\tan$ or $\cot$ formula it is<strong>one way</strong> $\beta\ell$; whenever you see an $e^{-j(\cdot)}$ rotation it is<strong>round trip</strong> $2\beta\ell$.</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">In one sentence</h4>
+<p style="color:#c00;font-weight:700">$\Gamma$ is a round-trip quantity, so its rotation angle is $2\beta\ell$. A full turn for “toward generator $\lambda/2$” on the Smith chart is a direct consequence of that factor of 2. The stub's $\tan(\beta\ell_s)$ actually contains the same factor of 2; it has simply been absorbed by a trigonometric identity so that it looks like a one-way trip.</p>
+</div>
+</details>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="circle-card">
+<h3><span class="label-gs">Circle 2: the constant-$G_S$ circle (gain circle)</span></h3>
+<ul>
+<li>The centre is<strong>not at the middle</strong>; it lies on the ray joining $O$ to $S_{11}^*$</li>
+<li>It is fixed jointly by $S_{11}$ and the target $G_S$ (the formula is rather involved)</li>
+<li>Physical meaning: every point on the circle produces<strong>the same source gain $G_S$</strong></li>
+<li>Use: it gives you<strong>several equivalent candidate positions for $\Gamma_s$</strong>to choose from</li>
+</ul>
+
+<h3 style="margin-top:14px">What do the points on the $G_S$ circle represent?</h3>
+<p>The statement “the impedance values represented by points on the $G_S$ circle” is correct — because:</p>
+<table>
+<tr><th>Position on the $G_S$ circle</th><th>$\Gamma_s$ value</th><th>Corresponding $z_s$</th></tr>
+<tr><td>The centre point (maximum gain)</td><td>$S_{11}^*$</td><td>$z_s = (1+S_{11}^*)/(1-S_{11}^*)$</td></tr>
+<tr><td>Other points on the circle</td><td>A different $\Gamma_s$</td><td>A different $z_s$</td></tr>
+</table>
+<p><strong>All of these points have different $\Gamma_s$ / $z_s$, yet they all give the same $G_S$.</strong> The designer can pick whichever impedance on the circle is most convenient to realise (avoiding points too close to a short or open, or points outside the stable region).</p>
+
+<div class="demo">
+<h4>Interactive: finding candidate $\Gamma_s$ / $z_s$ on a constant-$G_S$ circle</h4>
+<div class="demo-row">
+  <canvas id="d2-cv" class="demo-canvas" width="280" height="280"></canvas>
+  <div class="demo-controls">
+    <label>$|S_{11}|$: <strong><span id="d2-sm-v">0.60</span></strong></label>
+    <input type="range" id="d2-sm" min="0.1" max="0.9" value="0.60" step="0.01">
+    <label>$\angle S_{11}$ (°): <strong><span id="d2-sa-v">-100</span></strong></label>
+    <input type="range" id="d2-sa" min="-180" max="180" value="-100" step="1">
+    <label>Target $G_S$ (dB): <strong><span id="d2-gs-v">1.5</span></strong></label>
+    <input type="range" id="d2-gs" min="-3" max="3" value="1.5" step="0.1">
+    <div class="demo-info" id="d2-info"></div>
+    <div style="margin-top:6px;color:#666;font-size:0.85em">The red circle is the $G_S$ circle you selected. Moving the mouse over the canvas snaps to the circle and displays that point's $\Gamma_s$ and $z_s$ — every point on the circle gives the same $G_S$.</div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="circle-card">
+<h3><span class="label-g">Circle 3: the constant-$g$ circle (constant-conductance circle)</span></h3>
+<ul>
+<li>The centre is at $(-0.5,\,0)$ with radius $0.5$ (for the $g=1$ circle; other values of $g$ are similar)</li>
+<li>Physical meaning: every point on the circle has<strong>the same real part $g$ of the normalized admittance</strong></li>
+<li>Use: the locus of a shunt stub — adding $jb$ slides you along a constant-$g$ circle</li>
+</ul>
+
+<details style="margin:10px 0">
+<summary style="cursor:pointer;font-weight:600;color:#2a6e5a;font-size:0.95em">▸ A shunt<strong>open-circuit</strong>stub: $b = \tan(\beta\ell_s)$ (click to expand)</summary>
+<div style="margin-top:8px;font-size:0.95em">
+
+<h4 style="margin:0 0 4px;color:#2a6e5a">Derivation</h4>
+<p>An open-circuit stub is terminated in $Z_L \to \infty$ (an open circuit). Substituting into the transmission-line input-impedance formula and taking the limit:</p>
+$$Z_{\text{in}} = Z_0 \cdot \frac{Z_L + j Z_0 \tan(\beta\ell_s)}{Z_0 + j Z_L \tan(\beta\ell_s)} \xrightarrow{Z_L\to\infty} \frac{Z_0}{j\tan(\beta\ell_s)} = -j Z_0 \cot(\beta\ell_s)$$
+
+<details style="margin:8px 0 10px;padding-left:14px;border-left:3px solid #cfdbef">
+<summary style="cursor:pointer;font-weight:600;color:#3a5998;font-size:0.92em">▸ Where does the transmission-line input-impedance formula come from? (click to expand)</summary>
+<div style="margin-top:6px;font-size:0.94em">
+
+<h4 style="margin:6px 0 4px;color:#3a5998">Step 1 — the general solution for voltage and current on the line</h4>
+<p>The voltage and current on a lossless transmission line are the superposition of a<strong>forward wave</strong> + <strong>and a reflected wave</strong>:</p>
+$$V(z) = V^+ e^{-j\beta z} + V^- e^{+j\beta z}$$
+$$I(z) = \frac{V^+}{Z_0} e^{-j\beta z} - \frac{V^-}{Z_0} e^{+j\beta z}$$
+<p>Coordinate system: place<strong>the load at $z = 0$</strong>and<strong>the input at $z = -\ell$</strong>of the image-reject mixer at low IF.</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Step 2 — apply the boundary condition at the load</h4>
+<p>At $z = 0$:</p>
+$$V(0) = V^+ + V^-, \qquad I(0) = \frac{V^+ - V^-}{Z_0}$$
+<p>The load impedance $Z_L = V(0)/I(0)$:</p>
+$$Z_L = Z_0 \cdot \frac{V^+ + V^-}{V^+ - V^-}$$
+<p style="font-size:0.92em;color:#555;margin:4px 0">Dividing $V(0)$ by $I(0)$ directly gives this. The numerator is the<em>and from the</em>of the two wave voltages, and the denominator is their<em>Poor</em> — because the reflected wave travels in the $-z$ direction, the relation $I = V/Z_0$ picks up a minus sign for it, so $V^-$ enters $I(0)$ with a negative sign.</p>
+<p>Definition<strong>load reflection coefficient</strong>at some port:</p>
+$$\Gamma_L = \frac{V^-}{V^+} = \frac{Z_L - Z_0}{Z_L + Z_0}$$
+<p style="font-size:0.92em;color:#555;margin:4px 0">Dividing both numerator and denominator of $Z_L$ above by $V^+$ rewrites it in<strong>reflection-coefficient form</strong>(equivalent to the expression above):</p>
+$$Z_L = Z_0 \cdot \frac{1 + \Gamma_L}{1 - \Gamma_L}$$
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Step 3 — compute the input impedance</h4>
+<p>At $z = -\ell$:</p>
+$$V(-\ell) = V^+\!\left[e^{+j\beta\ell} + \Gamma_L e^{-j\beta\ell}\right]$$
+$$I(-\ell) = \frac{V^+}{Z_0}\!\left[e^{+j\beta\ell} - \Gamma_L e^{-j\beta\ell}\right]$$
+<p>Dividing the two:</p>
+$$Z_{\text{in}} = Z_0 \cdot \frac{e^{+j\beta\ell} + \Gamma_L e^{-j\beta\ell}}{e^{+j\beta\ell} - \Gamma_L e^{-j\beta\ell}}$$
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Step 4 — simplify (substitute $\Gamma_L$ and use Euler's formula)</h4>
+<p>Substituting $\Gamma_L = (Z_L - Z_0)/(Z_L + Z_0)$ and multiplying numerator and denominator by $(Z_L + Z_0)$:</p>
+<p><strong>Numerator:</strong></p>
+$$(Z_L + Z_0)e^{+j\beta\ell} + (Z_L - Z_0) e^{-j\beta\ell} = 2Z_L \cos(\beta\ell) + 2j Z_0 \sin(\beta\ell)$$
+<p><strong>Denominator (by analogy):</strong></p>
+$$2Z_0 \cos(\beta\ell) + 2j Z_L \sin(\beta\ell)$$
+<p>Substituting back and then dividing numerator and denominator by $\cos(\beta\ell)$:</p>
+$$\boxed{\,Z_{\text{in}} = Z_0 \cdot \frac{Z_L + j Z_0 \tan(\beta\ell)}{Z_0 + j Z_L \tan(\beta\ell)}\,}$$
+
+<h4 style="margin:10px 0 4px;color:#3a5998">Checking the special cases</h4>
+<table>
+<tr><th>Case</th><th>Substituting</th><th>Result</th></tr>
+<tr><td>$\ell = 0$</td><td>$\tan 0 = 0$</td><td>$Z_{\text{in}} = Z_L$ ✓</td></tr>
+<tr><td>$Z_L = Z_0$ (matched)</td><td>numerator = $Z_0(1+j\tan)$</td><td>$Z_{\text{in}} = Z_0$ ✓ (independent of line length)</td></tr>
+<tr><td>$\ell = \lambda/4$</td><td>$\tan(\pi/2)\to\infty$</td><td>$Z_{\text{in}} = Z_0^2/Z_L$ (an impedance inverter)</td></tr>
+<tr><td>$Z_L = 0$ (short circuit)</td><td></td><td>$Z_{\text{in}} = j Z_0 \tan(\beta\ell)$</td></tr>
+<tr><td>$Z_L = \infty$ (open circuit)</td><td></td><td>$Z_{\text{in}} = -j Z_0 \cot(\beta\ell)$</td></tr>
+</table>
+<p>The last two are the special cases of the “short- / open-circuit stub” — every stub formula is a subset of this master formula.</p>
+
+<h4 style="margin:10px 0 4px;color:#3a5998">The core physics</h4>
+<p>There are only two facts behind the whole formula:</p>
+<ol style="margin:4px 0 0 22px">
+<li><strong>the wave on the line is the superposition of a forward and a reflected wave</strong>(the lossless-line assumption)</li>
+<li><strong>the load determines the reflection coefficient $\Gamma_L$</strong></li>
+</ol>
+<p>Tidy those up with a trigonometric identity and you have one of the most important formulas in transmission-line theory.</p>
+</div>
+</details>
+<p>purely reactive. Taking the reciprocal to get the admittance:</p>
+$$Y_{\text{in}} = \frac{1}{-j Z_0 \cot(\beta\ell_s)} = j Y_0 \tan(\beta\ell_s)$$
+<p>Normalizing (dividing by $Y_0$):</p>
+$$y_{\text{stub}} = j\tan(\beta\ell_s) = jb \;\;\Longrightarrow\;\; \boxed{b = \tan(\beta\ell_s)}$$
+
+<h4 style="margin:12px 0 4px;color:#2a6e5a">How to convert $\beta$ and $\ell_s$ into units of $\lambda$</h4>
+<p>The phase constant is $\beta = 2\pi/\lambda$, so:</p>
+$$\beta\ell_s = 2\pi \cdot \frac{\ell_s}{\lambda}$$
+<p>For example with $\ell_s = 0.100\lambda$: $\beta\ell_s = 36°$ and $b = \tan(36°) \approx 0.727$.</p>
+
+<h4 style="margin:12px 0 4px;color:#2a6e5a">$b$ at key values of $\ell_s$</h4>
+<table>
+<tr><th>$\ell_s$</th><th>$\beta\ell_s$</th><th>$b = \tan(\beta\ell_s)$</th><th>Physics</th></tr>
+<tr><td>$0$</td><td>$0°$</td><td>$0$</td><td>No effect (it is simply an open circuit)</td></tr>
+<tr><td>$\lambda/8$</td><td>$45°$</td><td>$+1$</td><td>Capacitive susceptance</td></tr>
+<tr><td>$\lambda/4^-$</td><td>$\to 90°^-$</td><td>$\to +\infty$</td><td>Equivalent to a short circuit (an impedance inverter)</td></tr>
+<tr><td>$\lambda/4^+$</td><td>$\to 90°^+$</td><td>$\to -\infty$</td><td>Jumps to $-\infty$ from the other side</td></tr>
+<tr><td>$3\lambda/8$</td><td>$135°$</td><td>$-1$</td><td>Inductive susceptance</td></tr>
+<tr><td>$\lambda/2$</td><td>$180°$</td><td>$0$</td><td>The $\lambda/2$ period brings it back to having no effect</td></tr>
+</table>
+
+<h4 style="margin:12px 0 4px;color:#2a6e5a">Why “open” rather than “short”</h4>
+<ul style="margin:4px 0 0 22px">
+<li><strong>Easier to fabricate on a PCB</strong>: open = the line simply stops there; short = a via to ground is needed, which adds a process step and parasitic inductance.</li>
+<li><strong>It covers the whole susceptance range</strong>: an open stub from $\ell_s = 0$ to $\lambda/4$ provides $b \in (0,+\infty)$, and from there to $\lambda/2$ it provides $b \in (-\infty, 0)$, covering the entire susceptance range.</li>
+<li><strong>The corresponding short-circuit stub differs only by $\lambda/4$ in length</strong>: $b_{\text{short}} = -\cot(\beta\ell_s)$, which is the open-stub curve translated by $\lambda/4$.</li>
+</ul>
+
+<h4 style="margin:12px 0 4px;color:#2a6e5a">The code for Demo 3</h4>
+<p>The JavaScript writes this formula directly:</p>
+<div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:12px 16px;font-size:1.32em;line-height:1.6;font-family:'Consolas','Menlo','Courier New','Noto Sans Mono CJK TC',monospace;overflow-x:auto">
+<table style="border-collapse:collapse;border:0;margin:0">
+<tr><td style="padding:0;border:0;white-space:pre"><span style="color:#0000ff">const</span> L = +ls.<span style="color:#795e26">value</span>;</td><td style="padding:0 0 0 1.5em;border:0;white-space:pre"><span style="color:#008000;font-style:italic">// stub length (in units of λ)</span></td></tr>
+<tr><td style="padding:0;border:0;white-space:pre"><span style="color:#0000ff">const</span> b = <span style="color:#001080">Math</span>.<span style="color:#795e26">tan</span>(<span style="color:#098658">2</span>*<span style="color:#001080">Math</span>.<span style="color:#0070c1">PI</span>*L);</td><td style="padding:0 0 0 1.5em;border:0;white-space:pre"><span style="color:#008000;font-style:italic">// b = tan(βℓ_s) = tan(2π·L)</span></td></tr>
+</table>
+</div>
+<p>The slider value $L = \ell_s/\lambda$, multiplied by $2\pi$, is the argument directly — no need to compute $\beta$ first.</p>
+
+<h4 style="margin:12px 0 4px;color:#2a6e5a">In one sentence</h4>
+<p>$b_{\text{open}} = \tan(\beta\ell_s)$, obtained by taking the limit $Z_L \to \infty$ for an open-circuited line. PCBs almost always use open stubs (no via needed), which is why this is the formula you meet most often in microwave circuit design.</p>
+</div>
+</details>
+
+<div class="demo">
+<h4>Interactive: a shunt open stub sliding along the $g=1$ circle</h4>
+<div class="demo-row">
+  <canvas id="d3-cv" class="demo-canvas" width="280" height="280"></canvas>
+  <div class="demo-controls">
+    <label>Open-stub length $\ell_s$ (λ): <strong><span id="d3-ls-v">0.000</span></strong></label>
+    <input type="range" id="d3-ls" min="0" max="0.249" value="0" step="0.001">
+    <div class="demo-info" id="d3-info"></div>
+    <div style="margin-top:6px;color:#666;font-size:0.85em">The green locus is the $g=1$ circle. The stub adds $jb = j\tan(\beta\ell_s)$, dragging the point from the centre outwards along the $g=1$ circle. $g$ stays at 1 throughout; only $b$ changes.</div>
+<details style="margin-top:8px">
+<summary style="cursor:pointer;font-weight:600;color:#2a6e5a;font-size:0.9em">▸ Why $g=1$? (click to expand)</summary>
+<div style="margin-top:6px;font-size:0.92em">
+<p>It is not that $g=1$ is the only option — it is because the demo's<strong>starting point is the centre of the Smith chart</strong>($y = 1$, $g = 1$). A shunt stub changes only $b$ and not $g$, so starting from the centre you must slide along the $g=1$ circle.</p>
+
+<h4 style="margin:10px 0 4px;color:#2a6e5a">The physical rule</h4>
+<p>Adding a pure susceptance $jb_{\text{stub}}$ in shunt:</p>
+$$y_{\text{new}} = y_{\text{old}} + jb_{\text{stub}}$$
+<p>The real part is unchanged ($g$ is conserved) and only the imaginary part changes:</p>
+$$g_{\text{new}} = g_{\text{old}}, \qquad b_{\text{new}} = b_{\text{old}} + b_{\text{stub}}$$
+<p>→ <strong>The point slides along a “constant-$g$ circle”</strong>, and the value of $g$ is set by the<strong>starting point</strong>.</p>
+
+<h4 style="margin:10px 0 4px;color:#2a6e5a">Different starting points correspond to different $g$ circles</h4>
+<table>
+<tr><th>Starting point $y_0$</th><th>The circle the start point lies on</th><th>Which circle it travels along once the shunt stub is added</th></tr>
+<tr><td>$y_0 = 1$ (the centre)</td><td>$g = 1$</td><td>$g = 1$ ✓ (the one the demo uses)</td></tr>
+<tr><td>$y_0 = 0.5 + j0.3$</td><td>$g = 0.5$</td><td>$g = 0.5$</td></tr>
+<tr><td>$y_0 = 2 - j1$</td><td>$g = 2$</td><td>$g = 2$</td></tr>
+<tr><td>$y_0 = 0.1 + j2$</td><td>$g = 0.1$</td><td>$g = 0.1$</td></tr>
+</table>
+
+<h4 style="margin:10px 0 4px;color:#2a6e5a">Why the demo chooses $g=1$</h4>
+<table>
+<tr><th>Reason</th><th>Notes</th></tr>
+<tr><td><strong>Simplest for teaching</strong></td><td>The start point is at the centre, which is the most intuitive, and only one $g$ circle needs to be drawn</td></tr>
+<tr><td><strong>Common in single-stub matching</strong></td><td>In the single-stub matching procedure, a series line rotates $\Gamma$ onto the $g=1$ circle and the stub then cancels the imaginary part to return to the centre — the $g=1$ circle is the “waypoint”</td></tr>
+<tr><td><strong>Normalized impedance $Z_0$</strong></td><td>$g=1$ means $G = Y_0 = 1/Z_0$, which is exactly the characteristic admittance of a 50 Ω line</td></tr>
+</table>
+
+<h4 style="margin:10px 0 4px;color:#2a6e5a">In the interactive demo figure</h4>
+<p>The starting point is the centre ($\Gamma = 0$, $y = 1$, $g = 1$, $b = 0$). As you drag the $\ell_s$ slider:</p>
+<ul style="margin:4px 0 0 22px">
+<li>$b$ increases from $0$ to $\tan(\beta\ell_s)$</li>
+<li>the point slides downwards along the $g=1$ circle (towards negative imaginary part, because $b > 0$)</li>
+<li>$g$ stays at 1 throughout, so it travels on the $g=1$ circle — a special case arising because the starting point happens to lie on the $g=1$ circle</li>
+</ul>
+<p>Had the starting point been $y = 2 + j0$ instead (i.e. $\Gamma = 0.333$, at the far right), the same stub would move the point along the $g = 2$ circle rather than $g=1$.</p>
+
+<h4 style="margin:10px 0 4px;color:#2a6e5a">In one sentence</h4>
+<p>“Sliding along the $g=1$ circle” is <strong>a consequence of the demo starting at $y=1$</strong>, not something intrinsic to a shunt stub. What is intrinsic to a shunt stub is “sliding along a constant-$g$ circle”, with $g$ set by the starting point.</p>
+</div>
+</details>
+  </div>
+</div>
+</div>
+</div>
+
+<h2>Are figures 1 and 3 the same circle? (impedance vs admittance viewpoints)</h2>
+
+<p class="lead">
+A common misconception: “<strong>Figure 1</strong>(the constant-$|\Gamma|$ circle) and<strong>figure 3</strong>(the constant-$g$ circle) are really the same circle, just viewed from the impedance side in one case and the admittance side in the other.” That claim is<strong>wrong</strong>of the image-reject mixer at low IF.
+</p>
+
+<h3>The three circles side by side</h3>
+<table>
+<tr><th>Circle</th><th>Centre</th><th>Radius</th><th>What every point on the circle shares</th></tr>
+<tr><td><strong>Figure 1: the constant-$\|\Gamma\|$ circle</strong></td><td>$(0,0)$</td><td>$\|\Gamma\|$ (variable)</td><td>$\|\Gamma\|$ (and hence VSWR / RL)</td></tr>
+<tr><td>The impedance family: constant-$r$ circles</td><td>$\left(\dfrac{r}{r+1},\,0\right)$ (towards the right)</td><td>$\dfrac{1}{r+1}$</td><td>Normalized resistance $r$</td></tr>
+<tr><td><strong>Figure 3: the constant-$g$ circle</strong></td><td>$\left(-\dfrac{g}{g+1},\,0\right)$ (towards the left)</td><td>$\dfrac{1}{g+1}$</td><td>Normalized conductance $g$</td></tr>
+</table>
+<p>Figures 1 and 3 differ in<strong>position, radius and physical quantity</strong> — they are three distinct families of circle.</p>
+
+<h3>What your intuition is actually reaching for is this relationship</h3>
+<p>The same impedance $z$ read on the Smith chart from the<strong>impedance viewpoint</strong>and from the<strong>admittance viewpoint</strong>lands at<strong>different positions</strong>(180° apart), because $\Gamma_y = -\Gamma_z$. But the <strong>“shape structure” of the constant-$r$ circles and the constant-$g$ circles is mirror-symmetric</strong>:</p>
+<table>
+<tr><th>Correspondence</th><th>Appearance on the Z-Smith chart</th><th>Appearance on the Y-Smith chart</th></tr>
+<tr><td>$r=1$ ↔ $g=1$</td><td>Centre $(+0.5,0)$, radius 0.5</td><td>Centre $(-0.5,0)$, radius 0.5</td></tr>
+<tr><td>$r=2$ ↔ $g=2$</td><td>Centre $(+0.67,0)$, radius 0.33</td><td>Centre $(-0.67,0)$, radius 0.33</td></tr>
+</table>
+<p>In other words — take the Z-Smith chart and<strong>rotate it 180° about the origin</strong>and you get the Y-Smith chart. “The $g=1$ circle of figure 3” is simply “the $r=1$ circle of the Z-Smith chart” flipped over.<strong>This correspondence holds only between the impedance-family and admittance-family circles; it has nothing to do with figure 1 (the concentric circles).</strong></p>
+
+<h3>Figure 1 has nothing to do with the impedance / admittance viewpoint</h3>
+<p>The existence of the constant-$|\Gamma|$ circle (figure 1)<strong>does not depend on distinguishing an impedance from an admittance viewpoint</strong> — it is simply the concentric circle at a fixed distance from the centre of the Smith chart, defined purely by the magnitude of $\Gamma$.</p>
+<p>Whether you read that point as $z = 0.6 + j0.4$ (impedance) or $y = 1.143 - j0.742$ (admittance), it lies on<strong>the very same $\|\Gamma\|$ circle</strong>.</p>
+
+<div style="background:#eef2f9;border-left:4px solid #3a5998;padding:10px 14px;border-radius:4px;margin:14px 0">
+<strong>Conclusion:</strong>
+<ul style="margin:6px 0 0 22px">
+<li><strong>Figure 1 vs figure 3</strong>: entirely different circles, not two viewpoints on impedance / admittance.</li>
+<li><strong>Figure 3 vs the constant-$r=1$ circle</strong>: *that* is the “one structure, two viewpoints” relationship (the $\Gamma_y = -\Gamma_z$ mirror).</li>
+</ul>
+</div>
+
+<h2>The three circles at a glance</h2>
+<table>
+<tr>
+<th>Concept</th>
+<th>Centre position</th>
+<th>What is the same at every point</th>
+<th>Design use</th>
+</tr>
+<tr>
+<td><span class="label-gamma">constant-$|\Gamma|$ circle</span></td>
+<td>the centre $(0,0)$</td>
+<td>VSWR, return loss</td>
+<td>the locus of series-line rotation</td>
+</tr>
+<tr>
+<td><span class="label-gs">constant-$G_S$ circle</span></td>
+<td>along the $O$–$S_{11}^*$ line</td>
+<td>source gain $G_S$</td>
+<td>choosing candidate $\Gamma_s$ points</td>
+</tr>
+<tr>
+<td><span class="label-g">constant-$g$ circle</span></td>
+<td>$(-0.5, 0)$ (concentric-inverted)</td>
+<td>the real part $g$ of the normalized admittance</td>
+<td>the locus of a shunt stub</td>
+</tr>
+</table>
+
+<h2>In one sentence</h2>
+<p>
+Every point on a constant-$G_S$ circle = one candidate $(\Gamma_s, z_s)$ pair, and<strong>they all give the same value of $G_S$</strong>. The hover feature of the interactive figure lets you slide along that circle and see what $\Gamma_s$ and $z_s$ correspond to each position.
+</p>
+
+<div class="footnote">
+<strong>A common confusion:</strong>the phrase “Γ circle” is ambiguous — some people mean the constant-$|\Gamma|$ circle (centred in the middle), others the constant-$G_S$ circle (whose centre is off to one side). Whenever you see “Γ circle”, check which one is meant; it saves a great deal of misunderstanding.
+</div>
+
+<script>
+// Shared Smith-chart drawing helpers
+function makeChart(canvas){
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const CX = W/2, CY = H/2, R0 = W*0.42;
+  function grid(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#ddd'; ctx.lineWidth=0.5;
+    ctx.beginPath(); ctx.arc(CX,CY,R0,0,2*Math.PI); ctx.stroke();
+    [0.2,0.5,1,2,5].forEach(r=>{
+      const rad=R0/(r+1);
+      ctx.beginPath(); ctx.arc(CX+R0-rad,CY,rad,0,2*Math.PI); ctx.stroke();
+    });
+    [0.5,1,2].forEach(x=>{
+      const rad=R0/x;
+      ctx.beginPath(); ctx.arc(CX+R0,CY-rad,rad,Math.PI*0.5,Math.PI); ctx.stroke();
+      ctx.beginPath(); ctx.arc(CX+R0,CY+rad,rad,Math.PI,Math.PI*1.5); ctx.stroke();
+    });
+    ctx.strokeStyle='#ccc';
+    ctx.beginPath(); ctx.moveTo(CX-R0,CY); ctx.lineTo(CX+R0,CY); ctx.stroke();
+  }
+  function toXY(re,im){ return [CX+re*R0, CY-im*R0]; }
+  function dot(re,im,color,r){
+    const [x,y]=toXY(re,im);
+    ctx.beginPath(); ctx.arc(x,y,r||4,0,2*Math.PI);
+    ctx.fillStyle=color; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  }
+  function circle(re,im,r,color,dash){
+    const [x,y]=toXY(re,im);
+    ctx.beginPath();
+    if(dash) ctx.setLineDash(dash); else ctx.setLineDash([]);
+    ctx.arc(x,y,r*R0,0,2*Math.PI);
+    ctx.strokeStyle=color; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  function arc(re,im,r,a1,a2,color,lw){
+    const [x,y]=toXY(re,im);
+    ctx.beginPath(); ctx.arc(x,y,r*R0,-a2,-a1);
+    ctx.strokeStyle=color; ctx.lineWidth=lw||2; ctx.stroke();
+  }
+  return {ctx,W,H,CX,CY,R0,grid,toXY,dot,circle,arc};
+}
+function gammaToZ(gRe,gIm){
+  const d=(1-gRe)*(1-gRe)+gIm*gIm;
+  return [(1-gRe*gRe-gIm*gIm)/d, (2*gIm)/d];
+}
+
+// ─── Demo 1: constant-|Γ| circle (series-line rotation) ───
+(function(){
+  const c = makeChart(document.getElementById('d1-cv'));
+  const gm = document.getElementById('d1-gm'), ga = document.getElementById('d1-ga'), ll = document.getElementById('d1-ll');
+  function update(){
+    const mag = +gm.value, angDeg = +ga.value, L = +ll.value;
+    document.getElementById('d1-gm-v').textContent = mag.toFixed(2);
+    document.getElementById('d1-ga-v').textContent = angDeg;
+    document.getElementById('d1-ll-v').textContent = L.toFixed(3);
+    c.grid();
+    c.circle(0,0,mag,'#0066cc',[4,3]);
+    // start point
+    const ang0 = angDeg*Math.PI/180;
+    const x0 = mag*Math.cos(ang0), y0 = mag*Math.sin(ang0);
+    c.dot(x0,y0,'#999',4);
+    // rotated point (CW by 4π·L)
+    const ang1 = ang0 - 4*Math.PI*L;
+    const x1 = mag*Math.cos(ang1), y1 = mag*Math.sin(ang1);
+    c.dot(x1,y1,'#0066cc',6);
+    // arc trace
+    if(L>0.001) c.arc(0,0,mag,ang1,ang0,'#0066cc',2.5);
+    // values
+    const [zr,zi] = gammaToZ(x1,y1);
+    const vswr = (1+mag)/(1-mag);
+    const rl = -20*Math.log10(mag);
+    let angOut = ang1*180/Math.PI; while(angOut<=-180) angOut+=360; while(angOut>180) angOut-=360;
+    const phase2bl = 4*Math.PI*L;            // 2βℓ in rad
+    const phase2blDeg = phase2bl*180/Math.PI;
+    document.getElementById('d1-info').textContent =
+      '|Γ| = '+mag.toFixed(3)+'  (fixed)\n'+
+      'ℓ = '+L.toFixed(3)+' λ\n'+
+      '2βℓ = 4π·L = '+phase2blDeg.toFixed(1)+'°  ('+phase2bl.toFixed(3)+' rad)\n'+
+      '∠Γ = ∠Γ₀ − 2βℓ = '+angOut.toFixed(1)+'°  ← only this one changes\n'+
+      'z = '+zr.toFixed(3)+(zi>=0?'+j':'−j')+Math.abs(zi).toFixed(3)+'\n'+
+      'VSWR = '+vswr.toFixed(2)+'  (fixed)\n'+
+      'RL = '+rl.toFixed(2)+' dB  (fixed)';
+  }
+  [gm,ga,ll].forEach(el=>el.addEventListener('input',update));
+  update();
+})();
+
+// ─── Demo 2: constant-G_S circle (gain-circle picker) ───
+(function(){
+  const c = makeChart(document.getElementById('d2-cv'));
+  const sm = document.getElementById('d2-sm'), sa = document.getElementById('d2-sa'), gs = document.getElementById('d2-gs');
+  let hover = null;
+  function compute(){
+    const s11m = +sm.value, s11a = +sa.value, gsDB = +gs.value;
+    document.getElementById('d2-sm-v').textContent = s11m.toFixed(2);
+    document.getElementById('d2-sa-v').textContent = s11a;
+    document.getElementById('d2-gs-v').textContent = gsDB.toFixed(1);
+    const GSmax = 1/(1-s11m*s11m);
+    const GS = Math.pow(10, gsDB/10);
+    const gS = Math.max(0, Math.min(1, GS/GSmax));
+    const den = 1-(1-gS)*s11m*s11m;
+    const cMag = gS*s11m/den;
+    const cAng = -s11a;  // S11* angle
+    const cRe = cMag*Math.cos(cAng*Math.PI/180);
+    const cIm = cMag*Math.sin(cAng*Math.PI/180);
+    const rr = Math.sqrt(Math.max(0,1-gS))*(1-s11m*s11m)/den;
+    return {s11m,s11a,gsDB,GSmax,gS,cRe,cIm,rr};
+  }
+  function draw(){
+    const p = compute();
+    c.grid();
+    c.circle(p.cRe,p.cIm,p.rr,'#c00');
+    // S11*
+    const s11sRe = p.s11m*Math.cos(-p.s11a*Math.PI/180);
+    const s11sIm = p.s11m*Math.sin(-p.s11a*Math.PI/180);
+    c.dot(s11sRe,s11sIm,'#c00',5);
+    const [sx,sy]=c.toXY(s11sRe,s11sIm);
+    c.ctx.fillStyle='#c00'; c.ctx.font='11px serif'; c.ctx.textAlign='left';
+    c.ctx.fillText('S₁₁*', sx+7, sy+4);
+    // center crosshair
+    const [ccx,ccy]=c.toXY(p.cRe,p.cIm);
+    c.ctx.strokeStyle='#c00'; c.ctx.lineWidth=1;
+    c.ctx.beginPath();
+    c.ctx.moveTo(ccx-4,ccy); c.ctx.lineTo(ccx+4,ccy);
+    c.ctx.moveTo(ccx,ccy-4); c.ctx.lineTo(ccx,ccy+4);
+    c.ctx.stroke();
+    let info = 'C_S = '+Math.hypot(p.cRe,p.cIm).toFixed(3)+'∠'+(Math.atan2(p.cIm,p.cRe)*180/Math.PI).toFixed(1)+'°\n'+
+               'r_S = '+p.rr.toFixed(3)+'\n'+
+               'G_S,max = '+(10*Math.log10(p.GSmax)).toFixed(2)+' dB\n';
+    if(hover){
+      const [zr,zi] = gammaToZ(hover.gRe,hover.gIm);
+      c.dot(hover.gRe,hover.gIm,'#c00',6);
+      info += '\n[hover on circle]\n'+
+              'Γ_s = '+Math.hypot(hover.gRe,hover.gIm).toFixed(3)+'∠'+(Math.atan2(hover.gIm,hover.gRe)*180/Math.PI).toFixed(1)+'°\n'+
+              'z_s = '+zr.toFixed(3)+(zi>=0?'+j':'−j')+Math.abs(zi).toFixed(3)+'\n'+
+              'Z_s = '+(50*zr).toFixed(1)+(zi>=0?'+j':'−j')+Math.abs(50*zi).toFixed(1)+' Ω';
+    } else {
+      info += '\nMove the mouse over the canvas to see Γ_s / z_s at each point on the circle';
+    }
+    document.getElementById('d2-info').textContent = info;
+  }
+  const cv = document.getElementById('d2-cv');
+  cv.addEventListener('mousemove', e=>{
+    const p = compute();
+    if(p.rr<1e-4){ hover=null; draw(); return; }
+    const r = cv.getBoundingClientRect();
+    const gRe = (e.clientX - r.left - c.CX)/c.R0;
+    const gIm = (c.CY - (e.clientY - r.top))/c.R0;
+    const dx = gRe-p.cRe, dy = gIm-p.cIm;
+    const d = Math.hypot(dx,dy);
+    if(d<1e-6){ hover={gRe:p.cRe+p.rr,gIm:p.cIm}; }
+    else{ hover={gRe:p.cRe + dx*p.rr/d, gIm:p.cIm + dy*p.rr/d}; }
+    draw();
+  });
+  cv.addEventListener('mouseleave', ()=>{ hover=null; draw(); });
+  cv.style.cursor='crosshair';
+  [sm,sa,gs].forEach(el=>el.addEventListener('input',draw));
+  draw();
+})();
+
+// ─── Demo 3: constant-g circle (shunt stub) ───
+(function(){
+  const c = makeChart(document.getElementById('d3-cv'));
+  const ls = document.getElementById('d3-ls');
+  function update(){
+    const L = +ls.value;
+    document.getElementById('d3-ls-v').textContent = L.toFixed(3);
+    c.grid();
+    c.circle(-0.5,0,0.5,'#2a9d3a',[4,3]);
+    const b = Math.tan(2*Math.PI*L);
+    const denom = 4 + b*b;
+    const gRe = -b*b/denom;
+    const gIm = -2*b/denom;
+    // start at center
+    c.dot(0,0,'#999',4);
+    // current
+    c.dot(gRe,gIm,'#2a9d3a',6);
+    // arc trace along g=1 circle from (0,0) to (gRe,gIm)
+    if(L>0.001 && b>0){
+      const thetaJ = Math.atan2(gIm, gRe+0.5);  // angle on g=1 circle
+      const [sx,sy] = c.toXY(0,0);
+      const [ex,ey] = c.toXY(gRe,gIm);
+      const ccx = c.CX + (-0.5)*c.R0, ccy = c.CY;
+      c.ctx.beginPath();
+      c.ctx.arc(ccx,ccy,0.5*c.R0, 0, -thetaJ, thetaJ>0);
+      c.ctx.strokeStyle='#2a9d3a'; c.ctx.lineWidth=2.5; c.ctx.stroke();
+    }
+    const [zr,zi] = gammaToZ(gRe,gIm);
+    const yRe = 1, yIm = b;  // y = 1 + jb (on g=1)
+    document.getElementById('d3-info').textContent =
+      'b = tan(βℓ_s) = '+b.toFixed(3)+'\n'+
+      'y = '+yRe.toFixed(3)+' + j'+yIm.toFixed(3)+'  ← g = 1 (fixed)\n'+
+      'Γ = '+Math.hypot(gRe,gIm).toFixed(3)+'∠'+(Math.atan2(gIm,gRe)*180/Math.PI).toFixed(1)+'°\n'+
+      'z = '+zr.toFixed(3)+(zi>=0?'+j':'−j')+Math.abs(zi).toFixed(3);
+  }
+  ls.addEventListener('input',update);
+  update();
+})();
+</script>
+
+<h2>Why does “radius = 0” mean maximum available gain?</h2>
+
+<details class="circle-card" style="background:#fff8e1;border-color:#f4b400;margin-top:18px">
+<summary style="cursor:pointer;font-weight:700;color:#8a6d00;font-size:1.02em;list-style:revert">▸ Maximum available power gain occurs when the radius of the constant input (or output) power gain circle is zero — why?</summary>
+<div style="margin-top:10px">
+
+<h3 style="margin-top:4px">Geometric intuition</h3>
+<p>A constant-$G_P$ (or $G_A$) circle is<strong>the set of all $\Gamma_L$ producing the same gain value</strong>. Each point on the circle is a different load impedance, yet they all give the same power gain.</p>
+
+<p>Turn $G_P$ up from small values and watch what happens to the circle:</p>
+<table>
+<tr><th>Value of $G_P$</th><th>Circle radius</th><th>Meaning</th></tr>
+<tr><td>small</td><td>large</td><td>Plenty of $\Gamma_L$ options — this gain is easy to achieve.</td></tr>
+<tr><td>larger</td><td>smaller</td><td>Fewer $\Gamma_L$ options — the design space narrows.</td></tr>
+<tr><td><strong>$G_{P,\max}$</strong></td><td><strong>0 (a single point)</strong></td><td><strong>Only one</strong>$\Gamma_L$ can still reach this gain — the simultaneous-conjugate-match $\Gamma_{ML}$.</td></tr>
+<tr><td>beyond $G_{P,\max}$</td><td>imaginary / negative</td><td>No real $\Gamma_L$ can produce a gain that large — physically impossible.</td></tr>
+</table>
+
+<p>So “radius = 0” marks<strong>the boundary between achievable and unachievable</strong>. Just below it there is a very small circle (lots of options crowded around $\Gamma_{ML}$); exactly at it there is a single point; beyond it the circle does not exist.</p>
+
+<h3>The mathematical derivation</h3>
+<p>The radius formula for the operating-gain circles (in the $\Gamma_L$ plane):</p>
+$$R_P \;=\; \frac{\sqrt{1 - 2K|S_{12}S_{21}|\,g_P + |S_{12}S_{21}|^2 g_P^2}}{\bigl|\,1 + g_P(|S_{22}|^2 - |\Delta|^2)\,\bigr|}, \qquad g_P = \frac{G_P}{|S_{21}|^2}$$
+
+<p>Set $R_P = 0$ — that is, make the discriminant under the square root vanish:</p>
+$$|S_{12}S_{21}|^2 g_P^2 \;-\; 2K|S_{12}S_{21}|\,g_P \;+\; 1 \;=\; 0$$
+
+<p>Solving this quadratic in $g_P$:</p>
+$$g_P \;=\; \frac{K \pm \sqrt{K^2 - 1}}{|S_{12}S_{21}|}$$
+
+<p>Taking the smaller root (the larger root corresponds to the unphysical “negative radius” region) and multiplying by $|S_{21}|^2$:</p>
+$$\boxed{\;G_{P,\max} \;=\; \frac{|S_{21}|}{|S_{12}|}\Bigl(K - \sqrt{K^2 - 1}\Bigr)\;}$$
+
+<p>This is exactly the <strong>maximum available gain</strong>($G_{MAG}$). It exists only when $K > 1$ (unconditionally stable); otherwise $\sqrt{K^2-1}$ is imaginary — which is also why MAG is undefined for a conditionally stable device.</p>
+
+<h3>The intuition in one sentence</h3>
+<div class="lead" style="margin:8px 0">
+Each gain circle is the “$\Gamma_L$ menu” for one gain value. The higher the gain you want, the shorter the menu. At maximum gain there is only one dish left on it — the conjugate-match point $\Gamma_{ML}$. Ask for any more and the menu is empty.
+</div>
+
+<h3>Why do the input and output circles shrink to points at the same time?</h3>
+<p>At maximum available gain the device is in a state of <strong>simultaneous conjugate match</strong>: $\Gamma_S = \Gamma_{MS}$ and $\Gamma_L = \Gamma_{ML}$, satisfying $\Gamma_{in} = \Gamma_S^*$ and $\Gamma_{out} = \Gamma_L^*$ simultaneously. Because $S_{12}$ couples the input and output ends together, you cannot shrink the output circle to a point while leaving the input circle finite — they reach zero radius at the<strong>same</strong>gain value together. That is why the slide says “input <em>or</em> output”.</p>
+
+</div>
+</details>
+
+<details class="circle-card" style="background:#eef7f1;border-color:#2a6e5a;margin-top:14px">
+<summary style="cursor:pointer;font-weight:700;color:#1f5444;font-size:1.02em;list-style:revert">▸ What is MAG? (Maximum Available Gain)</summary>
+<div style="margin-top:10px">
+
+<h3 style="margin-top:4px">Definition</h3>
+<p><strong>MAG (Maximum Available Gain)</strong> = the maximum power gain a two-port device (usually a transistor) can achieve under<strong>simultaneous conjugate match</strong> .</p>
+
+<p>Formula:</p>
+$$G_{MAG} = \frac{|S_{21}|}{|S_{12}|}\Bigl(K - \sqrt{K^2 - 1}\Bigr) \qquad (\text{defined only for } K > 1)$$
+
+<h3>What the word “available” means</h3>
+<p>The definition of available gain $G_A$:</p>
+$$G_A = \frac{\text{power available from the device to the load}}{\text{power available from the source to the device}}$$
+<p>Note that “available” presupposes<strong>that the downstream end is already perfectly conjugate-matched</strong>and extracts all of the available power. Hence $G_A$ <strong>depends only on $\Gamma_S$</strong>and not on the actual $\Gamma_L$ (since the output is assumed to take all of the available power).</p>
+
+<p>When you also choose $\Gamma_S$ to maximise $G_A$ — that is, $\Gamma_S = \Gamma_{MS}$ — both ends are conjugate-matched at once, and that maximum is <strong>MAG</strong>of the image-reject mixer at low IF.</p>
+
+<h3>The three gains in one table</h3>
+<table>
+<tr><th>Name</th><th>Symbol</th><th>Assumption</th><th>Formula (after optimization)</th></tr>
+<tr><td>Transducer gain</td><td>$G_T$</td><td>Actual input + actual output (both ends may be mismatched)</td><td>Depends on $\Gamma_S, \Gamma_L$</td></tr>
+<tr><td><strong>Available gain</strong></td><td>$G_A$</td><td>Actual $\Gamma_S$,<strong>output conjugate-matched</strong></td><td>$\dfrac{|S_{21}|^2 (1-|\Gamma_S|^2)}{|1-S_{11}\Gamma_S|^2 (1-|\Gamma_{out}|^2)}$</td></tr>
+<tr><td><strong>MAG</strong></td><td>$G_{MAG}$</td><td><strong>Both input and output conjugate-matched</strong>($K>1$)</td><td>$\dfrac{|S_{21}|}{|S_{12}|}(K-\sqrt{K^2-1})$</td></tr>
+</table>
+
+<p>The relationship between the three: $G_T \le G_A \le G_{MAG}$, with equality when the corresponding matching condition is met.</p>
+
+<h3>Why it matters in practice</h3>
+<ul>
+<li><strong>MAG is the device's “gain ceiling”</strong>: at this frequency, no matter how you design the matching networks, the most passive matching can extract from this transistor is MAG.</li>
+<li><strong>A number telling you whether the device is any good</strong>: look at the MAG-versus-frequency curve on a datasheet and you know how high in frequency the device still has useful gain.</li>
+<li><strong>At $K = 1$ it degenerates into MSG</strong>: $G_{MAG} \to \dfrac{|S_{21}|}{|S_{12}|}$, the gain ceiling on the stability boundary, and the target for a conditionally stable device once a stabilizing circuit has been added.</li>
+</ul>
+
+<div class="lead" style="margin:10px 0">
+<strong>In one sentence:</strong> MAG = the maximum power gain a device can be squeezed for under the ideal condition of “simultaneous conjugate match at both ends”. It is a property of the device itself (determined by the S-parameters plus K) and has nothing to do with the $\Gamma_S, \Gamma_L$ you choose — because it already presumes you chose the optimal pair that conjugate-matches both ends at once.
+</div>
+
+</div>
+</details>
+
+<details class="circle-card" style="background:#fdecea;border-color:#c0392b;margin-top:14px">
+<summary style="cursor:pointer;font-weight:700;color:#922616;font-size:1.02em;list-style:revert">▸ Why is MAG undefined for a conditionally stable device ($K&lt;1$)?</summary>
+<div style="margin-top:10px">
+
+<h3 style="margin-top:4px">The mathematical breakdown</h3>
+<p>The MAG formula:</p>
+$$G_{MAG} = \frac{|S_{21}|}{|S_{12}|}\Bigl(K - \sqrt{K^2 - 1}\Bigr)$$
+<p>When $K < 1$ (conditionally stable):</p>
+<ul>
+<li>$K^2 - 1 < 0$</li>
+<li>$\sqrt{K^2-1}$ becomes<strong>purely imaginary</strong></li>
+<li>and the whole of $G_{MAG}$ becomes complex — there is no real number to call the “maximum available gain”</li>
+</ul>
+
+<h3>The physical meaning — why this happens</h3>
+<p>Return to the picture of “the circle shrinking to a point”. When $K > 1$, turning $G_P$ up makes the circle shrink monotonically<strong>from the outside inwards</strong>, finally collapsing onto the single point $\Gamma_{ML}$, at which MAG is reached.</p>
+<p>When $K < 1$, the circle<strong>does not shrink monotonically</strong>. It does one of two “bad” things:</p>
+<table>
+<tr><th>Behaviour</th><th>Consequence</th></tr>
+<tr><td>The circle grows larger and larger, even<strong>enclosing or crossing the unit-circle boundary of the Smith chart</strong></td><td>The “corresponding optimal $\Gamma_L$” ends up in the region $|\Gamma_L| \ge 1$ — not a passive load, but one that would have to supply power actively</td></tr>
+<tr><td>The circle itself stays inside the unit circle, but <strong>$\Gamma_{out}$ or $\Gamma_{in}$ moves outside it</strong></td><td>The device becomes an oscillator, not an amplifier</td></tr>
+</table>
+<p>In other words: the simultaneous conjugate match $\Gamma_{MS}, \Gamma_{ML}$ can still be solved for “formally”, but<strong>that pair of solutions falls in the unstable region</strong>and is not a physically realizable passive match.</p>
+
+<h3>In one sentence</h3>
+<div class="lead" style="margin:8px 0">
+$K > 1$: the gain ceiling is cleanly defined by “the circle shrinking to a point” → that point is MAG.<br>
+$K < 1$: the gain ceiling is cut short by stability → the gain you can obtain is no longer limited by the shrinking circle but by “not letting the device oscillate” → MAG loses its meaning.
+</div>
+
+<h3>The substitute — MSG (Maximum Stable Gain)</h3>
+<p>For a conditionally stable device, engineers use instead:</p>
+$$G_{MSG} = \frac{|S_{21}|}{|S_{12}|}$$
+<p>which is precisely the value of the MAG formula with $K = 1$ ($\sqrt{K^2-1} = 0$). Its meaning:<strong>if you can stabilize the device onto the $K = 1$ boundary with an external resistor</strong>, this is the most gain you can get. Any more and you must sacrifice stability.</p>
+
+<p>So the practical design procedure for a conditionally stable device is:</p>
+<ol>
+<li>First add a stabilizing resistor or feedback to pull $K$ above 1</li>
+<li>Then compute MAG for the stabilized device</li>
+<li>Or simply accept MSG as the design ceiling</li>
+</ol>
+
+</div>
+</details>
+
+<details class="circle-card" style="background:#eef2f9;border-color:#3a5998;margin-top:14px">
+<summary style="cursor:pointer;font-weight:700;color:#26426e;font-size:1.02em;list-style:revert">▸ Why is $g_A = G_A / |S_{21}|^2 > 1$ typically?</summary>
+<div style="margin-top:10px">
+
+<h3 style="margin-top:4px">First, the physical meaning of $|S_{21}|^2$</h3>
+<p>$|S_{21}|^2$ is the value of the transducer gain $G_T$ when<strong>both ends are terminated directly in $Z_0$</strong>($\Gamma_S = 0,\;\Gamma_L = 0$):</p>
+$$G_T \Big|_{\Gamma_S=0,\;\Gamma_L=0} = |S_{21}|^2$$
+<p>That is, the most rudimentary case of “<strong>no matching at all</strong>”: the source connected straight to the device through 50 Ω, and the load likewise 50 Ω.</p>
+
+<h3>Why available gain must be larger than that</h3>
+<p>$G_A$ is defined with the actual $\Gamma_S$, but with<strong>the output already conjugate-matched</strong>(the load end takes all of the available power). So even if you<strong>have not matched the input yet</strong>($\Gamma_S = 0$), $G_A$ already includes an “output-matching bonus”:</p>
+$$G_A \Big|_{\Gamma_S = 0} = \frac{|S_{21}|^2}{1 - |S_{22}|^2}$$
+<p>because when $\Gamma_S = 0$ we have $\Gamma_{out} = S_{22}$, and conjugate-matching the output<strong>gives back</strong>the factor $(1-|S_{22}|^2)$ that was lost with $\Gamma_L = 0$. Hence:</p>
+$$g_A \Big|_{\Gamma_S = 0} = \frac{G_A}{|S_{21}|^2} = \frac{1}{1 - |S_{22}|^2} \;>\; 1$$
+<p>which already guarantees $g_A > 1$ — before any input matching at all.</p>
+
+<h3>A concrete example</h3>
+<p>Take a typical RF transistor: $|S_{11}| = 0.6,\; |S_{22}| = 0.5,\; |S_{21}| = 2.5,\; |S_{12}| = 0.1$</p>
+<table>
+<tr><th>Choice of $\Gamma_S$</th><th>Approximate $g_A$</th></tr>
+<tr><td>$\Gamma_S = 0$ (no input matching)</td><td>$1/(1-0.5^2) = 1.33$</td></tr>
+<tr><td>Somewhere on an intermediate gain circle</td><td>$\sim 2$ – $3$</td></tr>
+<tr><td>$\Gamma_S = \Gamma_{MS}$ (max available)</td><td>possibly $5$ – $10$</td></tr>
+</table>
+<p>Each constant-$G_A$ circle corresponds to one value of $g_A$; the circle you want to draw is the one that makes $G_A$ reach some target $G_{Ak}$, so $g_A = G_{Ak}/|S_{21}|^2$ is naturally $> 1$.</p>
+
+<h3>Why this normalization is useful</h3>
+<p>Using $G_A$ (a linear ratio) directly mixes it up with the device's own characteristics; dividing by $|S_{21}|^2$ gives $g_A$, the dimensionless quantity “<strong>how many times better than the zero-matching baseline</strong>”.</p>
+
+<p>The centre and radius formulas (the bilateral case):</p>
+$$C_A = \frac{g_A\,C_1^*}{1 + g_A(|S_{11}|^2 - |\Delta|^2)}, \qquad R_A = \frac{\sqrt{1 - 2K|S_{12}S_{21}|g_A + |S_{12}S_{21}|^2 g_A^2}}{\bigl|1 + g_A(|S_{11}|^2 - |\Delta|^2)\bigr|}$$
+<p>Notice that all the formulas take $g_A$ directly rather than $G_A$ — once $|S_{21}|^2$ is factored out, what remains<strong>depends only on the matching state</strong>, and the formulas take a clean form.</p>
+
+<div class="lead" style="margin:10px 0">
+<strong>In one sentence:</strong> $|S_{21}|^2$ = the “bare gain” baseline with no matching whatsoever. $g_A$ = the factor by which your target gain exceeds that baseline. As long as your target is<strong>better than plugging it straight into 50 Ω</strong>(which is virtually always the case, since conjugate-matching the output alone squeezes out a factor of $1/(1-|S_{22}|^2)$), $g_A$ is $> 1$.
+</div>
+
+<h3>The exception (when $g_A &lt; 1$ does happen)</h3>
+<p>Only if you<strong>deliberately</strong>deliberately choose a target gain worse than $|S_{21}|^2$ (sacrificing gain for extremely wide bandwidth or an excellent noise match, say) does $g_A$ fall below 1. Such designs turn up occasionally in LNAs but rarely in general amplifier design — which is why the slide says “typically” rather than “always”.</p>
+
+</div>
+</details>
+
+
+<details style="margin:16px 0;background:#f6fafd;border:1px solid #cfdbef;border-radius:8px;padding:0">
+<summary style="cursor:pointer;list-style:revert;padding:8px 14px;font-weight:700;color:#3a5998;font-size:1em">The meaning of the four reflection coefficients $\Gamma_s,\,\Gamma_l,\,\Gamma_{in},\,\Gamma_{out}$ and how they differ</summary>
+<div style="padding:10px 16px 14px;font-size:0.93em;line-height:1.65">
+
+<table style="width:100%;border-collapse:collapse;margin:8px 0">
+<tr style="background:#3a5998;color:#fff;font-weight:700">
+  <th style="padding:7px 10px;text-align:left">Symbol</th>
+  <th style="padding:7px 10px;text-align:left">Direction</th>
+  <th style="padding:7px 10px;text-align:left">Set by</th>
+  <th style="padding:7px 10px;text-align:left">Physical meaning</th>
+</tr>
+<tr>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">$\Gamma_s$</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">Looking towards the source (outside port 1)</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef"><strong>Chosen by the designer</strong>(the input matching network)</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">The reflection coefficient of the source impedance against $Z_0$; you use it to pick an operating point on a gain circle or a noise circle</td>
+</tr>
+<tr style="background:#f0f4ff">
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">$\Gamma_l$</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">Looking towards the load (outside port 2)</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef"><strong>Chosen by the designer</strong>(the output matching network)</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">The reflection coefficient of the load impedance against $Z_0$; usually set to $\Gamma_{out}^*$ to achieve a conjugate match</td>
+</tr>
+<tr>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">$\Gamma_{in}$</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">Looking into the transistor from port 1</td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef"><strong>Set by the device together with $\Gamma_l$</strong></td>
+  <td style="padding:7px 10px;border-bottom:1px solid #cfdbef">The equivalent reflection coefficient at the transistor input; when $S_{12}\neq 0$ it depends on $\Gamma_l$: $\Gamma_{in} = S_{11} + \dfrac{S_{12}S_{21}\Gamma_l}{1-S_{22}\Gamma_l}$</td>
+</tr>
+<tr style="background:#f0f4ff">
+  <td style="padding:7px 10px">$\Gamma_{out}$</td>
+  <td style="padding:7px 10px">Looking into the transistor from port 2</td>
+  <td style="padding:7px 10px"><strong>Set by the device together with $\Gamma_s$</strong></td>
+  <td style="padding:7px 10px">The equivalent reflection coefficient at the transistor output; when $S_{12}\neq 0$ it depends on $\Gamma_s$: $\Gamma_{out} = S_{22} + \dfrac{S_{12}S_{21}\Gamma_s}{1-S_{11}\Gamma_s}$</td>
+</tr>
+</table>
+
+<p style="margin:10px 0 4px"><strong>A way to remember it</strong></p>
+<ul style="margin:2px 0 0 20px;line-height:1.65">
+  <li>$\Gamma_s$ and $\Gamma_l$ are<em>external</em>, under the designer's control — the impedances you<strong>present to</strong>the transistor.</li>
+  <li>$\Gamma_{in}$ and $\Gamma_{out}$ are<em>internal</em>, the reflections presented by the transistor itself (together with the load on the other side) — the impedances the transistor<strong>presents to</strong>the external circuit.</li>
+</ul>
+
+<p style="margin:10px 0 4px"><strong>The difference between the unilateral ($S_{12}=0$) and bilateral ($S_{12}\neq 0$) cases</strong></p>
+<table style="width:100%;border-collapse:collapse;margin:4px 0;font-size:0.92em">
+<tr style="background:#3a5998;color:#fff;font-weight:700">
+  <th style="padding:6px 10px;text-align:left"></th>
+  <th style="padding:6px 10px;text-align:left">Unilateral, $S_{12}=0$</th>
+  <th style="padding:6px 10px;text-align:left">Bilateral, $S_{12}\neq 0$</th>
+</tr>
+<tr>
+  <td style="padding:6px 10px;border-bottom:1px solid #cfdbef">$\Gamma_{in}$</td>
+  <td style="padding:6px 10px;border-bottom:1px solid #cfdbef">$= S_{11}$ (independent of $\Gamma_l$)</td>
+  <td style="padding:6px 10px;border-bottom:1px solid #cfdbef">Varies with $\Gamma_l$</td>
+</tr>
+<tr style="background:#f0f4ff">
+  <td style="padding:6px 10px;border-bottom:1px solid #cfdbef">$\Gamma_{out}$</td>
+  <td style="padding:6px 10px;border-bottom:1px solid #cfdbef">$= S_{22}$ (independent of $\Gamma_s$)</td>
+  <td style="padding:6px 10px;border-bottom:1px solid #cfdbef">Varies with $\Gamma_s$</td>
+</tr>
+<tr>
+  <td style="padding:6px 10px">Input/output matching</td>
+  <td style="padding:6px 10px">Can be designed independently</td>
+  <td style="padding:6px 10px">Coupled — choose $\Gamma_s$ first, compute $\Gamma_{out}$, and only then fix $\Gamma_l = \Gamma_{out}^*$</td>
+</tr>
+</table>
+
+</div>
+</details>
+
+</body>
+</html>

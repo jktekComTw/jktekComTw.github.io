@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Low-Noise and Power Amplifiers — Self-Study Guide | RF Circuit Ch.3</title>
-<meta name="description" content="Chapter 3 study guide on RF amplifier design: low-noise amplifiers (LNA) and power amplifiers (PA), S-parameters, stability, gain circles, noise matching, conjugate matching, load-pull, and amplifier classes. 射頻低雜訊與功率放大器設計學習指南。">
-<meta name="keywords" content="amplifier design, low-noise amplifier, LNA, power amplifier, PA, S-parameters, stability, gain circles, noise matching, conjugate matching, load-pull, amplifier classes, RF circuit, 射頻放大器, 低雜訊放大器, 功率放大器, study guide, 昭群科技, JiaoKuan Technology">
-<meta name="author" content="昭群科技 JiaoKuan Technology">
+<meta name="description" content="Chapter 3 study guide on RF amplifier design: low-noise amplifiers (LNA) and power amplifiers (PA), S-parameters, stability, gain circles, noise matching, conjugate matching, load-pull, and amplifier classes. English edition.">
+<meta name="keywords" content="amplifier design, low-noise amplifier, LNA, power amplifier, PA, S-parameters, stability, gain circles, noise matching, conjugate matching, load-pull, amplifier classes, RF circuit, RF amplifier, study guide, JiaoKuan Technology">
+<meta name="author" content="JiaoKuan Technology">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide.html">
+<link rel="canonical" href="https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide_EN.html">
 <meta property="og:type" content="article">
-<meta property="og:site_name" content="昭群科技 JiaoKuan Technology">
+<meta property="og:site_name" content="JiaoKuan Technology">
 <meta property="og:title" content="Low-Noise and Power Amplifiers — RF Circuit Study Guide Ch.3">
-<meta property="og:description" content="射頻放大器設計學習指南：低雜訊放大器 (LNA)、功率放大器 (PA)、S 參數、穩定度、增益圓、雜訊匹配、共軛匹配、load-pull 與放大器類別。">
-<meta property="og:url" content="https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide.html">
+<meta property="og:description" content="Study guide to RF amplifier design: low-noise amplifiers (LNA), power amplifiers (PA), S-parameters, stability, gain circles, noise matching, conjugate matching, load-pull and amplifier classes.">
+<meta property="og:url" content="https://www.jktek.com.tw/textbook/radio_circuit/Ch3_Amplifier_Design_Study_Guide_EN.html">
 <meta property="og:image" content="https://www.jktek.com.tw/capy.jpg">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="zh_TW">
@@ -148,7 +148,7 @@ footer { margin-top:60px; padding:30px 0; text-align:center; border-top:2px soli
 </style>
 </head>
 <body>
-<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">中文</span><a href="Ch3_Amplifier_Design_Study_Guide_EN.html" hreflang="en" lang="en" title="English version">EN</a></div>
+<div id="lang-switch" role="navigation" aria-label="Language"><span class="cur" aria-current="true">EN</span><a href="Ch3_Amplifier_Design_Study_Guide.html" hreflang="zh-Hant" lang="zh-Hant" title="中文版本">中文</a></div>
 
 
 <details class="outline" open>
@@ -759,7 +759,7 @@ $$Y = G + jB \;\;[\text{S, siemens}] \qquad y = Y\cdot Z_0 = g + jb \;\;\text{(n
         const g2 = zToG(z2);
         return '<div class="lesson-h">Lesson 4 — Series L (or C) added in cascade</div>' +
           '<p>A series element <em>adds reactance</em>: $z\' = z + jx_{elem}$ where $x_{elem} = \\omega L / Z_0$ (inductor, +) or $-1/(\\omega C\\, Z_0)$ (capacitor, −). On the chart this <strong>moves the point along the constant-$r$ circle</strong> (resistance unchanged).</p>' +
-          '<p style="color:#555">串聯元件會 <em>增加電抗</em>：$z\' = z + jx_{elem}$，其中 $x_{elem} = \\omega L / Z_0$（電感，+）或 $-1/(\\omega C\\, Z_0)$（電容，−）。在 Smith chart 上，此操作會 <strong>沿著等電阻 ($r$ 不變) 圓移動該點</strong>。</p>' +
+          '<p style="color:#555">A series element <em>adds reactance</em>: $z\' = z + jx_{elem}$, where $x_{elem} = \\omega L / Z_0$ (inductor, +) or $-1/(\\omega C\\, Z_0)$ (capacitor, −). On the Smith chart this operation <strong>moves the point along a constant-resistance (constant $r$) circle</strong>.</p>' +
           '<p>The dashed black arc shows the path from your marker to the new point as $x_{elem}$ goes from 0 to the slider value. <strong>Up</strong> = adding inductor; <strong>down</strong> = adding capacitor.</p>' +
           '<div class="ctrl-row"><label>Added series reactance $x_{elem}$ = <strong><span id="se-val">' + xElem.toFixed(2) + '</span></strong> &nbsp;<span style="color:#888;font-size:0.85em">' + (xElem>=0?'(inductive)':'(capacitive)') + '</span><br>' +
           '<input type="range" id="se-r" min="-3" max="3" step="0.05" value="' + xElem + '" style="width:260px"></label></div>' +
@@ -774,8 +774,8 @@ $$Y = G + jB \;\;[\text{S, siemens}] \qquad y = Y\cdot Z_0 = g + jb \;\;\text{(n
         return '<div class="lesson-h">Lesson 5 — Shunt C (or L) added in parallel</div>' +
           '<p>A shunt element <em>adds susceptance</em>: $y\' = y + jb_{elem}$ where $b_{elem} = \\omega C\\, Z_0$ (capacitor, +) or $-1/(\\omega L)\\,Z_0$ (inductor, −). On the chart this <strong>moves the point along the constant-conductance ($g$) circle</strong> on the admittance Smith chart (the impedance chart rotated 180°).</p>' +
           '<p><strong>+</strong> = adding shunt capacitor (rotates clockwise on impedance chart); <strong>−</strong> = adding shunt inductor (rotates counter-clockwise).</p>' +
-          '<p style="color:#555">並聯元件會 <em>增加電納 (susceptance)</em>：$y\' = y + jb_{elem}$，其中 $b_{elem} = \\omega C\\, Z_0$（電容，+）或 $-1/(\\omega L)\\,Z_0$（電感，−）。在 Smith chart 上，此操作會 <strong>沿著導納 chart 上的等電導 ($g$ 不變) 圓移動該點</strong>（導納 chart 即阻抗 chart 旋轉 180°）。</p>' +
-          '<p style="color:#555"><strong>+</strong> = 加入並聯電容（在阻抗 chart 上沿順時針旋轉）；<strong>−</strong> = 加入並聯電感（沿逆時針旋轉）。</p>' +
+          '<p style="color:#555">A shunt element <em>adds susceptance</em>: $y\' = y + jb_{elem}$, where $b_{elem} = \\omega C\\, Z_0$ (capacitor, +) or $-1/(\\omega L)\\,Z_0$ (inductor, −). On the Smith chart this operation <strong>moves the point along a constant-conductance (constant $g$) circle of the admittance chart</strong> (the admittance chart being the impedance chart rotated by 180°).</p>' +
+          '<p style="color:#555"><strong>+</strong> = add a shunt capacitor (rotate clockwise on the impedance chart); <strong>−</strong> = add a shunt inductor (rotate anticlockwise).</p>' +
           '<div class="ctrl-row"><label>Added shunt susceptance $b_{elem}$ = <strong><span id="sh-val">' + bElem.toFixed(2) + '</span></strong> &nbsp;<span style="color:#888;font-size:0.85em">' + (bElem>=0?'(capacitive)':'(inductive)') + '</span><br>' +
           '<input type="range" id="sh-r" min="-3" max="3" step="0.05" value="' + bElem + '" style="width:260px"></label></div>' +
           '<div class="readout">Start: $z$ = ' + fmt0(z.re) + fmt(z.im) + 'j&nbsp;&nbsp; $y$ = ' + fmt0(y.re) + fmt(y.im) + 'j<br>After shunt: $y\'$ = ' + fmt0(y2.re) + fmt(y2.im) + 'j&nbsp;&nbsp; $z\'$ = ' + fmt0(z2s.re) + fmt(z2s.im) + 'j<br>$\\Gamma\'$ = ' + magOf(g2s).toFixed(3) + ' ∠ ' + angOf(g2s).toFixed(1) + '°</div>';
@@ -785,7 +785,7 @@ $$Y = G + jB \;\;[\text{S, siemens}] \qquad y = Y\cdot Z_0 = g + jb \;\;\text{(n
         return '<div class="lesson-h">Lesson 6 — Quarter-wave transmission line</div>' +
           '<p>A lossless transmission line of length $\\ell$ rotates $\\Gamma$ by $-2\\beta\\ell$ <em>at the same magnitude</em>. For $\\ell = \\lambda/4$, the rotation is exactly $180°$ → $\\Gamma\' = -\\Gamma$.</p>' +
           '<p style="font-size:0.9em;color:#555">Here $\\beta = 2\\pi/\\lambda = \\omega/v_p$ is the <strong>phase constant</strong> of the line (rad/m) — the phase the wave picks up per metre. So $\\beta\\ell$ is the one-way phase delay and $2\\beta\\ell$ is the round-trip phase that rotates $\\Gamma$ as the reference plane slides toward the generator. $\\ell=\\lambda/4 \\Rightarrow \\beta\\ell=\\pi/2$; $\\ell=\\lambda/2 \\Rightarrow \\beta\\ell=\\pi$ (full $360°$, back to start). $|\\Gamma|$ is unchanged because the line is lossless ($\\alpha=0$).</p>' +
-          '<p style="font-size:0.9em;color:#555">中文說明：$\\beta = 2\\pi/\\lambda = \\omega/v_p$ 為傳輸線的 <strong>相位常數 (phase constant)</strong>，單位 rad/m，代表波每傳播一公尺所累積的相位。$\\beta\\ell$ 是單程相位延遲；$2\\beta\\ell$ 則是往返一次的相位，等於將參考平面沿線往訊號源方向移動時，$\\Gamma$ 在 Smith chart 上順時針旋轉的角度。$\\ell=\\lambda/4 \\Rightarrow \\beta\\ell=\\pi/2$（旋轉 $180°$）；$\\ell=\\lambda/2 \\Rightarrow \\beta\\ell=\\pi$（旋轉一整圈 $360°$，回到原點）。因為是無耗 ($\\alpha=0$) 線，$|\\Gamma|$ 不變。</p>' +
+          '<p style="font-size:0.9em;color:#555">Note: $\\beta = 2\\pi/\\lambda = \\omega/v_p$ is the <strong>phase constant</strong> of the transmission line, in rad/m — the phase accumulated by the wave per metre of propagation. $\\beta\\ell$ is the one-way phase delay; $2\\beta\\ell$ is the round-trip phase, which equals the clockwise angle through which $\\Gamma$ rotates on the Smith chart as the reference plane is moved along the line towards the generator. $\\ell=\\lambda/4 \\Rightarrow \\beta\\ell=\\pi/2$ (a $180°$ rotation); $\\ell=\\lambda/2 \\Rightarrow \\beta\\ell=\\pi$ (a full $360°$ turn, back to the start). Because the line is lossless ($\\alpha=0$), $|\\Gamma|$ is unchanged.</p>' +
           '<p>Equivalently $z\' = 1/z$ — the famous <strong>impedance inverter</strong> property: $Z\' = Z_0^2 / Z$.</p>' +
           '<p>The dashed circle is the constant-$|\\Gamma|$ trajectory; the orange dot is your point after a $\\lambda/4$ line.</p>' +
           '<div class="readout">Before: $z$ = ' + fmt0(z.re) + fmt(z.im) + 'j&nbsp; $|\\Gamma|$ = ' + magOf(g).toFixed(3) + '<br>After λ/4: $z\'$ = ' + fmt0(zQ.re) + fmt(zQ.im) + 'j&nbsp; $|\\Gamma|$ = ' + magOf(gQ).toFixed(3) + ' (unchanged)<br>For $Z_0=50$ Ω: $Z = ' + (z.re*50).toFixed(1) + fmt(z.im*50) + 'j$ Ω &nbsp;⇒&nbsp; $Z\' = 50^2 / Z = ' + (zQ.re*50).toFixed(1) + fmt(zQ.im*50) + 'j$ Ω</div>';
@@ -1249,7 +1249,7 @@ $$R_L = \frac{0.440 \times 0.64}{0.9302} = \frac{0.2816}{0.9302} = 0.303.$$
 <tr style="background:#e8f0fa;font-weight:700">
   <th style="padding:4px 10px;border-bottom:1px solid #cfdbef;text-align:left">$|\Gamma|$</th>
   <th style="padding:4px 10px;border-bottom:1px solid #cfdbef;text-align:left">Normalized $z$</th>
-  <th style="padding:4px 10px;border-bottom:1px solid #cfdbef;text-align:left">Network burden <span style="color:#666;font-weight:400;font-size:0.85em">(stub = 短截線)</span></th>
+  <th style="padding:4px 10px;border-bottom:1px solid #cfdbef;text-align:left">Network burden <span style="color:#666;font-weight:400;font-size:0.85em">(stub = a short length of line)</span></th>
 </tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #cfdbef">0</td><td style="padding:4px 10px;border-bottom:1px solid #cfdbef">1 (matched)</td><td style="padding:4px 10px;border-bottom:1px solid #cfdbef">no element needed</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #cfdbef">0.33</td><td style="padding:4px 10px;border-bottom:1px solid #cfdbef">$\sim 2$ or $\sim 0.5$</td><td style="padding:4px 10px;border-bottom:1px solid #cfdbef">modest L/C, short stub</td></tr>
@@ -1296,8 +1296,8 @@ $$Z_\Gamma = Z_0\,\frac{1+\Gamma}{1-\Gamma}, \qquad R_\Gamma = Z_0\,\frac{1-|\Ga
 
 <p style="margin-top:8px"><strong>The trade-off:</strong> the only hard constraint is &quot;stay on the gain circle.&quot; Anywhere on it gives the target gain, so within that freedom you pick the point closest to the center for the smallest network and best bandwidth. Other reasons to leave the center (e.g. hitting a noise-figure target) only matter when they conflict with the gain constraint.</p>
 
-<p style="margin-top:6px;color:#666;font-size:0.9em"><strong>中文摘要：</strong>越靠近 Smith 圖中心 ($\Gamma=0$ 即 $Z=Z_0$)，匹配網路需要做的阻抗轉換越小：所需電感、電容或短截線長度都較小，且網路 $Q$ 值低 ($Q=\sqrt{R_{\text{high}}/R_{\text{low}}-1}$)，因此頻寬較寬。增益圓上任何點都能達到目標增益，因此在圓上挑最靠近中心的點，是免費換來最小元件與最寬頻寬的選擇。</p>
-<p style="margin-top:4px;color:#666;font-size:0.88em"><strong>術語：</strong>「stub」中文為<strong>短截線</strong>（亦稱支線、短路線）。常見組合：<em>open stub</em>＝開路短截線，<em>shorted stub</em>＝短路短截線，<em>quarter-wave stub</em>＝四分之一波長短截線（$\lambda/4$ 短截線）；single / double-stub matching 即單／雙短截線匹配。</p>
+<p style="margin-top:6px;color:#666;font-size:0.9em"><strong>In brief:</strong>The closer to the centre of the Smith chart ($\Gamma=0$, i.e. $Z=Z_0$), the smaller the impedance transformation the matching network has to perform: the required inductance, capacitance or stub length is smaller, and the network $Q$ is low ($Q=\sqrt{R_{\text{high}}/R_{\text{low}}-1}$), so the bandwidth is wider. Any point on the gain circle achieves the target gain, so choosing the point on the circle nearest the centre buys you the smallest components and the widest bandwidth for free.</p>
+<p style="margin-top:4px;color:#666;font-size:0.88em"><strong>Terminology:</strong>A “stub” is<strong>a short length of transmission line</strong>used as a matching element. Common combinations:<em>open stub</em>= open-circuit stub,<em>shorted stub</em>= short-circuit stub,<em>quarter-wave stub</em>= quarter-wave stub ($\lambda/4$ stub); single- / double-stub matching uses one or two such stubs.</p>
 </div>
 </details>
 $$\Gamma_s = (0.627 - 0.294)\angle{120°} = 0.333\angle{120°}$$
@@ -1575,7 +1575,7 @@ $$z_{\text{in,\,FET}}(\ell_s,\,\ell_1) \;\stackrel{!}{=}\; z_s \;=\; 0.616 + j\,
 
 <p style="margin-top:10px"><strong>Why these specific lengths?</strong> They are read off the Smith chart — choose the intersection of the constant-$|\Gamma|$ circle with the appropriate constant-$g$ circle, then convert angular positions to electrical line length using $\lambda$. Alternative realizations (shorted stub, series stub, two-stub network, etc.) yield different lengths but the same final $\Gamma_s, \Gamma_l$.</p>
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>中文摘要：</strong>本電路用「<strong>串聯傳輸線 + 並聯開路短截線</strong>」實現所選的 $\Gamma_s, \Gamma_l$。所有線都是 50 Ω 特性阻抗，只靠長度（單位 $\lambda$）做阻抗轉換：串聯線把運作點沿等 $|\Gamma|$ 圓旋轉，開路短截線提供純電納（susceptance $B$），沿等 $g$ 圓移動。「開路」短截線在 PCB 上比短路（要打 via 接地）容易實作，因此微波電路常用。輸入端 0.179 λ + 0.100 λ、輸出端 0.045 λ + 0.432 λ 是從 Smith 圖讀出 $|\Gamma|$ 圓與 $g$ 圓的交點所得到的長度；換成短路短截線或其他拓樸雖長度不同，但最終 $\Gamma$ 值仍然一致。</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>This circuit realises the chosen $\Gamma_s, \Gamma_l$ with a<strong>series transmission line plus a shunt open-circuit stub</strong>. Every line has a 50 Ω characteristic impedance, so the impedance transformation comes purely from the lengths (in units of $\lambda$): the series line rotates the operating point along a constant-$|\Gamma|$ circle, while the open stub supplies a pure susceptance $B$, moving it along a constant-$g$ circle. An open stub is easier to fabricate on a PCB than a short-circuit one (which needs a via to ground), which is why microwave circuits favour it. The input-side 0.179 λ + 0.100 λ and output-side 0.045 λ + 0.432 λ are the lengths read off the Smith chart at the intersection of the $|\Gamma|$ circle and the $g$ circle; swapping to short-circuit stubs or another topology gives different lengths but the same final $\Gamma$.</p>
 </div>
 </details>
 
@@ -1586,15 +1586,15 @@ $$z_{\text{in,\,FET}}(\ell_s,\,\ell_1) \;\stackrel{!}{=}\; z_s \;=\; 0.616 + j\,
 </svg>
 
 <p>It can be seen that the desired gain of <strong>11 dB</strong> is achieved at <strong>4 GHz</strong>. The return loss, however, is not very good — only about <strong>5 dB</strong> at the design frequency. This is due to the deliberate <em>mismatch</em> introduced into the matching sections to back off from $G_{S,\max}$ and $G_{L,\max}$ in order to achieve the specified (lower) gain.</p>
-<p>可以看到設計頻率 <strong>4 GHz</strong> 處達到了目標增益 <strong>11 dB</strong>。但回波損失並不理想 — 在設計頻率僅約 <strong>5 dB</strong>。這是因為匹配網路<strong>刻意引入失配</strong>（mismatch），從 $G_{S,\max}$ 與 $G_{L,\max}$ 後退（back off），以換取指定的（較低的）增益。</p>
+<p>You can see that at the design frequency <strong>4 GHz</strong> the target gain <strong>11 dB</strong>is achieved. The return loss, however, is not good — only about <strong>5 dB</strong>at the design frequency. That is because the matching network<strong>deliberately introduces a mismatch</strong>, backing off from $G_{S,\max}$ and $G_{L,\max}$ to trade for the specified (lower) gain.</p>
 </div>
 </details>
 </div>
 
 
 <!-- 3.1.2 Unilateral Figure of Merit -->
-<h3 id="s1-ufm">3.1.3 Unilateral Figure of Merit <span style="color:#666;font-weight:500;font-size:0.85em">（單向化品質因數 $U$）</span></h3>
-<p style="color:#666;font-size:0.93em;margin:4px 0 10px">用來判斷將雙向 (bilateral) 放大器近似為單向 (unilateral, $S_{12}\approx 0$) 時所引入的誤差大小。當 $U$ 很小時，可以放心使用單向公式設計；若 $U$ 顯著，必須改用雙向 (bilateral) 方法。</p>
+<h3 id="s1-ufm">3.1.3 Unilateral Figure of Merit <span style="color:#666;font-weight:500;font-size:0.85em">(the unilateral figure of merit $U$)</span></h3>
+<p style="color:#666;font-size:0.93em;margin:4px 0 10px">gauges the size of the error introduced by approximating a bilateral amplifier as unilateral ($S_{12}\approx 0$). When $U$ is small you can safely design with the unilateral formulas; when $U$ is significant you must switch to the bilateral method.</p>
 
 <p>The unilateral assumption ($S_{12}=0$) introduces error. The <strong style="background:#e8f0fa;padding:1px 6px;border-radius:3px">actual bilateral gain $G_T$</strong> is bounded by:</p>
 
@@ -1644,7 +1644,7 @@ $$U \;=\; |X|_{\max} \;=\; \frac{|S_{11}||S_{12}||S_{21}||S_{22}|}{(1-|S_{11}|^2
 <p>Replacing $|X|$ by $U$ gives the conservative form used in practice:</p>
 $$\frac{1}{(1+U)^2} \;\le\; \frac{G_T}{G_{TU}} \;\le\; \frac{1}{(1-U)^2}.$$
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>中文摘要：</strong>誤差比 $G_T/G_{TU} = 1/|1-X|^2$，其中 $X = S_{12}S_{21}\Gamma_s\Gamma_l / [(1-S_{11}\Gamma_s)(1-S_{22}\Gamma_l)]$。對 $|1-X|$ 套用三角不等式 $1-|X| \le |1-X| \le 1+|X|$，再倒數平方即得上下界。當 $\Gamma_s, \Gamma_l$ 取共軛匹配時，$|X|$ 達到最大值 $U$（單向化品質因數）。</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>The error ratio is $G_T/G_{TU} = 1/|1-X|^2$, where $X = S_{12}S_{21}\Gamma_s\Gamma_l / [(1-S_{11}\Gamma_s)(1-S_{22}\Gamma_l)]$. Applying the triangle inequality $1-|X| \le |1-X| \le 1+|X|$ and taking the reciprocal squared gives the upper and lower bounds. When $\Gamma_s, \Gamma_l$ are conjugately matched, $|X|$ reaches its maximum value $U$ (the unilateral figure of merit).</p>
 </div>
 </details>
 
@@ -1719,7 +1719,7 @@ $$R_L \;=\; \frac{\sqrt{1 - 2k\,|S_{12}S_{21}|\,g_P \;+\; |S_{12}S_{21}|^2\,g_P^
 <li><strong>$G_P = 0$</strong>: $g_P = 0$, $R_L = 1$, $C_L = 0$ — the circle becomes the entire unit disk boundary (every $\Gamma_l$ gives zero gain, trivially).</li>
 </ul>
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>中文摘要：</strong>從操作功率增益 $G_P$ 出發，將 $\Gamma_{in}$ 對 $\Gamma_l$ 的依賴帶入，化簡分母為關於 $|\Gamma_l|^2$ 與 $\mathrm{Re}\{C_2\Gamma_l\}$ 的線性式（其中 $C_2 = S_{22} - \Delta S_{11}^*$），即為圓的標準式。配方後可讀出圓心 $C_L = g_P C_2^*/[1+g_P(|S_{22}|^2-|\Delta|^2)]$ 與半徑 $R_L$；判別式中出現穩定因子 $k$ 與 $|S_{12}S_{21}|$，因此圓的大小與穩定性息息相關。輸入端的 $G_A$ 圓推導完全對稱（$1\leftrightarrow 2$）。</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>Starting from the operating power gain $G_P$, substitute the dependence of $\Gamma_{in}$ on $\Gamma_l$ and reduce the denominator to an expression linear in $|\Gamma_l|^2$ and $\mathrm{Re}\{C_2\Gamma_l\}$ (where $C_2 = S_{22} - \Delta S_{11}^*$) — which is the standard form of a circle. Completing the square gives the centre $C_L = g_P C_2^*/[1+g_P(|S_{22}|^2-|\Delta|^2)]$ and the radius $R_L$; the stability factor $k$ and $|S_{12}S_{21}|$ appear inside the discriminant, so the size of the circle is intimately tied to stability. The derivation of the $G_A$ circles at the input is exactly symmetric ($1\leftrightarrow 2$).</p>
 </div>
 </details>
 
@@ -1808,7 +1808,7 @@ $$R_S \;=\; \frac{\sqrt{1 - 2k\,|S_{12}S_{21}|\,g_A \;+\; |S_{12}S_{21}|^2\,g_A^
 <li><strong>Mirror symmetry with output:</strong> every formula is obtained from the $C_L$, $R_L$ derivation by the swap $\{S_{11}, S_{22}, \Gamma_l, g_P, G_P, C_2\} \leftrightarrow \{S_{22}, S_{11}, \Gamma_s, g_A, G_A, C_1\}$.</li>
 </ul>
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>中文摘要：</strong>從可用增益 $G_A$ 出發，將 $\Gamma_{out}$ 對 $\Gamma_s$ 的依賴代入，再以 $C_1 = S_{11} - \Delta S_{22}^*$ 對分母化簡，得到 $\Gamma_s$ 平面上的圓方程。配方後讀出圓心與半徑，分子根號內含穩定因子 $k$ 與 $|S_{12}S_{21}|$。本式只需把輸出端推導中的 $1\leftrightarrow 2$ 對換即得，結構完全對稱。</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>Starting from the available gain $G_A$, substitute the dependence of $\Gamma_{out}$ on $\Gamma_s$ and simplify the denominator using $C_1 = S_{11} - \Delta S_{22}^*$ to obtain the equation of a circle in the $\Gamma_s$ plane. Completing the square gives the centre and the radius, with the stability factor $k$ and $|S_{12}S_{21}|$ under the square root in the numerator. This expression follows from the output-side derivation simply by swapping $1\leftrightarrow 2$ — the structure is perfectly symmetric.</p>
 </div>
 </details>
 
@@ -2415,7 +2415,7 @@ Side-by-side Smith charts show both bilateral gain circles simultaneously. Left:
 <div class="callout concept" style="padding:10px 16px;margin:10px 0;font-size:0.9em">
 <div class="callout-title" style="margin-bottom:4px">Three textbook choices for $\Gamma_s$</div>
 <ol style="margin:2px 0 0 20px;line-height:1.4">
-<li><strong>Conjugate match</strong> — $\Gamma_s = S_{11}^*$ &nbsp;⇒ maximum gain ($G_{S,\max}$). Trade-off: noise figure is whatever it lands on（落在哪就是哪）; bandwidth is narrowest.</li>
+<li><strong>Conjugate match</strong> — $\Gamma_s = S_{11}^*$ &nbsp;⇒ maximum gain ($G_{S,\max}$). Trade-off: the noise figure is whatever it happens to land on; bandwidth is narrowest.</li>
 <li><strong>Noise match</strong> — $\Gamma_s = \Gamma_{opt}$ &nbsp;⇒ minimum noise figure $F_{\min}$. Trade-off: gain drops below $G_{S,\max}$.</li>
 <li><strong>Compromise on a circle</strong> — pick a $\Gamma_s$ that sits on both an acceptable constant-$G_S$ circle <em>and</em> an acceptable constant-$F$ circle. The closer to the chart center, the more bandwidth and the easier the matching network.</li>
 </ol>
@@ -3104,27 +3104,27 @@ $$G_T = \frac{2.222}{0.5683 \times 0.723} = \frac{2.222}{0.411} = 5.41$$
 $$G_T(\text{dB}) = 10\log_{10}(5.41) = 7.33\;\text{dB}$$
 <p style="margin:4px 0">Rounded: $G_T = 5.4 = 7.3$ dB. ✓</p>
 
-<p style="margin:10px 0 4px;padding-top:6px;border-top:1px dashed #ccd"><strong>Sanity check（合理性驗證）— why this is below max.</strong> Unilateral max-gain estimate (<a href="#eq-GTUmax">eq. (3.1.2-2)</a>):</p>
+<p style="margin:10px 0 4px;padding-top:6px;border-top:1px dashed #ccd"><strong>Sanity check — why this is below max.</strong> Unilateral max-gain estimate (<a href="#eq-GTUmax">eq. (3.1.2-2)</a>):</p>
 $$G_{TU,\max} = \frac{|S_{21}|^2}{(1-|S_{11}|^2)(1-|S_{22}|^2)} = \frac{3.61}{0.64 \times 0.75} = 7.52 \approx 8.76\;\text{dB}$$
 <p style="margin:4px 0">Our $7.3$ dB is about $1.5$ dB <strong>below</strong> the gain-optimal point — exactly the price paid by setting $\Gamma_s = \Gamma_{opt}$ (noise match) instead of $\Gamma_s = S_{11}^*$ (gain match). That sacrifice bought $F = F_{\min} = 1.6$ dB.</p>
 
 <details style="margin-top:8px;background:#f0f4ff;border:1px solid #b0bedf;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#3a5998;font-size:0.9em">為何 sanity check 可以用單邊（unilateral）公式？</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#3a5998;font-size:0.9em">Why is it legitimate to use the unilateral formula for the sanity check?</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.65">
 
-<p style="margin:4px 0"><strong>兩個理由——這裡用的是上界，不是精確答案。</strong></p>
+<p style="margin:4px 0"><strong>Two reasons — what we are using here is an upper bound, not an exact answer.</strong></p>
 
-<p style="margin:8px 0 4px"><strong>1. $G_{TU,\max}$ 是增益的上界。</strong><br>
-單邊公式把 $S_{12}$ 設為零，忽略了輸出→輸入的回授效應，因此高估了可用增益。真實的雙邊最大增益 $G_{MAG}$ 一定 $\le G_{TU,\max}$。用它來檢查「我的答案有沒有超過物理上限」是合理的——如果算出的 $G_T$ 比 $G_{TU,\max}$ 還大，代表哪裡算錯了。</p>
+<p style="margin:8px 0 4px"><strong>1. $G_{TU,\max}$ is an upper bound on the gain.</strong><br>
+The unilateral formula sets $S_{12}$ to zero, ignoring the output→input feedback, and therefore overestimates the achievable gain. The true bilateral maximum gain $G_{MAG}$ is always $\le G_{TU,\max}$. Using it to check “has my answer exceeded the physical ceiling?” is perfectly sound — if the computed $G_T$ came out larger than $G_{TU,\max}$, something went wrong.</p>
 
-<p style="margin:8px 0 4px"><strong>2. 本題 $|S_{12}| = 0.05$ 很小，誤差有限。</strong><br>
-單邊誤差由 unilateral figure of merit $U$ 控制：</p>
+<p style="margin:8px 0 4px"><strong>2. Here $|S_{12}| = 0.05$ is small, so the error is bounded.</strong><br>
+The unilateral error is governed by the unilateral figure of merit $U$:</p>
 $$U = \frac{|S_{12}||S_{21}||S_{11}||S_{22}|}{(1-|S_{11}|^2)(1-|S_{22}|^2)}$$
-<p style="margin:2px 0">誤差範圍為</p>
+<p style="margin:2px 0">The error range is</p>
 $$\frac{1}{(1+U)^2} \;<\; \frac{G_T}{G_{TU}} \;<\; \frac{1}{(1-U)^2}$$
-<p style="margin:4px 0">本題 $U \approx 0.05$，對應誤差約 $\pm 0.4$ dB——用作 sanity check 已足夠準確。</p>
+<p style="margin:4px 0">Here $U \approx 0.05$, corresponding to an error of about $\pm 0.4$ dB — accurate enough for a sanity check.</p>
 
-<p style="margin:8px 0 4px"><strong>精確的雙邊最大增益</strong>應用 $G_{MAG} = \dfrac{|S_{21}|}{|S_{12}|}(k - \sqrt{k^2-1})$，但需要先算 $k$ 和 $\Delta$，計算量較大。$G_{TU,\max}$ 一行就能估出上界，作為方向性確認（我的答案確實在合理範圍內）已足夠。</p>
+<p style="margin:8px 0 4px"><strong>The exact bilateral maximum gain</strong>would use $G_{MAG} = \dfrac{|S_{21}|}{|S_{12}|}(k - \sqrt{k^2-1})$, but that first requires computing $k$ and $\Delta$, which is more work. $G_{TU,\max}$ gives an upper bound in one line, which is enough for a directional check (that the answer really is in the right ballpark).</p>
 </div>
 </details>
 
@@ -3139,12 +3139,12 @@ $$N = \frac{1.585-1.445}{4\times20/50}|1+0.62\angle{100°}|^2 = 0.0986$$
 $$C_F = \frac{0.62\angle{100°}}{1.0986} = 0.564\angle{100°}, \qquad R_F = 0.242$$
 
 <details style="margin:6px 0 8px;background:#fff8f0;border:1px solid #e8c88a;border-radius:6px;padding:0">
-<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#8a6010;font-size:0.9em">$R_F = 0.242$ 怎麼來的？</summary>
+<summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#8a6010;font-size:0.9em">Where does $R_F = 0.242$ come from?</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.65">
-<p style="margin:4px 0">代入 NF 圓半徑公式（$N=0.0986$，$|\Gamma_{opt}|=0.62$）：</p>
+<p style="margin:4px 0">Substituting into the NF-circle radius formula ($N=0.0986$, $|\Gamma_{opt}|=0.62$):</p>
 $$R_F = \frac{\sqrt{N\,(N+1-|\Gamma_{opt}|^2)}}{N+1}$$
 <table style="margin:6px 0;border-collapse:collapse;font-size:0.92em;width:100%">
-<tr style="background:#fdf3e0"><th style="padding:4px 8px;text-align:left;border:1px solid #e8c88a">步驟</th><th style="padding:4px 8px;text-align:left;border:1px solid #e8c88a">數值</th></tr>
+<tr style="background:#fdf3e0"><th style="padding:4px 8px;text-align:left;border:1px solid #e8c88a">Step</th><th style="padding:4px 8px;text-align:left;border:1px solid #e8c88a">Value</th></tr>
 <tr><td style="padding:4px 8px;border:1px solid #e8c88a">$N+1$</td><td style="padding:4px 8px;border:1px solid #e8c88a">$1.0986$</td></tr>
 <tr style="background:#fdf3e0"><td style="padding:4px 8px;border:1px solid #e8c88a">$|\Gamma_{opt}|^2 = 0.62^2$</td><td style="padding:4px 8px;border:1px solid #e8c88a">$0.3844$</td></tr>
 <tr><td style="padding:4px 8px;border:1px solid #e8c88a">$N+1-|\Gamma_{opt}|^2$</td><td style="padding:4px 8px;border:1px solid #e8c88a">$1.0986 - 0.3844 = 0.7142$</td></tr>
@@ -3152,7 +3152,7 @@ $$R_F = \frac{\sqrt{N\,(N+1-|\Gamma_{opt}|^2)}}{N+1}$$
 <tr><td style="padding:4px 8px;border:1px solid #e8c88a">$\sqrt{0.07042}$</td><td style="padding:4px 8px;border:1px solid #e8c88a">$0.2654$</td></tr>
 <tr style="background:#fdf3e0"><td style="padding:4px 8px;border:1px solid #e8c88a">$\div\,(N+1)$</td><td style="padding:4px 8px;border:1px solid #e8c88a">$0.2654\,/\,1.0986 = \mathbf{0.242}$</td></tr>
 </table>
-<p style="margin:6px 0 2px;color:#555;font-size:0.9em">當 $F = F_{\min}$ 時 $N=0$，$R_F=0$（圓退化為點 $\Gamma_{opt}$）。此處 $F=2$ dB 略高於 $F_{\min}=1.6$ dB，所以圓有小但非零的半徑 0.242。</p>
+<p style="margin:6px 0 2px;color:#555;font-size:0.9em">When $F = F_{\min}$, $N=0$ and $R_F=0$ (the circle degenerates to the single point $\Gamma_{opt}$). Here $F=2$ dB is slightly above $F_{\min}=1.6$ dB, so the circle has a small but non-zero radius of 0.242.</p>
 </div>
 </details>
 
