@@ -56,15 +56,15 @@
 <h1>The difference between the “three kinds of circles” on the Smith chart</h1>
 
 <p class="lead">
-It depends which “circle” you mean — the Smith chart carries<strong>three different kinds of circle</strong>, and they are frequently conflated. Below, their centres, physical meanings and design uses are set out clearly.
+It depends which “circle” you mean — the Smith chart carries <strong>three different kinds of circle</strong>, and they are frequently conflated. Below, their centres, physical meanings and design uses are set out clearly.
 </p>
 
 <div class="circle-card">
 <h3><span class="label-gamma">Circle 1: the constant-$|\Gamma|$ circle (concentric circles)</span></h3>
 <ul>
-<li>The centre is always at the<strong>centre</strong></li>
+<li>The centre is always at the <strong>centre</strong></li>
 <li>of the Smith chart; radius = $|\Gamma|$</li>
-<li>Physical meaning: every point on the circle has<strong>the same VSWR / return loss</strong></li>
+<li>Physical meaning: every point on the circle has <strong>the same VSWR / return loss</strong></li>
 <li>Use: the locus traced out by rotation along a series transmission line (which changes the phase but not $|\Gamma|$)</li>
 <li><strong>Nothing to do with gain</strong></li>
 </ul>
@@ -81,7 +81,7 @@ $$\Gamma = \frac{Z - Z_0}{Z + Z_0}$$
 
 <p><strong>Step 2 — take the magnitude</strong></p>
 $$|\Gamma| = \left|\frac{Z - Z_0}{Z + Z_0}\right|$$
-<p>This value is the circle's<strong>Radius</strong>(in the range $0 \le |\Gamma| \le 1$).</p>
+<p>This value is the circle's <strong>Radius</strong>(in the range $0 \le |\Gamma| \le 1$).</p>
 
 <p><strong>Step 3 — draw the circle</strong></p>
 <p>Draw a circle of radius $|\Gamma|$ centred on the middle of the Smith chart (the point $\Gamma = 0$, corresponding to $Z_0 = 50\,\Omega$).</p>
@@ -93,19 +93,19 @@ $$\Rightarrow\;\; |\Gamma| = 0.447$$
 <p>→ draw a circle of radius $0.447$ about the origin, and that is the constant-$|\Gamma|$ circle corresponding to $Z = 100+j50$.</p>
 
 <h4 style="margin:14px 0 4px;color:#3a5998">Physical meaning — why a “circle” and not some other shape</h4>
-<p>If you connect a length of<strong>lossless 50 Ω transmission line</strong>to the load $Z$, then as you move along the line the impedance you see is different at every point, but the<strong>magnitude of the reflection coefficient does not change</strong>— only its<strong>phase changes</strong>at some port:</p>
+<p>If you connect a length of <strong>lossless 50 Ω transmission line</strong> to the load $Z$, then as you move along the line the impedance you see is different at every point, but the <strong>magnitude of the reflection coefficient does not change</strong>— only its <strong>phase changes</strong>:</p>
 $$\Gamma(\ell) = \Gamma_L \cdot e^{-j2\beta\ell}$$
 <ul>
 <li>$|\Gamma(\ell)| = |\Gamma_L|$  ← the magnitude is unchanged</li>
 <li>$\angle\Gamma(\ell) = \angle\Gamma_L - 2\beta\ell$  ← the phase changes with distance</li>
 </ul>
-<p>In the complex plane, the locus of “constant magnitude, varying phase” is precisely<strong>a circle centred on the origin</strong> — that is the physical origin of the constant-$|\Gamma|$ circle.</p>
+<p>In the complex plane, the locus of “constant magnitude, varying phase” is precisely <strong>a circle centred on the origin</strong> — that is the physical origin of the constant-$|\Gamma|$ circle.</p>
 
 <h4 style="margin:14px 0 4px;color:#3a5998">In the interactive figure below</h4>
 <ol style="margin:4px 0 0 22px">
-<li>Drag the “initial $|\Gamma_0|$” slider → changes the circle's<strong>Radius</strong></li>
-<li>Drag the “initial $\angle\Gamma_0$” slider → changes the<strong>starting position</strong></li>
-<li>of the grey start point on the circle. Drag the “series line length $\ell$” slider → the blue point rotates<strong>clockwise</strong>around the circle (toward the generator)</li>
+<li>Drag the “initial $|\Gamma_0|$” slider → changes the circle's <strong>Radius</strong></li>
+<li>Drag the “initial $\angle\Gamma_0$” slider → changes the <strong>starting position</strong></li>
+<li>of the grey start point on the circle. Drag the “series line length $\ell$” slider → the blue point rotates <strong>clockwise</strong> around the circle (toward the generator)</li>
 </ol>
 <p>However you drag them, the blue point never leaves that circle — which is exactly what makes the “constant-$|\Gamma|$ circle” visible.</p>
 </div>
@@ -123,16 +123,16 @@ $$\Gamma(\ell) = \Gamma_L \cdot e^{-j2\beta\ell}$$
     <label>Series line length $\ell$ (λ): <strong><span id="d1-ll-v">0.000</span></strong></label>
     <input type="range" id="d1-ll" min="0" max="0.5" value="0" step="0.001">
     <div class="demo-info" id="d1-info"></div>
-    <div style="margin-top:6px;color:#666;font-size:0.85em">The blue locus = rotation on a concentric circle. Note that $|\Gamma|$, the VSWR and the return loss all<strong>stay constant</strong>of the image-reject mixer at low IF.</div>
+    <div style="margin-top:6px;color:#666;font-size:0.85em">The blue locus = rotation on a concentric circle. Note that $|\Gamma|$, the VSWR and the return loss all <strong>stay constant</strong>.</div>
 <details style="margin-top:8px">
 <summary style="cursor:pointer;font-weight:600;color:#3a5998;font-size:0.9em">▸ Why $2\beta\ell$ and not $\beta\ell$? (click to expand)</summary>
 <div style="margin-top:6px;font-size:0.92em">
-<p>The key point: $\Gamma$ is the ratio “reflected wave / incident wave” — its phase accumulates over<strong>both legs of the round trip</strong>along the line.</p>
+<p>The key point: $\Gamma$ is the ratio “reflected wave / incident wave” — its phase accumulates over <strong>both legs of the round trip</strong> along the line.</p>
 
 <h4 style="margin:10px 0 4px;color:#3a5998">Derivation</h4>
 <p>On a lossless line the voltage is the superposition of the forward wave (towards the load) and the reflected wave (towards the source):</p>
 $$V^+(z) = V_0^+ e^{-j\beta z}, \qquad V^-(z) = V_0^- e^{+j\beta z}$$
-<p>The<strong>local reflection coefficient</strong>at some port:</p>
+<p>The <strong>local reflection coefficient</strong>:</p>
 $$\Gamma(z) = \frac{V^-(z)}{V^+(z)} = \frac{V_0^- e^{+j\beta z}}{V_0^+ e^{-j\beta z}} = \underbrace{\frac{V_0^-}{V_0^+}}_{=\,\Gamma_L\text{ at }z=0} \cdot e^{+j2\beta z}$$
 <p>at position $z$. Placing the load at $z = 0$ and moving a distance $\ell$ towards the source (i.e. $z = -\ell$):</p>
 $$\boxed{\;\Gamma(\ell) = \Gamma_L \cdot e^{-j2\beta\ell}\;}$$
@@ -163,11 +163,11 @@ const ang1 = ang0 - 4*Math.PI*L;  <span style="color:#008000">// 2βℓ = 4π·L
 <p>The full turn every $\lambda/2$ is exactly the “<strong>$\lambda/2$ periodicity of a transmission line</strong>” — adding or subtracting $\lambda/2$ from the same line length leaves the impedance and reflection coefficient completely unchanged.</p>
 
 <h4 style="margin:10px 0 4px;color:#3a5998">So why is the stub formula $\tan(\beta\ell_s)$ and not $\tan(2\beta\ell_s)$?</h4>
-<p>This is<strong>the same physical fact expressed in two different domains</strong>at some port:</p>
+<p>This is <strong>the same physical fact expressed in two different domains</strong>:</p>
 <table>
 <tr><th>Expression</th><th>Angle</th><th>Reason</th></tr>
 <tr><td>$\Gamma$ rotation (reflection-coefficient domain)</td><td>$2\beta\ell$</td><td>$\Gamma = V^-/V^+$ is the ratio of two counter-propagating waves; move by $\ell$ and their phases differ by $2\beta\ell$</td></tr>
-<tr><td>$\tan(\beta\ell)$ (impedance / admittance domain)</td><td>$\beta\ell$</td><td>$Z = V/I$ is the superposition of the two waves at<strong>the same point</strong>, and on simplification the factor of 2 is absorbed by a trigonometric identity</td></tr>
+<tr><td>$\tan(\beta\ell)$ (impedance / admittance domain)</td><td>$\beta\ell$</td><td>$Z = V/I$ is the superposition of the two waves at <strong>the same point</strong>, and on simplification the factor of 2 is absorbed by a trigonometric identity</td></tr>
 </table>
 
 <p><strong>Verification: work it through once with a short-circuit stub.</strong> For a short circuit $\Gamma_L = -1$; moving $\ell_s$ towards the source:</p>
@@ -184,7 +184,7 @@ $$\boxed{\;Z_{\text{in}} = jZ_0\tan(\beta\ell_s)\;}$$
 <tr><td>Rotating around a circle on the Smith chart ($\Gamma$ domain)</td><td><strong>$2\beta\ell$</strong>(round trip)</td></tr>
 <tr><td>Computing a stub's $b$ or $x$ ($Y$ / $Z$ domain)</td><td><strong>$\beta\ell$</strong>(one way)</td></tr>
 </table>
-<p>Whenever you see a $\tan$ or $\cot$ formula it is<strong>one way</strong> $\beta\ell$; whenever you see an $e^{-j(\cdot)}$ rotation it is<strong>round trip</strong> $2\beta\ell$.</p>
+<p>Whenever you see a $\tan$ or $\cot$ formula it is <strong>one way</strong> $\beta\ell$; whenever you see an $e^{-j(\cdot)}$ rotation it is <strong>round trip</strong> $2\beta\ell$.</p>
 
 <h4 style="margin:10px 0 4px;color:#3a5998">In one sentence</h4>
 <p style="color:#c00;font-weight:700">$\Gamma$ is a round-trip quantity, so its rotation angle is $2\beta\ell$. A full turn for “toward generator $\lambda/2$” on the Smith chart is a direct consequence of that factor of 2. The stub's $\tan(\beta\ell_s)$ actually contains the same factor of 2; it has simply been absorbed by a trigonometric identity so that it looks like a one-way trip.</p>
@@ -198,10 +198,10 @@ $$\boxed{\;Z_{\text{in}} = jZ_0\tan(\beta\ell_s)\;}$$
 <div class="circle-card">
 <h3><span class="label-gs">Circle 2: the constant-$G_S$ circle (gain circle)</span></h3>
 <ul>
-<li>The centre is<strong>not at the middle</strong>; it lies on the ray joining $O$ to $S_{11}^*$</li>
+<li>The centre is <strong>not at the middle</strong>; it lies on the ray joining $O$ to $S_{11}^*$</li>
 <li>It is fixed jointly by $S_{11}$ and the target $G_S$ (the formula is rather involved)</li>
-<li>Physical meaning: every point on the circle produces<strong>the same source gain $G_S$</strong></li>
-<li>Use: it gives you<strong>several equivalent candidate positions for $\Gamma_s$</strong>to choose from</li>
+<li>Physical meaning: every point on the circle produces <strong>the same source gain $G_S$</strong></li>
+<li>Use: it gives you <strong>several equivalent candidate positions for $\Gamma_s$</strong> to choose from</li>
 </ul>
 
 <h3 style="margin-top:14px">What do the points on the $G_S$ circle represent?</h3>
@@ -235,12 +235,12 @@ $$\boxed{\;Z_{\text{in}} = jZ_0\tan(\beta\ell_s)\;}$$
 <h3><span class="label-g">Circle 3: the constant-$g$ circle (constant-conductance circle)</span></h3>
 <ul>
 <li>The centre is at $(-0.5,\,0)$ with radius $0.5$ (for the $g=1$ circle; other values of $g$ are similar)</li>
-<li>Physical meaning: every point on the circle has<strong>the same real part $g$ of the normalized admittance</strong></li>
+<li>Physical meaning: every point on the circle has <strong>the same real part $g$ of the normalized admittance</strong></li>
 <li>Use: the locus of a shunt stub — adding $jb$ slides you along a constant-$g$ circle</li>
 </ul>
 
 <details style="margin:10px 0">
-<summary style="cursor:pointer;font-weight:600;color:#2a6e5a;font-size:0.95em">▸ A shunt<strong>open-circuit</strong>stub: $b = \tan(\beta\ell_s)$ (click to expand)</summary>
+<summary style="cursor:pointer;font-weight:600;color:#2a6e5a;font-size:0.95em">▸ A shunt <strong>open-circuit</strong> stub: $b = \tan(\beta\ell_s)$ (click to expand)</summary>
 <div style="margin-top:8px;font-size:0.95em">
 
 <h4 style="margin:0 0 4px;color:#2a6e5a">Derivation</h4>
@@ -252,20 +252,20 @@ $$Z_{\text{in}} = Z_0 \cdot \frac{Z_L + j Z_0 \tan(\beta\ell_s)}{Z_0 + j Z_L \ta
 <div style="margin-top:6px;font-size:0.94em">
 
 <h4 style="margin:6px 0 4px;color:#3a5998">Step 1 — the general solution for voltage and current on the line</h4>
-<p>The voltage and current on a lossless transmission line are the superposition of a<strong>forward wave</strong> + <strong>and a reflected wave</strong>:</p>
+<p>The voltage and current on a lossless transmission line are the superposition of a <strong>forward wave</strong> + <strong>and a reflected wave</strong>:</p>
 $$V(z) = V^+ e^{-j\beta z} + V^- e^{+j\beta z}$$
 $$I(z) = \frac{V^+}{Z_0} e^{-j\beta z} - \frac{V^-}{Z_0} e^{+j\beta z}$$
-<p>Coordinate system: place<strong>the load at $z = 0$</strong>and<strong>the input at $z = -\ell$</strong>of the image-reject mixer at low IF.</p>
+<p>Coordinate system: place <strong>the load at $z = 0$</strong> and <strong>the input at $z = -\ell$</strong>.</p>
 
 <h4 style="margin:10px 0 4px;color:#3a5998">Step 2 — apply the boundary condition at the load</h4>
 <p>At $z = 0$:</p>
 $$V(0) = V^+ + V^-, \qquad I(0) = \frac{V^+ - V^-}{Z_0}$$
 <p>The load impedance $Z_L = V(0)/I(0)$:</p>
 $$Z_L = Z_0 \cdot \frac{V^+ + V^-}{V^+ - V^-}$$
-<p style="font-size:0.92em;color:#555;margin:4px 0">Dividing $V(0)$ by $I(0)$ directly gives this. The numerator is the<em>and from the</em>of the two wave voltages, and the denominator is their<em>Poor</em> — because the reflected wave travels in the $-z$ direction, the relation $I = V/Z_0$ picks up a minus sign for it, so $V^-$ enters $I(0)$ with a negative sign.</p>
-<p>Definition<strong>load reflection coefficient</strong>at some port:</p>
+<p style="font-size:0.92em;color:#555;margin:4px 0">Dividing $V(0)$ by $I(0)$ directly gives this. The numerator is the <em>and</em> of the two wave voltages, and the denominator is their <em>Poor</em> — because the reflected wave travels in the $-z$ direction, the relation $I = V/Z_0$ picks up a minus sign for it, so $V^-$ enters $I(0)$ with a negative sign.</p>
+<p>Definition <strong>load reflection coefficient</strong>:</p>
 $$\Gamma_L = \frac{V^-}{V^+} = \frac{Z_L - Z_0}{Z_L + Z_0}$$
-<p style="font-size:0.92em;color:#555;margin:4px 0">Dividing both numerator and denominator of $Z_L$ above by $V^+$ rewrites it in<strong>reflection-coefficient form</strong>(equivalent to the expression above):</p>
+<p style="font-size:0.92em;color:#555;margin:4px 0">Dividing both numerator and denominator of $Z_L$ above by $V^+$ rewrites it in <strong>reflection-coefficient form</strong>(equivalent to the expression above):</p>
 $$Z_L = Z_0 \cdot \frac{1 + \Gamma_L}{1 - \Gamma_L}$$
 
 <h4 style="margin:10px 0 4px;color:#3a5998">Step 3 — compute the input impedance</h4>
@@ -359,14 +359,14 @@ $$\beta\ell_s = 2\pi \cdot \frac{\ell_s}{\lambda}$$
 <details style="margin-top:8px">
 <summary style="cursor:pointer;font-weight:600;color:#2a6e5a;font-size:0.9em">▸ Why $g=1$? (click to expand)</summary>
 <div style="margin-top:6px;font-size:0.92em">
-<p>It is not that $g=1$ is the only option — it is because the demo's<strong>starting point is the centre of the Smith chart</strong>($y = 1$, $g = 1$). A shunt stub changes only $b$ and not $g$, so starting from the centre you must slide along the $g=1$ circle.</p>
+<p>It is not that $g=1$ is the only option — it is because the demo's <strong>starting point is the centre of the Smith chart</strong>($y = 1$, $g = 1$). A shunt stub changes only $b$ and not $g$, so starting from the centre you must slide along the $g=1$ circle.</p>
 
 <h4 style="margin:10px 0 4px;color:#2a6e5a">The physical rule</h4>
 <p>Adding a pure susceptance $jb_{\text{stub}}$ in shunt:</p>
 $$y_{\text{new}} = y_{\text{old}} + jb_{\text{stub}}$$
 <p>The real part is unchanged ($g$ is conserved) and only the imaginary part changes:</p>
 $$g_{\text{new}} = g_{\text{old}}, \qquad b_{\text{new}} = b_{\text{old}} + b_{\text{stub}}$$
-<p>→ <strong>The point slides along a “constant-$g$ circle”</strong>, and the value of $g$ is set by the<strong>starting point</strong>.</p>
+<p>→ <strong>The point slides along a “constant-$g$ circle”</strong>, and the value of $g$ is set by the <strong>starting point</strong>.</p>
 
 <h4 style="margin:10px 0 4px;color:#2a6e5a">Different starting points correspond to different $g$ circles</h4>
 <table>
@@ -406,7 +406,7 @@ $$g_{\text{new}} = g_{\text{old}}, \qquad b_{\text{new}} = b_{\text{old}} + b_{\
 <h2>Are figures 1 and 3 the same circle? (impedance vs admittance viewpoints)</h2>
 
 <p class="lead">
-A common misconception: “<strong>Figure 1</strong>(the constant-$|\Gamma|$ circle) and<strong>figure 3</strong>(the constant-$g$ circle) are really the same circle, just viewed from the impedance side in one case and the admittance side in the other.” That claim is<strong>wrong</strong>of the image-reject mixer at low IF.
+A common misconception: “<strong>Figure 1</strong>(the constant-$|\Gamma|$ circle) and <strong>figure 3</strong>(the constant-$g$ circle) are really the same circle, just viewed from the impedance side in one case and the admittance side in the other.” That claim is <strong>wrong</strong>.
 </p>
 
 <h3>The three circles side by side</h3>
@@ -416,20 +416,20 @@ A common misconception: “<strong>Figure 1</strong>(the constant-$|\Gamma|$ cir
 <tr><td>The impedance family: constant-$r$ circles</td><td>$\left(\dfrac{r}{r+1},\,0\right)$ (towards the right)</td><td>$\dfrac{1}{r+1}$</td><td>Normalized resistance $r$</td></tr>
 <tr><td><strong>Figure 3: the constant-$g$ circle</strong></td><td>$\left(-\dfrac{g}{g+1},\,0\right)$ (towards the left)</td><td>$\dfrac{1}{g+1}$</td><td>Normalized conductance $g$</td></tr>
 </table>
-<p>Figures 1 and 3 differ in<strong>position, radius and physical quantity</strong> — they are three distinct families of circle.</p>
+<p>Figures 1 and 3 differ in <strong>position, radius and physical quantity</strong> — they are three distinct families of circle.</p>
 
 <h3>What your intuition is actually reaching for is this relationship</h3>
-<p>The same impedance $z$ read on the Smith chart from the<strong>impedance viewpoint</strong>and from the<strong>admittance viewpoint</strong>lands at<strong>different positions</strong>(180° apart), because $\Gamma_y = -\Gamma_z$. But the <strong>“shape structure” of the constant-$r$ circles and the constant-$g$ circles is mirror-symmetric</strong>:</p>
+<p>The same impedance $z$ read on the Smith chart from the <strong>impedance viewpoint</strong> and from the <strong>admittance viewpoint</strong> lands at <strong>different positions</strong>(180° apart), because $\Gamma_y = -\Gamma_z$. But the <strong>“shape structure” of the constant-$r$ circles and the constant-$g$ circles is mirror-symmetric</strong>:</p>
 <table>
 <tr><th>Correspondence</th><th>Appearance on the Z-Smith chart</th><th>Appearance on the Y-Smith chart</th></tr>
 <tr><td>$r=1$ ↔ $g=1$</td><td>Centre $(+0.5,0)$, radius 0.5</td><td>Centre $(-0.5,0)$, radius 0.5</td></tr>
 <tr><td>$r=2$ ↔ $g=2$</td><td>Centre $(+0.67,0)$, radius 0.33</td><td>Centre $(-0.67,0)$, radius 0.33</td></tr>
 </table>
-<p>In other words — take the Z-Smith chart and<strong>rotate it 180° about the origin</strong>and you get the Y-Smith chart. “The $g=1$ circle of figure 3” is simply “the $r=1$ circle of the Z-Smith chart” flipped over.<strong>This correspondence holds only between the impedance-family and admittance-family circles; it has nothing to do with figure 1 (the concentric circles).</strong></p>
+<p>In other words — take the Z-Smith chart and <strong>rotate it 180° about the origin</strong> and you get the Y-Smith chart. “The $g=1$ circle of figure 3” is simply “the $r=1$ circle of the Z-Smith chart” flipped over.<strong>This correspondence holds only between the impedance-family and admittance-family circles; it has nothing to do with figure 1 (the concentric circles).</strong></p>
 
 <h3>Figure 1 has nothing to do with the impedance / admittance viewpoint</h3>
-<p>The existence of the constant-$|\Gamma|$ circle (figure 1)<strong>does not depend on distinguishing an impedance from an admittance viewpoint</strong> — it is simply the concentric circle at a fixed distance from the centre of the Smith chart, defined purely by the magnitude of $\Gamma$.</p>
-<p>Whether you read that point as $z = 0.6 + j0.4$ (impedance) or $y = 1.143 - j0.742$ (admittance), it lies on<strong>the very same $\|\Gamma\|$ circle</strong>.</p>
+<p>The existence of the constant-$|\Gamma|$ circle (figure 1) <strong>does not depend on distinguishing an impedance from an admittance viewpoint</strong> — it is simply the concentric circle at a fixed distance from the centre of the Smith chart, defined purely by the magnitude of $\Gamma$.</p>
+<p>Whether you read that point as $z = 0.6 + j0.4$ (impedance) or $y = 1.143 - j0.742$ (admittance), it lies on <strong>the very same $\|\Gamma\|$ circle</strong>.</p>
 
 <div style="background:#eef2f9;border-left:4px solid #3a5998;padding:10px 14px;border-radius:4px;margin:14px 0">
 <strong>Conclusion:</strong>
@@ -469,11 +469,11 @@ A common misconception: “<strong>Figure 1</strong>(the constant-$|\Gamma|$ cir
 
 <h2>In one sentence</h2>
 <p>
-Every point on a constant-$G_S$ circle = one candidate $(\Gamma_s, z_s)$ pair, and<strong>they all give the same value of $G_S$</strong>. The hover feature of the interactive figure lets you slide along that circle and see what $\Gamma_s$ and $z_s$ correspond to each position.
+Every point on a constant-$G_S$ circle = one candidate $(\Gamma_s, z_s)$ pair, and <strong>they all give the same value of $G_S$</strong>. The hover feature of the interactive figure lets you slide along that circle and see what $\Gamma_s$ and $z_s$ correspond to each position.
 </p>
 
 <div class="footnote">
-<strong>A common confusion:</strong>the phrase “Γ circle” is ambiguous — some people mean the constant-$|\Gamma|$ circle (centred in the middle), others the constant-$G_S$ circle (whose centre is off to one side). Whenever you see “Γ circle”, check which one is meant; it saves a great deal of misunderstanding.
+<strong>A common confusion:</strong> the phrase “Γ circle” is ambiguous — some people mean the constant-$|\Gamma|$ circle (centred in the middle), others the constant-$G_S$ circle (whose centre is off to one side). Whenever you see “Γ circle”, check which one is meant; it saves a great deal of misunderstanding.
 </div>
 
 <script>
@@ -686,7 +686,7 @@ function gammaToZ(gRe,gIm){
 <div style="margin-top:10px">
 
 <h3 style="margin-top:4px">Geometric intuition</h3>
-<p>A constant-$G_P$ (or $G_A$) circle is<strong>the set of all $\Gamma_L$ producing the same gain value</strong>. Each point on the circle is a different load impedance, yet they all give the same power gain.</p>
+<p>A constant-$G_P$ (or $G_A$) circle is <strong>the set of all $\Gamma_L$ producing the same gain value</strong>. Each point on the circle is a different load impedance, yet they all give the same power gain.</p>
 
 <p>Turn $G_P$ up from small values and watch what happens to the circle:</p>
 <table>
@@ -697,7 +697,7 @@ function gammaToZ(gRe,gIm){
 <tr><td>beyond $G_{P,\max}$</td><td>imaginary / negative</td><td>No real $\Gamma_L$ can produce a gain that large — physically impossible.</td></tr>
 </table>
 
-<p>So “radius = 0” marks<strong>the boundary between achievable and unachievable</strong>. Just below it there is a very small circle (lots of options crowded around $\Gamma_{ML}$); exactly at it there is a single point; beyond it the circle does not exist.</p>
+<p>So “radius = 0” marks <strong>the boundary between achievable and unachievable</strong>. Just below it there is a very small circle (lots of options crowded around $\Gamma_{ML}$); exactly at it there is a single point; beyond it the circle does not exist.</p>
 
 <h3>The mathematical derivation</h3>
 <p>The radius formula for the operating-gain circles (in the $\Gamma_L$ plane):</p>
@@ -720,7 +720,7 @@ Each gain circle is the “$\Gamma_L$ menu” for one gain value. The higher the
 </div>
 
 <h3>Why do the input and output circles shrink to points at the same time?</h3>
-<p>At maximum available gain the device is in a state of <strong>simultaneous conjugate match</strong>: $\Gamma_S = \Gamma_{MS}$ and $\Gamma_L = \Gamma_{ML}$, satisfying $\Gamma_{in} = \Gamma_S^*$ and $\Gamma_{out} = \Gamma_L^*$ simultaneously. Because $S_{12}$ couples the input and output ends together, you cannot shrink the output circle to a point while leaving the input circle finite — they reach zero radius at the<strong>same</strong>gain value together. That is why the slide says “input <em>or</em> output”.</p>
+<p>At maximum available gain the device is in a state of <strong>simultaneous conjugate match</strong>: $\Gamma_S = \Gamma_{MS}$ and $\Gamma_L = \Gamma_{ML}$, satisfying $\Gamma_{in} = \Gamma_S^*$ and $\Gamma_{out} = \Gamma_L^*$ simultaneously. Because $S_{12}$ couples the input and output ends together, you cannot shrink the output circle to a point while leaving the input circle finite — they reach zero radius at the <strong>same</strong> gain value together. That is why the slide says “input <em>or</em> output”.</p>
 
 </div>
 </details>
@@ -730,7 +730,7 @@ Each gain circle is the “$\Gamma_L$ menu” for one gain value. The higher the
 <div style="margin-top:10px">
 
 <h3 style="margin-top:4px">Definition</h3>
-<p><strong>MAG (Maximum Available Gain)</strong> = the maximum power gain a two-port device (usually a transistor) can achieve under<strong>simultaneous conjugate match</strong> .</p>
+<p><strong>MAG (Maximum Available Gain)</strong> = the maximum power gain a two-port device (usually a transistor) can achieve under <strong>simultaneous conjugate match</strong> .</p>
 
 <p>Formula:</p>
 $$G_{MAG} = \frac{|S_{21}|}{|S_{12}|}\Bigl(K - \sqrt{K^2 - 1}\Bigr) \qquad (\text{defined only for } K > 1)$$
@@ -738,15 +738,15 @@ $$G_{MAG} = \frac{|S_{21}|}{|S_{12}|}\Bigl(K - \sqrt{K^2 - 1}\Bigr) \qquad (\tex
 <h3>What the word “available” means</h3>
 <p>The definition of available gain $G_A$:</p>
 $$G_A = \frac{\text{power available from the device to the load}}{\text{power available from the source to the device}}$$
-<p>Note that “available” presupposes<strong>that the downstream end is already perfectly conjugate-matched</strong>and extracts all of the available power. Hence $G_A$ <strong>depends only on $\Gamma_S$</strong>and not on the actual $\Gamma_L$ (since the output is assumed to take all of the available power).</p>
+<p>Note that “available” presupposes <strong>that the downstream end is already perfectly conjugate-matched</strong> and extracts all of the available power. Hence $G_A$ <strong>depends only on $\Gamma_S$</strong> and not on the actual $\Gamma_L$ (since the output is assumed to take all of the available power).</p>
 
-<p>When you also choose $\Gamma_S$ to maximise $G_A$ — that is, $\Gamma_S = \Gamma_{MS}$ — both ends are conjugate-matched at once, and that maximum is <strong>MAG</strong>of the image-reject mixer at low IF.</p>
+<p>When you also choose $\Gamma_S$ to maximise $G_A$ — that is, $\Gamma_S = \Gamma_{MS}$ — both ends are conjugate-matched at once, and that maximum is <strong>MAG</strong>.</p>
 
 <h3>The three gains in one table</h3>
 <table>
 <tr><th>Name</th><th>Symbol</th><th>Assumption</th><th>Formula (after optimization)</th></tr>
 <tr><td>Transducer gain</td><td>$G_T$</td><td>Actual input + actual output (both ends may be mismatched)</td><td>Depends on $\Gamma_S, \Gamma_L$</td></tr>
-<tr><td><strong>Available gain</strong></td><td>$G_A$</td><td>Actual $\Gamma_S$,<strong>output conjugate-matched</strong></td><td>$\dfrac{|S_{21}|^2 (1-|\Gamma_S|^2)}{|1-S_{11}\Gamma_S|^2 (1-|\Gamma_{out}|^2)}$</td></tr>
+<tr><td><strong>Available gain</strong></td><td>$G_A$</td><td>Actual $\Gamma_S$, <strong>output conjugate-matched</strong></td><td>$\dfrac{|S_{21}|^2 (1-|\Gamma_S|^2)}{|1-S_{11}\Gamma_S|^2 (1-|\Gamma_{out}|^2)}$</td></tr>
 <tr><td><strong>MAG</strong></td><td>$G_{MAG}$</td><td><strong>Both input and output conjugate-matched</strong>($K>1$)</td><td>$\dfrac{|S_{21}|}{|S_{12}|}(K-\sqrt{K^2-1})$</td></tr>
 </table>
 
@@ -776,19 +776,19 @@ $$G_{MAG} = \frac{|S_{21}|}{|S_{12}|}\Bigl(K - \sqrt{K^2 - 1}\Bigr)$$
 <p>When $K < 1$ (conditionally stable):</p>
 <ul>
 <li>$K^2 - 1 < 0$</li>
-<li>$\sqrt{K^2-1}$ becomes<strong>purely imaginary</strong></li>
+<li>$\sqrt{K^2-1}$ becomes <strong>purely imaginary</strong></li>
 <li>and the whole of $G_{MAG}$ becomes complex — there is no real number to call the “maximum available gain”</li>
 </ul>
 
 <h3>The physical meaning — why this happens</h3>
-<p>Return to the picture of “the circle shrinking to a point”. When $K > 1$, turning $G_P$ up makes the circle shrink monotonically<strong>from the outside inwards</strong>, finally collapsing onto the single point $\Gamma_{ML}$, at which MAG is reached.</p>
-<p>When $K < 1$, the circle<strong>does not shrink monotonically</strong>. It does one of two “bad” things:</p>
+<p>Return to the picture of “the circle shrinking to a point”. When $K > 1$, turning $G_P$ up makes the circle shrink monotonically <strong>from the outside inwards</strong>, finally collapsing onto the single point $\Gamma_{ML}$, at which MAG is reached.</p>
+<p>When $K < 1$, the circle <strong>does not shrink monotonically</strong>. It does one of two “bad” things:</p>
 <table>
 <tr><th>Behaviour</th><th>Consequence</th></tr>
-<tr><td>The circle grows larger and larger, even<strong>enclosing or crossing the unit-circle boundary of the Smith chart</strong></td><td>The “corresponding optimal $\Gamma_L$” ends up in the region $|\Gamma_L| \ge 1$ — not a passive load, but one that would have to supply power actively</td></tr>
+<tr><td>The circle grows larger and larger, even <strong>enclosing or crossing the unit-circle boundary of the Smith chart</strong></td><td>The “corresponding optimal $\Gamma_L$” ends up in the region $|\Gamma_L| \ge 1$ — not a passive load, but one that would have to supply power actively</td></tr>
 <tr><td>The circle itself stays inside the unit circle, but <strong>$\Gamma_{out}$ or $\Gamma_{in}$ moves outside it</strong></td><td>The device becomes an oscillator, not an amplifier</td></tr>
 </table>
-<p>In other words: the simultaneous conjugate match $\Gamma_{MS}, \Gamma_{ML}$ can still be solved for “formally”, but<strong>that pair of solutions falls in the unstable region</strong>and is not a physically realizable passive match.</p>
+<p>In other words: the simultaneous conjugate match $\Gamma_{MS}, \Gamma_{ML}$ can still be solved for “formally”, but <strong>that pair of solutions falls in the unstable region</strong> and is not a physically realizable passive match.</p>
 
 <h3>In one sentence</h3>
 <div class="lead" style="margin:8px 0">
@@ -799,7 +799,7 @@ $K < 1$: the gain ceiling is cut short by stability → the gain you can obtain 
 <h3>The substitute — MSG (Maximum Stable Gain)</h3>
 <p>For a conditionally stable device, engineers use instead:</p>
 $$G_{MSG} = \frac{|S_{21}|}{|S_{12}|}$$
-<p>which is precisely the value of the MAG formula with $K = 1$ ($\sqrt{K^2-1} = 0$). Its meaning:<strong>if you can stabilize the device onto the $K = 1$ boundary with an external resistor</strong>, this is the most gain you can get. Any more and you must sacrifice stability.</p>
+<p>which is precisely the value of the MAG formula with $K = 1$ ($\sqrt{K^2-1} = 0$). Its meaning: <strong>if you can stabilize the device onto the $K = 1$ boundary with an external resistor</strong>, this is the most gain you can get. Any more and you must sacrifice stability.</p>
 
 <p>So the practical design procedure for a conditionally stable device is:</p>
 <ol>
@@ -816,14 +816,14 @@ $$G_{MSG} = \frac{|S_{21}|}{|S_{12}|}$$
 <div style="margin-top:10px">
 
 <h3 style="margin-top:4px">First, the physical meaning of $|S_{21}|^2$</h3>
-<p>$|S_{21}|^2$ is the value of the transducer gain $G_T$ when<strong>both ends are terminated directly in $Z_0$</strong>($\Gamma_S = 0,\;\Gamma_L = 0$):</p>
+<p>$|S_{21}|^2$ is the value of the transducer gain $G_T$ when <strong>both ends are terminated directly in $Z_0$</strong>($\Gamma_S = 0,\;\Gamma_L = 0$):</p>
 $$G_T \Big|_{\Gamma_S=0,\;\Gamma_L=0} = |S_{21}|^2$$
 <p>That is, the most rudimentary case of “<strong>no matching at all</strong>”: the source connected straight to the device through 50 Ω, and the load likewise 50 Ω.</p>
 
 <h3>Why available gain must be larger than that</h3>
-<p>$G_A$ is defined with the actual $\Gamma_S$, but with<strong>the output already conjugate-matched</strong>(the load end takes all of the available power). So even if you<strong>have not matched the input yet</strong>($\Gamma_S = 0$), $G_A$ already includes an “output-matching bonus”:</p>
+<p>$G_A$ is defined with the actual $\Gamma_S$, but with <strong>the output already conjugate-matched</strong>(the load end takes all of the available power). So even if you <strong>have not matched the input yet</strong>($\Gamma_S = 0$), $G_A$ already includes an “output-matching bonus”:</p>
 $$G_A \Big|_{\Gamma_S = 0} = \frac{|S_{21}|^2}{1 - |S_{22}|^2}$$
-<p>because when $\Gamma_S = 0$ we have $\Gamma_{out} = S_{22}$, and conjugate-matching the output<strong>gives back</strong>the factor $(1-|S_{22}|^2)$ that was lost with $\Gamma_L = 0$. Hence:</p>
+<p>because when $\Gamma_S = 0$ we have $\Gamma_{out} = S_{22}$, and conjugate-matching the output <strong>gives back</strong> the factor $(1-|S_{22}|^2)$ that was lost with $\Gamma_L = 0$. Hence:</p>
 $$g_A \Big|_{\Gamma_S = 0} = \frac{G_A}{|S_{21}|^2} = \frac{1}{1 - |S_{22}|^2} \;>\; 1$$
 <p>which already guarantees $g_A > 1$ — before any input matching at all.</p>
 
@@ -842,14 +842,14 @@ $$g_A \Big|_{\Gamma_S = 0} = \frac{G_A}{|S_{21}|^2} = \frac{1}{1 - |S_{22}|^2} \
 
 <p>The centre and radius formulas (the bilateral case):</p>
 $$C_A = \frac{g_A\,C_1^*}{1 + g_A(|S_{11}|^2 - |\Delta|^2)}, \qquad R_A = \frac{\sqrt{1 - 2K|S_{12}S_{21}|g_A + |S_{12}S_{21}|^2 g_A^2}}{\bigl|1 + g_A(|S_{11}|^2 - |\Delta|^2)\bigr|}$$
-<p>Notice that all the formulas take $g_A$ directly rather than $G_A$ — once $|S_{21}|^2$ is factored out, what remains<strong>depends only on the matching state</strong>, and the formulas take a clean form.</p>
+<p>Notice that all the formulas take $g_A$ directly rather than $G_A$ — once $|S_{21}|^2$ is factored out, what remains <strong>depends only on the matching state</strong>, and the formulas take a clean form.</p>
 
 <div class="lead" style="margin:10px 0">
-<strong>In one sentence:</strong> $|S_{21}|^2$ = the “bare gain” baseline with no matching whatsoever. $g_A$ = the factor by which your target gain exceeds that baseline. As long as your target is<strong>better than plugging it straight into 50 Ω</strong>(which is virtually always the case, since conjugate-matching the output alone squeezes out a factor of $1/(1-|S_{22}|^2)$), $g_A$ is $> 1$.
+<strong>In one sentence:</strong> $|S_{21}|^2$ = the “bare gain” baseline with no matching whatsoever. $g_A$ = the factor by which your target gain exceeds that baseline. As long as your target is <strong>better than plugging it straight into 50 Ω</strong>(which is virtually always the case, since conjugate-matching the output alone squeezes out a factor of $1/(1-|S_{22}|^2)$), $g_A$ is $> 1$.
 </div>
 
 <h3>The exception (when $g_A &lt; 1$ does happen)</h3>
-<p>Only if you<strong>deliberately</strong>deliberately choose a target gain worse than $|S_{21}|^2$ (sacrificing gain for extremely wide bandwidth or an excellent noise match, say) does $g_A$ fall below 1. Such designs turn up occasionally in LNAs but rarely in general amplifier design — which is why the slide says “typically” rather than “always”.</p>
+<p>Only if you <strong>deliberately</strong> deliberately choose a target gain worse than $|S_{21}|^2$ (sacrificing gain for extremely wide bandwidth or an excellent noise match, say) does $g_A$ fall below 1. Such designs turn up occasionally in LNAs but rarely in general amplifier design — which is why the slide says “typically” rather than “always”.</p>
 
 </div>
 </details>
@@ -894,8 +894,8 @@ $$C_A = \frac{g_A\,C_1^*}{1 + g_A(|S_{11}|^2 - |\Delta|^2)}, \qquad R_A = \frac{
 
 <p style="margin:10px 0 4px"><strong>A way to remember it</strong></p>
 <ul style="margin:2px 0 0 20px;line-height:1.65">
-  <li>$\Gamma_s$ and $\Gamma_l$ are<em>external</em>, under the designer's control — the impedances you<strong>present to</strong>the transistor.</li>
-  <li>$\Gamma_{in}$ and $\Gamma_{out}$ are<em>internal</em>, the reflections presented by the transistor itself (together with the load on the other side) — the impedances the transistor<strong>presents to</strong>the external circuit.</li>
+  <li>$\Gamma_s$ and $\Gamma_l$ are <em>external</em>, under the designer's control — the impedances you <strong>present to</strong> the transistor.</li>
+  <li>$\Gamma_{in}$ and $\Gamma_{out}$ are <em>internal</em>, the reflections presented by the transistor itself (together with the load on the other side) — the impedances the transistor <strong>presents to</strong> the external circuit.</li>
 </ul>
 
 <p style="margin:10px 0 4px"><strong>The difference between the unilateral ($S_{12}=0$) and bilateral ($S_{12}\neq 0$) cases</strong></p>

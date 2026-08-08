@@ -374,7 +374,7 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
   <!-- Transparent overlay capturing click/drag (must be LAST so it's on top) -->
   <rect id="wavOverlay" x="60" y="20" width="1020" height="160" fill="transparent" style="cursor:ew-resize"/>
 </svg>
-<p style="text-align:center;margin:4px 0 0;font-size:0.86em;color:#666"><em>↔ Click or drag anywhere on the waveform plot and the<strong>red cursor</strong>follows; the small box beside it shows the LO / RF / IF values at that instant in real time</em></p>
+<p style="text-align:center;margin:4px 0 0;font-size:0.86em;color:#666"><em>↔ Click or drag anywhere on the waveform plot and the <strong>red cursor</strong> follows; the small box beside it shows the LO / RF / IF values at that instant in real time</em></p>
 </div>
 
 <!-- ============ Explanations ============ -->
@@ -382,22 +382,22 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
 
 <div class="callout tip">
 <div class="callout-title">The core idea: four diodes = a “chopping switch” controlled by the LO</div>
-<p>Think of the 4 diodes as<strong>a set of switches commutated by the LO</strong>. On<em>each half-cycle</em>of the LO, exactly two diodes conduct while the other two are cut off:</p>
+<p>Think of the 4 diodes as <strong>a set of switches commutated by the LO</strong>. On <em>each half-cycle</em> of the LO, exactly two diodes conduct while the other two are cut off:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>Phase A (LO &gt; 0):</strong>D1 and D2 conduct → the RF signal is connected to the IF output with “positive polarity”.</li>
-<li><strong>Phase B (LO &lt; 0):</strong>D3 and D4 conduct → the RF signal is connected to the IF output with “negative polarity”.</li>
+<li><strong>Phase A (LO &gt; 0):</strong> D1 and D2 conduct → the RF signal is connected to the IF output with “positive polarity”.</li>
+<li><strong>Phase B (LO &lt; 0):</strong> D3 and D4 conduct → the RF signal is connected to the IF output with “negative polarity”.</li>
 </ul>
 <p>The result: what the IF sees is <strong>RF × sgn(LO)</strong> — an RF chopped by the LO square wave, and that is mixing!</p>
 </div>
 
 <h3 id="howRF">① The 180° hybrid splits the RF into +RF and −RF</h3>
-<p>The RF enters the Δ port (the Σ port is terminated in $Z_0$), and the hybrid produces<strong>anti-phase</strong> RF at its two outputs:</p>
+<p>The RF enters the Δ port (the Σ port is terminated in $Z_0$), and the hybrid produces <strong>anti-phase</strong> RF at its two outputs:</p>
 <div class="eq-box">
 $$v_{T}(t) = +\tfrac{1}{\sqrt{2}}\,V_{RF}\cos\omega_{RF}t, \qquad v_{B}(t) = -\tfrac{1}{\sqrt{2}}\,V_{RF}\cos\omega_{RF}t$$
 </div>
-<p>which connect respectively to the diode ring's<strong>top vertex T</strong> and<strong>bottom vertex B</strong>of the image-reject mixer at low IF.</p>
+<p>which connect respectively to the diode ring's <strong>top vertex T</strong> and <strong>bottom vertex B</strong>.</p>
 
-<p>The<strong>scattering matrix</strong>of the complete 180° hybrid (port numbering as ①②③④, with Δ = port 4, Σ = port 1, output port 2 to T and port 3 to B):</p>
+<p>The <strong>scattering matrix</strong> of the complete 180° hybrid (port numbering as ①②③④, with Δ = port 4, Σ = port 1, output port 2 to T and port 3 to B):</p>
 <div class="eq-box">
 $$[S]_{180°} = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{s12r}{1} & \cssId{s13r}{1} & 0 \\ \cssId{s21r}{1} & 0 & 0 & \cssId{s24r}{-1} \\ \cssId{s31r}{1} & 0 & 0 & \cssId{s34r}{1} \\ 0 & \cssId{s42r}{-1} & \cssId{s43r}{1} & 0 \end{bmatrix}$$
 </div>
@@ -425,11 +425,11 @@ $$[S]_{180°} = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{s12r}{1} & \cssId{
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{ii}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">self → self</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">All four ports are<strong>perfectly matched</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">All four ports are <strong>perfectly matched</strong></td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{14}=S_{41}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">Σ ↔ Δ</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">The Σ and Δ ports<strong>inherently isolated</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">The Σ and Δ ports <strong>inherently isolated</strong></td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{23}=S_{32}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">T ↔ B</td>
@@ -437,24 +437,24 @@ $$[S]_{180°} = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{s12r}{1} & \cssId{
 <tr style="background:#fff2c4"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{21}=S_{12}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">Σ → T</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ splits in phase to T: half power,<strong>$-90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ splits in phase to T: half power, <strong>$-90°$</strong></td></tr>
 <tr style="background:#ffd9b0"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{31}=S_{13}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">Σ → B</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ splits in phase to B:<strong>$-90°$</strong>(<strong>in phase</strong>)</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ splits in phase to B: <strong>$-90°$</strong>(<strong>in phase</strong>)</td></tr>
 <tr style="background:#ffb8a8"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{24}=S_{42}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{+j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070"><strong>Δ → T (the RF takes this route)</strong></td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ splits in anti-phase to T:<strong>$+90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ splits in anti-phase to T: <strong>$+90°$</strong></td></tr>
 <tr style="background:#a8d8ff"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{34}=S_{43}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070"><strong>Δ → B (the RF takes this route)</strong></td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ splits in anti-phase to B:<strong>$-90°$</strong>(<strong>in anti-phase</strong>with the cell above!)</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ splits in anti-phase to B: <strong>$-90°$</strong>(<strong>in anti-phase</strong>!)</td></tr>
 </tbody>
 </table>
 </div>
 
-<p style="margin:6px 0"><strong>The core asymmetry:</strong> $S_{24}=+j/\sqrt{2}$ but $S_{34}=-j/\sqrt{2}$ — with an input at Δ, the signals received at the two output ports are<strong>180° apart in phase</strong>. This is the “difference” split of the Δ port, and it is the fundamental reason the ring mixer's diodes at T and B see $\pm V_{RF}$ (differentially) when the RF is injected into the ring.</p>
+<p style="margin:6px 0"><strong>The core asymmetry:</strong> $S_{24}=+j/\sqrt{2}$ but $S_{34}=-j/\sqrt{2}$ — with an input at Δ, the signals received at the two output ports are <strong>180° apart in phase</strong>. This is the “difference” split of the Δ port, and it is the fundamental reason the ring mixer's diodes at T and B see $\pm V_{RF}$ (differentially) when the RF is injected into the ring.</p>
 
 <p style="margin:4px 0;color:#7a4a10;font-size:0.9em"><strong>Unitarity check:</strong> $[S]^\dagger[S] = [I]$ (lossless); the matrix is symmetric (reciprocal); the diagonal is all zeros (every port matched). Together these three pin it down as an ideal 180° hybrid.</p>
 </div>
@@ -463,9 +463,9 @@ $$[S]_{180°} = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{s12r}{1} & \cssId{
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#3a2080;font-size:0.92em">⚠ Why does adding up the phase delays along the arms (−270° + −90° = 0°) ≠ the output phase at port 3 (±90°)?</summary>
 <div style="padding:6px 14px 12px;font-size:0.93em;line-height:1.7">
 
-<p>Each arm label in the figure (λ/4 (−90°), 3λ/4 (−270°)) gives<strong>the propagation phase delay along that arm</strong> — how much extra electrical length, and hence phase, the signal picks up crossing that section of line. That number is correct for a *single* path.</p>
+<p>Each arm label in the figure (λ/4 (−90°), 3λ/4 (−270°)) gives <strong>the propagation phase delay along that arm</strong> — how much extra electrical length, and hence phase, the signal picks up crossing that section of line. That number is correct for a *single* path.</p>
 
-<p>But the output phase at port 3 is<strong>not</strong>the result of adding up along a single path.</p>
+<p>But the output phase at port 3 is <strong>not</strong> the result of adding up along a single path.</p>
 
 <p><strong>The seemingly reasonable single-path calculation:</strong></p>
 <div class="eq-box">
@@ -478,7 +478,7 @@ $$\Delta \xrightarrow{3\lambda/4\;(-270°)} \Sigma \xrightarrow{\lambda/4\;(-90�
 <li>Clockwise (CW): Δ → top arm → port 2 → right arm → port 3, total length $\lambda/2$, phase $-180°$</li>
 <li>Anticlockwise (CCW): Δ → long arm → Σ → bottom arm → port 3, total length $\lambda$, phase $0°$</li>
 </ul>
-<p>The two waves arriving at port 3 then<strong>add coherently</strong>at some port:</p>
+<p>The two waves arriving at port 3 then <strong>add coherently</strong>:</p>
 <div class="eq-box">
 $$V_3 \propto e^{j(-180°)} + e^{j(0°)} = -1 + 1 = 0 \;? \quad\text{(so they ought to cancel…)}$$
 </div>
@@ -490,7 +490,7 @@ $$V_3 \propto e^{j(-180°)} + e^{j(0°)} = -1 + 1 = 0 \;? \quad\text{(so they ou
 <li><strong>partly couples out</strong>(absorbed by that port's load)</li>
 <li><strong>partly reflects</strong>(travelling back around the ring)</li>
 </ul>
-<p>So when the two paths reach port 3 their<strong>amplitudes are not equal</strong>, and their phases have picked up<strong>a few extra degrees</strong>from the scattering at the junctions. The full behaviour of the whole ring has to be <strong>[S]-matrix</strong> computed in one go.</p>
+<p>So when the two paths reach port 3 their <strong>amplitudes are not equal</strong>, and their phases have picked up <strong>a few extra degrees</strong> from the scattering at the junctions. The full behaviour of the whole ring has to be <strong>[S]-matrix</strong> computed in one go.</p>
 
 <p style="margin-top:6px;color:#3a2080;font-weight:600">Truth ③ — the final answer from the [S] matrix:</p>
 <div class="eq-box">
@@ -507,9 +507,9 @@ $$V_3 = S_{31}\,V_{RF} = \tfrac{-j}{\sqrt{2}}\bigl(\pm 1\bigr)V_{RF} \;\Rightarr
 </table>
 
 <p style="margin-top:8px;background:#e8f8ee;border-left:3px solid #1a5a30;padding:6px 10px;font-size:0.92em"><strong>So are the −90° / −270° arm labels of any use?</strong> Yes — they mean “the electrical length of each arm”, which helps you understand:<br>
-&nbsp;&nbsp;• why the short and long arms differ by $\lambda/2 = 180°$ → this is the<em>fundamental reason</em><br>
+&nbsp;&nbsp;• why the short and long arms differ by $\lambda/2 = 180°$ → this is the <em>fundamental reason</em><br>
 a rat-race can separate Σ from Δ; &nbsp;&nbsp;• why the component is called a “180° hybrid”<br>
-But they are<strong>not</strong>the phase accumulated along some path to an output port — that requires the [S] matrix.</p>
+But they are <strong>not</strong> the phase accumulated along some path to an output port — that requires the [S] matrix.</p>
 </div>
 </details>
 
@@ -518,7 +518,7 @@ But they are<strong>not</strong>the phase accumulated along some path to an outp
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#7a4a10;font-size:0.92em">📚 Terminology: what is a “tee junction”, and why does it complicate the ring analysis?</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
 
-<p><strong>Tee junction</strong>(a T-junction) is a 3-port component in RF circuits where<strong>three transmission lines meet at a point</strong>, shaped like the letter “T”:</p>
+<p><strong>Tee junction</strong>(a T-junction) is a 3-port component in RF circuits where <strong>three transmission lines meet at a point</strong>, shaped like the letter “T”:</p>
 
 <div style="text-align:center;margin:8px 0">
 <svg viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" style="max-width:580px;width:100%;height:auto">
@@ -580,7 +580,7 @@ But they are<strong>not</strong>the phase accumulated along some path to an outp
 </div>
 
 <h4 style="color:#7a4a10;margin-top:10px">Back to the rat-race: every corner of the ring is one of these tee junctions</h4>
-<p>The four corners of the rat-race ring (Δ, port 2, port 3, Σ)<strong>all correspond to the 3-port tee junction above</strong>, the only difference being what “the external $Z_0$ port” connects to:</p>
+<p>The four corners of the rat-race ring (Δ, port 2, port 3, Σ) <strong>all correspond to the 3-port tee junction above</strong>, the only difference being what “the external $Z_0$ port” connects to:</p>
 
 <div style="overflow-x:auto">
 <table style="border-collapse:collapse;font-size:0.9em;margin:6px 0">
@@ -652,7 +652,7 @@ But they are<strong>not</strong>the phase accumulated along some path to an outp
 
 <p style="margin-top:6px;font-size:0.92em">Analyse every corner of the ring this way — chain the 4 tees together, add the coherent superposition of the two waves (CW/CCW), and the [S] matrix of the whole 4-port hybrid falls out (see the full derivation in the next details block).</p>
 
-<p>On a rat-race ring,<strong>every external port (ports 1, 2, 3, 4) is a tee junction</strong> — one side connects to an external load ($Z_0$) and the other two to the two sections of ring transmission line.</p>
+<p>On a rat-race ring, <strong>every external port (ports 1, 2, 3, 4) is a tee junction</strong> — one side connects to an external load ($Z_0$) and the other two to the two sections of ring transmission line.</p>
 
 <h4 style="color:#7a4a10">What happens when a signal reaches a tee junction?</h4>
 <p>Three things happen at once:</p>
@@ -661,18 +661,18 @@ But they are<strong>not</strong>the phase accumulated along some path to an outp
 <li><strong>Couple out</strong>(couple out) — part of the energy flows out of the external port (absorbed by the $Z_0$ load).</li>
 <li><strong>Reflect back</strong>(reflect) — part of the energy travels back around the ring the way it came.</li>
 </ol>
-<p>The proportions are set by<strong>the characteristic impedances of the three lines</strong>. For a rat-race, the ring is $Z_R = \sqrt{2}Z_0$ and the external ports are $Z_0$, so each tee has particular scattering coefficients — you cannot treat it as “straight through”.</p>
+<p>The proportions are set by <strong>the characteristic impedances of the three lines</strong>. For a rat-race, the ring is $Z_R = \sqrt{2}Z_0$ and the external ports are $Z_0$, so each tee has particular scattering coefficients — you cannot treat it as “straight through”.</p>
 
 <div class="callout warn" style="margin:8px 0">
 <div class="callout-title">⚠ An important theorem: an “ideal lossless matched 3-port” does not exist</div>
-<p style="margin:4px 0">A classic theorem of RF textbooks (Pozar §7.1):<strong>No 3-port component can satisfy all three of the following at once</strong>at some port:</p>
+<p style="margin:4px 0">A classic theorem of RF textbooks (Pozar §7.1): <strong>No 3-port component can satisfy all three of the following at once</strong>:</p>
 <ul style="margin:4px 0 6px 22px">
 <li>(a) perfectly matched (all three ports have $S_{ii}=0$)</li>
 <li>(b) lossless ($[S]^\dagger[S]=[I]$)</li>
 <li>(c) reciprocal ($S_{ij}=S_{ji}$)</li>
 </ul>
 <p style="margin:4px 0">Proof: write down the three constraints and find that the unitarity condition has no solution → contradiction.</p>
-<p style="margin:4px 0">→ Any 3-port tee <strong>must sacrifice at least one property</strong>at some port:</p>
+<p style="margin:4px 0">→ Any 3-port tee <strong>must sacrifice at least one property</strong>:</p>
 <ul style="margin:4px 0 6px 22px">
 <li><strong>Give up the match</strong>: an ordinary transmission-line tee (all three ports reflect)</li>
 <li><strong>Add loss</strong>: a resistive Wilkinson or an attenuating power divider</li>
@@ -681,20 +681,20 @@ But they are<strong>not</strong>the phase accumulated along some path to an outp
 </div>
 
 <h4 style="color:#7a4a10">So how does a 4-port hybrid get around the restriction?</h4>
-<p>4-port components such as the rat-race, branch-line and Wilkinson actually<strong>chain several tee junctions together</strong>and then use<strong>wave interference and cancellation</strong>to make each tee's reflection cancel at the external port.</p>
+<p>4-port components such as the rat-race, branch-line and Wilkinson actually <strong>chain several tee junctions together</strong> and then use <strong>wave interference and cancellation</strong> to make each tee's reflection cancel at the external port.</p>
 
 <p>The mechanism in detail:</p>
 <ul style="margin:4px 0 6px 22px">
 <li>Taken on its own, one tee is not matched (it reflects)</li>
 <li>The reflections travelling along both ring paths (CW and CCW) return to the external port</li>
-<li>The path-length difference (λ/2 in a rat-race) leaves the two reflections<strong>exactly 180° apart in phase</strong> → they cancel</li>
+<li>The path-length difference (λ/2 in a rat-race) leaves the two reflections <strong>exactly 180° apart in phase</strong> → they cancel</li>
 <li>Seen from outside: matched ✓, lossless ✓, reciprocal ✓ — all three hold!</li>
 </ul>
 
-<p>This is the heart of hybrid design:<strong>use a 4-port structure plus interference cancellation</strong>to sidestep the physical limitation on 3-port components.</p>
+<p>This is the heart of hybrid design: <strong>use a 4-port structure plus interference cancellation</strong> to sidestep the physical limitation on 3-port components.</p>
 
 <h4 style="color:#7a4a10">Why is this concept crucial to deriving the rat-race [S] matrix?</h4>
-<p>The naive “path-summing” calculation (adding up the phase delay of each arm) fails because it<strong>treats every ring node as a straight-through connection</strong>and ignores the scattering at the tee junctions.</p>
+<p>The naive “path-summing” calculation (adding up the phase delay of each arm) fails because it <strong>treats every ring node as a straight-through connection</strong> and ignores the scattering at the tee junctions.</p>
 <p>The correct analysis (even-odd mode or ABCD matrices):</p>
 <ul style="margin:4px 0 6px 22px">
 <li>Treat each tee as a 3-port that scatters</li>
@@ -729,7 +729,7 @@ But they are<strong>not</strong>the phase accumulated along some path to an outp
 <h4 style="color:#1a5a30">Setup (geometry)</h4>
 <ul style="margin:4px 0 6px 22px">
 <li>All four external ports are terminated in $Z_0$ (typically 50 Ω).</li>
-<li>The ring's<strong>characteristic impedance is $Z_R = \sqrt{2}\,Z_0$</strong>(≈ 70.7 Ω) — a choice that leaves each tee junction matched as seen from outside once the split is taken into account.</li>
+<li>The ring's <strong>characteristic impedance is $Z_R = \sqrt{2}\,Z_0$</strong>(≈ 70.7 Ω) — a choice that leaves each tee junction matched as seen from outside once the split is taken into account.</li>
 <li>The ring has three $\lambda/4$ sections (ports 1→2→3→4, clockwise) and one $3\lambda/4$ section (ports 4→1, the long arm).</li>
 <li>Plane of symmetry: through the midpoint of the port 1–port 2 short arm and the midpoint of the port 3–port 4 short arm. It maps port 1 ↔ port 4 and port 2 ↔ port 3 onto mirror pairs.</li>
 </ul>
@@ -835,7 +835,7 @@ But they are<strong>not</strong>the phase accumulated along some path to an outp
 
 <div class="callout warn" style="margin:6px 0;font-size:0.92em">
 <div class="callout-title">Why $Z_R = \sqrt{2}Z_0$?</div>
-If the ring's characteristic impedance is exactly $\sqrt{2}Z_0$, then looking into any tee junction from its external port: each of the two adjacent $\lambda/4$ lines transforms the $Z_0$ at the far end into $Z_R^2/Z_0 = 2Z_0$; two $2Z_0$ in parallel give $Z_0$ — <strong>exactly matching the outside</strong>. That is the physical mechanism by which a rat-race achieves $S_{ii}=0$ at<em>every port</em>.
+If the ring's characteristic impedance is exactly $\sqrt{2}Z_0$, then looking into any tee junction from its external port: each of the two adjacent $\lambda/4$ lines transforms the $Z_0$ at the far end into $Z_R^2/Z_0 = 2Z_0$; two $2Z_0$ in parallel give $Z_0$ — <strong>exactly matching the outside</strong>. That is the physical mechanism by which a rat-race achieves $S_{ii}=0$ at <em>every port</em>.
 </div>
 
 <h4 style="color:#1a5a30">Step 1 — excite port 1 (Σ) with amplitude $a_1=1$; decompose symmetrically</h4>
@@ -846,16 +846,16 @@ $$\underbrace{a_1 = 1, a_4 = 0}_{\text{original excitation}} = \underbrace{\tfra
 <p>Each mode has its own reflection coefficient $\Gamma$ and transmission coefficient $T$. We compute them separately.</p>
 
 <h4 style="color:#1a5a30">Step 2 — even mode: the plane of symmetry is a magnetic wall (open circuit)</h4>
-<p>In the even mode the current on the plane of symmetry is zero (as if it were an open circuit). Cutting the ring along the plane of symmetry gives two independent half-rings, each consisting of<strong>a $\lambda/8$ open-circuited line</strong>(from port 1 to the symmetry plane)<strong>in series with a $3\lambda/8$ open-circuited line</strong>(from port 1 round the long arm to the other point on the symmetry plane).</p>
+<p>In the even mode the current on the plane of symmetry is zero (as if it were an open circuit). Cutting the ring along the plane of symmetry gives two independent half-rings, each consisting of <strong>a $\lambda/8$ open-circuited line</strong>(from port 1 to the symmetry plane) <strong>in series with a $3\lambda/8$ open-circuited line</strong>(from port 1 round the long arm to the other point on the symmetry plane).</p>
 
 <details style="margin:6px 0;background:#f0f6fc;border:1px solid #a0b8d8;border-radius:6px;padding:0">
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.92em">🤔 Why is the current on the plane of symmetry zero in the even mode?</summary>
 <div style="padding:6px 14px 12px;font-size:0.92em;line-height:1.7">
 
-<p>This is no coincidence but<strong>a direct consequence of the symmetry</strong>. Let me explain it from several angles:</p>
+<p>This is no coincidence but <strong>a direct consequence of the symmetry</strong>. Let me explain it from several angles:</p>
 
 <h5 style="color:#1a4a8a;margin-top:6px">① Starting from the definition of “symmetric excitation”</h5>
-<p><strong>The even mode</strong> is defined as an excitation applied on both sides of the symmetry plane with<em>equal amplitude and the same phase</em>. For example, injecting the same signal $V_0$ into port 1 and port 4 (the two mirror-image ports) simultaneously:</p>
+<p><strong>The even mode</strong> is defined as an excitation applied on both sides of the symmetry plane with <em>equal amplitude and the same phase</em>. For example, injecting the same signal $V_0$ into port 1 and port 4 (the two mirror-image ports) simultaneously:</p>
 <div class="eq-box">
 $$a_1 = a_4 = V_0 \quad\text{(same phase, same amplitude)}$$
 </div>
@@ -864,8 +864,8 @@ $$a_1 = a_4 = V_0 \quad\text{(same phase, same amplitude)}$$
 <h5 style="color:#1a4a8a">② What happens on the plane of symmetry?</h5>
 <p>Place any point P and its mirror image P' on either side of the symmetry plane:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>Voltage</strong>is a scalar — under the mirror $V(\text{P}) = V(\text{P}')$ (simply equal)</li>
-<li><strong>Current</strong>is a vector — under the mirror its direction is reversed. If the current at P is positive when directed towards the symmetry plane, then by symmetry the current at P' is likewise positive towards the plane. But<em>their absolute directions of flow are opposite</em>(one to the right, one to the left, along the ring)</li>
+<li><strong>Voltage</strong> is a scalar — under the mirror $V(\text{P}) = V(\text{P}')$ (simply equal)</li>
+<li><strong>Current</strong> is a vector — under the mirror its direction is reversed. If the current at P is positive when directed towards the symmetry plane, then by symmetry the current at P' is likewise positive towards the plane. But <em>their absolute directions of flow are opposite</em>(one to the right, one to the left, along the ring)</li>
 </ul>
 
 <div style="text-align:center;margin:8px 0">
@@ -928,7 +928,7 @@ $$a_1 = a_4 = V_0 \quad\text{(same phase, same amplitude)}$$
 </ul>
 
 <h5 style="color:#1a4a8a">④ The boundary condition = an open circuit (magnetic wall)</h5>
-<p>“Current = 0” is the definition of an open circuit. So inserting an<strong>open-circuit boundary condition</strong>on the plane of symmetry is equivalent to the original symmetric even-mode excitation. It is called a <strong>magnetic wall</strong>, because $I=0$ on a transmission line corresponds to zero magnetic field (an electric field may still exist → an open circuit).</p>
+<p>“Current = 0” is the definition of an open circuit. So inserting an <strong>open-circuit boundary condition</strong> on the plane of symmetry is equivalent to the original symmetric even-mode excitation. It is called a <strong>magnetic wall</strong>, because $I=0$ on a transmission line corresponds to zero magnetic field (an electric field may still exist → an open circuit).</p>
 
 <h5 style="color:#1a4a8a">⑤ Why is the odd mode a “short circuit”?</h5>
 <p>By duality: change the excitation to $a_1 = +V_0, a_4 = -V_0$ (anti-phase). The same symmetry argument gives:</p>
@@ -943,7 +943,7 @@ $$a_1 = a_4 = V_0 \quad\text{(same phase, same amplitude)}$$
 <div class="eq-box">
 $$(a_1=V_0,\;a_4=0) = \underbrace{\tfrac{V_0}{2}(a_1=1,\,a_4=+1)}_{\text{even mode}} + \underbrace{\tfrac{V_0}{2}(a_1=1,\,a_4=-1)}_{\text{odd mode}}$$
 </div>
-<p>Compute each mode separately (applying the open-/short-circuit boundary) and superpose linearly at the end to obtain the complete solution for the single-port excitation — and<strong>each mode is only half as complex to analyse as the original problem</strong>(because we only look at half of the symmetric circuit). That is the power of even-odd mode analysis.</p>
+<p>Compute each mode separately (applying the open-/short-circuit boundary) and superpose linearly at the end to obtain the complete solution for the single-port excitation — and <strong>each mode is only half as complex to analyse as the original problem</strong>(because we only look at half of the symmetric circuit). That is the power of even-odd mode analysis.</p>
 
 <div class="callout tip" style="margin:6px 0">
 <div class="callout-title">An analogy: two identical trains running towards each other</div>
@@ -963,19 +963,19 @@ $$Z_e^{in} = \bigl[\,Z_R\,\tfrac{1}{j}\cot(\beta\!\cdot\!\lambda/8) \,\parallel\
 <div style="padding:6px 14px 12px;font-size:0.92em;line-height:1.7">
 
 <h5 style="color:#5a2080;margin-top:6px">① Where does the formula come from? — the input impedance of an open stub</h5>
-<p>For a length<strong>$L$ of line with characteristic impedance $Z_R$, open-circuited at the far end</strong>, the input impedance seen from the other end is:</p>
+<p>For a length <strong>$L$ of line with characteristic impedance $Z_R$, open-circuited at the far end</strong>, the input impedance seen from the other end is:</p>
 <div class="eq-box">
 $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
 </div>
 <p>where $\beta = 2\pi/\lambda$ is the propagation constant. The formula follows from the general transmission-line expression $Z_{in} = Z_0\,\dfrac{Z_L+jZ_0\tan\beta L}{Z_0+jZ_L\tan\beta L}$ by taking $Z_L \to \infty$.</p>
 
 <h5 style="color:#5a2080">② Applying it to the rat-race's two stubs</h5>
-<p>Look into the ring from port 1 (Σ). Here we use the <strong>bisymmetric property of the rat-race</strong>— the ring is symmetric about<em>two orthogonal planes of symmetry</em>, so we can cut it at the midpoints of all 4 arms at once (in the even mode they all become opens). Seen from port 1, the two<strong>immediately adjacent</strong>stubs are:</p>
+<p>Look into the ring from port 1 (Σ). Here we use the <strong>bisymmetric property of the rat-race</strong>— the ring is symmetric about <em>two orthogonal planes of symmetry</em>, so we can cut it at the midpoints of all 4 arms at once (in the even mode they all become opens). Seen from port 1, the two <strong>immediately adjacent</strong> stubs are:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>The short path</strong>: port 1 → along half of the<em>lower-left short arm (port 1 → port 2)</em>→ the cut (open). Length <strong>$\lambda/8$</strong></li>
-<li><strong>The long path</strong>: port 1 → along half of the<em>long arm</em>→ the cut (open). Length <strong>$3\lambda/8$</strong></li>
+<li><strong>The short path</strong>: port 1 → along half of the <em>lower-left short arm (port 1 → port 2)</em>→ the cut (open). Length <strong>$\lambda/8$</strong></li>
+<li><strong>The long path</strong>: port 1 → along half of the <em>long arm</em>→ the cut (open). Length <strong>$3\lambda/8$</strong></li>
 </ul>
-<p>Both stubs run directly from port 1 to the nearest cut, so from port 1 they appear<strong>in parallel with</strong>of the image-reject mixer at low IF.</p>
+<p>Both stubs run directly from port 1 to the nearest cut, so from port 1 they appear <strong>in parallel with</strong>.</p>
 
 <div style="text-align:center;margin:8px 0">
 <svg viewBox="0 0 620 460" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" style="max-width:620px;width:100%;height:auto">
@@ -1097,14 +1097,14 @@ $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
 <details style="margin:6px 0;background:#f0fff4;border:1px solid #7ab87a;border-radius:6px;padding:0">
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a5a30;font-size:0.92em">⚠ But intuitively, “port 1 through the short arm to the symmetry plane” ought to be 3λ/8, surely?</summary>
 <div style="padding:6px 14px 12px;font-size:0.92em">
-<p>Your intuition is right! With only<strong>one</strong>plane of symmetry (say the horizontal one, mapping only port 1↔4 and port 2↔3):</p>
+<p>Your intuition is right! With only <strong>one</strong> plane of symmetry (say the horizontal one, mapping only port 1↔4 and port 2↔3):</p>
 <ul style="margin:4px 0 6px 22px">
 <li>the horizontal plane cuts the midpoints of just two arms: the long arm and the right arm</li>
 <li>from port 1 (BL) through the short arm to the midpoint of the right arm: bottom arm (λ/4) + half the right arm (λ/8) = <strong>3λ/8</strong></li>
-<li>from port 1 through the long arm to its midpoint:<strong>3λ/8</strong></li>
-<li>both are 3λ/8 → in parallel they give $+jZ_R/2$,<strong>not ∞</strong></li>
+<li>from port 1 through the long arm to its midpoint: <strong>3λ/8</strong></li>
+<li>both are 3λ/8 → in parallel they give $+jZ_R/2$, <strong>not ∞</strong></li>
 </ul>
-<p>So a single symmetry really does not yield $\Gamma_e=+1$. To get the elegant answer you must use<strong>bisymmetry</strong> — exploiting both orthogonal symmetries of the ring at once, which lets you cut all 4 arm midpoints simultaneously, so that the two adjacent stubs seen from port 1 really are (λ/8, 3λ/8).</p>
+<p>So a single symmetry really does not yield $\Gamma_e=+1$. To get the elegant answer you must use <strong>bisymmetry</strong> — exploiting both orthogonal symmetries of the ring at once, which lets you cut all 4 arm midpoints simultaneously, so that the two adjacent stubs seen from port 1 really are (λ/8, 3λ/8).</p>
 
 <p style="margin-top:6px;background:#fff7c2;padding:6px 10px;border-radius:4px"><strong>The version used here is the simplified bisymmetric one</strong> — a shortcut that Pozar §7.8 implies but does not spell out. You can also obtain $\Gamma_e=+1$ rigorously with a single symmetry plane plus ABCD matrices, but the algebra is far messier.</p>
 </div>
@@ -1114,7 +1114,7 @@ $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
 <details style="margin:6px 0;background:#fff5ed;border:1.5px solid #e8a060;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:700;color:#a05000;font-size:0.93em">⚠ An important correction: the stubs seen by ports 2 and 3 are <em>not the same</em></summary>
 <div style="padding:8px 14px 12px;font-size:0.93em">
-<p>as those seen by ports 1 and 4. After cutting all 4 arm midpoints,<strong>not every port sees (λ/8, 3λ/8)</strong>. The crucial difference is which ports are “immediately adjacent to the 3λ/4 long arm”.</p>
+<p>as those seen by ports 1 and 4. After cutting all 4 arm midpoints, <strong>not every port sees (λ/8, 3λ/8)</strong>. The crucial difference is which ports are “immediately adjacent to the 3λ/4 long arm”.</p>
 
 <figure style="margin:10px auto;text-align:center">
 <svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;height:auto;display:block;margin:0 auto;background:#fff;border:1px solid #e0dcd4;border-radius:6px" font-family="Georgia,serif">
@@ -1184,15 +1184,15 @@ $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
     <rect x="0" y="204" width="330" height="92" rx="5" fill="#eef4fb" stroke="#aac4e8" stroke-width="1.2"/>
     <text x="10" y="222" font-size="10.5" font-weight="700" fill="#26456e">So do ports 2 and 3, with (λ/8, λ/8), resonate?</text>
     <text x="10" y="240" font-size="10" fill="#1a1a1a">Even mode, open-circuited: (−jZ_R) ∥ (−jZ_R) = −jZ_R/2</text>
-    <text x="10" y="256" font-size="10" fill="#1a1a1a">→ <tspan font-weight="700" fill="#c01020">Not an open circuit (not a parallel resonance)</tspan>of the image-reject mixer at low IF.</text>
+    <text x="10" y="256" font-size="10" fill="#1a1a1a">→ <tspan font-weight="700" fill="#c01020">Not an open circuit (not a parallel resonance)</tspan>.</text>
     <text x="10" y="274" font-size="10" fill="#1a1a1a">So the “parallel resonance = open” trick applies specifically to the<tspan font-weight="700">excited</tspan></text>
     <text x="10" y="289" font-size="10" fill="#1a1a1a">Σ port (port 1). Ports 2 and 3 must be analysed from their own excitation.</text>
   </g>
 </svg>
-<figcaption style="font-size:0.86em;color:#555;margin-top:6px;text-align:center;font-style:italic">Round the ring: three λ/4 short arms (blue) plus one 3λ/4 long arm (red). Once each section is cut at its midpoint,<strong>the lengths of the two half-arms flanking a port</strong>depend on which arms it adjoins: Σ(1) and Δ(4) adjoin the long arm → (λ/8, 3λ/8); ports 2 and 3 have short arms on both sides → (λ/8, λ/8).</figcaption>
+<figcaption style="font-size:0.86em;color:#555;margin-top:6px;text-align:center;font-style:italic">Round the ring: three λ/4 short arms (blue) plus one 3λ/4 long arm (red). Once each section is cut at its midpoint, <strong>the lengths of the two half-arms flanking a port</strong> depend on which arms it adjoins: Σ(1) and Δ(4) adjoin the long arm → (λ/8, 3λ/8); ports 2 and 3 have short arms on both sides → (λ/8, λ/8).</figcaption>
 </figure>
 
-<p style="margin-bottom:0"><strong>Why does the analysis look only at port 1?</strong>Because this even-odd derivation starts from<strong>an excitation at the Σ port (port 1)</strong>and is out to compute $S_{11}$ (and, via symmetry, $S_{41},S_{21},S_{31}$). Port 1 happens to be adjacent to the long arm, so the (λ/8, 3λ/8) it sees combine in parallel to an open in the even mode ($+jZ_R \parallel -jZ_R = \infty$). The match at ports 2 and 3 ($S_{22}=S_{33}=0$) has to be proved by exciting port 2 or port 3 and using their own (λ/8, λ/8) geometry (or directly from overall symmetry plus reciprocity); the same (λ/8, 3λ/8) picture cannot simply be reused.</p>
+<p style="margin-bottom:0"><strong>Why does the analysis look only at port 1?</strong> Because this even-odd derivation starts from <strong>an excitation at the Σ port (port 1)</strong> and is out to compute $S_{11}$ (and, via symmetry, $S_{41},S_{21},S_{31}$). Port 1 happens to be adjacent to the long arm, so the (λ/8, 3λ/8) it sees combine in parallel to an open in the even mode ($+jZ_R \parallel -jZ_R = \infty$). The match at ports 2 and 3 ($S_{22}=S_{33}=0$) has to be proved by exciting port 2 or port 3 and using their own (λ/8, λ/8) geometry (or directly from overall symmetry plus reciprocity); the same (λ/8, 3λ/8) picture cannot simply be reused.</p>
 </div>
 </details>
 
@@ -1201,7 +1201,7 @@ $$Z_{in,oc}(L) = -jZ_R\cot(\beta L) = Z_R\,\tfrac{1}{j}\cot(\beta L)$$
 <summary style="cursor:pointer;list-style:revert;padding:8px 12px;font-weight:700;color:#26456e;font-size:0.94em">🧮 The full derivation: how do you prove $S_{22} = S_{33} = 0$? — exciting port 2</summary>
 <div style="padding:10px 16px 14px;font-size:0.94em;line-height:1.7">
 
-<p><strong>First, why (λ/8, λ/8) in parallel is<em>not enough</em>at some port:</strong>Putting the two λ/8 open stubs on either side of port 2 straight in parallel gives $(-jZ_R)\parallel(-jZ_R) = -jZ_R/2$ in the even mode (a pure reactance — neither an open nor $Z_0$). So the “bisymmetric cut at all 4 midpoints” trick cannot give $\Gamma=0$ at port 2 directly. To genuinely compute $S_{22}=0$ you must use <strong>a single plane of symmetry plus the complete half-circuit (including the λ/4 main line and the $Z_0$ loading of the neighbouring ports)</strong>. Here are the full steps.</p>
+<p><strong>First, why (λ/8, λ/8) in parallel is <em>not enough</em>:</strong> Putting the two λ/8 open stubs on either side of port 2 straight in parallel gives $(-jZ_R)\parallel(-jZ_R) = -jZ_R/2$ in the even mode (a pure reactance — neither an open nor $Z_0$). So the “bisymmetric cut at all 4 midpoints” trick cannot give $\Gamma=0$ at port 2 directly. To genuinely compute $S_{22}=0$ you must use <strong>a single plane of symmetry plus the complete half-circuit (including the λ/4 main line and the $Z_0$ loading of the neighbouring ports)</strong>. Here are the full steps.</p>
 
 <h5 style="color:#26456e">Step A — even-odd decomposition using a single plane of symmetry</h5>
 <p>The rat-race's plane of symmetry maps port 2 onto its “mirror port” (which may be port 3 or port 4 depending on the numbering convention). Excite port 2 and decompose it and its mirror port into even/odd modes:</p>
@@ -1281,11 +1281,11 @@ $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o)$$
 
   <defs><marker id="aaa2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#b44a2f"/></marker></defs>
 </svg>
-<figcaption style="font-size:0.85em;color:#555">The port 2 half-circuit: a λ/8 stub at the port 2 end, connected through the λ/4 main line to the neighbouring port (port 1), which has a 3λ/8 stub in parallel with $Z_0$. Note that this is<strong>the very same 2-port</strong>as the port 1 half-circuit, merely viewed from the other end.</figcaption>
+<figcaption style="font-size:0.85em;color:#555">The port 2 half-circuit: a λ/8 stub at the port 2 end, connected through the λ/4 main line to the neighbouring port (port 1), which has a 3λ/8 stub in parallel with $Z_0$. Note that this is <strong>the very same 2-port</strong> as the port 1 half-circuit, merely viewed from the other end.</figcaption>
 </figure>
 
 <h5 style="color:#26456e">Step C — $\Gamma_2^e$ in the even mode (stub ends open-circuited)</h5>
-<p>The<strong>admittance</strong>of each stub (normalized to $Y_0 = 1/Z_0$, writing $z_R = \sqrt2$):</p>
+<p>The <strong>admittance</strong> of each stub (normalized to $Y_0 = 1/Z_0$, writing $z_R = \sqrt2$):</p>
 <ul>
 <li>the λ/8 open stub at port 2: $Z = -jZ_R\cot(\pi/4) = -j\sqrt2$, so $y_{\text{stub2}} = +j/\sqrt2$</li>
 <li>the 3λ/8 open stub at the neighbouring port: $Z = -jZ_R\cot(3\pi/4) = +j\sqrt2$, so $y_{\text{stub1}} = -j/\sqrt2$</li>
@@ -1313,18 +1313,18 @@ $$\Gamma_2^o = \boxed{\;+\frac{j}{\sqrt2}\;}$$
 <div class="eq-box" style="margin:6px 0">
 $$S_{22} = \tfrac{1}{2}(\Gamma_2^e + \Gamma_2^o) = \tfrac{1}{2}\!\left(-\tfrac{j}{\sqrt2} + \tfrac{j}{\sqrt2}\right) = 0 \;\checkmark$$
 </div>
-<p>$\Gamma_2^e$ and $\Gamma_2^o$ are<strong>purely imaginary conjugates</strong>(just as for port 1), so they sum to 0 → port 2 is perfectly matched. By the port 2 ↔ port 3 symmetry, $S_{33} = 0$ follows automatically.</p>
+<p>$\Gamma_2^e$ and $\Gamma_2^o$ are <strong>purely imaginary conjugates</strong>(just as for port 1), so they sum to 0 → port 2 is perfectly matched. By the port 2 ↔ port 3 symmetry, $S_{33} = 0$ follows automatically.</p>
 
 <div class="callout key" style="margin:8px 0">
 <div class="callout-title">The key observation</div>
 <ul style="margin:4px 0 4px 22px">
-<li>The port 2 half-circuit<strong>is precisely the port 1 half-circuit</strong>, merely viewed from the other end; hence the values of $\Gamma^e, \Gamma^o$ for the two are<strong>exactly identical</strong>($\mp j/\sqrt2$). That guarantees $S_{11}=S_{22}=0$ hold together.</li>
-<li>$\frac{1}{2}(\Gamma_2^e - \Gamma_2^o) = -j/\sqrt2$ is not zero — it is the coupling from port 2 to<strong>its mirror port</strong>(the rat-race's power split, $|S_{2,\text{mirror}}| = 1/\sqrt2$), not isolation. The isolation between ports 2 and 3 ($S_{23}=0$) comes from a<strong>different</strong>argument (destructive interference of two paths).</li>
-<li>The reason “(λ/8, λ/8) in parallel” fails to give $\Gamma=0$ is that it<strong>omits the contribution of the neighbouring port's λ/4 line and its $Z_0$ loading</strong>. Include those and you are back to the complete half-circuit above.</li>
+<li>The port 2 half-circuit <strong>is precisely the port 1 half-circuit</strong>, merely viewed from the other end; hence the values of $\Gamma^e, \Gamma^o$ for the two are <strong>exactly identical</strong>($\mp j/\sqrt2$). That guarantees $S_{11}=S_{22}=0$ hold together.</li>
+<li>$\frac{1}{2}(\Gamma_2^e - \Gamma_2^o) = -j/\sqrt2$ is not zero — it is the coupling from port 2 to <strong>its mirror port</strong>(the rat-race's power split, $|S_{2,\text{mirror}}| = 1/\sqrt2$), not isolation. The isolation between ports 2 and 3 ($S_{23}=0$) comes from a <strong>different</strong> argument (destructive interference of two paths).</li>
+<li>The reason “(λ/8, λ/8) in parallel” fails to give $\Gamma=0$ is that it <strong>omits the contribution of the neighbouring port's λ/4 line and its $Z_0$ loading</strong>. Include those and you are back to the complete half-circuit above.</li>
 </ul>
 </div>
 
-<p style="margin-bottom:0"><strong>A simpler alternative route: symmetry plus reciprocity.</strong>The rat-race is a passive, reciprocal, lossless four-port. We have already proved $S_{11}=0$ along with the isolation and split ratios. Write out $[S]$ in full and impose $[S]^*[S] = U$ (unitarity, losslessness) and $[S]^T=[S]$ (reciprocity), and the remaining elements are uniquely determined — giving $S_{22}=S_{33}=0$ directly. This route needs no further half-circuit algebra, but it does require the unitarity/reciprocity framework first.</p>
+<p style="margin-bottom:0"><strong>A simpler alternative route: symmetry plus reciprocity.</strong> The rat-race is a passive, reciprocal, lossless four-port. We have already proved $S_{11}=0$ along with the isolation and split ratios. Write out $[S]$ in full and impose $[S]^*[S] = U$ (unitarity, losslessness) and $[S]^T=[S]$ (reciprocity), and the remaining elements are uniquely determined — giving $S_{22}=S_{33}=0$ directly. This route needs no further half-circuit algebra, but it does require the unitarity/reciprocity framework first.</p>
 </div>
 </details>
 
@@ -1433,16 +1433,16 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
 
 <p style="font-size:0.92em">Reading the figure:</p>
 <ul style="margin:4px 0 6px 22px;font-size:0.92em">
-<li><strong>starting point</strong>: both stubs are terminated in<strong>open-circuit</strong>(the green dot, at the far right of the Smith chart, $\Gamma=+1$)</li>
+<li><strong>starting point</strong>: both stubs are terminated in <strong>open-circuit</strong>(the green dot, at the far right of the Smith chart, $\Gamma=+1$)</li>
 <li><strong>The red path (the λ/8 stub)</strong>: rotates clockwise around the Smith chart by $2\beta L = 90°$ (towards the generator), ending at $-j$ (the very bottom), corresponding to an impedance of $-jZ_R$ — <strong>purely capacitive</strong></li>
 <li><strong>The blue path (the 3λ/8 stub)</strong>: rotates clockwise by $2\beta L = 270°$ (= 90° anticlockwise), ending at $+j$ (the very top), corresponding to an impedance of $+jZ_R$ — <strong>purely inductive</strong></li>
-<li><strong>The parallel combination</strong>: the two impedances are symmetric about the imaginary axis ($+jZ_R$ and $-jZ_R$), forming a<strong>parallel LC resonance</strong>, so the total impedance $\to \infty$</li>
+<li><strong>The parallel combination</strong>: the two impedances are symmetric about the imaginary axis ($+jZ_R$ and $-jZ_R$), forming a <strong>parallel LC resonance</strong>, so the total impedance $\to \infty$</li>
 </ul>
 
 <h5 style="color:#5a2080">⑥ Physical intuition: why does it land exactly on LC resonance?</h5>
-<p>This is no coincidence — $\lambda/8$ plus $3\lambda/8$ is exactly $\lambda/2$ (a total path of half a wavelength). The phase accumulated over half a turn around the ring is $\beta\cdot\lambda/2 = \pi = 180°$. So the reflected waves from the two stubs arrive back at port 1 exactly $180°$ apart in phase → <strong>destructive interference</strong>of the image-reject mixer at low IF.</p>
+<p>This is no coincidence — $\lambda/8$ plus $3\lambda/8$ is exactly $\lambda/2$ (a total path of half a wavelength). The phase accumulated over half a turn around the ring is $\beta\cdot\lambda/2 = \pi = 180°$. So the reflected waves from the two stubs arrive back at port 1 exactly $180°$ apart in phase → <strong>destructive interference</strong>.</p>
 
-<p>On the Smith chart this reads as: the two paths start at the same place (both from an open circuit) but differ in length by $\lambda/2$ (a relative rotation of $360°$ on the Smith chart), so their two end points are exactly<em>symmetric about the real axis of the Smith chart</em>(one at $+j$, one at $-j$) → they form an LC resonance → in parallel = ∞.</p>
+<p>On the Smith chart this reads as: the two paths start at the same place (both from an open circuit) but differ in length by $\lambda/2$ (a relative rotation of $360°$ on the Smith chart), so their two end points are exactly <em>symmetric about the real axis of the Smith chart</em>(one at $+j$, one at $-j$) → they form an LC resonance → in parallel = ∞.</p>
 
 <!-- ============== Animated parallel-LC resonance ============== -->
 <div id="lcAnim" style="background:#fafbfc;border:1px solid #d4cfc7;border-radius:8px;padding:14px;margin:16px 0">
@@ -1606,7 +1606,7 @@ $$Z_{3\lambda/8} = -jZ_R\cot(3\pi/4) = -jZ_R\cdot(-1) = \boxed{+jZ_R}\quad\text{
 
 <div class="callout key" style="margin:6px 0">
 <div class="callout-title">This is the rat-race's “magic”</div>
-A ring impedance of $\sqrt{2}Z_0$ plus the asymmetric design of three $\lambda/4$ sections and one $3\lambda/4$ section makes<strong>every mode see a “parallel resonance = open circuit” at every port</strong>. After the impedance transformation of the external $\lambda/4$ sections, that comes out matched to $Z_0$ (the external 50 Ω). This is how a rat-race achieves “$S_{ii}=0$ at all four ports”, something a 3-port tee cannot do.
+A ring impedance of $\sqrt{2}Z_0$ plus the asymmetric design of three $\lambda/4$ sections and one $3\lambda/4$ section makes <strong>every mode see a “parallel resonance = open circuit” at every port</strong>. After the impedance transformation of the external $\lambda/4$ sections, that comes out matched to $Z_0$ (the external 50 Ω). This is how a rat-race achieves “$S_{ii}=0$ at all four ports”, something a 3-port tee cannot do.
 </div>
 
 <!-- ============ SVG: λ/4 impedance transformer → port match to Z0 ============ -->
@@ -1729,11 +1729,11 @@ $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta 
 <p><strong>The physical root:</strong></p>
 <ul style="margin:4px 0 8px 22px">
 <li>the characteristic impedance $Z_R$ is defined as “<strong>the V/I ratio in the direction the wave itself travels</strong>”. The forward wave (travelling towards +z) carries current along +z: $I^+ = +V^+/Z_R$.</li>
-<li>The reflected wave (travelling towards −z) has a “natural” current direction of −z; but we measure current against<strong>the same +z reference</strong>, so it takes a minus sign: $I^- = -V^-/Z_R$.</li>
-<li><strong>Voltage</strong>is the potential difference between the two conductors, a scalar → the two waves simply add (+).<strong>Current</strong>has direction → the backward wave runs opposite to the +z reference, so it must be subtracted (−).</li>
+<li>The reflected wave (travelling towards −z) has a “natural” current direction of −z; but we measure current against <strong>the same +z reference</strong>, so it takes a minus sign: $I^- = -V^-/Z_R$.</li>
+<li><strong>Voltage</strong> is the potential difference between the two conductors, a scalar → the two waves simply add (+).<strong>Current</strong> has direction → the backward wave runs opposite to the +z reference, so it must be subtracted (−).</li>
 </ul>
 
-<p style="margin:6px 0"><strong>The interactive below:</strong>switch between showing the forward wave, the reflected wave, or both; drag the “time” slider to make the waves move and watch the<strong>direction of the current arrows</strong>on the upper conductor: the forward wave always points right, the reflected wave always points left.</p>
+<p style="margin:6px 0"><strong>The interactive below:</strong> switch between showing the forward wave, the reflected wave, or both; drag the “time” slider to make the waves move and watch the <strong>direction of the current arrows</strong> on the upper conductor: the forward wave always points right, the reflected wave always points left.</p>
 
 <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 6px;flex-wrap:wrap">
   <button class="wv-mb" data-mode="f" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:14px;cursor:pointer;border:1.5px solid #c01020;background:#fff;color:#c01020">Forward wave V⁺ →</button>
@@ -1785,7 +1785,7 @@ $$V(z) = V^+e^{-j\beta z} + V^- e^{+j\beta z}, \qquad Z_R\,I(z) = V^+e^{-j\beta 
   </defs>
 </svg>
 
-<p style="font-size:0.9em;margin:8px 0 0;color:#4a4a4a"><strong>What to look for:</strong>Switch to “show both” and find a position where V⁺ and V⁻ have <strong>the same sign</strong> → the V terms add and grow while the $Z_R\!\cdot\!I$ terms subtract towards 0 (a voltage<em>antinode</em>and a current<em>node</em>). Then find a position where V⁺ and V⁻ have <strong>opposite signs</strong> → the V terms cancel while the $Z_R\!\cdot\!I$ terms add and grow (a voltage<em>node</em>and a current<em>antinode</em>). That is the most direct evidence of the difference between the “+” for $V$ and the “−” for $I$.</p>
+<p style="font-size:0.9em;margin:8px 0 0;color:#4a4a4a"><strong>What to look for:</strong> Switch to “show both” and find a position where V⁺ and V⁻ have <strong>the same sign</strong> → the V terms add and grow while the $Z_R\!\cdot\!I$ terms subtract towards 0 (a voltage <em>antinode</em> and a current <em>node</em>). Then find a position where V⁺ and V⁻ have <strong>opposite signs</strong> → the V terms cancel while the $Z_R\!\cdot\!I$ terms add and grow (a voltage <em>node</em> and a current <em>antinode</em>). That is the most direct evidence of the difference between the “+” for $V$ and the “−” for $I$.</p>
 
 </div>
 </details>
@@ -1920,7 +1920,7 @@ $$\boxed{\;Z_\text{in} = Z_R\cdot\frac{Z_L + jZ_R\tan\beta\ell}{Z_R + jZ_L\tan\b
 <li>$\ell=\lambda/2$: $\tan=0 \Rightarrow Z_\text{in}=Z_L$ ✓ (a half-wave line is “transparent”)</li>
 </ul>
 
-<p style="margin:8px 0 0"><strong>Geometric meaning:</strong>the two terms $(Z_L, jZ_R\tan)$ and $(Z_R, jZ_L\tan)$ in numerator and denominator are precisely the “real + imaginary parts” of the travelling waves expanded into cos and sin — the $\cos\beta\ell$ term retains the “looking straight at the load” component, while the $\sin\beta\ell$ term is “the line's own characteristic impedance showing through”. The whole fraction can be read as<strong>$Z_L\leftrightarrow Z_R$ swapping places between numerator and denominator</strong>, which is the parent of the line's impedance-inverting property.</p>
+<p style="margin:8px 0 0"><strong>Geometric meaning:</strong> the two terms $(Z_L, jZ_R\tan)$ and $(Z_R, jZ_L\tan)$ in numerator and denominator are precisely the “real + imaginary parts” of the travelling waves expanded into cos and sin — the $\cos\beta\ell$ term retains the “looking straight at the load” component, while the $\sin\beta\ell$ term is “the line's own characteristic impedance showing through”. The whole fraction can be read as <strong>$Z_L\leftrightarrow Z_R$ swapping places between numerator and denominator</strong>, which is the parent of the line's impedance-inverting property.</p>
 </div>
 </details>
 
@@ -1928,14 +1928,14 @@ $$\boxed{\;Z_\text{in} = Z_R\cdot\frac{Z_L + jZ_R\tan\beta\ell}{Z_R + jZ_L\tan\b
 <div class="eq-box" style="margin:6px 0">
 $$Z_\text{in} = Z_R\cdot\frac{jZ_R}{jZ_L} = \boxed{\;\frac{Z_R^2}{Z_L}\;}$$
 </div>
-<p><strong>The first $Z_R$</strong> is the fixed prefactor of the formula (present in every T-line formula);<strong>the second $Z_R$</strong> is the only surviving term in the numerator. Multiply the two $Z_R$ together → $Z_R^2$.</p>
+<p><strong>The first $Z_R$</strong> is the fixed prefactor of the formula (present in every T-line formula); <strong>the second $Z_R$</strong> is the only surviving term in the numerator. Multiply the two $Z_R$ together → $Z_R^2$.</p>
 
 <h4 style="margin-top:14px;color:#2a6e5a">② Physical intuition: the geometric mean</h4>
 <p>Turn it round and solve for the $Z_R$ needed to match $Z_L$ perfectly to $Z_\text{in}$:</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_R = \sqrt{Z_\text{in}\cdot Z_L}$$
 </div>
-<p>A $\lambda/4$ line is a<strong>“geometric-mean matching section”</strong>. To turn $Z_L$ into $Z_\text{in}$, insert a length of line whose impedance lies exactly<em>at the logarithmic midpoint of the two</em>— and that midpoint is the geometric mean $\sqrt{Z_\text{in}Z_L}$. Square both sides and you get $Z_R^2 = Z_\text{in}Z_L$.</p>
+<p>A $\lambda/4$ line is a <strong>“geometric-mean matching section”</strong>. To turn $Z_L$ into $Z_\text{in}$, insert a length of line whose impedance lies exactly <em>at the logarithmic midpoint of the two</em>— and that midpoint is the geometric mean $\sqrt{Z_\text{in}Z_L}$. Square both sides and you get $Z_R^2 = Z_\text{in}Z_L$.</p>
 
 <h4 style="margin-top:14px;color:#b44a2f">③ The wave-propagation view: each end contributes one $Z_R$</h4>
 <p>On a $Z_R$ line, the voltage $V$ and current $I$ are made up of the forward wave $V^+$ and the reflected wave $V^-$: $V = V^+ + V^-$ and $Z_R\cdot I = V^+ - V^-$.</p>
@@ -1946,26 +1946,26 @@ $$Z_R = \sqrt{Z_\text{in}\cdot Z_L}$$
 <tr><td>Input end ($z=-\lambda/4$, a phase shift of $\pm 90°$)</td><td>$j(V^+ - V^-)$</td><td>$j(V^+ + V^-)$</td></tr>
 </table>
 
-<p>After travelling $\lambda/4$,<strong>the roles of $V$ and $Z_R\cdot I$ are exchanged</strong>the factor $(1-|S_{22}|^2)$ that was lost with $\Gamma_L = 0$. Hence:</p>
+<p>After travelling $\lambda/4$, <strong>the roles of $V$ and $Z_R\cdot I$ are exchanged</strong>. So:</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_L = Z_R\cdot\frac{V^+ + V^-}{V^+ - V^-}, \qquad Z_\text{in} = Z_R\cdot\frac{V^+ - V^-}{V^+ + V^-}$$
 $$\Rightarrow\; Z_\text{in}\cdot Z_L = Z_R^2 \;\Rightarrow\; Z_\text{in} = \frac{Z_R^2}{Z_L}$$
 </div>
-<p><strong>At the load end one $Z_R$ converts current into voltage</strong>(giving $Z_L$);<strong>at the input end another $Z_R$ converts it back</strong>(giving $Z_\text{in}$). The $\lambda/4$ section in between swaps numerator and denominator → $Z$ is inverted. Each $Z_R$ comes from one end, and multiplied together they give $Z_R^2$.</p>
+<p><strong>At the load end one $Z_R$ converts current into voltage</strong>(giving $Z_L$); <strong>at the input end another $Z_R$ converts it back</strong>(giving $Z_\text{in}$). The $\lambda/4$ section in between swaps numerator and denominator → $Z$ is inverted. Each $Z_R$ comes from one end, and multiplied together they give $Z_R^2$.</p>
 
 <h4 style="margin-top:14px;color:#7a4a10">Applied to the rat-race</h4>
 <p>Ring impedance $Z_R = \sqrt2\,Z_0$ and load $Z_L = Z_0$:</p>
 <div class="eq-box" style="margin:6px 0">
 $$Z_\text{in} = \frac{Z_R^2}{Z_L} = \frac{(\sqrt2\,Z_0)^2}{Z_0} = \frac{2Z_0^2}{Z_0} = 2Z_0$$
 </div>
-<p>Two such arms in parallel: $2Z_0 \parallel 2Z_0 = Z_0$ — exactly matching the external 50 Ω. The reason $\sqrt2$ is $\sqrt2$ is that it has to be<strong>squared away</strong>into a 2 in order to pair with the factor of 1/2 from “two arms in parallel” → returning to $Z_0$.</p>
+<p>Two such arms in parallel: $2Z_0 \parallel 2Z_0 = Z_0$ — exactly matching the external 50 Ω. The reason $\sqrt2$ is $\sqrt2$ is that it has to be <strong>squared away</strong> into a 2 in order to pair with the factor of 1/2 from “two arms in parallel” → returning to $Z_0$.</p>
 
 <p style="margin-bottom:0"><strong>In one sentence:</strong>$Z_R^2$ is the product of “one $Z_R$ at each end of the $\lambda/4$ line”. The $\lambda/4$ does not make $Z_R$ “square itself”; rather, it makes $Z_R$ play the role of “voltage⇄current conversion factor” once at each end, and multiplying those gives $Z_R^2$.</p>
 </div>
 </details>
 </div>
 </details>
-<p>The even-mode input impedance is<strong>infinite</strong> → from port 1 it is simply an open circuit. Hence:</p>
+<p>The even-mode input impedance is <strong>infinite</strong> → from port 1 it is simply an open circuit. Hence:</p>
 <div class="eq-box">
 $$\Gamma_e = +1$$
 </div>
@@ -2046,7 +2046,7 @@ $$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{one share each to ports 2 and 3})$$
     <text x="12" y="242" font-size="11" font-weight="700" fill="#9d3a9d">Why is port 2 = port 3?</text>
     <text x="12" y="259" font-size="10.5" fill="#1a1a1a">The even mode is a symmetric excitation, so the whole circuit is</text>
     <text x="12" y="274" font-size="10.5" fill="#1a1a1a">mirror-symmetric about the symmetry plane → ports 2 and 3 are a</text>
-    <text x="12" y="289" font-size="10.5" fill="#1a1a1a">mirror pair → they receive<strong>exactly identical</strong>signals (same phase, same amplitude).</text>
+    <text x="12" y="289" font-size="10.5" fill="#1a1a1a">mirror pair → they receive <strong>exactly identical</strong> signals (same phase, same amplitude).</text>
   </g>
 
   <defs>
@@ -2055,11 +2055,11 @@ $$T_e = \tfrac{-j}{\sqrt{2}}\;(\text{one share each to ports 2 and 3})$$
     <marker id="emArrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1060d0"/></marker>
   </defs>
 </svg>
-<figcaption style="font-size:0.88em;color:#555;margin-top:6px;text-align:center;font-style:italic">In the even mode (Σ excitation) the input travels from port 1 along the $\lambda/4$ arms to ports 2 and 3. The transmission coefficient = <strong>an equal power split of $1/\sqrt2$</strong> × <strong>and the $\lambda/4$ phase delay $e^{-j\pi/2}=-j$</strong> = $-j/\sqrt2$. Because the even mode is a symmetric excitation and ports 2 and 3 are mirror images about the symmetry plane, they receive<strong>identical signals in phase and amplitude</strong>— which is exactly the “in-phase split” behaviour of the Σ port.</figcaption>
+<figcaption style="font-size:0.88em;color:#555;margin-top:6px;text-align:center;font-style:italic">In the even mode (Σ excitation) the input travels from port 1 along the $\lambda/4$ arms to ports 2 and 3. The transmission coefficient = <strong>an equal power split of $1/\sqrt2$</strong> × <strong>and the $\lambda/4$ phase delay $e^{-j\pi/2}=-j$</strong> = $-j/\sqrt2$. Because the even mode is a symmetric excitation and ports 2 and 3 are mirror images about the symmetry plane, they receive <strong>identical signals in phase and amplitude</strong>— which is exactly the “in-phase split” behaviour of the Σ port.</figcaption>
 </figure>
 
 <h4 style="color:#1a5a30">Step 3 — odd mode: the plane of symmetry is an electric wall (short circuit)</h4>
-<p>In the odd mode the voltage on the plane of symmetry is zero (as if it were a short circuit). The two half-rings become:<strong>a $\lambda/8$ short-circuited stub</strong> in parallel with<strong>a $3\lambda/8$ short-circuited stub</strong>of the image-reject mixer at low IF.</p>
+<p>In the odd mode the voltage on the plane of symmetry is zero (as if it were a short circuit). The two half-rings become: <strong>a $\lambda/8$ short-circuited stub</strong> in parallel with <strong>a $3\lambda/8$ short-circuited stub</strong>.</p>
 <div class="eq-box">
 $$Z_o^{in} = \bigl[\,jZ_R\tan(\pi/4) \,\parallel\, jZ_R\tan(3\pi/4)\,\bigr] = \bigl[\,jZ_R \,\parallel\, -jZ_R\,\bigr] = \infty$$
 </div>
@@ -2071,7 +2071,7 @@ $$\Gamma_o = +1$$
 <div class="eq-box">
 $$T_o = \tfrac{-j}{\sqrt{2}}\;\text{at port 2}, \quad T_o = \tfrac{+j}{\sqrt{2}}\;\text{at port 3}$$
 </div>
-<p>Hold on! We have found $\Gamma_e = \Gamma_o = +1$ (both modes see an open circuit from port 1), which would mean that port 1 as a whole is not matched in the absence of a symmetric excitation. The real analysis has to be more careful: it must include<strong>the effect of the $\lambda/4$ sections terminated in $Z_0$</strong>.</p>
+<p>Hold on! We have found $\Gamma_e = \Gamma_o = +1$ (both modes see an open circuit from port 1), which would mean that port 1 as a whole is not matched in the absence of a symmetric excitation. The real analysis has to be more careful: it must include <strong>the effect of the $\lambda/4$ sections terminated in $Z_0$</strong>.</p>
 
 <h4 style="color:#1a5a30">Step 4 — a more rigorous approach: each $\lambda/4$ section performs an impedance transformation</h4>
 <p>A $\lambda/4$ transformer turns a terminating impedance $Z_L$ into $Z_R^2/Z_L$. Ports 2 and 3 both look out into $Z_0$, so looking back at each port from “the other side” of the ring gives:</p>
@@ -2095,7 +2095,7 @@ b_4 &= S_{44}\,a_4 = 0 \quad\text{(Δ is self-matched)}
 \end{aligned}$$
 </div>
 
-<p>So port 2 is at $+90°$ and port 3 at $-90°$,<strong>$180°$ apart</strong> — exactly the differential output a Δ-port excitation should produce.</p>
+<p>So port 2 is at $+90°$ and port 3 at $-90°$, <strong>$180°$ apart</strong> — exactly the differential output a Δ-port excitation should produce.</p>
 
 <h4 style="color:#1a5a30">Step 6 — verify that [S] satisfies unitarity (losslessness) and reciprocity</h4>
 <div style="background:#fce8e8;border:1.5px solid #c01020;border-radius:6px;padding:10px 14px;margin:8px 0">
@@ -2127,11 +2127,11 @@ $$\sum_k S_{2k}^* S_{3k} = (\tfrac{+j}{\sqrt{2}})(\tfrac{-j}{\sqrt{2}}) + 0 + 0 
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#7a4a10;font-size:0.92em">Explanation: what does the <strong>Z₀ + resistor + ground</strong> symbol at the Σ port in the figure mean?</summary>
 <div style="padding:6px 14px 12px;font-size:0.93em;line-height:1.7">
 
-<p>It is the Σ port's<strong>matched load termination</strong> — three symbols stacked together:</p>
+<p>It is the Σ port's <strong>matched load termination</strong> — three symbols stacked together:</p>
 
 <table>
 <tr><th>Symbol</th><th>Meaning</th></tr>
-<tr><td class="c"><strong>Z₀</strong>(label)</td><td>the resistance value, equal to the system's characteristic impedance,<strong>typically 50 Ω</strong>of the image-reject mixer at low IF.</td></tr>
+<tr><td class="c"><strong>Z₀</strong>(label)</td><td>the resistance value, equal to the system's characteristic impedance, <strong>typically 50 Ω</strong>.</td></tr>
 <tr><td class="c"><strong>The zigzag (red)</strong></td><td>a resistor of value $Z_0$.</td></tr>
 <tr><td class="c"><strong>⏚ (the horizontal bars)</strong></td><td>the ground reference.</td></tr>
 </table>
@@ -2164,30 +2164,30 @@ $$v_\Sigma = \tfrac{1}{\sqrt{2}}\Bigl[\underbrace{+V_{RF}/\sqrt{2}}_{v_T} \;+\; 
 <table>
 <tr><th>Source of asymmetry</th><th>Effect on Σ</th></tr>
 <tr><td>the common-mode part of the diodes' RF reflections when $\Gamma_T \ne \Gamma_B$</td><td>$v_T^{refl}+v_B^{refl}\ne 0$ → absorbed by Σ</td></tr>
-<tr><td>asymmetric LO leakage into the two diodes</td><td>the common-mode LO goes to Σ and<strong>does not flow back into the RF</strong></td></tr>
+<tr><td>asymmetric LO leakage into the two diodes</td><td>the common-mode LO goes to Σ and <strong>does not flow back into the RF</strong></td></tr>
 <tr><td>the common-mode part of environmental coupling and noise</td><td>likewise swallowed by the $Z_0$ at Σ</td></tr>
 </table>
 
 <div class="callout key" style="margin:8px 0">
 <div class="callout-title">An intuitive analogy: the Σ port is the “common-mode waste bin”</div>
-Any pair of signals $(v_T, v_B)$ can be decomposed into a<strong>common mode</strong>($v_{cm}=\tfrac{v_T+v_B}{2}$) and a<strong>differential mode</strong>($v_{dm}=\tfrac{v_T-v_B}{2}$). The 180° hybrid<strong>physically separates these two components into two ports</strong>at some port:<br>
+Any pair of signals $(v_T, v_B)$ can be decomposed into a <strong>common mode</strong>($v_{cm}=\tfrac{v_T+v_B}{2}$) and a <strong>differential mode</strong>($v_{dm}=\tfrac{v_T-v_B}{2}$). The 180° hybrid <strong>physically separates these two components into two ports</strong>:<br>
 &nbsp;&nbsp;• <strong>The Δ port</strong> = the differential-mode exit (the RF goes through here)<br>
 &nbsp;&nbsp;• <strong>The Σ port</strong> = the common-mode exit (everything unwanted is dumped here and absorbed by the $Z_0$)<br>
 That is why terminating Σ in $Z_0$ makes the whole mixer “<em>dispose of every unwanted common-mode reflection and common-mode noise automatically</em>” — it works just like the tail current source of a differential amplifier, providing a physical exit for common-mode rejection.
 </div>
 
 <h4 style="color:#7a4a10;margin-top:8px">Why terminate the Σ port at all?</h4>
-<p>A 180° hybrid is a <strong>4-port</strong> component, but in the ring-mixer topology only the Δ port is used for the RF — the remaining Σ port is unused. Yet you<em>cannot simply leave it open- or short-circuited</em>, for three reasons:</p>
+<p>A 180° hybrid is a <strong>4-port</strong> component, but in the ring-mixer topology only the Δ port is used for the RF — the remaining Σ port is unused. Yet you <em>cannot simply leave it open- or short-circuited</em>, for three reasons:</p>
 <ol style="margin:4px 0 6px 22px">
-<li><strong>To avoid reflections.</strong>An open or short at the Σ port causes total reflection; spurious signals generated by the diode ring that reach the Σ port would bounce back and contaminate the RF path.</li>
-<li><strong>To preserve the hybrid's behaviour.</strong>The derivation of the $[S]$ matrix assumes<em>every port is terminated in $Z_0$</em>. An unterminated port breaks that premise and the Σ/Δ separation goes off.</li>
-<li><strong>To absorb spurious energy.</strong>Signals that leak to the Σ port because of diode imbalance are turned into heat by the resistor and dissipated, so they cannot return to cause interference.</li>
+<li><strong>To avoid reflections.</strong> An open or short at the Σ port causes total reflection; spurious signals generated by the diode ring that reach the Σ port would bounce back and contaminate the RF path.</li>
+<li><strong>To preserve the hybrid's behaviour.</strong> The derivation of the $[S]$ matrix assumes <em>every port is terminated in $Z_0$</em>. An unterminated port breaks that premise and the Σ/Δ separation goes off.</li>
+<li><strong>To absorb spurious energy.</strong> Signals that leak to the Σ port because of diode imbalance are turned into heat by the resistor and dissipated, so they cannot return to cause interference.</li>
 </ol>
 
 <h4 style="color:#7a4a10">Why $Z_0$, and why grounded?</h4>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>The value $Z_0$:</strong>the reflection coefficient $\Gamma = (Z_L - Z_0)/(Z_L + Z_0) = 0$ → <strong>perfect absorption, zero reflection</strong>. Any other value reflects part of the energy back into the hybrid.</li>
-<li><strong>Grounding:</strong>a resistor needs a complete loop across its two ends to dissipate energy, and the ground provides the potential reference.</li>
+<li><strong>The value $Z_0$:</strong> the reflection coefficient $\Gamma = (Z_L - Z_0)/(Z_L + Z_0) = 0$ → <strong>perfect absorption, zero reflection</strong>. Any other value reflects part of the energy back into the hybrid.</li>
+<li><strong>Grounding:</strong> a resistor needs a complete loop across its two ends to dissipate energy, and the ground provides the potential reference.</li>
 </ul>
 
 <h4 style="color:#7a4a10">The same trick elsewhere</h4>
@@ -2197,21 +2197,21 @@ That is why terminating Σ in $Z_0$ makes the whole mixer “<em>dispose of ever
 <li>the isolated port of a directional coupler → a $Z_0$ load</li>
 <li>the idle port of a balun / N-port component → terminated in $Z_0$</li>
 </ul>
-<p>On datasheets this is usually called a <strong>"dummy load"</strong> or <strong>"termination resistor"</strong>of the image-reject mixer at low IF.</p>
+<p>On datasheets this is usually called a <strong>"dummy load"</strong> or <strong>"termination resistor"</strong>.</p>
 </div>
 </details>
 
 <h3 id="howLO">② The balun splits the LO into +LO and −LO (and provides the IF take-off point)</h3>
-<p><strong>Balun</strong> = <em>bal</em>anced-to-<em>un</em>a balanced transformer. Its job:</p>
+<p><strong>Balun</strong> = <em>bal</em>anced-to-<em>un</em>balanced transformer. Its job:</p>
 <ul style="margin:4px 0 6px 22px">
-<li>the secondary (the lower winding) connects to<strong>the single-ended LO source</strong>of the image-reject mixer at low IF.</li>
-<li>the primary (the upper winding) is<strong>centre-tapped</strong>, so signals of equal magnitude and opposite phase appear at its two ends.</li>
-<li>The two ends of the primary connect to the diode ring's<strong>left vertex L</strong> and<strong>right vertex R</strong>, receiving $+v_{LO}$ and $-v_{LO}$ respectively.</li>
-<li>The centre tap is the <strong>IF output</strong>: because the LO voltages of the two primary halves<em>cancel each other</em>, the centre tap is left with only the unbalanced part — that is, the RF mixing products.</li>
+<li>the secondary (the lower winding) connects to <strong>the single-ended LO source</strong>.</li>
+<li>the primary (the upper winding) is <strong>centre-tapped</strong>, so signals of equal magnitude and opposite phase appear at its two ends.</li>
+<li>The two ends of the primary connect to the diode ring's <strong>left vertex L</strong> and <strong>right vertex R</strong>, receiving $+v_{LO}$ and $-v_{LO}$ respectively.</li>
+<li>The centre tap is the <strong>IF output</strong>: because the LO voltages of the two primary halves <em>cancel each other</em>, the centre tap is left with only the unbalanced part — that is, the RF mixing products.</li>
 </ul>
 <div class="callout warn">
 <div class="callout-title">Why does a balun centre tap inherently suppress the LO?</div>
-The LO voltages in the two halves of the primary winding are<strong>in anti-phase</strong>, and the centre tap sits exactly at the midpoint of the two signals = 0 (ideally). Hence <strong>LO → IF isolation is inherently excellent</strong>, without any additional filtering.
+The LO voltages in the two halves of the primary winding are <strong>in anti-phase</strong>, and the centre tap sits exactly at the midpoint of the two signals = 0 (ideally). Hence <strong>LO → IF isolation is inherently excellent</strong>, without any additional filtering.
 </div>
 
 <h3 id="howSwitch">③ The switching logic of the diode ring</h3>
@@ -2223,10 +2223,10 @@ The LO voltages in the two halves of the primary winding are<strong>in anti-phas
 </table>
 
 <h3 id="howIF">④ Why is IF = RF × sgn(LO)?</h3>
-<p>Because R and L connect to the two ends of the balun primary, while the IF is taken from the<em>centre tap</em>at some port:</p>
+<p>Because R and L connect to the two ends of the balun primary, while the IF is taken from the <em>centre tap</em>:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>Phase A:</strong>the current from RF+ enters R through D1 (the lower half of the balun primary), and at the same time the current from RF− also enters R through D2. Injected into the balun at R, the current flows towards the centre tap → the IF sees <strong>+RF</strong>of the image-reject mixer at low IF.</li>
-<li><strong>Phase B:</strong>RF+ goes through D4 → L (the upper half of the balun primary) and RF− through D3 → L. Injected into the balun at L, the current flows in the<em>opposite direction</em>to Phase A → the IF sees <strong>−RF</strong>of the image-reject mixer at low IF.</li>
+<li><strong>Phase A:</strong> the current from RF+ enters R through D1 (the lower half of the balun primary), and at the same time the current from RF− also enters R through D2. Injected into the balun at R, the current flows towards the centre tap → the IF sees <strong>+RF</strong>.</li>
+<li><strong>Phase B:</strong> RF+ goes through D4 → L (the upper half of the balun primary) and RF− through D3 → L. Injected into the balun at L, the current flows in the <em>opposite direction</em> to Phase A → the IF sees <strong>−RF</strong>.</li>
 </ul>
 <p>So as the LO alternates between positive and negative, the IF switches between +RF and −RF. Mathematically:</p>
 <div class="eq-box">
@@ -2244,18 +2244,18 @@ $$i_{IF}(t) \approx \tfrac{4}{\pi} v_{RF}(t)\cos\omega_{LO}t = \tfrac{2}{\pi}V_{
 <table>
 <tr><th>Leakage path</th><th>Cancellation mechanism</th></tr>
 <tr><td>RF → IF</td><td>The 180° hybrid delivers anti-phase RF to T and B; after passing through the ring's symmetric structure, they cancel at the balun centre tap.</td></tr>
-<tr><td>LO → IF</td><td>The two halves of the balun primary are in anti-phase, so they<strong>cancel inherently at the centre tap</strong>of the image-reject mixer at low IF.</td></tr>
+<tr><td>LO → IF</td><td>The two halves of the balun primary are in anti-phase, so they <strong>cancel inherently at the centre tap</strong>.</td></tr>
 <tr><td>RF ↔ LO</td><td>The Σ-Δ isolation of the 180° hybrid plus the symmetry of the ring → incident RF cannot leak to the LO port.</td></tr>
 </table>
-So all three ports of this mixer (RF / LO / IF) have<strong>20+ dB of mutual isolation</strong>, the best of any mixer topology. It also<strong>suppresses even-order harmonics</strong>($2\omega_{RF}$, $2\omega_{LO}$, $2\omega_{RF}\pm 2\omega_{LO}$ and so on), giving the cleanest spur performance.
+So all three ports of this mixer (RF / LO / IF) have <strong>20+ dB of mutual isolation</strong>, the best of any mixer topology. It also <strong>suppresses even-order harmonics</strong>($2\omega_{RF}$, $2\omega_{LO}$, $2\omega_{RF}\pm 2\omega_{LO}$ and so on), giving the cleanest spur performance.
 </div>
 
 <h3>⑥ Three sentences to take away</h3>
 <div class="callout tip">
 <ol style="margin:4px 0 4px 22px">
-<li><strong>180° hybrid + balun</strong> Turn both the RF and the LO into<strong>differential signals</strong>and inject them at diagonally opposite vertices of the diode ring.</li>
-<li><strong>The 4 ring diodes</strong>act as a “square-wave chopper controlled by the LO” — only 2 conduct on each half-cycle, chopping the RF into an alternating ±RF output.</li>
-<li>The result:<strong>IF = RF × sgn(LO)</strong>, with all three ports mutually isolated and the lowest noise and spur levels of any topology.</li>
+<li><strong>180° hybrid + balun</strong> Turn both the RF and the LO into <strong>differential signals</strong> and inject them at diagonally opposite vertices of the diode ring.</li>
+<li><strong>The 4 ring diodes</strong> act as a “square-wave chopper controlled by the LO” — only 2 conduct on each half-cycle, chopping the RF into an alternating ±RF output.</li>
+<li>The result: <strong>IF = RF × sgn(LO)</strong>, with all three ports mutually isolated and the lowest noise and spur levels of any topology.</li>
 </ol>
 </div>
 

@@ -518,7 +518,7 @@ Then a finite $V_o$ exists even with $V_i = 0$ — the loop sustains itself.
 <!-- ====================================================== -->
 <h2 id="sec1">1. Definition of Phase Margin</h2>
 
-<p><strong>Phase margin (PM)</strong> is the key metric for the<strong>stability</strong>of a control system or feedback amplifier.</p>
+<p><strong>Phase margin (PM)</strong> is the key metric for the <strong>stability</strong> of a control system or feedback amplifier.</p>
 
 <h3>Mathematical definition</h3>
 <p>For the open-loop transfer function $ L(j\omega) = G(j\omega)H(j\omega) $:</p>
@@ -529,7 +529,7 @@ PM = 180° + \angle L(j\omega_{gc})
 $$
 </div>
 
-<p>where $ \omega_{gc} $ is the<strong>gain crossover frequency</strong>, the frequency at which $ |L(j\omega_{gc})| = 1 $ (i.e. 0 dB).</p>
+<p>where $ \omega_{gc} $ is the <strong>gain crossover frequency</strong>, the frequency at which $ |L(j\omega_{gc})| = 1 $ (i.e. 0 dB).</p>
 
 <h3>Reading off stability</h3>
 <table>
@@ -544,7 +544,7 @@ $$
 <!-- ====================================================== -->
 <h2 id="sec2">2. The Barkhausen Oscillation Criterion</h2>
 
-<p>When designing an oscillator you must simultaneously satisfy<strong>two conditions</strong>:</p>
+<p>When designing an oscillator you must simultaneously satisfy <strong>two conditions</strong>:</p>
 
 <table>
   <tr><th>Condition</th><th>Expression</th><th>Physical meaning</th></tr>
@@ -569,7 +569,7 @@ $$
 </ul>
 
 <blockquote>
-Designing an oscillator means<strong>deliberately</strong>forcing $ \angle AH = 0° $ (equivalently a phase of −180° under negative feedback) with $ |AH| \geq 1 $ → <strong>deliberately making PM = 0</strong>so that the circuit oscillates.
+Designing an oscillator means <strong>deliberately</strong> forcing $ \angle AH = 0° $ (equivalently a phase of −180° under negative feedback) with $ |AH| \geq 1 $ → <strong>deliberately making PM = 0</strong> so that the circuit oscillates.
 </blockquote>
 
 <!-- ====================================================== -->
@@ -587,11 +587,11 @@ Designing an oscillator means<strong>deliberately</strong>forcing $ \angle AH = 
 <p>This is also why, at start-up, thermal noise or the power-on transient is amplified exponentially → oscillation builds up.</p>
 
 <h3>The nonlinear view: a stable limit cycle exists</h3>
-<p>But a real circuit<strong>does not blow up</strong>, because:</p>
+<p>But a real circuit <strong>does not blow up</strong>, because:</p>
 <ol>
   <li>The transistor enters saturation / cut-off / triode → the transconductance $ g_m $ <strong>falls as the amplitude grows</strong></li>
-  <li>The effective loop gain is<strong>amplitude-dependent</strong>: $ |AH| = f(A) $</li>
-  <li>The system converges to a<strong>stable limit cycle</strong></li>
+  <li>The effective loop gain is <strong>amplitude-dependent</strong>: $ |AH| = f(A) $</li>
+  <li>The system converges to a <strong>stable limit cycle</strong></li>
 </ol>
 
 <h3>The two kinds of stability side by side</h3>
@@ -617,7 +617,7 @@ Designing an oscillator means<strong>deliberately</strong>forcing $ \angle AH = 
   <li>LTI asks “<strong>is the origin stable?</strong>” → unstable</li>
   <li>The nonlinear view asks “<strong>is the limit cycle stable?</strong>” → stable</li>
 </ul>
-The two are<strong>not contradictory</strong>; they describe different features of the very same system.
+The two are <strong>not contradictory</strong>; they describe different features of the very same system.
 </div>
 
 <!-- ====================================================== -->
@@ -718,13 +718,13 @@ $$
 <ul>
   <li><strong>The origin is an unstable spiral</strong>(what LTI sees)</li>
   <li><strong>The limit cycle is a stable orbit</strong>(what the nonlinear view sees)</li>
-  <li>Any<strong>non-zero</strong>initial condition eventually converges to the limit cycle → this is the mathematical guarantee that “an oscillator will always start up and settle into steady oscillation”</li>
+  <li>Any <strong>non-zero</strong> initial condition eventually converges to the limit cycle → this is the mathematical guarantee that “an oscillator will always start up and settle into steady oscillation”</li>
 </ul>
 
 <!-- ====================================================== -->
 <h2 id="sec5">5. The Describing Function Method</h2>
 
-<p>In practice, the steady-state amplitude of an oscillator is usually analysed with the <strong>describing function</strong> , which linearizes the nonlinear element into an<strong>amplitude-dependent gain</strong> $ N(A) $.</p>
+<p>In practice, the steady-state amplitude of an oscillator is usually analysed with the <strong>describing function</strong> , which linearizes the nonlinear element into an <strong>amplitude-dependent gain</strong> $ N(A) $.</p>
 
 <h3>Steady-state oscillation condition</h3>
 <div class="formula-box">
@@ -740,7 +740,7 @@ $$
 $$
 </div>
 
-<p><strong>Physical meaning:</strong>the loop gain must fall as the amplitude grows, so that a negative-feedback mechanism pulls the amplitude back to $ A_0 $.</p>
+<p><strong>Physical meaning:</strong> the loop gain must fall as the amplitude grows, so that a negative-feedback mechanism pulls the amplitude back to $ A_0 $.</p>
 
 <!-- ====================================================== -->
 <h2 id="sec6">6. Designing $g_m$ in a real circuit</h2>
@@ -770,9 +770,9 @@ Too small → start-up fails; too large → worse phase noise, wasted power and 
 <h2 id="sec7">7. Connections to Radar / RF Systems</h2>
 
 <ol>
-  <li><strong>Phase-noise analysis</strong>: Leeson's model is essentially a perturbation analysis of a limit cycle disturbed by noise — that is,<strong>linearization about the limit cycle</strong>(linearize <em>around</em> the limit cycle, not around the origin).</li>
+  <li><strong>Phase-noise analysis</strong>: Leeson's model is essentially a perturbation analysis of a limit cycle disturbed by noise — that is, <strong>linearization about the limit cycle</strong>(linearize <em>around</em> the limit cycle, not around the origin).</li>
   <li><strong>Injection locking</strong>: an external signal injected into the oscillator locks it. This can only be analysed with nonlinear methods (Adler's equation); LTI fails completely.</li>
-  <li><strong>PLL locking dynamics</strong>: once locked, the small-signal behaviour can be analysed with LTI loop dynamics, but<strong>large-signal acquisition and cycle slipping</strong> must go back to nonlinear analysis.</li>
+  <li><strong>PLL locking dynamics</strong>: once locked, the small-signal behaviour can be analysed with LTI loop dynamics, but <strong>large-signal acquisition and cycle slipping</strong> must go back to nonlinear analysis.</li>
   <li><strong>Saturation behaviour of mixers / PAs</strong>: another application of the describing function.</li>
 </ol>
 
@@ -782,9 +782,9 @@ Too small → start-up fails; too large → worse phase noise, wasted power and 
 <div class="key-takeaway">
 <strong>Core idea:</strong><br>
 The design goal of an oscillator is to make the “<strong>origin</strong>” LTI-unstable while making the “<strong>limit cycle</strong>” nonlinearly stable.<br><br>
-The two notions of stability describe different<strong>invariant sets</strong>:
+The two notions of stability describe different <strong>invariant sets</strong>:
 <ul style="margin-bottom: 0;">
-  <li>Bode / PM / GM → look at the<strong>origin</strong></li>
+  <li>Bode / PM / GM → look at the <strong>origin</strong></li>
   <li>Van der Pol / Lyapunov / describing function → look at the <strong>limit cycle</strong></li>
 </ul>
 </div>
@@ -902,13 +902,13 @@ $$\begin{pmatrix} (Y_1+Y_3+G_i) & -Y_3 \\ -(g_m+Y_3) & (Y_2+Y_3) \end{pmatrix}\b
 <details open style="margin:8px 0 12px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0">
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">Why “a non-trivial solution ⟺ determinant = 0” (click to collapse)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>The nodal equations are<strong>homogeneous</strong>(the right-hand side is 0, with no applied source): $[Y]\,\mathbf{V}=\mathbf{0}$.</p>
+<p>The nodal equations are <strong>homogeneous</strong>(the right-hand side is 0, with no applied source): $[Y]\,\mathbf{V}=\mathbf{0}$.</p>
 <ul style="margin:4px 0 0 22px">
 <li>A homogeneous system always has the <strong>trivial solution</strong> $\mathbf{V}=\mathbf{0}$ (all node voltages zero = the circuit is not oscillating).</li>
 <li>Oscillation is a <strong>non-trivial solution</strong> $\mathbf{V}\neq\mathbf{0}$:<strong>— finite node voltages with zero input</strong>, i.e. self-sustaining.</li>
-<li>Linear algebra: $\det[Y]\neq0 \Rightarrow [Y]$ is invertible $\Rightarrow$ the unique solution is $\mathbf{V}=[Y]^{-1}\mathbf{0}=\mathbf{0}$ (trivial only); $\det[Y]=0 \Rightarrow$ the matrix is<strong>singular</strong>with a non-trivial null space $\Rightarrow$ infinitely many non-zero solutions exist.</li>
+<li>Linear algebra: $\det[Y]\neq0 \Rightarrow [Y]$ is invertible $\Rightarrow$ the unique solution is $\mathbf{V}=[Y]^{-1}\mathbf{0}=\mathbf{0}$ (trivial only); $\det[Y]=0 \Rightarrow$ the matrix is <strong>singular</strong> with a non-trivial null space $\Rightarrow$ infinitely many non-zero solutions exist.</li>
 </ul>
-<p style="margin-top:6px">So “there must be a non-zero solution” $\Leftrightarrow$ the matrix is singular $\Leftrightarrow \boxed{\det[Y]=0}$. That is the<strong>Oscillation condition</strong>itself, equivalent to $1-AH=0$ in feedback form (a vanishing denominator → a finite output with zero input). Splitting the complex determinant into $\mathrm{Re}\{\det\}=0$ and $\mathrm{Im}\{\det\}=0$ solves simultaneously for<strong>the oscillation frequency $\omega_0$</strong>(the phase condition) and<strong>the transconductance $g_m$ required</strong>(the gain condition) — exactly the basis for deriving Hartley/Colpitts from the 2×2 determinant below.</p>
+<p style="margin-top:6px">So “there must be a non-zero solution” $\Leftrightarrow$ the matrix is singular $\Leftrightarrow \boxed{\det[Y]=0}$. That is the <strong>Oscillation condition</strong> itself, equivalent to $1-AH=0$ in feedback form (a vanishing denominator → a finite output with zero input). Splitting the complex determinant into $\mathrm{Re}\{\det\}=0$ and $\mathrm{Im}\{\det\}=0$ solves simultaneously for <strong>the oscillation frequency $\omega_0$</strong>(the phase condition) and <strong>the transconductance $g_m$ required</strong>(the gain condition) — exactly the basis for deriving Hartley/Colpitts from the 2×2 determinant below.</p>
 </div>
 </details>
 
@@ -916,13 +916,13 @@ $$\begin{pmatrix} (Y_1+Y_3+G_i) & -Y_3 \\ -(g_m+Y_3) & (Y_2+Y_3) \end{pmatrix}\b
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">It oscillates with no applied source — does that depend on the initial conditions? (click to expand)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
 <p>You need to keep three things distinct —<strong>start-up, amplitude and phase</strong>— because each relates differently to the initial conditions (IC).</p>
-<p><strong>① Start-up: a disturbance is needed, but not an “applied source”.</strong> $\det=0$ is the ideal steady-state condition (poles on the $j\omega$ axis); a real oscillator is designed so that $|AH|>1$ at start-up (poles in the <strong>RHP</strong>). Thermal noise, shot noise and the power-on transient are themselves the IC, and the RHP poles amplify<strong>Any</strong>any tiny disturbance exponentially as $e^{\sigma t}$ → there is always noise, so it always starts. The IC is needed to “light the fire”, but its content does not matter.</p>
-<p><strong>② Amplitude: locked by the nonlinearity, independent of the IC.</strong> In the ideal linear case (poles exactly on the $j\omega$ axis, marginal) it behaves like an ideal LC and the amplitude really would be “set by the IC” and never change. In a real circuit $g_m$ compresses with amplitude → convergence to a <strong>stable limit cycle</strong>: whatever the IC, it converges to<strong>the same steady-state amplitude</strong>(the Van der Pol statement above that “every non-zero starting point converges to $\Gamma$”).</p>
-<p><strong>③ Phase: this is the quantity genuinely determined by the IC / noise.</strong> An oscillator is an<strong>autonomous system</strong>with no external time reference → it has no preferred phase. The absolute phase is set by the noise that lit the fire and is arbitrary; the limit cycle is<strong>neutrally stable</strong>in the phase direction, and noise keeps nudging it → <strong>the phase performs a random walk = phase noise</strong>(Leeson).</p>
+<p><strong>① Start-up: a disturbance is needed, but not an “applied source”.</strong> $\det=0$ is the ideal steady-state condition (poles on the $j\omega$ axis); a real oscillator is designed so that $|AH|>1$ at start-up (poles in the <strong>RHP</strong>). Thermal noise, shot noise and the power-on transient are themselves the IC, and the RHP poles amplify <strong>Any</strong> any tiny disturbance exponentially as $e^{\sigma t}$ → there is always noise, so it always starts. The IC is needed to “light the fire”, but its content does not matter.</p>
+<p><strong>② Amplitude: locked by the nonlinearity, independent of the IC.</strong> In the ideal linear case (poles exactly on the $j\omega$ axis, marginal) it behaves like an ideal LC and the amplitude really would be “set by the IC” and never change. In a real circuit $g_m$ compresses with amplitude → convergence to a <strong>stable limit cycle</strong>: whatever the IC, it converges to <strong>the same steady-state amplitude</strong>(the Van der Pol statement above that “every non-zero starting point converges to $\Gamma$”).</p>
+<p><strong>③ Phase: this is the quantity genuinely determined by the IC / noise.</strong> An oscillator is an <strong>autonomous system</strong> with no external time reference → it has no preferred phase. The absolute phase is set by the noise that lit the fire and is arbitrary; the limit cycle is <strong>neutrally stable</strong> in the phase direction, and noise keeps nudging it → <strong>the phase performs a random walk = phase noise</strong>(Leeson).</p>
 <div class="callout key" style="margin:8px 0 0">
 <div class="callout-title">The mathematical connection to $\det=0$</div>
-$\det[Y]=0$ ⇒ the null space is <strong>one-dimensional</strong> ⇒ the solution is determined only up to a complex scalar multiple $\mathbf{V}=c\,\mathbf{v}_0$, where $c=$ amplitude $\times\,e^{j\phi}$. Linear theory gives only<strong>the relative amplitude/phase between nodes (the mode shape $\mathbf{v}_0$)</strong>and cannot fix $c$:<strong>the magnitude $|c|$ is fixed by the nonlinearity, while the phase $\angle c$ is left permanently free to the IC/noise</strong>of the image-reject mixer at low IF.<br>
-In one sentence:<strong>start-up is lit by noise (any non-zero IC will do), the amplitude is locked by the nonlinearity (independent of the IC), and only the phase is genuinely set by the IC/noise — and it drifts freely</strong>of the image-reject mixer at low IF.
+$\det[Y]=0$ ⇒ the null space is <strong>one-dimensional</strong> ⇒ the solution is determined only up to a complex scalar multiple $\mathbf{V}=c\,\mathbf{v}_0$, where $c=$ amplitude $\times\,e^{j\phi}$. Linear theory gives only <strong>the relative amplitude/phase between nodes (the mode shape $\mathbf{v}_0$)</strong> and cannot fix $c$: <strong>the magnitude $|c|$ is fixed by the nonlinearity, while the phase $\angle c$ is left permanently free to the IC/noise</strong>.<br>
+In one sentence: <strong>start-up is lit by noise (any non-zero IC will do), the amplitude is locked by the nonlinearity (independent of the IC), and only the phase is genuinely set by the IC/noise — and it drifts freely</strong>.
 </div>
 </div>
 </details>
@@ -942,7 +942,7 @@ $$g_m = G_i\,\frac{X_2+X_3}{X_2}\quad\xrightarrow{\;X_2+X_3=-X_1\;}\quad \frac{X
 <details style="margin:8px 0 12px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">How the two conditions follow from $\det=0$ (including the ratio form) — click to expand</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>$\det=0$ is<strong>a single complex equation</strong> → setting the real and imaginary parts each to 0 gives two conditions:</p>
+<p>$\det=0$ is <strong>a single complex equation</strong> → setting the real and imaginary parts each to 0 gives two conditions:</p>
 $$\text{Re}:\;-(B_1{+}B_3)(B_2{+}B_3)+B_3^2=0\;\xrightarrow{\;\div\,B_1B_2B_3,\ X_k=1/B_k\;}\;X_1+X_2+X_3=0\ \text{(phase)}$$
 $$\text{Im}:\;G_i(B_2{+}B_3)-g_mB_3=0\ \text{(gain, original form)}$$
 <p><strong>Recasting the gain condition in terms of $X$:</strong> Substituting $B_k=1/X_k$ into the imaginary part:</p>
@@ -952,7 +952,7 @@ $$G_i\frac{-X_1}{X_2}=g_m\;\Longrightarrow\;\boxed{\frac{X_1}{X_2}=-\frac{g_m}{G
 <p>$g_m,G_i>0$ ⇒ the ratio is negative, which fixes the relative signs of $X_1$ and $X_2$ — and that is what distinguishes Colpitts from Hartley.</p>
 <div class="callout warning" style="margin:8px 0 0">
 <div class="callout-title">Note</div>
-that the gain condition<strong>cannot</strong>be written as $X_3=-\frac{g_m}{G_i}(X_1+X_2)$: substituting the phase condition $X_1+X_2=-X_3$ collapses it into the contradiction $g_m=G_i$. The correct form is the $g_m=G_i\frac{X_2+X_3}{X_2}$ above (or the ratio form).
+that the gain condition <strong>cannot</strong> be written as $X_3=-\frac{g_m}{G_i}(X_1+X_2)$: substituting the phase condition $X_1+X_2=-X_3$ collapses it into the contradiction $g_m=G_i$. The correct form is the $g_m=G_i\frac{X_2+X_3}{X_2}$ above (or the ratio form).
 </div>
 </div>
 </details>
@@ -974,8 +974,8 @@ The first condition $X_1+X_2+X_3=0$ means the three reactances cannot all be the
 
 <p><strong>The physical picture:</strong></p>
 <ul style="margin:4px 0 8px 22px">
-<li>The capacitor $C$ stores energy in the<strong>electric field</strong>: $E = \tfrac12 CV^2$</li>
-<li>The inductor $L$ stores energy in the<strong>magnetic field</strong>: $E = \tfrac12 LI^2$</li>
+<li>The capacitor $C$ stores energy in the <strong>electric field</strong>: $E = \tfrac12 CV^2$</li>
+<li>The inductor $L$ stores energy in the <strong>magnetic field</strong>: $E = \tfrac12 LI^2$</li>
 <li>At resonance the energy is exchanged back and forth between the two (like potential ↔ kinetic energy in a pendulum): C discharges → current flows through L building up a magnetic field → L then charges C the other way → and round it goes.</li>
 </ul>
 
@@ -1038,7 +1038,7 @@ $$\omega_0 = \frac{1}{\sqrt{LC}}, \qquad f_0 = \frac{1}{2\pi\sqrt{LC}}$$
   <circle class="lccur" cx="0" cy="0" r="4.5" style="offset-path:path('M55,55 H315 V165 H55 Z');animation-delay:-1.73s"/>
   <circle class="lccur" cx="0" cy="0" r="4.5" style="offset-path:path('M55,55 H315 V165 H55 Z');animation-delay:-2.17s"/>
 </svg>
-<figcaption style="font-size:0.85rem"><strong>in series</strong>: $X_L$ and $X_C$ cancel → $Z\approx0$ (a short circuit) → <strong>maximum current</strong>(the orange dot goes round fast and often). $V_L$ and $V_C$ are each large but<strong>in anti-phase</strong>(the two bars go opposite ways), so they sum to ≈ 0.</figcaption>
+<figcaption style="font-size:0.85rem"><strong>in series</strong>: $X_L$ and $X_C$ cancel → $Z\approx0$ (a short circuit) → <strong>maximum current</strong>(the orange dot goes round fast and often). $V_L$ and $V_C$ are each large but <strong>in anti-phase</strong>(the two bars go opposite ways), so they sum to ≈ 0.</figcaption>
 </figure>
 
 <figure class="slide-fig" style="flex:1;min-width:300px;margin:0">
@@ -1080,11 +1080,11 @@ $$\omega_0 = \frac{1}{\sqrt{LC}}, \qquad f_0 = \frac{1}{2\pi\sqrt{LC}}$$
   <circle class="lccur small" cx="0" cy="0" r="3" style="offset-path:path('M170,165 H50');animation-delay:-1.3s"/>
   <text x="105" y="48" text-anchor="middle" fill="#caa46e" font-size="9.5" font-weight="700">small external current</text>
 </svg>
-<figcaption style="font-size:0.85rem"><strong>Parallel (tank)</strong>: $X_L$ and $X_C$ cancel in parallel → $Z\approx\infty$ (an open circuit) → <strong>small external current</strong>; but energy sloshes between L and C, giving a<strong>large circulating current inside the tank</strong>(the orange dot sloshes in the middle), and the<strong>voltage across it is greatest</strong>(the voltage bar on the right pulses dramatically). Oscillators use it as a frequency-selective load.</figcaption>
+<figcaption style="font-size:0.85rem"><strong>Parallel (tank)</strong>: $X_L$ and $X_C$ cancel in parallel → $Z\approx\infty$ (an open circuit) → <strong>small external current</strong>; but energy sloshes between L and C, giving a <strong>large circulating current inside the tank</strong>(the orange dot sloshes in the middle), and the <strong>voltage across it is greatest</strong>(the voltage bar on the right pulses dramatically). Oscillators use it as a frequency-selective load.</figcaption>
 </figure>
 
 </div>
-<p style="font-size:0.92em;color:#555"><strong>By contrast:</strong>Series resonance is “<strong>Current</strong>heaven” (low impedance, large current); parallel resonance is “<strong>Voltage</strong>heaven” (high impedance, large voltage swing, circulating current inside the tank). The animation speed can be adjusted for all four circuits together with the slider above ($\,$--ac-dur$\,$).</p>
+<p style="font-size:0.92em;color:#555"><strong>By contrast:</strong> Series resonance is “<strong>Current</strong> heaven” (low impedance, large current); parallel resonance is “<strong>Voltage</strong> heaven” (high impedance, large voltage swing, circulating current inside the tank). The animation speed can be adjusted for all four circuits together with the slider above ($\,$--ac-dur$\,$).</p>
 
 <p><strong>The Q factor (quality factor)</strong> — the sharpness of the resonance:</p>
 <div class="eq-box" style="margin:8px 0">
@@ -1092,7 +1092,7 @@ $$Q = \frac{\omega_0 L}{R} = \frac{1}{\omega_0 R C} = \frac{f_0}{\mathrm{BW_{3dB
 </div>
 <p>High $Q$ → a narrow, sharp resonant peak, low loss, stable frequency and low phase noise. This is exactly where the $\propto 1/Q^2$ dependence of phase noise in Leeson's formula comes from (see <a href="#sec-1-leeson">5.1.9</a>).</p>
 
-<p style="margin-bottom:0"><strong>Relevance to this section:</strong>Colpitts resonates $C_\text{eq}=C_1C_2/(C_1+C_2)$ with $L_3$; Hartley resonates $(L_1+L_2)$ with $C_3$; Pierce treats the crystal as an equivalent inductance resonating with $C_1,C_2$. The frequency formula of every topology below is essentially a variation on $\omega_0 = 1/\sqrt{L_\text{eq}C_\text{eq}}$.</p>
+<p style="margin-bottom:0"><strong>Relevance to this section:</strong> Colpitts resonates $C_\text{eq}=C_1C_2/(C_1+C_2)$ with $L_3$; Hartley resonates $(L_1+L_2)$ with $C_3$; Pierce treats the crystal as an equivalent inductance resonating with $C_1,C_2$. The frequency formula of every topology below is essentially a variation on $\omega_0 = 1/\sqrt{L_\text{eq}C_\text{eq}}$.</p>
 </div>
 </details>
 
@@ -1144,20 +1144,20 @@ $$\frac{L_1}{L_2} = \frac{g_m}{G_i}$$
 
 <div class="callout concept">
 <div class="callout-title">First, what an oscillator is actually doing (think of a playground swing)</div>
-<strong>An LC circuit is a swing.</strong> Energy sloshes back and forth between the inductance $L$ and the capacitance $C$ (magnetic field ↔ electric field), swinging at its own fixed rhythm: $f_0=\dfrac{1}{2\pi\sqrt{LC}}$ — and that sets the<strong>frequency</strong>of the image-reject mixer at low IF.<br>
-But a swing gradually stops because of friction (the circuit has<strong>loss</strong>).<strong>The transistor</strong>is the person who “gives it a little push at the right moment”: on every swing it tops up a little energy from the supply $V_{CC}$, exactly making up the loss, so the swing keeps going at<strong>constant amplitude</strong>.<br>
+<strong>An LC circuit is a swing.</strong> Energy sloshes back and forth between the inductance $L$ and the capacitance $C$ (magnetic field ↔ electric field), swinging at its own fixed rhythm: $f_0=\dfrac{1}{2\pi\sqrt{LC}}$ — and that sets the <strong>frequency</strong>.<br>
+But a swing gradually stops because of friction (the circuit has <strong>loss</strong>).<strong>The transistor</strong> is the person who “gives it a little push at the right moment”: on every swing it tops up a little energy from the supply $V_{CC}$, exactly making up the loss, so the swing keeps going at <strong>constant amplitude</strong>.<br>
 Only two things are needed for this to work: (1) <strong>push hard enough</strong>(gain ≥ loss, = the start-up condition); and (2) <strong>push at the right moment</strong>(phase alignment = positive feedback).<br>
-The four oscillators below differ<strong>only</strong>in “what components make the swing, and how a small part of the signal is fed back to the transistor to tell it *when* to push”. $V_{CC}$, $R_1/R_2$ (bias) and $R_E$ are the same in all four figures — the DC settings that keep the transistor “alive”; what really distinguishes them is<strong>the red/green feedback network</strong>of the image-reject mixer at low IF.<br>
-<span style="color:#d2691e">In the four figures below, the<strong>orange dots ●</strong> = <strong>are the AC current, which</strong>flows back and forth<strong>around the LC loop</strong>(forwards a little, backwards a little) — the very picture of a swing going to and fro.</span>
+The four oscillators below differ <strong>only</strong> in “what components make the swing, and how a small part of the signal is fed back to the transistor to tell it *when* to push”. $V_{CC}$, $R_1/R_2$ (bias) and $R_E$ are the same in all four figures — the DC settings that keep the transistor “alive”; what really distinguishes them is <strong>the red/green feedback network</strong>.<br>
+<span style="color:#d2691e">In the four figures below, the <strong>orange dots ●</strong> = <strong>are the AC current, which</strong> flows back and forth <strong>around the LC loop</strong>(forwards a little, backwards a little) — the very picture of a swing going to and fro.</span>
 </div>
 
 <details style="margin:14px 0;background:#fff;border:1px solid #a8c4e8;border-radius:8px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:10px 16px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.92rem;color:#1a4a8a">Before looking at the circuits, meet the BJT (think of a tap) — click to expand</summary>
 <div class="callout concept" style="margin:0 14px">
 <div class="callout-title">A BJT = a three-legged amplifier</div>
-<strong>A BJT (bipolar junction transistor) has three legs:</strong>base (B), collector (C) and emitter (E). The commonest type is NPN.<br>
-The idea in one sentence:<strong>a very small base current $i_B$ controls a very large collector current $i_C$</strong>($i_C=\beta\,i_B$, with $\beta$ often ~100). Just like a<strong>tap</strong>— a light turn of the handle (the small signal at B) controls a large flow of water (the large current from C to E). This “small controls large” is<strong>amplification</strong>of the image-reject mixer at low IF.<br>
-In an oscillator, the BJT is the one who<strong>“tops up the energy and pushes the swing”</strong>: it converts DC energy from the supply $V_{CC}$, under the direction of the feedback signal, into exactly the right AC push to sustain the LC swing.
+<strong>A BJT (bipolar junction transistor) has three legs:</strong> base (B), collector (C) and emitter (E). The commonest type is NPN.<br>
+The idea in one sentence: <strong>a very small base current $i_B$ controls a very large collector current $i_C$</strong>($i_C=\beta\,i_B$, with $\beta$ often ~100). Just like a <strong>tap</strong>— a light turn of the handle (the small signal at B) controls a large flow of water (the large current from C to E). This “small controls large” is <strong>amplification</strong>.<br>
+In an oscillator, the BJT is the one who <strong>“tops up the energy and pushes the swing”</strong>: it converts DC energy from the supply $V_{CC}$, under the direction of the feedback signal, into exactly the right AC push to sustain the LC swing.
 </div>
 
 <figure class="slide-fig" style="max-width:380px;margin:12px auto">
@@ -1195,7 +1195,7 @@ In an oscillator, the BJT is the one who<strong>“tops up the energy and pushes
 </svg>
 <figcaption>An NPN transistor: the small base current $i_B$ acts like a tap handle, controlling the large collector current $i_C=\beta i_B$; the emitter carries $i_E=i_B+i_C$ out. The arrow pointing outwards at E marks it as NPN.</figcaption>
 </figure>
-<p><strong>Biasing and configurations:</strong> $R_1/R_2$ first set B at a “half-open” operating point so that $i_C$ can swing up and down with the signal, while $R_E$ stabilizes that operating point. Which leg serves as the common reference gives three configurations:<strong>common-emitter CE</strong>(in at B, out at C, the highest gain and by far the most common), common-base (CB) and common-collector (CC). Colpitts, Hartley and Pierce below all use <strong>CE</strong>; Clapp uses the FET equivalent, <strong>the common-gate</strong>of the image-reject mixer at low IF.</p>
+<p><strong>Biasing and configurations:</strong> $R_1/R_2$ first set B at a “half-open” operating point so that $i_C$ can swing up and down with the signal, while $R_E$ stabilizes that operating point. Which leg serves as the common reference gives three configurations: <strong>common-emitter CE</strong>(in at B, out at C, the highest gain and by far the most common), common-base (CB) and common-collector (CC). Colpitts, Hartley and Pierce below all use <strong>CE</strong>; Clapp uses the FET equivalent, <strong>the common-gate</strong>.</p>
 </details>
 
 <style>
@@ -1292,21 +1292,21 @@ In an oscillator, the BJT is the one who<strong>“tops up the energy and pushes
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-0.87s"/>
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-1.73s"/>
 </svg>
-<figcaption><strong>Colpitts</strong> — the swing = $L_3$ in parallel with ($C_1$ in series with $C_2$). The feedback comes from<strong>a capacitive divider</strong>: the signal is divided down from the collector through $C_2$ and $C_1$ and returned to the base. The frequency is $f_0=1/2\pi\sqrt{L_3\,C_1C_2/(C_1{+}C_2)}$.</figcaption>
+<figcaption><strong>Colpitts</strong> — the swing = $L_3$ in parallel with ($C_1$ in series with $C_2$). The feedback comes from <strong>a capacitive divider</strong>: the signal is divided down from the collector through $C_2$ and $C_1$ and returned to the base. The frequency is $f_0=1/2\pi\sqrt{L_3\,C_1C_2/(C_1{+}C_2)}$.</figcaption>
 </figure>
 <p><strong>In plain terms:</strong> $L_3$ and the two capacitors form the swing. The transistor watches the base (the voltage on $C_1$) to decide when to push; the strength of the push is set by <strong>the ratio of $C_1$ to $C_2$</strong>(like where along the rope you grab the swing). It is the commonest and easiest LC oscillator to build.</p>
 
 <details style="margin:8px 0 14px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">How the full circuit reduces to the AC equivalent (the topological skeleton) — click to expand</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>Reduce the full biased circuit to just the skeleton that matters<strong>to AC</strong>. The rules (all with respect to the AC signal):</p>
+<p>Reduce the full biased circuit to just the skeleton that matters <strong>to AC</strong>. The rules (all with respect to the AC signal):</p>
 <ol style="margin:4px 0 0 22px">
 <li><strong>The DC supply $V_{CC}$ → grounded.</strong> $V_{CC}$ is a fixed DC level, and to a varying AC signal it is just as immovable as ground → treat it as an <strong>AC short to ground</strong>. The whole $V_{CC}$ rail becomes “ground”.</li>
 <li><strong>Bypass/coupling capacitors → short circuits</strong>(their impedance at the operating frequency is ≈ 0, so treat them as wires).</li>
 <li><strong>The bias resistors $R_1,R_2$ and the RF choke → removed</strong>(high impedance, they only set the DC operating point and barely affect the LC loop).</li>
 <li><strong>$R_E$ (bypassed) → the emitter goes to AC ground.</strong></li>
 </ol>
-<p>What remains: the transistor plus $L_3,C_1,C_2$ = the skeleton. The key point is that<strong>step ① turns the $V_{CC}$ rail into AC ground</strong>, and it<strong>merges with the bottom ground into a single node</strong> → so $C_2$ and $L_3$, originally connected to the $V_{CC}$ rail, become grounded just like $C_1$.</p>
+<p>What remains: the transistor plus $L_3,C_1,C_2$ = the skeleton. The key point is that <strong>step ① turns the $V_{CC}$ rail into AC ground</strong>, and it <strong>merges with the bottom ground into a single node</strong> → so $C_2$ and $L_3$, originally connected to the $V_{CC}$ rail, become grounded just like $C_1$.</p>
 
 <figure class="slide-fig" style="max-width:760px;margin:10px auto">
 <svg viewBox="0 0 760 300" style="width:100%;max-width:760px;display:block;margin:0 auto" font-family="'DM Sans',sans-serif">
@@ -1405,14 +1405,14 @@ In an oscillator, the BJT is the one who<strong>“tops up the energy and pushes
 </svg>
 <figcaption>Left: the $V_{CC}$ rail marked as AC ground, with the bias $R_1/R_2/R_E$ greyed out. Right: after $V_{CC}$ merges with ground, $L_3$ ∥ ($C_1$ in series with $C_2$) encircles the transistor and the common ground = the topological skeleton (2 C, 1 L).</figcaption>
 </figure>
-<p style="margin-top:4px"><strong>This also explains the animation:</strong>the orange dots (the AC current) only circulate in the $L_3$–$C_1$–$C_2$ loop, because everything else ($V_{CC}$, the bias) is either “immovable / high impedance / a short circuit” to AC — the only thing genuinely swinging back and forth is this tank.</p>
+<p style="margin-top:4px"><strong>This also explains the animation:</strong> the orange dots (the AC current) only circulate in the $L_3$–$C_1$–$C_2$ loop, because everything else ($V_{CC}$, the bias) is either “immovable / high impedance / a short circuit” to AC — the only thing genuinely swinging back and forth is this tank.</p>
 </div>
 </details>
 
 <details style="margin:8px 0 14px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">How do $L_3$ and $C_1,C_2$ become a series/parallel tank? (click here if it is not obvious)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>The key point:<strong>$C_1$ and $C_2$ are in series with each other</strong>, and that series capacitance is then <strong>in parallel with $L_3$</strong>. The AC equivalent makes it clear:</p>
+<p>The key point: <strong>$C_1$ and $C_2$ are in series with each other</strong>, and that series capacitance is then <strong>in parallel with $L_3$</strong>. The AC equivalent makes it clear:</p>
 <figure class="slide-fig" style="max-width:440px;margin:8px auto">
 <svg viewBox="0 0 440 250" style="width:100%;max-width:440px;display:block;margin:0 auto" font-family="'DM Sans',sans-serif">
   <text x="220" y="18" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a4a8a">L<tspan baseline-shift="sub" font-size="8">3</tspan> &#8741; (C<tspan baseline-shift="sub" font-size="8">1</tspan> series C<tspan baseline-shift="sub" font-size="8">2</tspan>)</text>
@@ -1444,13 +1444,13 @@ In an oscillator, the BJT is the one who<strong>“tops up the energy and pushes
   <path d="M100,80 H340 V185 H100 Z" fill="none" stroke="#ff8c00" stroke-width="1.3" stroke-dasharray="5,4" opacity="0.55"/>
   <text x="220" y="135" text-anchor="middle" fill="#ff8c00" font-size="10" opacity="0.85">A single current loop: passing in turn through L<tspan baseline-shift="sub" font-size="7">3</tspan>→C<tspan baseline-shift="sub" font-size="7">1</tspan>→C<tspan baseline-shift="sub" font-size="7">2</tspan></text>
 </svg>
-<figcaption>$C_1$ and $C_2$ share only the “ground” (the midpoint) at the bottom and connect to different nodes at the top → <strong>in series</strong>; and that series capacitance shares the collector↔base connection with $L_3$ → <strong>in parallel with</strong>of the image-reject mixer at low IF.</figcaption>
+<figcaption>$C_1$ and $C_2$ share only the “ground” (the midpoint) at the bottom and connect to different nodes at the top → <strong>in series</strong>; and that series capacitance shares the collector↔base connection with $L_3$ → <strong>in parallel with</strong>.</figcaption>
 </figure>
-<p><strong>Why $C_1$ and $C_2$ are in series rather than in parallel:</strong>they share<strong>only one point at the bottom (ground)</strong>, while their tops go to different nodes ($C_2$→collector, $C_1$→base); the current goes in through one and out through the other → in series. Ground is the<strong>tap (midpoint)</strong>between them. (For a parallel connection<strong>both ends</strong>would have to meet at the same two points.)</p>
+<p><strong>Why $C_1$ and $C_2$ are in series rather than in parallel:</strong> they share <strong>only one point at the bottom (ground)</strong>, while their tops go to different nodes ($C_2$→collector, $C_1$→base); the current goes in through one and out through the other → in series. Ground is the <strong>tap (midpoint)</strong> between them. (For a parallel connection <strong>both ends</strong> would have to meet at the same two points.)</p>
 <p><strong>Two equivalent ways of seeing it:</strong></p>
 <ul style="margin:4px 0 0 22px">
-<li><strong>By loop (series):</strong>the current follows a single loop, collector $\xrightarrow{L_3}$ base $\xrightarrow{C_1}$ ground $\xrightarrow{C_2}$ collector, passing in turn through $L_3\to C_1\to C_2$ = in series (this is the loop the orange dots trace in the animation).</li>
-<li><strong>By terminals (parallel):</strong>between collector and base there are two paths: (a) $L_3$, and (b) $C_2$ in series with $C_1$ → hence $L_3 \parallel (C_1\text{ in series with }C_2)$ = a parallel LC tank.</li>
+<li><strong>By loop (series):</strong> the current follows a single loop, collector $\xrightarrow{L_3}$ base $\xrightarrow{C_1}$ ground $\xrightarrow{C_2}$ collector, passing in turn through $L_3\to C_1\to C_2$ = in series (this is the loop the orange dots trace in the animation).</li>
+<li><strong>By terminals (parallel):</strong> between collector and base there are two paths: (a) $L_3$, and (b) $C_2$ in series with $C_1$ → hence $L_3 \parallel (C_1\text{ in series with }C_2)$ = a parallel LC tank.</li>
 </ul>
 <p>At resonance the capacitance seen by $L_3$ is the series value:</p>
 $$C_s=\frac{C_1C_2}{C_1+C_2},\qquad f_0=\frac{1}{2\pi\sqrt{L_3\,C_s}}$$
@@ -1520,20 +1520,20 @@ $$C_s=\frac{C_1C_2}{C_1+C_2},\qquad f_0=\frac{1}{2\pi\sqrt{L_3\,C_s}}$$
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-0.87s"/>
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-1.73s"/>
 </svg>
-<figcaption><strong>Hartley</strong> — the dual of Colpitts: the swing = (L₁ in series with L₂) in parallel with C₃. The feedback comes from<strong>a divider made of two inductors (a tapped inductor)</strong>. The frequency is $f_0=1/2\pi\sqrt{(L_1{+}L_2)C_3}$.</figcaption>
+<figcaption><strong>Hartley</strong> — the dual of Colpitts: the swing = (L₁ in series with L₂) in parallel with C₃. The feedback comes from <strong>a divider made of two inductors (a tapped inductor)</strong>. The frequency is $f_0=1/2\pi\sqrt{(L_1{+}L_2)C_3}$.</figcaption>
 </figure>
 <p><strong>In plain terms:</strong> take Colpitts' “two capacitors, one inductor” and swap the roles entirely to give “<strong>two inductors, one capacitor</strong>”. The amount of feedback is set by the ratio of <strong>$L_1$ to $L_2$</strong> . A single coil with a centre tap is commonly used; turning the core tunes the frequency, which makes wide tuning ranges very convenient.</p>
 <details style="margin:8px 0 14px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">How is the Hartley tank put together? (series/parallel)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>Hartley is the<strong>dual</strong>of Colpitts: swap “two capacitors, one inductor” for “two inductors, one capacitor”. The reduction rules ($V_{CC}$→ground, etc.) are the same as for Colpitts.</p>
+<p>Hartley is the <strong>dual</strong> of Colpitts: swap “two capacitors, one inductor” for “two inductors, one capacitor”. The reduction rules ($V_{CC}$→ground, etc.) are the same as for Colpitts.</p>
 <figure class="slide-fig" style="max-width:440px;margin:8px auto">
 <svg viewBox="0 0 440 224" style="width:100%;max-width:440px;display:block;margin:0 auto" font-family="'DM Sans',sans-serif">
 <text x="80" y="58" text-anchor="middle" fill="#555" font-size="11" font-weight="700">collector (C)</text><text x="360" y="58" text-anchor="middle" fill="#555" font-size="11" font-weight="700">base (B)</text><line x1="80" y1="75" x2="206" y2="75" stroke="#2a6e5a" stroke-width="2"/><line x1="206" y1="65" x2="206" y2="85" stroke="#2a6e5a" stroke-width="2.6"/><line x1="214" y1="65" x2="214" y2="85" stroke="#2a6e5a" stroke-width="2.6"/><line x1="214" y1="75" x2="360" y2="75" stroke="#2a6e5a" stroke-width="2"/><line x1="80" y1="75" x2="80" y2="100" stroke="#b44a2f" stroke-width="2"/><path d="M80,100 a6,6 0 0 1 0,12 a6,6 0 0 1 0,12 a6,6 0 0 1 0,12" fill="none" stroke="#b44a2f" stroke-width="2.4"/><line x1="80" y1="136" x2="80" y2="180" stroke="#b44a2f" stroke-width="2"/><line x1="360" y1="75" x2="360" y2="100" stroke="#b44a2f" stroke-width="2"/><path d="M360,100 a6,6 0 0 1 0,12 a6,6 0 0 1 0,12 a6,6 0 0 1 0,12" fill="none" stroke="#b44a2f" stroke-width="2.4"/><line x1="360" y1="136" x2="360" y2="180" stroke="#b44a2f" stroke-width="2"/><line x1="50" y1="180" x2="390" y2="180" stroke="#333" stroke-width="2.4"/><line x1="208" y1="184" x2="232" y2="184" stroke="#333" stroke-width="2"/><line x1="212" y1="188" x2="228" y2="188" stroke="#333" stroke-width="2"/><line x1="216" y1="192" x2="224" y2="192" stroke="#333" stroke-width="2"/><circle cx="80" cy="75" r="3.5" fill="#333"/><circle cx="360" cy="75" r="3.5" fill="#333"/><text x="220" y="210" text-anchor="middle" fill="#ff8c00" font-size="11" font-weight="700">E (ground) = the shared midpoint of the two side components</text><text x="220" y="52" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700">C<tspan baseline-shift="sub" font-size="8">3</tspan></text><text x="56" y="124" text-anchor="end" fill="#b44a2f" font-size="12" font-weight="700">L<tspan baseline-shift="sub" font-size="8">1</tspan></text><text x="384" y="124" text-anchor="start" fill="#b44a2f" font-size="12" font-weight="700">L<tspan baseline-shift="sub" font-size="8">2</tspan></text>
 </svg>
 <figcaption>The tank triangle: the top edge (collector↔base) = $C_3$; the two sides are $L_1$ (collector→ground) and $L_2$ (base→ground).</figcaption>
 </figure>
-<p><strong>In plain terms:</strong>$L_1$ and $L_2$ share ground at the bottom (the midpoint) → they are <strong>in series</strong>(that is, a centre-tapped coil); that series inductance $(L_1{+}L_2)$ is then <strong>in parallel with</strong>with $C_3$ to form the tank. The feedback ratio is set by $L_1:L_2$.</p>
+<p><strong>In plain terms:</strong>$L_1$ and $L_2$ share ground at the bottom (the midpoint) → they are <strong>in series</strong>(that is, a centre-tapped coil); that series inductance $(L_1{+}L_2)$ is then <strong>in parallel with</strong> with $C_3$ to form the tank. The feedback ratio is set by $L_1:L_2$.</p>
 $$f_0=\frac{1}{2\pi\sqrt{(L_1+L_2)\,C_3}}$$
 </div>
 </details>
@@ -1601,20 +1601,20 @@ $$f_0=\frac{1}{2\pi\sqrt{(L_1+L_2)\,C_3}}$$
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-0.87s"/>
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-1.73s"/>
 </svg>
-<figcaption><strong>Pierce</strong> — this is Colpitts with $L_3$ replaced by a<strong>quartz crystal (XTAL)</strong>(operated between its series and parallel resonances, where it looks inductive). RFC = radio-frequency choke (passes DC, blocks AC).</figcaption>
+<figcaption><strong>Pierce</strong> — this is Colpitts with $L_3$ replaced by a <strong>quartz crystal (XTAL)</strong>(operated between its series and parallel resonances, where it looks inductive). RFC = radio-frequency choke (passes DC, blocks AC).</figcaption>
 </figure>
 <p><strong>In plain terms:</strong> a quartz crystal is equivalent to an LC with an <strong>extraordinarily high $Q$ (tens of thousands to millions)</strong>— like a swing that hardly ever stops and keeps superb time. So the frequency is extremely stable (ppm-level, barely drifting with temperature). Your watch and the clocks in your computer/MCU almost all use one.</p>
 <details style="margin:8px 0 14px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">How is the Pierce tank put together? (series/parallel)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>Exactly the <strong>same as Colpitts</strong>, except that $L_3$ is replaced by a<strong>quartz crystal</strong>. Between its series and parallel resonances the crystal is<strong>inductive</strong>, equivalent to an inductor of extremely high $Q$. The reduction rules are as for Colpitts.</p>
+<p>Exactly the <strong>same as Colpitts</strong>, except that $L_3$ is replaced by a <strong>quartz crystal</strong>. Between its series and parallel resonances the crystal is <strong>inductive</strong>, equivalent to an inductor of extremely high $Q$. The reduction rules are as for Colpitts.</p>
 <figure class="slide-fig" style="max-width:440px;margin:8px auto">
 <svg viewBox="0 0 440 224" style="width:100%;max-width:440px;display:block;margin:0 auto" font-family="'DM Sans',sans-serif">
 <text x="80" y="58" text-anchor="middle" fill="#555" font-size="11" font-weight="700">collector (C)</text><text x="360" y="58" text-anchor="middle" fill="#555" font-size="11" font-weight="700">base (B)</text><line x1="80" y1="75" x2="195" y2="75" stroke="#8a3ad0" stroke-width="2"/><line x1="195" y1="62" x2="195" y2="88" stroke="#8a3ad0" stroke-width="2.6"/><rect x="195" y="63" width="50" height="24" fill="#f3eaff" stroke="#8a3ad0" stroke-width="2"/><line x1="245" y1="62" x2="245" y2="88" stroke="#8a3ad0" stroke-width="2.6"/><line x1="245" y1="75" x2="360" y2="75" stroke="#8a3ad0" stroke-width="2"/><line x1="80" y1="75" x2="80" y2="118" stroke="#2a6e5a" stroke-width="2"/><line x1="68" y1="118" x2="92" y2="118" stroke="#2a6e5a" stroke-width="2.6"/><line x1="68" y1="124" x2="92" y2="124" stroke="#2a6e5a" stroke-width="2.6"/><line x1="80" y1="124" x2="80" y2="180" stroke="#2a6e5a" stroke-width="2"/><line x1="360" y1="75" x2="360" y2="118" stroke="#2a6e5a" stroke-width="2"/><line x1="348" y1="118" x2="372" y2="118" stroke="#2a6e5a" stroke-width="2.6"/><line x1="348" y1="124" x2="372" y2="124" stroke="#2a6e5a" stroke-width="2.6"/><line x1="360" y1="124" x2="360" y2="180" stroke="#2a6e5a" stroke-width="2"/><line x1="50" y1="180" x2="390" y2="180" stroke="#333" stroke-width="2.4"/><line x1="208" y1="184" x2="232" y2="184" stroke="#333" stroke-width="2"/><line x1="212" y1="188" x2="228" y2="188" stroke="#333" stroke-width="2"/><line x1="216" y1="192" x2="224" y2="192" stroke="#333" stroke-width="2"/><circle cx="80" cy="75" r="3.5" fill="#333"/><circle cx="360" cy="75" r="3.5" fill="#333"/><text x="220" y="210" text-anchor="middle" fill="#ff8c00" font-size="11" font-weight="700">E (ground) = the shared midpoint of the two side components</text><text x="220" y="52" text-anchor="middle" fill="#8a3ad0" font-size="11" font-weight="700">XTAL</text><text x="56" y="124" text-anchor="end" fill="#2a6e5a" font-size="12" font-weight="700">C<tspan baseline-shift="sub" font-size="8">2</tspan></text><text x="384" y="124" text-anchor="start" fill="#2a6e5a" font-size="12" font-weight="700">C<tspan baseline-shift="sub" font-size="8">1</tspan></text>
 </svg>
 <figcaption>The tank triangle: the top edge (collector↔base) = the crystal (acting as an inductor); the two sides are $C_2$ (collector→ground) and $C_1$ (base→ground).</figcaption>
 </figure>
-<p><strong>In plain terms:</strong>$C_1$ and $C_2$ share ground (the midpoint) → they are <strong>in series</strong>, and with the crystal (inductive) they are<strong>in parallel with</strong>to form the tank, the same shape as Colpitts. The difference is the crystal's enormous $Q$ (tens of thousands to millions) → it<strong>locks the frequency extremely tightly</strong>(to ppm), with almost no drift over temperature.</p>
+<p><strong>In plain terms:</strong>$C_1$ and $C_2$ share ground (the midpoint) → they are <strong>in series</strong>, and with the crystal (inductive) they are <strong>in parallel with</strong> to form the tank, the same shape as Colpitts. The difference is the crystal's enormous $Q$ (tens of thousands to millions) → it <strong>locks the frequency extremely tightly</strong>(to ppm), with almost no drift over temperature.</p>
 </div>
 </details>
 
@@ -1682,9 +1682,9 @@ $$f_0=\frac{1}{2\pi\sqrt{(L_1+L_2)\,C_3}}$$
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-0.87s"/>
   <circle class="acdot" cx="0" cy="0" r="4.5" style="animation-delay:-1.73s"/>
 </svg>
-<figcaption><strong>Clapp</strong> — this is Colpitts, but with<strong>a small capacitor $C_3$ added in series with the inductor $L_3$</strong>. Because $C_3$ is small, the frequency is dominated almost entirely by $L_3$ and $C_3$ (with $C_1,C_2$ relegated to a secondary role). A common-gate configuration is usual.</figcaption>
+<figcaption><strong>Clapp</strong> — this is Colpitts, but with <strong>a small capacitor $C_3$ added in series with the inductor $L_3$</strong>. Because $C_3$ is small, the frequency is dominated almost entirely by $L_3$ and $C_3$ (with $C_1,C_2$ relegated to a secondary role). A common-gate configuration is usual.</figcaption>
 </figure>
-<p><strong>In plain terms:</strong> the transistor's parasitic capacitances wander with temperature and operating point, making a Colpitts oscillator's frequency drift. Clapp puts a<strong>very small, very stable $C_3$</strong> in series with the inductor to “dominate” the frequency, thereby<strong>diluting away</strong> the influence of those unstable transistor capacitances → a more stable frequency.</p>
+<p><strong>In plain terms:</strong> the transistor's parasitic capacitances wander with temperature and operating point, making a Colpitts oscillator's frequency drift. Clapp puts a <strong>very small, very stable $C_3$</strong> in series with the inductor to “dominate” the frequency, thereby <strong>diluting away</strong> the influence of those unstable transistor capacitances → a more stable frequency.</p>
 <details style="margin:8px 0 14px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">How is the Clapp tank put together? (series/parallel)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
@@ -1695,7 +1695,7 @@ $$f_0=\frac{1}{2\pi\sqrt{(L_1+L_2)\,C_3}}$$
 </svg>
 <figcaption>The tank triangle: the top edge (collector↔base) = $L_3$ in series with $C_3$; the two sides are $C_2$ (collector→ground) and $C_1$ (base→ground).</figcaption>
 </figure>
-<p><strong>In plain terms:</strong>the tank = $(L_3\text{ in series with }C_3)$ and $(C_1\text{ in series with }C_2)$ <strong>in parallel with</strong>. Since $C_3 \ll C_1,C_2$, the total series capacitance is<strong>dominated by the very small, very stable $C_3$</strong> → this dilutes the influence of the transistor's parasitic capacitances and the frequency is more stable.</p>
+<p><strong>In plain terms:</strong> the tank = $(L_3\text{ in series with }C_3)$ and $(C_1\text{ in series with }C_2)$ <strong>in parallel with</strong>. Since $C_3 \ll C_1,C_2$, the total series capacitance is <strong>dominated by the very small, very stable $C_3$</strong> → this dilutes the influence of the transistor's parasitic capacitances and the frequency is more stable.</p>
 $$f_0\approx\frac{1}{2\pi\sqrt{L_3\,C_\text{tot}}}\quad(C_\text{tot}\text{ dominated by }C_3)$$
 </div>
 </details>
@@ -1707,14 +1707,14 @@ $$f_0\approx\frac{1}{2\pi\sqrt{L_3\,C_\text{tot}}}\quad(C_\text{tot}\text{ domin
 
 <div style="background:#fff8f0;border:2px solid #e8a040;border-radius:8px;padding:12px 16px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
 <div style="flex:1;min-width:300px">
-<strong>The assignment:</strong>Discuss <strong>Common-emitter Colpitts</strong>and<strong>Common-emitter Hartley</strong>and<strong>Pierce (crystal)</strong>and<strong>Clapp</strong> how the four oscillators differ in<strong>configuration</strong>and<strong>application</strong>. The LC types reach<strong>hundreds of MHz to GHz</strong>; the crystal type is equivalent to an LC resonance of extremely high $Q$, with a frequency stability of a few ppm.
+<strong>The assignment:</strong> Discuss <strong>Common-emitter Colpitts</strong>and <strong>Common-emitter Hartley</strong>and <strong>Pierce (crystal)</strong> and <strong>Clapp</strong> how the four oscillators differ in <strong>configuration</strong> and <strong>application</strong>. The LC types reach <strong>hundreds of MHz to GHz</strong>; the crystal type is equivalent to an LC resonance of extremely high $Q$, with a frequency stability of a few ppm.
 </div>
 <a href="hw/HW9_D143010009_馬嘉鴻.html" target="_blank" style="background:#a02020;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;white-space:nowrap">📝 Open the standalone version →</a>
 </div>
 
 <h4 style="color:#a02020;border-bottom:1px solid var(--border);padding-bottom:6px">0. The common model: three-reactance feedback</h4>
 
-<p>These four oscillators are really variations on<strong>one and the same architecture</strong>: an amplifying device (BJT/FET) plus a π-shaped feedback network made of<strong>three reactances $X_1,X_2,X_3$</strong> . The only differences are “which positions hold capacitors and which holds the inductor (or crystal)”, and which transistor configuration is used (common-emitter CE / common-gate CG).</p>
+<p>These four oscillators are really variations on <strong>one and the same architecture</strong>: an amplifying device (BJT/FET) plus a π-shaped feedback network made of <strong>three reactances $X_1,X_2,X_3$</strong> . The only differences are “which positions hold capacitors and which holds the inductor (or crystal)”, and which transistor configuration is used (common-emitter CE / common-gate CG).</p>
 
 <figure>
 <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" style="background:#fafbfc;border:1px solid #d4cfc7;border-radius:6px" font-family="'Source Serif 4',Georgia,serif">
@@ -1764,7 +1764,7 @@ $$f_0\approx\frac{1}{2\pi\sqrt{L_3\,C_\text{tot}}}\quad(C_\text{tot}\text{ domin
 <details style="margin:8px 0 14px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">This figure = the “circuit version” of the §5.1.2 feedback block diagram — the two models side by side (click to expand)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>The three-reactance model above is really the<strong>feedback block diagram</strong>of §5.1.2 ($V_o=\dfrac{A}{1-AH}V_i$)<strong>realized as a circuit</strong>— the same thing, one abstract and one concrete.</p>
+<p>The three-reactance model above is really the <strong>feedback block diagram</strong> of §5.1.2 ($V_o=\dfrac{A}{1-AH}V_i$) <strong>realized as a circuit</strong>— the same thing, one abstract and one concrete.</p>
 <figure class="slide-fig" style="max-width:520px;margin:8px auto">
 <svg viewBox="0 0 500 185" style="width:100%;max-width:520px;display:block;margin:0 auto" font-family="'DM Sans',sans-serif">
   <defs><marker id="mapArr" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 z" fill="#555"/></marker></defs>
@@ -1795,7 +1795,7 @@ $$f_0\approx\frac{1}{2\pi\sqrt{L_3\,C_\text{tot}}}\quad(C_\text{tot}\text{ domin
 <tr><td style="padding:5px 9px;border:1px solid #a8c4e8">Summing point</td><td style="padding:5px 9px;border:1px solid #a8c4e8">the adder $\oplus$</td><td style="padding:5px 9px;border:1px solid #a8c4e8">the input node where $X_3$ meets $X_1$</td></tr>
 <tr style="background:#f0f6ff"><td style="padding:5px 9px;border:1px solid #a8c4e8">Oscillation condition</td><td style="padding:5px 9px;border:1px solid #a8c4e8">$1-AH=0$</td><td style="padding:5px 9px;border:1px solid #a8c4e8">$X_1{+}X_2{+}X_3=0$ and $X_1/X_2=A_v$</td></tr>
 </table>
-<p><strong>How the phases line up:</strong>the block diagram uses a positive-feedback adder; the three-reactance version uses $-A$ (180° from the amplifier) plus another 180° from the network = 360° in total = in phase, equivalent to positive feedback. $H$ is<strong>frequency-dependent</strong>→ only at the frequency where $X_1{+}X_2{+}X_3=0$ is the phase condition satisfied → and that fixes $\omega_0$.</p>
+<p><strong>How the phases line up:</strong> the block diagram uses a positive-feedback adder; the three-reactance version uses $-A$ (180° from the amplifier) plus another 180° from the network = 360° in total = in phase, equivalent to positive feedback. $H$ is <strong>frequency-dependent</strong>→ only at the frequency where $X_1{+}X_2{+}X_3=0$ is the phase condition satisfied → and that fixes $\omega_0$.</p>
 <p style="margin-top:4px"><strong>In one sentence:</strong>$1-AH=0$ is the general criterion for “why it oscillates”; the three-reactance model is the circuit version of “building that $H$ out of one transistor and three reactances”. Colpitts/Hartley/Pierce/Clapp are simply different choices of capacitor or inductor for $X_1,X_2,X_3$.</p>
 </div>
 </details>
@@ -1808,10 +1808,10 @@ $$X_1 + X_2 + X_3 = 0, \qquad \frac{X_1}{X_2} = A_v \;(>0)$$
 
 <div class="callout concept">
 <div class="callout-title">The sign rule → deciding whether it is Colpitts or Hartley</div>
-$X_1+X_2+X_3=0$ means the three reactances cannot all have the same sign:<strong>$X_1$ and $X_2$ must be of the same kind (same sign) and $X_3$ the opposite</strong>of the image-reject mixer at low IF.
+$X_1+X_2+X_3=0$ means the three reactances cannot all have the same sign: <strong>$X_1$ and $X_2$ must be of the same kind (same sign) and $X_3$ the opposite</strong>.
 <ul style="margin:6px 0 0 22px">
-<li>$X_1,X_2$ are<strong>capacitor</strong>(negative reactance) and $X_3$ is an<strong>inductors</strong>(positive reactance) → <strong>Colpitts</strong>(a capacitive divider). Pierce and Clapp both belong to this family.</li>
-<li>$X_1,X_2$ are<strong>inductors</strong>(positive reactance) and $X_3$ is a<strong>capacitor</strong>(negative reactance) → <strong>Hartley</strong>(an inductive divider).</li>
+<li>$X_1,X_2$ are <strong>capacitor</strong>(negative reactance) and $X_3$ is an <strong>inductors</strong>(positive reactance) → <strong>Colpitts</strong>(a capacitive divider). Pierce and Clapp both belong to this family.</li>
+<li>$X_1,X_2$ are <strong>inductors</strong>(positive reactance) and $X_3$ is a <strong>capacitor</strong>(negative reactance) → <strong>Hartley</strong>(an inductive divider).</li>
 </ul>
 The feedback ratio is set by $X_1/X_2$ (i.e. $C_1/C_2$ or $L_1/L_2$), and it must be large enough to satisfy the amplitude condition and start up.
 </div>
@@ -1890,7 +1890,7 @@ The feedback ratio is set by $X_1/X_2$ (i.e. $C_1/C_2$ or $L_1/L_2$), and it mus
 </figure>
 
 <div>
-<p><strong>Configuration:</strong>common-emitter (CE). The tank is $L_3$ in parallel with “$C_1$ in series with $C_2$”; the junction between $C_1$ and $C_2$ is the<strong>capacitive-divider</strong>tap, returning part of the output voltage to the input (the base).</p>
+<p><strong>Configuration:</strong> common-emitter (CE). The tank is $L_3$ in parallel with “$C_1$ in series with $C_2$”; the junction between $C_1$ and $C_2$ is the <strong>capacitive-divider</strong> tap, returning part of the output voltage to the input (the base).</p>
 <div class="eq-box">
 <span class="eq-label">Oscillation frequency</span>
 $$\omega_0=\frac{1}{\sqrt{L_3\,C_\text{eq}}},\quad C_\text{eq}=\frac{C_1C_2}{C_1+C_2}$$
@@ -1899,7 +1899,7 @@ $$\omega_0=\frac{1}{\sqrt{L_3\,C_\text{eq}}},\quad C_\text{eq}=\frac{C_1C_2}{C_1
 <span class="eq-label">Start-up (amplitude) condition</span>
 $$\frac{C_2}{C_1}=\frac{g_m}{G_i}$$
 </div>
-<p><strong>Characteristics:</strong>a capacitive divider is easy to build and insensitive to stray inductance, making this<strong>the most widely used LC oscillator</strong>. It works from VHF/UHF up to GHz and is the basis of the VCO (simply replace $C$ with a varactor to make it tunable).</p>
+<p><strong>Characteristics:</strong> a capacitive divider is easy to build and insensitive to stray inductance, making this <strong>the most widely used LC oscillator</strong>. It works from VHF/UHF up to GHz and is the basis of the VCO (simply replace $C$ with a varactor to make it tunable).</p>
 </div>
 </div>
 
@@ -1964,7 +1964,7 @@ $$\frac{C_2}{C_1}=\frac{g_m}{G_i}$$
 </figure>
 
 <div>
-<p><strong>Configuration:</strong>common-emitter (CE). The tank is $C_3$ in parallel with “$L_1$ in series with $L_2$”; a<strong>tapped inductor</strong>provides inductive-divider feedback — which is exactly where it is the dual of Colpitts: capacitors and inductors are interchanged.</p>
+<p><strong>Configuration:</strong> common-emitter (CE). The tank is $C_3$ in parallel with “$L_1$ in series with $L_2$”; a <strong>tapped inductor</strong> provides inductive-divider feedback — which is exactly where it is the dual of Colpitts: capacitors and inductors are interchanged.</p>
 <div class="eq-box">
 <span class="eq-label">Oscillation frequency</span>
 $$\omega_0=\frac{1}{\sqrt{(L_1+L_2)\,C_3}}$$
@@ -1973,7 +1973,7 @@ $$\omega_0=\frac{1}{\sqrt{(L_1+L_2)\,C_3}}$$
 <span class="eq-label">Start-up (amplitude) condition</span>
 $$\frac{L_1}{L_2}=\frac{g_m}{G_i}$$
 </div>
-<p><strong>Characteristics:</strong>a single variable capacitor $C_3$ gives<strong>wide-range tuning</strong>, which is why it was common in early radios and signal generators. Its drawbacks: a tapped inductor is bulky and hard to integrate on an IC, it is rather sensitive to stray capacitance, and its frequency is usually lower than Colpitts.</p>
+<p><strong>Characteristics:</strong> a single variable capacitor $C_3$ gives <strong>wide-range tuning</strong>, which is why it was common in early radios and signal generators. Its drawbacks: a tapped inductor is bulky and hard to integrate on an IC, it is rather sensitive to stray capacitance, and its frequency is usually lower than Colpitts.</p>
 </div>
 </div>
 
@@ -2044,16 +2044,16 @@ $$\frac{L_1}{L_2}=\frac{g_m}{G_i}$$
   <circle cx="290" cy="70" r="4" fill="none" stroke="#a02020" stroke-width="2"/>
   <text x="296" y="74" font-size="11" font-weight="700" fill="#a02020">out</text>
 </svg>
-<figcaption>Pierce: replace Colpitts' $L_3$ with a<strong>crystal</strong>. Between its series and parallel resonances the crystal is<strong>inductive</strong>, resonating with $C_1,C_2$.</figcaption>
+<figcaption>Pierce: replace Colpitts' $L_3$ with a <strong>crystal</strong>. Between its series and parallel resonances the crystal is <strong>inductive</strong>, resonating with $C_1,C_2$.</figcaption>
 </figure>
 
 <div>
-<p><strong>Configuration:</strong>based on the<strong>common-emitter Colpitts</strong> , with the resonant inductor $L_3$ replaced by a<strong>quartz crystal</strong>. The crystal is inductive<strong>between its series resonance $f_s$ and its parallel resonance $f_p$</strong>, which is exactly the role $L_3$ played; $C_1,C_2$ still provide the capacitive-divider feedback.</p>
+<p><strong>Configuration:</strong> based on the <strong>common-emitter Colpitts</strong> , with the resonant inductor $L_3$ replaced by a <strong>quartz crystal</strong>. The crystal is inductive <strong>between its series resonance $f_s$ and its parallel resonance $f_p$</strong>, which is exactly the role $L_3$ played; $C_1,C_2$ still provide the capacitive-divider feedback.</p>
 <div class="eq-box">
 <span class="eq-label">Crystal equivalent (a high-Q LC)</span>
 $$Q_\text{xtal}\sim 10^4\text{–}10^6 \;\gg\; Q_\text{LC}\;(\sim10^2)$$
 </div>
-<p><strong>Characteristics:</strong>the crystal can be<strong>modelled as an LC resonator of extremely high $Q$</strong>, so the frequency stability reaches <strong>few ppm</strong>, far better than a pure LC type. The price is that the frequency is essentially<strong>fixed</strong>(only slight pulling is possible) and is determined by how the crystal is cut.</p>
+<p><strong>Characteristics:</strong> the crystal can be <strong>modelled as an LC resonator of extremely high $Q$</strong>, so the frequency stability reaches <strong>few ppm</strong>, far better than a pure LC type. The price is that the frequency is essentially <strong>fixed</strong>(only slight pulling is possible) and is determined by how the crystal is cut.</p>
 <p style="font-size:0.92em;color:#555">Uses: microprocessor/MCU clocks, frequency references and communication reference sources. Since Leeson's formula gives phase noise $\propto 1/Q^2$, an extremely high $Q$ also brings extremely low phase noise.</p>
 </div>
 </div>
@@ -2125,16 +2125,16 @@ $$Q_\text{xtal}\sim 10^4\text{–}10^6 \;\gg\; Q_\text{LC}\;(\sim10^2)$$
   <line x1="37" y1="210" x2="43" y2="210" stroke="#1a1a1a" stroke-width="1"/>
   <line x1="120" y1="180" x2="120" y2="200" stroke="#1a1a1a" stroke-width="1.6" stroke-dasharray="2,2"/>
 </svg>
-<figcaption>Clapp: add a<strong>small capacitor $C_3$ added in series</strong>. Since $C_3\ll C_1,C_2$, the total series capacitance is dominated by $C_3$.</figcaption>
+<figcaption>Clapp: add a <strong>small capacitor $C_3$ added in series</strong>. Since $C_3\ll C_1,C_2$, the total series capacitance is dominated by $C_3$.</figcaption>
 </figure>
 
 <div>
-<p><strong>Configuration:</strong>based on the<strong>common-gate (CG) Colpitts</strong> , with a<strong>small capacitor $C_3$ added in series</strong>with the inductor $L_3$. The resonance is set by $L_3$ together with the series value of the three capacitors:</p>
+<p><strong>Configuration:</strong> based on the <strong>common-gate (CG) Colpitts</strong> , with a <strong>small capacitor $C_3$ added in series</strong> with the inductor $L_3$. The resonance is set by $L_3$ together with the series value of the three capacitors:</p>
 <div class="eq-box">
 <span class="eq-label">Oscillation frequency</span>
 $$\omega_0=\frac{1}{\sqrt{L_3\,C_\text{tot}}},\quad \frac{1}{C_\text{tot}}=\frac{1}{C_1}+\frac{1}{C_2}+\frac{1}{C_3}$$
 </div>
-<p>Because $C_3\ll C_1,C_2$, $C_\text{tot}\approx C_3$. The transistor's<strong>parasitic capacitances appear in parallel with $C_1,C_2$</strong>, whereas the frequency is set mainly by $L_3$ and $C_3$ → the effect of parasitic variation on the frequency is heavily<strong>diluted</strong>of the image-reject mixer at low IF.</p>
+<p>Because $C_3\ll C_1,C_2$, $C_\text{tot}\approx C_3$. The transistor's <strong>parasitic capacitances appear in parallel with $C_1,C_2$</strong>, whereas the frequency is set mainly by $L_3$ and $C_3$ → the effect of parasitic variation on the frequency is heavily <strong>diluted</strong>.</p>
 <div class="callout tip">
 <div class="callout-title">Why is Clapp more stable than Colpitts?</div>
 A basic Colpitts' frequency involves $C_\text{eq}=C_1C_2/(C_1+C_2)$, and the transistor's parasitic capacitances sit directly across $C_1,C_2$, drifting with temperature and bias. Clapp lets $C_3$ (small, stable and external) dominate the frequency, so $\omega_0$ depends almost entirely on $L_3C_3$ → better stability. The price: a narrower tuning range (change $C_3$ and everything changes).
@@ -2163,7 +2163,7 @@ A basic Colpitts' frequency involves $C_\text{eq}=C_1C_2/(C_1+C_2)$, and the tra
 <h4 style="color:#a02020;border-bottom:1px solid var(--border);padding-bottom:6px">F. Comparison by application</h4>
 <table class="cmp-table">
 <tr><th>Item</th><th>Colpitts</th><th>Hartley</th><th>Pierce</th><th>Clapp</th></tr>
-<tr><td>Frequency range</td><td>hundreds of MHz to<strong>GHz</strong></td><td>hundreds of kHz to tens of MHz</td><td>kHz to hundreds of MHz (depending on the crystal)</td><td>HF to VHF</td></tr>
+<tr><td>Frequency range</td><td>hundreds of MHz to <strong>GHz</strong></td><td>hundreds of kHz to tens of MHz</td><td>kHz to hundreds of MHz (depending on the crystal)</td><td>HF to VHF</td></tr>
 <tr><td>Frequency stability</td><td>moderate</td><td>moderate to low</td><td><span class="ok">excellent, a few ppm ✓</span></td><td>good (better than Colpitts)</td></tr>
 <tr><td>$Q$ factor</td><td>$\sim10^2$</td><td>$\sim10^2$</td><td><span class="ok">$10^4$–$10^6$ ✓</span></td><td>$\sim10^2$ (but the frequency is little affected by parasitics)</td></tr>
 <tr><td>Tunability</td><td>good (widely used for VCOs)</td><td><span class="ok">good: vary $C_3$ for wide tuning ✓</span></td><td>essentially fixed (fine trim only)</td><td>narrow ($C_3$ dominates)</td></tr>
@@ -2174,7 +2174,7 @@ A basic Colpitts' frequency involves $C_\text{eq}=C_1C_2/(C_1+C_2)$, and the tra
 
 <div class="callout concept">
 <div class="callout-title">Why can LC types reach hundreds of MHz to GHz, while crystal types have such outstanding stability?</div>
-LC types rely on physical inductors and capacitors resonating, and the component values can be made very small → the frequency can be pushed to <strong>GHz</strong>(the slide notes “hundreds of MHz or GHz”). A crystal, by contrast, is a mechanical resonance equivalent to an LC of<strong>extremely high</strong>$Q$ (the slide notes “can be modelled as an LC with an extremely high resonant Q”), so the frequency is locked down firmly, with stability and phase noise far better than a pure LC — but it is hard to tune.
+LC types rely on physical inductors and capacitors resonating, and the component values can be made very small → the frequency can be pushed to <strong>GHz</strong>(the slide notes “hundreds of MHz or GHz”). A crystal, by contrast, is a mechanical resonance equivalent to an LC of <strong>extremely high</strong>$Q$ (the slide notes “can be modelled as an LC with an extremely high resonant Q”), so the frequency is locked down firmly, with stability and phase noise far better than a pure LC — but it is hard to tune.
 </div>
 
 
@@ -2183,20 +2183,20 @@ LC types rely on physical inductors and capacitors resonating, and the component
 <h4 style="color:#a02020;border-bottom:1px solid var(--border);padding-bottom:6px">G. In one sentence</h4>
 <div class="callout key">
 <div class="callout-title">In one sentence</div>
-All four share the<strong>three-reactance feedback</strong>model:<br><br>
+All four share the <strong>three-reactance feedback</strong> model:<br><br>
 <strong>Colpitts</strong>(CE, capacitive divider $C_1,C_2$ plus $L_3$) = the baseline LC oscillator, reaching GHz, easy to integrate, and the first choice for a VCO;<br>
 <strong>Hartley</strong>(CE, inductive divider $L_1,L_2$ plus $C_3$) = the L↔C dual of Colpitts, using a tapped inductor and tuning widely by varying $C_3$, but hard to integrate and lower in frequency;<br>
-<strong>Pierce</strong>= Colpitts with $L_3$ replaced by a<strong>crystal</strong>, trading an extremely high $Q$ for few-ppm stability and extremely low phase noise, at the cost of an essentially fixed frequency;<br>
+<strong>Pierce</strong>= Colpitts with $L_3$ replaced by a <strong>crystal</strong>, trading an extremely high $Q$ for few-ppm stability and extremely low phase noise, at the cost of an essentially fixed frequency;<br>
 <strong>Clapp</strong>= Colpitts with a small $C_3$ in series with $L_3$, so that the frequency is dominated by $C_3$ and immune to the transistor's parasitic capacitances, trading a narrow tuning range for better stability.
 </div>
 
-<p style="font-size:0.92em;color:#555">The complete standalone version (with header and table-of-contents navigation):<a href="hw/HW9_D143010009_馬嘉鴻.html" target="_blank">HW9 Oscillator Topology &amp; Application Comparison →</a></p>
+<p style="font-size:0.92em;color:#555">The complete standalone version (with header and table-of-contents navigation): <a href="hw/HW9_D143010009_馬嘉鴻.html" target="_blank">HW9 Oscillator Topology &amp; Application Comparison →</a></p>
 </section>
 
 <!-- ============================ -->
 <section id="sec-1-models">
 <h3>5.1.4½ The three models are really “one and the same oscillator”</h3>
-<p>You are about to meet three oscillator models —<strong>Feedback / π (three-reactance)</strong>and<strong>One-port negative resistance</strong>and<strong>Two-port</strong>. They are<strong>not three different oscillators</strong>but<strong>three pairs of spectacles for looking at the same oscillator</strong>, differing only in level of abstraction and in which situation each is convenient. All three say the same thing: at $\omega_0$ the circuit can produce<strong>a finite output with zero input</strong>(the denominator of the closed-loop response vanishes).</p>
+<p>You are about to meet three oscillator models —<strong>Feedback / π (three-reactance)</strong> and <strong>One-port negative resistance</strong> and <strong>Two-port</strong>. They are <strong>not three different oscillators</strong> but <strong>three pairs of spectacles for looking at the same oscillator</strong>, differing only in level of abstraction and in which situation each is convenient. All three say the same thing: at $\omega_0$ the circuit can produce <strong>a finite output with zero input</strong>(the denominator of the closed-loop response vanishes).</p>
 
 <table style="border-collapse:collapse;width:100%;font-size:0.9em;margin:8px 0">
 <tr style="background:#dbe8f8">
@@ -2206,7 +2206,7 @@ All four share the<strong>three-reactance feedback</strong>model:<br><br>
   <th style="padding:6px 10px;border:1px solid #a8c4e8;text-align:left">Best suited to</th>
 </tr>
 <tr><td style="padding:6px 10px;border:1px solid #a8c4e8"><strong>Feedback / π (three-reactance)</strong><br><span style="font-size:0.85em;color:#777">§5.1.2 / §5.1.4</span></td><td style="padding:6px 10px;border:1px solid #a8c4e8">$1-AH=0$ (loop gain $=1\angle0°$)</td><td style="padding:6px 10px;border:1px solid #a8c4e8">an amplifier + a feedback network (Barkhausen)</td><td style="padding:6px 10px;border:1px solid #a8c4e8">LC/crystal transistor oscillators, lower frequencies</td></tr>
-<tr style="background:#f0f6ff"><td style="padding:6px 10px;border:1px solid #a8c4e8"><strong>One-port negative resistance</strong><br><span style="font-size:0.85em;color:#777">§5.1.5–5.1.6</span></td><td style="padding:6px 10px;border:1px solid #a8c4e8">$Z_{in}+Z_L=0$<br>($R_{in}=-R_L$, $X_{in}=-X_L$)</td><td style="padding:6px 10px;border:1px solid #a8c4e8">a port exhibiting<strong>negative resistance</strong>plus a load</td><td style="padding:6px 10px;border:1px solid #a8c4e8">microwave diodes (Gunn/IMPATT/BARITT)</td></tr>
+<tr style="background:#f0f6ff"><td style="padding:6px 10px;border:1px solid #a8c4e8"><strong>One-port negative resistance</strong><br><span style="font-size:0.85em;color:#777">§5.1.5–5.1.6</span></td><td style="padding:6px 10px;border:1px solid #a8c4e8">$Z_{in}+Z_L=0$<br>($R_{in}=-R_L$, $X_{in}=-X_L$)</td><td style="padding:6px 10px;border:1px solid #a8c4e8">a port exhibiting <strong>negative resistance</strong> plus a load</td><td style="padding:6px 10px;border:1px solid #a8c4e8">microwave diodes (Gunn/IMPATT/BARITT)</td></tr>
 <tr><td style="padding:6px 10px;border:1px solid #a8c4e8"><strong>Two-port</strong><br><span style="font-size:0.85em;color:#777">§5.1.7</span></td><td style="padding:6px 10px;border:1px solid #a8c4e8">$\Gamma_{in}\Gamma_L=1 \Leftrightarrow \Gamma_{out}\Gamma_T=1$</td><td style="padding:6px 10px;border:1px solid #a8c4e8">a potentially unstable transistor + tank (L) / terminating (T) networks</td><td style="padding:6px 10px;border:1px solid #a8c4e8">microwave transistors, designed with S-parameters (HW10)</td></tr>
 </table>
 
@@ -2280,16 +2280,16 @@ $$Z_\text{in}(I,s) = R_\text{in}(I,s) + jX_\text{in}(I,s), \quad R_\text{in} &lt
 <details style="margin:6px 0 12px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">Why is $R_\text{in}$ written as a function of two variables $(I,\,j\omega)$? (click to expand)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p>$R_\text{in}$ is the<strong>real part</strong>of the device's input impedance, and it is written as a function of both<strong>the current amplitude $I$</strong> and<strong>the frequency $\omega$</strong> , each governing one thing:</p>
-<p><strong>① Dependence on the amplitude $I$ → because the device is nonlinear (large-signal).</strong>This is the key to amplitude stability:</p>
+<p>$R_\text{in}$ is the <strong>real part</strong> of the device's input impedance, and it is written as a function of both <strong>the current amplitude $I$</strong> and <strong>the frequency $\omega$</strong> , each governing one thing:</p>
+<p><strong>① Dependence on the amplitude $I$ → because the device is nonlinear (large-signal).</strong> This is the key to amplitude stability:</p>
 <ul style="margin:4px 0 0 22px">
 <li>Start-up: $|R_\text{in}|&gt;R_L$ ($R_\text{in}$ strongly negative) → net negative resistance → the amplitude grows exponentially.</li>
-<li>As the amplitude $I$ grows → $R_\text{in}$ becomes<strong>less negative</strong>of the image-reject mixer at low IF.</li>
-<li>to $I_0$: $R_\text{in}(I_0,\omega_0)+R_L=0$ → the net resistance vanishes → it settles at the<strong>steady-state amplitude</strong>(a limit cycle). The corresponding stability condition is $\partial R_\text{in}/\partial I&gt;0$.</li>
+<li>As the amplitude $I$ grows → $R_\text{in}$ becomes <strong>less negative</strong>.</li>
+<li>to $I_0$: $R_\text{in}(I_0,\omega_0)+R_L=0$ → the net resistance vanishes → it settles at the <strong>steady-state amplitude</strong>(a limit cycle). The corresponding stability condition is $\partial R_\text{in}/\partial I&gt;0$.</li>
 </ul>
 <p>This is the negative-resistance version of “$g_m$ compressing with amplitude”.</p>
 <p><strong>② Dependence on the frequency $\omega$</strong> → together with $X_\text{in}(I,j\omega)$, it sets the oscillation frequency $\omega_0$ at the frequency where $X_\text{in}+X_L=0$.</p>
-<p style="margin-top:4px"><strong>The point:</strong>a linear small-signal model looks only at a single operating point and<strong>cannot see the $I$ dependence</strong> → so it cannot explain why the amplitude settles by itself; only by writing $R_\text{in}(I,j\omega)$ do you capture both “amplitude locking” and “frequency setting”.</p>
+<p style="margin-top:4px"><strong>The point:</strong> a linear small-signal model looks only at a single operating point and <strong>cannot see the $I$ dependence</strong> → so it cannot explain why the amplitude settles by itself; only by writing $R_\text{in}(I,j\omega)$ do you capture both “amplitude locking” and “frequency setting”.</p>
 </div>
 </details>
 
@@ -2339,9 +2339,9 @@ $$\therefore\;\delta s = -\left.\frac{\partial Z_T/\partial I}{\partial Z_T/\par
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
 <p><strong>① The chain rule (changing variable to $s=j\omega$) → produces the $j$.</strong> Along the $j\omega$ axis, one step in $s$ = one step in $j\,\omega$:</p>
 $$\frac{\partial Z_T}{\partial s}=\frac{\partial Z_T}{\partial (j\omega)}=\frac{1}{j}\frac{\partial Z_T}{\partial \omega}=-j\,\frac{\partial Z_T}{\partial \omega}\;\Rightarrow\;\frac{1}{\partial Z_T/\partial s}=\frac{j}{\partial Z_T/\partial \omega}$$
-<p><strong>② Rationalizing (multiplying by the conjugate of the denominator) → produces the $Z_T^*$.</strong> The denominator $\partial Z_T/\partial\omega$ is<strong>complex</strong>, so you cannot read off the real and imaginary parts of $\delta s$ directly. The standard manoeuvre: multiply numerator and denominator by the conjugate of the denominator, turning the denominator into a<strong>real</strong>squared modulus:</p>
+<p><strong>② Rationalizing (multiplying by the conjugate of the denominator) → produces the $Z_T^*$.</strong> The denominator $\partial Z_T/\partial\omega$ is <strong>complex</strong>, so you cannot read off the real and imaginary parts of $\delta s$ directly. The standard manoeuvre: multiply numerator and denominator by the conjugate of the denominator, turning the denominator into a <strong>real</strong> squared modulus:</p>
 $$\frac{j}{\partial Z_T/\partial \omega}\cdot\frac{(\partial Z_T/\partial \omega)^*}{(\partial Z_T/\partial \omega)^*}=\frac{j\,(\partial Z_T^*/\partial \omega)}{|\partial Z_T/\partial \omega|^2}$$
-<p><strong>Why this is unavoidable:</strong>next we set $\delta s=\alpha+j\,\delta\omega$ and ask whether the transient $e^{\delta s\,t}$ decays (by the sign of $\alpha$). Only once the denominator is real ($|\cdot|^2$), so that all the complexity is concentrated in the numerator, can the real part $\alpha$ of $\delta s$ be extracted cleanly — take $\mathrm{Re}\{\}$ and the Kurokawa condition follows directly. The conjugate here is<strong>purely an algebraic device</strong>(rationalization),<span style="color:#c0271a;font-weight:700">a different origin from the “take the in-phase component physically” of the Ch4 power formula $\tfrac12\mathrm{Re}\{VI^*\}$, though both are ways of “turning a complex number into a real one”</span>of the image-reject mixer at low IF.</p>
+<p><strong>Why this is unavoidable:</strong> next we set $\delta s=\alpha+j\,\delta\omega$ and ask whether the transient $e^{\delta s\,t}$ decays (by the sign of $\alpha$). Only once the denominator is real ($|\cdot|^2$), so that all the complexity is concentrated in the numerator, can the real part $\alpha$ of $\delta s$ be extracted cleanly — take $\mathrm{Re}\{\}$ and the Kurokawa condition follows directly. The conjugate here is <strong>purely an algebraic device</strong>(rationalization), <span style="color:#c0271a;font-weight:700">a different origin from the “take the in-phase component physically” of the Ch4 power formula $\tfrac12\mathrm{Re}\{VI^*\}$, though both are ways of “turning a complex number into a real one”</span>.</p>
 </div>
 </details>
 
@@ -2360,7 +2360,7 @@ $$\frac{\partial R_T}{\partial I}\cdot\frac{\partial X_T}{\partial \omega} \;-\;
 $$\frac{\partial Z_T}{\partial I}\cdot\frac{\partial Z_T^*}{\partial \omega}=(A+jB)(C-jD)=(AC+BD)+j(BC-AD)$$
 <p><strong>② Multiply by $j$, substitute back into $\delta s$ and take the real part</strong>(multiplying by $j$ swaps real and imaginary: $(AD-BC)+j(AC+BD)$):</p>
 $$\delta s=-\frac{(AD-BC)+j(AC+BD)}{|\partial Z_T/\partial \omega|^2}\,\delta I\quad\Rightarrow\quad \alpha=\mathrm{Re}\{\delta s\}=-\frac{AD-BC}{|\partial Z_T/\partial \omega|^2}\,\delta I$$
-<p><strong>③ Demand recovery:</strong>when the amplitude overshoots, $\delta I&gt;0$, the transient must decay ($\alpha&lt;0$); the denominator is a positive real number, so</p>
+<p><strong>③ Demand recovery:</strong> when the amplitude overshoots, $\delta I&gt;0$, the transient must decay ($\alpha&lt;0$); the denominator is a positive real number, so</p>
 $$\alpha&lt;0 \;\Longleftrightarrow\; AD-BC&gt;0 \;\Longleftrightarrow\; \frac{\partial R_T}{\partial I}\frac{\partial X_T}{\partial \omega}-\frac{\partial X_T}{\partial I}\frac{\partial R_T}{\partial \omega}&gt;0$$
 <p>(the converse also holds: for $\delta I&lt;0$, $\alpha&gt;0$ pushes the amplitude back up — the same condition, recovering in both directions.)</p>
 <div class="callout tip" style="margin:8px 0 0">
@@ -2378,11 +2378,11 @@ $$\frac{\partial R_\text{in}}{\partial I}\bigg|_{I_0}\!\!\cdot\frac{\partial(X_L
 <details style="margin:6px 0 12px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">How this is simplified, and what each factor governs (click to expand)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p><strong>The simplification.</strong> $R_T=R_\text{in}+R_L$ and $X_T=X_\text{in}+X_L$. The load is passive → it does not vary with the<strong>device current</strong>($\partial R_L/\partial I=\partial X_L/\partial I=0$; only a nonlinear active element would), and we assume $\partial R_L/\partial\omega=0$ (in a resonator it is mainly the reactance that moves). Hence $\partial R_T/\partial I=\partial R_\text{in}/\partial I$ and $\partial X_T/\partial\omega=\partial(X_L+X_\text{in})/\partial\omega$, and Kurokawa becomes:</p>
+<p><strong>The simplification.</strong> $R_T=R_\text{in}+R_L$ and $X_T=X_\text{in}+X_L$. The load is passive → it does not vary with the <strong>device current</strong>($\partial R_L/\partial I=\partial X_L/\partial I=0$; only a nonlinear active element would), and we assume $\partial R_L/\partial\omega=0$ (in a resonator it is mainly the reactance that moves). Hence $\partial R_T/\partial I=\partial R_\text{in}/\partial I$ and $\partial X_T/\partial\omega=\partial(X_L+X_\text{in})/\partial\omega$, and Kurokawa becomes:</p>
 $$\underbrace{\frac{\partial R_\text{in}}{\partial I}\cdot\frac{\partial(X_L+X_\text{in})}{\partial\omega}}_{\text{first term}}\;-\;\underbrace{\frac{\partial X_\text{in}}{\partial I}\cdot\frac{\partial R_\text{in}}{\partial\omega}}_{\text{second term}}\;>\;0$$
-<p><strong>Why the second term can be dropped (the high-Q approximation).</strong> The second term is<strong>purely a device term</strong>: both factors involve only the device, and the device's $R_\text{in},X_\text{in}$ are broadband, smooth functions (with no resonance of their own) → small slopes, bounded magnitudes, and<strong>independent of $Q$</strong>. The first term, however, contains $\partial X_L/\partial\omega$, and the resonator reactance crosses zero sharply at $\omega_0$ with a slope $\propto Q$ (for a series RLC: $\partial X/\partial\omega|_{\omega_0}=2L=2QR/\omega_0$). The ratio of the two terms is $\sim\partial X_L/\partial\omega\,/\,$the device slope $\propto Q$ → <strong>at high Q the first term ≫ the second</strong>, so dropping the second term is a high-Q approximation and not an identity (a low-Q load requires the full Kurokawa condition).</p>
-<p><strong>① $\partial R_\text{in}/\partial I\big|_{I_0}&gt;0$ — the amplitude is self-stabilizing.</strong> $R_\text{in}$ becomes<strong>less negative</strong>as the current grows (gain compression). If the amplitude overshoots → the net resistance $R_\text{in}+R_L$ turns from 0 to positive → damping pulls it back to $I_0$; if the amplitude falls → the net resistance turns negative → it is topped back up (a limit cycle).</p>
-<p><strong>② $\partial(X_L+X_\text{in})/\partial\omega\big|_{\omega_0}&gt;0$ — the frequency is self-stabilizing.</strong> The total reactance crosses zero at $\omega_0$ with a<strong>positive slope</strong>: if the frequency drifts → the total reactance ≠ 0 → the phase condition is violated → the frequency is pushed back to $\omega_0$. The steeper the slope, the more firmly the frequency is pinned.</p>
+<p><strong>Why the second term can be dropped (the high-Q approximation).</strong> The second term is <strong>purely a device term</strong>: both factors involve only the device, and the device's $R_\text{in},X_\text{in}$ are broadband, smooth functions (with no resonance of their own) → small slopes, bounded magnitudes, and <strong>independent of $Q$</strong>. The first term, however, contains $\partial X_L/\partial\omega$, and the resonator reactance crosses zero sharply at $\omega_0$ with a slope $\propto Q$ (for a series RLC: $\partial X/\partial\omega|_{\omega_0}=2L=2QR/\omega_0$). The ratio of the two terms is $\sim\partial X_L/\partial\omega\,/\,$the device slope $\propto Q$ → <strong>at high Q the first term ≫ the second</strong>, so dropping the second term is a high-Q approximation and not an identity (a low-Q load requires the full Kurokawa condition).</p>
+<p><strong>① $\partial R_\text{in}/\partial I\big|_{I_0}&gt;0$ — the amplitude is self-stabilizing.</strong> $R_\text{in}$ becomes <strong>less negative</strong> as the current grows (gain compression). If the amplitude overshoots → the net resistance $R_\text{in}+R_L$ turns from 0 to positive → damping pulls it back to $I_0$; if the amplitude falls → the net resistance turns negative → it is topped back up (a limit cycle).</p>
+<p><strong>② $\partial(X_L+X_\text{in})/\partial\omega\big|_{\omega_0}&gt;0$ — the frequency is self-stabilizing.</strong> The total reactance crosses zero at $\omega_0$ with a <strong>positive slope</strong>: if the frequency drifts → the total reactance ≠ 0 → the phase condition is violated → the frequency is pushed back to $\omega_0$. The steeper the slope, the more firmly the frequency is pinned.</p>
 <div class="callout tip" style="margin:8px 0 0">
 <div class="callout-title">Why this leads to “use a high-Q resonator”</div>
 The reactance slope $\partial X/\partial\omega\propto Q$. The steeper the slope of $X_L$ → the more easily the condition is met and the stronger the frequency restoring force → the lower the phase noise (which reconnects with Leeson). This is the mathematical basis for “using a high-$Q$ resonator such as a cavity or dielectric resonator for stable oscillation”.<br>
@@ -2456,24 +2456,24 @@ $$\boxed{\;\Gamma_\text{in}\,\Gamma_L = 1 \;\Leftrightarrow\; \Gamma_\text{out}\
 <p style="margin:4px 0"><strong>The wall and the transistor face each other</strong>, and the sound bounces back and forth between them: on every round trip it is multiplied by $\Gamma_\text{in}\times\Gamma_L$.</p>
 <table style="border-collapse:collapse;font-size:0.92em;margin:6px 0">
 <tr style="background:#dbe8f8"><th style="padding:4px 12px;border:1px solid #a8c4e8">Factor per lap</th><th style="padding:4px 12px;border:1px solid #a8c4e8;text-align:left">What happens</th></tr>
-<tr><td style="padding:4px 12px;border:1px solid #a8c4e8;text-align:center">$&lt;1$</td><td style="padding:4px 12px;border:1px solid #a8c4e8">Quieter each lap → the echo gradually<strong>dies away</strong>(what you want in an amplifier)</td></tr>
+<tr><td style="padding:4px 12px;border:1px solid #a8c4e8;text-align:center">$&lt;1$</td><td style="padding:4px 12px;border:1px solid #a8c4e8">Quieter each lap → the echo gradually <strong>dies away</strong>(what you want in an amplifier)</td></tr>
 <tr style="background:#f0f6ff"><td style="padding:4px 12px;border:1px solid #a8c4e8;text-align:center">$&gt;1$</td><td style="padding:4px 12px;border:1px solid #a8c4e8">Louder each lap → <strong>growing without bound</strong>(the start-up phase)</td></tr>
-<tr><td style="padding:4px 12px;border:1px solid #a8c4e8;text-align:center">$=1$ (timing exactly right)</td><td style="padding:4px 12px;border:1px solid #a8c4e8">Every lap<strong>restores it exactly</strong> → the sound<strong>goes on for ever</strong> = oscillation!</td></tr>
+<tr><td style="padding:4px 12px;border:1px solid #a8c4e8;text-align:center">$=1$ (timing exactly right)</td><td style="padding:4px 12px;border:1px solid #a8c4e8">Every lap <strong>restores it exactly</strong> → the sound <strong>goes on for ever</strong> = oscillation!</td></tr>
 </table>
-<p style="margin:4px 0"><strong>Why a negative resistance is needed:</strong>a wall is inert and at best reflects everything ($|\Gamma_L|\le1$, usually absorbing a little) → for the product to reach 1, the transistor must<strong>shout back louder than you shouted</strong>($|\Gamma_\text{in}|&gt;1$) — it amplifies the echo = it supplies energy = a negative resistance.</p>
-<p style="margin:4px 0"><strong>Why the right-hand condition follows automatically from the left:</strong>$\Gamma_\text{in}$ is not a property of the transistor alone — shout from the left and the echo has two parts: what bounces straight off the surface ($S_{11}$) plus what <strong>passes through the transistor → hits the right-hand wall T → bounces back → and emerges again</strong>(that is, the<strong>second term $\frac{S_{12}S_{21}\Gamma_T}{1-S_{22}\Gamma_T}$</strong>of $\Gamma_\text{in} = S_{11} + \frac{S_{12}S_{21}\Gamma_T}{1-S_{22}\Gamma_T}$ in the eq-box above, which is why $\Gamma_T$ appears inside it: $S_{21}$ goes in, $\Gamma_T$ reflects off the right-hand wall, $S_{12}$ comes back out, and the denominator $1-S_{22}\Gamma_T$ is the geometric series of multiple round trips between the transistor's right side and wall T). What the sound really occupies is<strong>the whole corridor: wall L ↔ transistor ↔ wall T</strong>. “Listening at the left doorway for the echo to be restored each lap” and “listening at the right doorway” are<strong>two listening positions on the same everlasting echo</strong>— one performance, so of course they hold or fail together. The algebra below is just a formal check.</p>
+<p style="margin:4px 0"><strong>Why a negative resistance is needed:</strong> a wall is inert and at best reflects everything ($|\Gamma_L|\le1$, usually absorbing a little) → for the product to reach 1, the transistor must <strong>shout back louder than you shouted</strong>($|\Gamma_\text{in}|&gt;1$) — it amplifies the echo = it supplies energy = a negative resistance.</p>
+<p style="margin:4px 0"><strong>Why the right-hand condition follows automatically from the left:</strong>$\Gamma_\text{in}$ is not a property of the transistor alone — shout from the left and the echo has two parts: what bounces straight off the surface ($S_{11}$) plus what <strong>passes through the transistor → hits the right-hand wall T → bounces back → and emerges again</strong>(that is, the <strong>second term $\frac{S_{12}S_{21}\Gamma_T}{1-S_{22}\Gamma_T}$</strong> of $\Gamma_\text{in} = S_{11} + \frac{S_{12}S_{21}\Gamma_T}{1-S_{22}\Gamma_T}$ in the eq-box above, which is why $\Gamma_T$ appears inside it: $S_{21}$ goes in, $\Gamma_T$ reflects off the right-hand wall, $S_{12}$ comes back out, and the denominator $1-S_{22}\Gamma_T$ is the geometric series of multiple round trips between the transistor's right side and wall T). What the sound really occupies is <strong>the whole corridor: wall L ↔ transistor ↔ wall T</strong>. “Listening at the left doorway for the echo to be restored each lap” and “listening at the right doorway” are <strong>two listening positions on the same everlasting echo</strong>— one performance, so of course they hold or fail together. The algebra below is just a formal check.</p>
 </div>
 
 <p><strong>① $\Gamma_{in}\Gamma_L=1$ — the wave must be restored after one round trip at the reference plane.</strong> At the reference plane between the tank (the L network) and the transistor input port:</p>
 $$a_1 \xrightarrow{\;\text{into the transistor, reflect}\;} b_1=\Gamma_\text{in}a_1 \xrightarrow{\;\text{into the tank, reflect back}\;} a_1'=\Gamma_L b_1=\Gamma_L\Gamma_\text{in}\,a_1$$
-<p><strong>With no applied source</strong>yet a stable finite wave → one round trip must restore it exactly, $a_1'=a_1$ ⇒ $\Gamma_\text{in}\Gamma_L=1$. This is the <strong>wave version of Barkhausen</strong>: $\Gamma_\text{in}\Gamma_L$ is the loop gain of the bouncing loop, and the condition is $=1\angle 0°$. Substituting $\Gamma=\frac{Z-Z_0}{Z+Z_0}$ and rearranging gives the one-port condition $Z_\text{in}+Z_L=0$ (the red-shaded passage above). A passive tank has $|\Gamma_L|\le 1$ ⇒ we need $|\Gamma_\text{in}|\ge 1$ ⇒ a <strong>negative resistance</strong>of the image-reject mixer at low IF.</p>
+<p><strong>With no applied source</strong> yet a stable finite wave → one round trip must restore it exactly, $a_1'=a_1$ ⇒ $\Gamma_\text{in}\Gamma_L=1$. This is the <strong>wave version of Barkhausen</strong>: $\Gamma_\text{in}\Gamma_L$ is the loop gain of the bouncing loop, and the condition is $=1\angle 0°$. Substituting $\Gamma=\frac{Z-Z_0}{Z+Z_0}$ and rearranging gives the one-port condition $Z_\text{in}+Z_L=0$ (the red-shaded passage above). A passive tank has $|\Gamma_L|\le 1$ ⇒ we need $|\Gamma_\text{in}|\ge 1$ ⇒ a <strong>negative resistance</strong>.</p>
 <p><strong>② $\Leftrightarrow\;\Gamma_{out}\Gamma_T=1$ — two lines of pure algebra.</strong> First put $\Gamma_\text{in}$ over a common denominator in compact form (with $\Delta=S_{11}S_{22}-S_{12}S_{21}$):</p>
 $$\Gamma_\text{in}=S_{11}+\frac{S_{12}S_{21}\Gamma_T}{1-S_{22}\Gamma_T}=\frac{S_{11}-\Delta\,\Gamma_T}{1-S_{22}\Gamma_T}$$
 <p>Substitute into $\Gamma_\text{in}\Gamma_L=1$, cross-multiply and collect the terms containing $\Gamma_T$ on the left:</p>
 $$\Gamma_L(S_{11}-\Delta\Gamma_T)=1-S_{22}\Gamma_T\;\Longrightarrow\;\Gamma_T(S_{22}-\Delta\Gamma_L)=1-S_{11}\Gamma_L\;\Longrightarrow\;\Gamma_T\cdot\underbrace{\frac{S_{22}-\Delta\Gamma_L}{1-S_{11}\Gamma_L}}_{=\;\Gamma_\text{out}}=1\;\;\blacksquare$$
 <div class="callout key" style="margin:8px 0 0">
 <div class="callout-title">Physical meaning — designing one port is enough</div>
-Oscillation is a property of<strong>the whole loop</strong>and belongs to no single port: if the input port satisfies the oscillation condition, the output port<strong>automatically</strong>does too. So in design (HW10) you work on one port only — pick $\Gamma_T$ → compute $\Gamma_L$ — and the condition at the other port comes free. That is the origin of Pozar's remark that “the oscillation condition of the terminating network is also satisfied”.
+Oscillation is a property of <strong>the whole loop</strong> and belongs to no single port: if the input port satisfies the oscillation condition, the output port <strong>automatically</strong> does too. So in design (HW10) you work on one port only — pick $\Gamma_T$ → compute $\Gamma_L$ — and the condition at the other port comes free. That is the origin of Pozar's remark that “the oscillation condition of the terminating network is also satisfied”.
 </div>
 </div>
 </details>
@@ -2589,8 +2589,8 @@ Oscillation is a property of<strong>the whole loop</strong>and belongs to no sin
 <div class="callout concept">
 <div class="callout-title">How to read the “ground” in this figure — two-line vs single-line drawing</div>
 <ul style="margin:8px 0 4px 22px">
-<li><strong>The bottom rail is ground, and it is a physical ground, not a virtual ground.</strong>The slides use the two-line convention: the upper line is the signal and the lower line the return conductor shared by the whole circuit. Both the 90 Ω and the 50 Ω load bridge the two lines; in a microstrip realization the lower line is the solid ground plane on the back — shunt components go to ground through vias and the load is the shell of an SMA connector bolted to ground, valid for both DC and RF. The single-line convention (drawing a ground symbol at each grounded end) is exactly equivalent, with every ground symbol denoting the same node.</li>
-<li><strong>The gate itself is not at RF ground.</strong>The only ground symbol in the whole figure is at the bottom of the 5 nH inductor: the gate is deliberately left “floating” above ground through $j\omega L$, which is precisely the means of pushing $|S'_{11}|$ up to 2.18 &gt; 1 and creating instability (per the slides: a common gate with a series inductor, used to create instability). Treat the gate as directly grounded and the S-parameters revert to the stable common-source set.</li>
+<li><strong>The bottom rail is ground, and it is a physical ground, not a virtual ground.</strong> The slides use the two-line convention: the upper line is the signal and the lower line the return conductor shared by the whole circuit. Both the 90 Ω and the 50 Ω load bridge the two lines; in a microstrip realization the lower line is the solid ground plane on the back — shunt components go to ground through vias and the load is the shell of an SMA connector bolted to ground, valid for both DC and RF. The single-line convention (drawing a ground symbol at each grounded end) is exactly equivalent, with every ground symbol denoting the same node.</li>
+<li><strong>The gate itself is not at RF ground.</strong> The only ground symbol in the whole figure is at the bottom of the 5 nH inductor: the gate is deliberately left “floating” above ground through $j\omega L$, which is precisely the means of pushing $|S'_{11}|$ up to 2.18 &gt; 1 and creating instability (per the slides: a common gate with a series inductor, used to create instability). Treat the gate as directly grounded and the S-parameters revert to the stable common-source set.</li>
 <li><strong>The 0.346λ stub is an open stub, deliberately left unconnected at its far end</strong>— its reactance to ground comes from the field between the trace and the ground plane, and it needs no via at all.</li>
 </ul>
 </div>
@@ -2622,16 +2622,16 @@ Oscillation is a property of<strong>the whole loop</strong>and belongs to no sin
 <details style="margin:6px 0 12px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">Can it be done without a computer? — the hand calculation for CS → CG + L (click to expand)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p><strong>Yes.</strong>CAD only saves effort; it is not essential. The whole conversion is four steps of 2×2 / 3×3 complex matrix arithmetic:</p>
+<p><strong>Yes.</strong> CAD only saves effort; it is not essential. The whole conversion is four steps of 2×2 / 3×3 complex matrix arithmetic:</p>
 <ol style="margin:4px 0 10px 22px">
 <li><strong>S → y</strong>(normalized admittance, $Z_0 = 50\,\Omega$): $\;y = (I - S)(I + S)^{-1}$. At this stage it is common-source: the common terminal S is grounded and the two ports are (G, D).</li>
-<li><strong>Promote it to a 3×3 indefinite admittance matrix.</strong> The transistor itself is a three-terminal floating device, and its 3×3 admittance matrix (terminals G, D, S) has<strong>every row and every column summing to 0</strong>— so the row and column for terminal S can be filled in uniquely from the 2×2 CS matrix: $y_{iS} = -\sum_j y_{ij}$ and $y_{Sj} = -\sum_i y_{ij}$. This step is “removing the ground”.</li>
+<li><strong>Promote it to a 3×3 indefinite admittance matrix.</strong> The transistor itself is a three-terminal floating device, and its 3×3 admittance matrix (terminals G, D, S) has <strong>every row and every column summing to 0</strong>— so the row and column for terminal S can be filled in uniquely from the 2×2 CS matrix: $y_{iS} = -\sum_j y_{ij}$ and $y_{Sj} = -\sum_i y_{ij}$. This step is “removing the ground”.</li>
 <li><strong>Hang the 5 nH from gate to ground and eliminate node G (Kron reduction).</strong> $\omega L = 2\pi \cdot 4\,\text{GHz} \cdot 5\,\text{nH} = 125.7\,\Omega$ → normalized, $y_L = 1/(j2.513) = -j0.398$. G becomes an internal node grounded through $y_L$, so eliminate it:
 $$y'_{ij} = y_{ij} - \frac{y_{iG}\,y_{Gj}}{y_{GG} + y_L}\,,\qquad i,j \in \{S, D\}$$
 The remaining 2×2 is the “common-gate + series inductor”.</li>
 <li><strong>y′ → S′</strong>: $\;S' = (I - y')(I + y')^{-1}$, giving $S'_{11} = 2.18\angle{-35°}$ and the other three values.</li>
 </ol>
-<p>By hand this is roughly half an hour of complex arithmetic and extremely easy to slip up in, which is why the slides say “most easily done using a microwave CAD package” (ADS);<strong>in an exam you will simply be given $S'$ and start from Step 2</strong>. There is only one conceptual point: for the same transistor, changing the common terminal and adding one component produces a completely different set of S-parameters — and here it is deliberately made “bad” ($|S'_{11}|&gt;1$).</p>
+<p>By hand this is roughly half an hour of complex arithmetic and extremely easy to slip up in, which is why the slides say “most easily done using a microwave CAD package” (ADS); <strong>in an exam you will simply be given $S'$ and start from Step 2</strong>. There is only one conceptual point: for the same transistor, changing the common terminal and adding one component produces a completely different set of S-parameters — and here it is deliberately made “bad” ($|S'_{11}|&gt;1$).</p>
 </div>
 </details>
 
@@ -2647,12 +2647,12 @@ $$R_T = \left|\frac{S'_{12}S'_{21}}{|S'_{22}|^2 - |\Delta'|^2}\right| = 0.665$$
 <details style="margin:6px 0 12px;background:#f0f6ff;border:1px solid #a8c4e8;border-radius:6px;padding:0" open>
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">Why do $C_T$ and $R_T$ look like that? — a three-line derivation (click to expand)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
-<p><strong>What $C_T$ and $R_T$ are:</strong>the output stability circle is<strong>a circle</strong>drawn in the $\Gamma_T$ plane (the Smith chart). $C_T$ is that circle's<strong>The centre is</strong>— a complex number denoting a point on the chart ($1.08\angle{33°}$ = a distance 1.08 from the origin at a bearing of 33°; note that it lies outside the unit circle); $R_T$ is its<strong>Radius</strong>, the pure real number 0.665. Every point on the circle is a termination making $|\Gamma_\text{in}|$ exactly $= 1$; the circle therefore cuts the $\Gamma_T$ plane into two regions: $|\Gamma_\text{in}| &lt; 1$ (stable) on one side and $|\Gamma_\text{in}| &gt; 1$ (negative resistance) on the other.</p>
-<p><strong>The starting point of the derivation:</strong>the stability circle is what the boundary “$|\Gamma_\text{in}| = 1$” looks like in the $\Gamma_T$ plane. In compact form (with $\Delta' = S'_{11}S'_{22} - S'_{12}S'_{21}$):</p>
+<p><strong>What $C_T$ and $R_T$ are:</strong> the output stability circle is <strong>a circle</strong> drawn in the $\Gamma_T$ plane (the Smith chart). $C_T$ is that circle's <strong>The centre is</strong>— a complex number denoting a point on the chart ($1.08\angle{33°}$ = a distance 1.08 from the origin at a bearing of 33°; note that it lies outside the unit circle); $R_T$ is its <strong>Radius</strong>, the pure real number 0.665. Every point on the circle is a termination making $|\Gamma_\text{in}|$ exactly $= 1$; the circle therefore cuts the $\Gamma_T$ plane into two regions: $|\Gamma_\text{in}| &lt; 1$ (stable) on one side and $|\Gamma_\text{in}| &gt; 1$ (negative resistance) on the other.</p>
+<p><strong>The starting point of the derivation:</strong> the stability circle is what the boundary “$|\Gamma_\text{in}| = 1$” looks like in the $\Gamma_T$ plane. In compact form (with $\Delta' = S'_{11}S'_{22} - S'_{12}S'_{21}$):</p>
 $$\Gamma_\text{in} = \frac{S'_{11} - \Delta'\,\Gamma_T}{1 - S'_{22}\,\Gamma_T}\,,\qquad |\Gamma_\text{in}| = 1 \;\Longleftrightarrow\; \bigl|S'_{11} - \Delta'\Gamma_T\bigr| = \bigl|1 - S'_{22}\Gamma_T\bigr|$$
-<p><strong>Expanding:</strong>Square both sides ($|a|^2 = aa^*$) and collect the $\Gamma_T$ terms:</p>
+<p><strong>Expanding:</strong> Square both sides ($|a|^2 = aa^*$) and collect the $\Gamma_T$ terms:</p>
 $$\bigl(|S'_{22}|^2 - |\Delta'|^2\bigr)\,|\Gamma_T|^2 \;-\; \bigl(S'_{22} - \Delta' S_{11}'^*\bigr)\Gamma_T \;-\; \bigl(S'_{22} - \Delta' S_{11}'^*\bigr)^{\!*}\,\Gamma_T^* \;=\; |S'_{11}|^2 - 1$$
-<p><strong>Complete the square:</strong>Divide by $D \equiv |S'_{22}|^2 - |\Delta'|^2$ to obtain the form $|\Gamma_T - C_T|^2 = R_T^2$. Comparing with $|\Gamma_T - C_T|^2 = |\Gamma_T|^2 - C_T^*\Gamma_T - C_T\Gamma_T^* + |C_T|^2$, the coefficient of $\Gamma_T$ matches $C_T^*$ —<strong>and that is where the conjugate in the formula comes from</strong>:</p>
+<p><strong>Complete the square:</strong> Divide by $D \equiv |S'_{22}|^2 - |\Delta'|^2$ to obtain the form $|\Gamma_T - C_T|^2 = R_T^2$. Comparing with $|\Gamma_T - C_T|^2 = |\Gamma_T|^2 - C_T^*\Gamma_T - C_T\Gamma_T^* + |C_T|^2$, the coefficient of $\Gamma_T$ matches $C_T^*$ —<strong>and that is where the conjugate in the formula comes from</strong>:</p>
 $$C_T = \frac{\bigl(S'_{22} - \Delta' S_{11}'^*\bigr)^*}{D}\,,\qquad R_T^2 = |C_T|^2 + \frac{|S'_{11}|^2 - 1}{D} = \frac{|S'_{12}S'_{21}|^2}{D^2}$$
 <p>The last step uses the identity $\bigl|S'_{22} - \Delta' S_{11}'^*\bigr|^2 = |S'_{12}S'_{21}|^2 + D\,(1 - |S'_{11}|^2)$ (verifiable numerically in this example: $5.64^2 \approx 3.47^2 + (-5.25)(-3.75)$ ✓), so $R_T = |S'_{12}S'_{21}/D|$.</p>
 <div class="callout key" style="margin:8px 0 0">
@@ -2737,26 +2737,26 @@ $$Z_L = \frac{84}{3} + j1.9 \approx 28 + j1.9 \,\Omega$$
 
 <p><strong>① Draw the output stability circle.</strong> Use the $S'$ parameters to compute $C_T = 1.08\angle{33°}$ and $R_T = 0.665$ (Step 2), then draw the circle of radius $R_T$ about $C_T$. This circle is the boundary “$|\Gamma_\text{in}| = 1$”: one side gives $|\Gamma_\text{in}|&lt;1$ (stable) and the other $|\Gamma_\text{in}|&gt;1$ (negative resistance).</p>
 
-<p><strong>② Decide which side is stable — test the chart centre.</strong> Take $\Gamma_T = 0$ (the centre = a 50 Ω termination): then $\Gamma_\text{in} = S'_{11}$ and $|S'_{11}| = 2.18 &gt; 1$ → the centre is on the<strong>Unstable</strong>side. The distance from the centre to $C_T$ is $= 1.08 &gt; R_T = 0.665$ → the centre lies<strong>outside</strong>the circle. Conclusion:<strong>outside the circle = unstable, inside = stable</strong>(per the slides: the stable region is inside the circle).</p>
+<p><strong>② Decide which side is stable — test the chart centre.</strong> Take $\Gamma_T = 0$ (the centre = a 50 Ω termination): then $\Gamma_\text{in} = S'_{11}$ and $|S'_{11}| = 2.18 &gt; 1$ → the centre is on the <strong>Unstable</strong> side. The distance from the centre to $C_T$ is $= 1.08 &gt; R_T = 0.665$ → the centre lies <strong>outside</strong> the circle. Conclusion: <strong>outside the circle = unstable, inside = stable</strong>(per the slides: the stable region is inside the circle).</p>
 
-<p><strong>③ Pick $\Gamma_T$ in the unstable region.</strong> Amplifier design avoids the unstable region; oscillator design does the opposite and<strong>deliberately pick the unstable region</strong>, and the further from the stability circle the larger $|\Gamma_\text{in}|$ and the deeper the negative resistance. Choose $\Gamma_T = 0.59\angle{-104°}$: $|\Gamma_T - C_T| = 1.56 \gg R_T$ (deep in the unstable region), and $|\Gamma_T| &lt; 1$ so a passive network can realize it. (The basis for the choice is the Esdale &amp; Howes impedance-locus method: plot the device locus and the load locus on the chart, and<strong>the intersection of the two loci is the optimum operating point</strong>.)</p>
+<p><strong>③ Pick $\Gamma_T$ in the unstable region.</strong> Amplifier design avoids the unstable region; oscillator design does the opposite and <strong>deliberately pick the unstable region</strong>, and the further from the stability circle the larger $|\Gamma_\text{in}|$ and the deeper the negative resistance. Choose $\Gamma_T = 0.59\angle{-104°}$: $|\Gamma_T - C_T| = 1.56 \gg R_T$ (deep in the unstable region), and $|\Gamma_T| &lt; 1$ so a passive network can realize it. (The basis for the choice is the Esdale &amp; Howes impedance-locus method: plot the device locus and the load locus on the chart, and <strong>the intersection of the two loci is the optimum operating point</strong>.)</p>
 
 
 <p><strong>④ Realize $\Gamma_T$ on the Smith chart — where the terminating network comes from.</strong> Starting from the 50 Ω load (= the chart centre, $\Gamma = 0$) and working towards the drain:</p>
 <ul style="margin:4px 0 10px 22px">
-<li><strong>Shunt 0.346λ open stub</strong>: $y_\text{stub} = j\tan(\beta l) = j\tan 124.6° = -j1.45$, moving along the <strong>constant-conductance circle g = 1</strong>to $y = 1 - j1.45$ → $\Gamma = 0.59\angle{+126°}$.</li>
-<li><strong>Series 0.319λ 50 Ω line</strong>: $|\Gamma|$ is unchanged, so move along the $|\Gamma| = 0.59$ circle<strong>towards the generator (clockwise) by $2\beta l = 2\times0.319\times360° = 229.7°$</strong> → $0.59\angle{(126°-229.7°)} = 0.59\angle{-104°} = \Gamma_T$ ✓ — and that is how the two component lengths were worked backwards.</li>
+<li><strong>Shunt 0.346λ open stub</strong>: $y_\text{stub} = j\tan(\beta l) = j\tan 124.6° = -j1.45$, moving along the <strong>constant-conductance circle g = 1</strong> to $y = 1 - j1.45$ → $\Gamma = 0.59\angle{+126°}$.</li>
+<li><strong>Series 0.319λ 50 Ω line</strong>: $|\Gamma|$ is unchanged, so move along the $|\Gamma| = 0.59$ circle <strong>towards the generator (clockwise) by $2\beta l = 2\times0.319\times360° = 229.7°$</strong> → $0.59\angle{(126°-229.7°)} = 0.59\angle{-104°} = \Gamma_T$ ✓ — and that is how the two component lengths were worked backwards.</li>
 </ul>
 
 <p><strong>⑤ $\Gamma_T \to \Gamma_\text{in}$.</strong> Substituting back into Step 4 gives $\Gamma_\text{in} = 3.96\angle{-2.4°}$ —<strong>off the edge of the Smith chart</strong>($|\Gamma|&gt;1 \Leftrightarrow R&lt;0$), which cannot be plotted on the chart at all — precisely the signature of an active / negative resistance; it corresponds to $Z_\text{in} = -84 - j1.9\,\Omega$.</p>
 
 <p><strong>⑥ The tuning network uses the same trick (at the input plane).</strong> The goal: use a 90 Ω shunt resistor plus a 0.262λ 50 Ω line to produce the $Z_L \approx 28 + j1.9\,\Omega$ required by Step 5 at the input reference plane. Step by step:</p>
 <ul style="margin:4px 0 10px 22px">
-<li><strong>(i) Normalize and fix the starting point.</strong> The termination is a pure 90 Ω resistance → $z = 90/50 = 1.8$, lying on the <strong>right-hand half of the real axis</strong>of the Smith chart ($z&gt;1$); $\Gamma = \dfrac{z-1}{z+1} = \dfrac{0.8}{2.8} = 0.286\angle{0°}$ (the $\Gamma$ of a purely real impedance must be real, hence an angle of 0°).</li>
+<li><strong>(i) Normalize and fix the starting point.</strong> The termination is a pure 90 Ω resistance → $z = 90/50 = 1.8$, lying on the <strong>right-hand half of the real axis</strong> of the Smith chart ($z&gt;1$); $\Gamma = \dfrac{z-1}{z+1} = \dfrac{0.8}{2.8} = 0.286\angle{0°}$ (the $\Gamma$ of a purely real impedance must be real, hence an angle of 0°).</li>
 <li><strong>(ii) Rotate in phase along the line.</strong> A lossless 50 Ω line changes only the phase, not the magnitude: $|\Gamma| = 0.286$ is <strong>fixed</strong>, and we move along the constant-$|\Gamma|$ circle towards the generator (clockwise) by $2\beta l = 2\times 0.262\times 360° = 188.6°$.<span style="color:#4a4a4a">Why $2\beta l$: the reflected wave travels the length $l$ once out and once back, for a total phase difference of $2\beta l$.</span></li>
-<li><strong>(iii) The new position.</strong> $0° - 188.6° = -188.6° \equiv +171.4°$ → $\Gamma = 0.286\angle{171.4°}$ — rotated round close to the<strong>left end</strong>of the real axis (an angle ≈ 180° = the low-impedance region).</li>
+<li><strong>(iii) The new position.</strong> $0° - 188.6° = -188.6° \equiv +171.4°$ → $\Gamma = 0.286\angle{171.4°}$ — rotated round close to the <strong>left end</strong> of the real axis (an angle ≈ 180° = the low-impedance region).</li>
 <li><strong>(iv) Read the impedance back off.</strong> $\Gamma = -0.283 + j0.043$; $z = \dfrac{1+\Gamma}{1-\Gamma} = \dfrac{0.717+j0.043}{1.283-j0.043} = 0.556 + j0.052$ → $Z_L = 50z \approx \mathbf{27.8 + j2.6 \approx 28 + j2\,\Omega}$ ✓, agreeing with the $28+j1.9$ of Step 5 (the small difference comes from rounding the line length and reading off the chart).</li>
-<li><strong>(v) Physical intuition.</strong> $0.262\lambda$ is only $0.012\lambda$ more than $\lambda/4$: a quarter-wave line is an<strong>impedance inverter</strong>, turning $z=1.8$ into $1/1.8 = 0.556$ (exactly the real part required!); the extra little length rotates $\Gamma$ a further $8.6°$, supplying the small $+j$ inductive part — and that is why the values 90 Ω and 0.262λ were chosen.</li>
+<li><strong>(v) Physical intuition.</strong> $0.262\lambda$ is only $0.012\lambda$ more than $\lambda/4$: a quarter-wave line is an <strong>impedance inverter</strong>, turning $z=1.8$ into $1/1.8 = 0.556$ (exactly the real part required!); the extra little length rotates $\Gamma$ a further $8.6°$, supplying the small $+j$ inductive part — and that is why the values 90 Ω and 0.262λ were chosen.</li>
 </ul>
 
 <figure style="margin:10px auto;text-align:center">
@@ -2793,7 +2793,7 @@ $$Z_L = \frac{84}{3} + j1.9 \approx 28 + j1.9 \,\Omega$$
 </div>
 <div class="callout key" style="margin:8px 0 0">
 <div class="callout-title">The role of the Smith chart in oscillator design, in one sentence</div>
-(1) Draw the stability circle to divide the $\Gamma_T$ plane into stable and unstable regions; (2) <strong>deliberately pick the unstable region</strong>when choosing $\Gamma_T$ (the exact opposite of amplifier design); (3) realize the chosen $\Gamma_T$ and $Z_L$ on the chart using the two kinds of move — “along a constant-conductance circle (a shunt stub) and along a constant-$|\Gamma|$ circle (a series line)” — and read off the electrical lengths of the stub and the line.
+(1) Draw the stability circle to divide the $\Gamma_T$ plane into stable and unstable regions; (2) <strong>deliberately pick the unstable region</strong> when choosing $\Gamma_T$ (the exact opposite of amplifier design); (3) realize the chosen $\Gamma_T$ and $Z_L$ on the chart using the two kinds of move — “along a constant-conductance circle (a shunt stub) and along a constant-$|\Gamma|$ circle (a series line)” — and read off the electrical lengths of the stub and the line.
 </div>
 </div>
 </details>
@@ -2807,7 +2807,7 @@ D.J. Esdale &amp; M.J. Howes, "A reflection coefficient approach to the design o
 </div>
 
 <h4 id="sec-osc-diodes">Oscillator Diodes — IMPATT / Gunn / BARITT</h4>
-<p>At higher frequencies (microwave to millimetre-wave, up to 100 GHz) the negative resistance $-R_{dev}$ is usually provided by a<strong>negative-resistance diode</strong>, oscillating against a cavity, transmission line or dielectric resonator. All three rely on<strong>transit time</strong> or<strong>bulk effects</strong> to produce a negative resistance; they differ in “how the carriers are generated”, which sets the trade-off between power, noise and efficiency.</p>
+<p>At higher frequencies (microwave to millimetre-wave, up to 100 GHz) the negative resistance $-R_{dev}$ is usually provided by a <strong>negative-resistance diode</strong>, oscillating against a cavity, transmission line or dielectric resonator. All three rely on <strong>transit time</strong> or <strong>bulk effects</strong> to produce a negative resistance; they differ in “how the carriers are generated”, which sets the trade-off between power, noise and efficiency.</p>
 
 <table style="border-collapse:collapse;width:100%;font-size:0.88em;margin:10px 0">
 <tr style="background:#dbe8f8">
@@ -2824,7 +2824,7 @@ D.J. Esdale &amp; M.J. Howes, "A reflection coefficient approach to the design o
   <td style="padding:6px 10px;border:1px solid #a8c4e8;text-align:center;color:#2a6e5a;font-weight:700">highest</td>
   <td style="padding:6px 10px;border:1px solid #a8c4e8;text-align:center;color:#b44a2f;font-weight:700">highest ✗</td>
   <td style="padding:6px 10px;border:1px solid #a8c4e8;text-align:center">highest<br>~10–20%</td>
-  <td style="padding:6px 10px;border:1px solid #a8c4e8">millimetre-wave<strong>high-power sources</strong>, radar transmitters</td>
+  <td style="padding:6px 10px;border:1px solid #a8c4e8">millimetre-wave <strong>high-power sources</strong>, radar transmitters</td>
 </tr>
 <tr style="background:#f0f6ff">
   <td style="padding:6px 10px;border:1px solid #a8c4e8"><strong>Gunn</strong><br><span style="font-size:0.85em;color:#777">TED, transferred-electron</span></td>
@@ -2836,7 +2836,7 @@ D.J. Esdale &amp; M.J. Howes, "A reflection coefficient approach to the design o
 </tr>
 <tr>
   <td style="padding:6px 10px;border:1px solid #a8c4e8"><strong>BARITT</strong><br><span style="font-size:0.85em;color:#777">Barrier Injection Transit-Time</span></td>
-  <td style="padding:6px 10px;border:1px solid #a8c4e8">Carriers are injected over a<strong>forward-biased barrier</strong>(thermionic emission, not avalanche) plus transit-time delay</td>
+  <td style="padding:6px 10px;border:1px solid #a8c4e8">Carriers are injected over a <strong>forward-biased barrier</strong>(thermionic emission, not avalanche) plus transit-time delay</td>
   <td style="padding:6px 10px;border:1px solid #a8c4e8;text-align:center;color:#b44a2f;font-weight:700">lowest</td>
   <td style="padding:6px 10px;border:1px solid #a8c4e8;text-align:center;color:#2a6e5a;font-weight:700">lowest ✓✓</td>
   <td style="padding:6px 10px;border:1px solid #a8c4e8;text-align:center">low</td>
@@ -2847,8 +2847,8 @@ D.J. Esdale &amp; M.J. Howes, "A reflection coefficient approach to the design o
 <div class="callout key">
 <div class="callout-title">The trade-offs (in one line)</div>
 Power: $\text{IMPATT} > \text{Gunn} > \text{BARITT}$ &nbsp;|&nbsp; noise: $\text{BARITT (best)} < \text{Gunn} < \text{IMPATT (worst)}$.<br>
-For<strong>power</strong> → IMPATT (at the cost of high noise, because avalanche is a random multiplication process); for a<strong>low-noise LO</strong> → Gunn (the most practical) or BARITT (the cleanest but lowest in power).<br>
-Remembering the mechanisms:<strong>IMPATT = avalanche + transit time</strong>and<strong>Gunn = transferred electrons (a bulk effect, no junction)</strong>and<strong>BARITT = barrier injection + transit time</strong>of the image-reject mixer at low IF.
+For <strong>power</strong> → IMPATT (at the cost of high noise, because avalanche is a random multiplication process); for a <strong>low-noise LO</strong> → Gunn (the most practical) or BARITT (the cleanest but lowest in power).<br>
+Remembering the mechanisms: <strong>IMPATT = avalanche + transit time</strong> and <strong>Gunn = transferred electrons (a bulk effect, no junction)</strong> and <strong>BARITT = barrier injection + transit time</strong>.
 </div>
 </div>
 </section>
@@ -2902,7 +2902,7 @@ $$v_o(t) = V_0\bigl[1 + r(t)\bigr]\cos\bigl[\omega_0 t + \theta(t)\bigr]$$
   <line x1="428" y1="150" x2="300" y2="152" stroke="#555" stroke-width="1.1" marker-end="url(#pnA)"/>
   <text x="255" y="298" text-anchor="middle" fill="#888" font-size="11">Set the spectrum analyser RBW to 1 Hz → read dBc/Hz off directly</text>
 </svg>
-<figcaption>The spectrum of a real oscillator: on either side of the carrier $f_0$ hang a<strong>noise skirt</strong>(random phase fluctuation = phase noise) and<strong>discrete spurs</strong>(mixer products / harmonics). $\mathcal{L}(\Delta\omega)$ = the SSB power in a <strong>1 Hz bandwidth</strong>at offset $\Delta\omega$ ÷ the carrier power (hence the units <strong>dBc</strong>/Hz<span style="color:#4a4a4a">;dBc = dB relative to <strong>c</strong>arrier — decibels relative to the carrier power as a 0 dB reference; −100 dBc means 100 dB below the carrier; the /Hz indicates it has been normalized to a 1 Hz bandwidth</span>). On the instrument, set the <strong>RBW</strong><span style="color:#4a4a4a">(= resolution bandwidth: the bandwidth of the IF filter as the analyser sweeps, so each point on the screen = the<strong>total power</strong>)</span>received within that bandwidth) to 1 Hz and you can read dBc/Hz directly; with the RBW set to 1 kHz, each point collects 1000× as much noise bandwidth, so $10\log 1000 = 30$ dB must be subtracted from the reading to get the true phase noise (per the slides: the measurement comes out ×1000, so divide by 1000).</figcaption>
+<figcaption>The spectrum of a real oscillator: on either side of the carrier $f_0$ hang a <strong>noise skirt</strong>(random phase fluctuation = phase noise) and <strong>discrete spurs</strong>(mixer products / harmonics). $\mathcal{L}(\Delta\omega)$ = the SSB power in a <strong>1 Hz bandwidth</strong> at offset $\Delta\omega$ ÷ the carrier power (hence the units <strong>dBc</strong>/Hz<span style="color:#4a4a4a">;dBc = dB relative to <strong>c</strong>arrier — decibels relative to the carrier power as a 0 dB reference; −100 dBc means 100 dB below the carrier; the /Hz indicates it has been normalized to a 1 Hz bandwidth</span>). On the instrument, set the <strong>RBW</strong><span style="color:#4a4a4a">(= resolution bandwidth: the bandwidth of the IF filter as the analyser sweeps, so each point on the screen = the <strong>total power</strong>)</span> received within that bandwidth) to 1 Hz and you can read dBc/Hz directly; with the RBW set to 1 kHz, each point collects 1000× as much noise bandwidth, so $10\log 1000 = 30$ dB must be subtracted from the reading to get the true phase noise (per the slides: the measurement comes out ×1000, so divide by 1000).</figcaption>
 </figure>
 
 <h4>Derivation of $\mathcal{L}(\omega)$</h4>
@@ -2917,7 +2917,7 @@ $$= V_0\cos\omega_0 t - \frac{V_0\theta_p}{2}\bigl[\cos(\omega_0-\Delta\omega)t 
 <div style="text-align:right;font-size:0.85rem;color:#4a4a4a;margin-top:-8px">← the product-to-sum identity $\sin A\sin B=\tfrac{1}{2}[\cos(A-B)-\cos(A+B)]$</div>
 </div>
 
-<p><strong>Reading off the physics:</strong>the carrier $V_0\cos\omega_0 t$ stays put and beside it grow<strong>a pair of mirror-image sidebands</strong> at $\omega_0\pm\Delta\omega$, each of amplitude $V_0\theta_p/2$ — precisely the skirt and spurs hanging symmetrically about the carrier in the figure above (caused by phase noise); as $\theta(t)$ sweeps over all $\Delta\omega$,<strong style="color:#b44a2f">the discrete pairs of sidebands smear into a continuous noise skirt</strong>. Each sideband at $\omega_0\pm\Delta\omega$ has power $\left(V_0\theta_p/2\right)^2/2 = V_0^2\theta_p^2/8$. Normalizing to carrier power $V_0^2/2$:</p>
+<p><strong>Reading off the physics:</strong> the carrier $V_0\cos\omega_0 t$ stays put and beside it grow <strong>a pair of mirror-image sidebands</strong> at $\omega_0\pm\Delta\omega$, each of amplitude $V_0\theta_p/2$ — precisely the skirt and spurs hanging symmetrically about the carrier in the figure above (caused by phase noise); as $\theta(t)$ sweeps over all $\Delta\omega$, <strong style="color:#b44a2f">the discrete pairs of sidebands smear into a continuous noise skirt</strong>. Each sideband at $\omega_0\pm\Delta\omega$ has power $\left(V_0\theta_p/2\right)^2/2 = V_0^2\theta_p^2/8$. Normalizing to carrier power $V_0^2/2$:</p>
 
 <div class="eq-box">
 <span class="eq-label">Single-sideband phase noise</span>
@@ -3008,7 +3008,7 @@ $$\mathcal{L}(\Delta\omega) \;\big|_\text{dBc/Hz} = 10\log_{10}\left(\frac{\thet
   <line x1="462" y1="238" x2="462" y2="170" stroke="#333" stroke-width="2" marker-end="url(#lsA)"/>
   <text x="500" y="276" text-anchor="middle" fill="#777" font-size="11">H = the transfer function of the resonant cavity (the high-Q tank)</text>
 </svg>
-<figcaption>The Leeson model. Left: the amplifier's<strong>nonlinearity</strong>upconverts the baseband noise $S_f(\Delta\omega)$ (the flicker peak plus the thermal noise floor $kT_0/2$)<strong>upconverts</strong>to either side of the carrier $f_0$, becoming $S_f(\Delta\omega)\cdot F$ with a floor of $kT_0F/2$. Right: view the oscillator as “a noiseless unity-gain amplifier ($A{=}1$) plus a high-$Q$ tank in feedback, $H(\Delta\omega)$”, with noise $\mathcal{L}_i$ injected at the adder and phase noise $\mathcal{L}_o$ at the output.</figcaption>
+<figcaption>The Leeson model. Left: the amplifier's <strong>nonlinearity</strong> upconverts the baseband noise $S_f(\Delta\omega)$ (the flicker peak plus the thermal noise floor $kT_0/2$) <strong>upconverts</strong> to either side of the carrier $f_0$, becoming $S_f(\Delta\omega)\cdot F$ with a floor of $kT_0F/2$. Right: view the oscillator as “a noiseless unity-gain amplifier ($A{=}1$) plus a high-$Q$ tank in feedback, $H(\Delta\omega)$”, with noise $\mathcal{L}_i$ injected at the adder and phase noise $\mathcal{L}_o$ at the output.</figcaption>
 </figure>
 
 <h4>Building blocks</h4>
@@ -3017,13 +3017,13 @@ $$\mathcal{L}(\Delta\omega) \;\big|_\text{dBc/Hz} = 10\log_{10}\left(\frac{\thet
 <p style="margin:6px 0 4px">The thermal noise floor is white at $kT_0/2$; flicker noise varies as $1/\omega$, and its PSD is generally written (per the slides):</p>
 <div class="eq-box">
 $$S_f(\Delta\omega) = \frac{kT_0}{2}\cdot\frac{\omega_\alpha}{\Delta\omega}$$
-<div style="text-align:right;font-size:0.85rem;color:#4a4a4a;margin-top:-6px">$\omega_\alpha$ is<strong>measured empirically</strong>(set by the process and the device; it cannot be computed from theory); the PSD is<strong>inversely proportional</strong>to the frequency offset (per the slide note)</div>
+<div style="text-align:right;font-size:0.85rem;color:#4a4a4a;margin-top:-6px">$\omega_\alpha$ is <strong>measured empirically</strong>(set by the process and the device; it cannot be computed from theory); the PSD is <strong>inversely proportional</strong> to the frequency offset (per the slide note)</div>
 </div>
 <p style="margin:6px 0 4px">Add the two, include the amplifier noise figure $F$, and divide by $P_0$ to normalize relative to the carrier:</p>
 <div class="eq-box">
 $$S(\Delta\omega) = \frac{kT_0}{2}\left(1 + \frac{\omega_\alpha}{\Delta\omega}\right)F/P_0 \quad(\text{1/Hz})$$
 </div>
-where $F$ is the noise figure<span style="color:#4a4a4a">(<strong>the transistor's (amplifier's)</strong> noise figure: the only active element in the Leeson model is the amplifier sustaining the oscillation, and $F$ folds its noise into the loop — raising the thermal noise floor from $kT_0$ to $kT_0F$; the tank is passive and contributes loss but no $F$)</span>, $P_0$ the carrier power<span style="color:#4a4a4a">(dividing by $P_0$<strong>normalizes it</strong>: $\mathcal{L}$ is by definition “the ratio of the noise power<strong>relative to the carrier</strong>” (the c in dBc); the absolute noise power $kT_0F$ is unchanged, so the larger the carrier the smaller the ratio — every +10 dB of output power improves the phase noise directly by 10 dB)</span>, and <strong style="color:#b44a2f">$\omega_\alpha$ the <em>flicker corner frequency</em> at which the flicker noise PSD equals the thermal noise PSD, i.e. $S_f(\Delta\omega{=}\omega_\alpha) = kT_0/2$</strong>.
+where $F$ is the noise figure<span style="color:#4a4a4a">(<strong>the transistor's (amplifier's)</strong> noise figure: the only active element in the Leeson model is the amplifier sustaining the oscillation, and $F$ folds its noise into the loop — raising the thermal noise floor from $kT_0$ to $kT_0F$; the tank is passive and contributes loss but no $F$)</span>, $P_0$ the carrier power<span style="color:#4a4a4a">(dividing by $P_0$<strong>normalizes it</strong>: $\mathcal{L}$ is by definition “the ratio of the noise power <strong>relative to the carrier</strong>” (the c in dBc); the absolute noise power $kT_0F$ is unchanged, so the larger the carrier the smaller the ratio — every +10 dB of output power improves the phase noise directly by 10 dB)</span>, and <strong style="color:#b44a2f">$\omega_\alpha$ the <em>flicker corner frequency</em> at which the flicker noise PSD equals the thermal noise PSD, i.e. $S_f(\Delta\omega{=}\omega_\alpha) = kT_0/2$</strong>.
 </li>
 
 <li><strong>Resonator transfer function</strong> (parallel RLC near $\omega_0$, unloaded $Q$):
@@ -3174,7 +3174,7 @@ A nearby adjacent-channel interferer at $f_0 + \Delta f$ mixes with the LO phase
 <li>$S$ = required adjacent-channel rejection / SIR (dB)</li>
 </ul>
 
-<p>The desired signal is downconverted by the LO <strong>carrier</strong>(conversion gain $G_{c,c}$); an interferer, meanwhile, is downconverted by riding on the LO's<strong>phase-noise sideband</strong>at offset $\Delta\omega$ (conversion gain $G_{c,n}$). The signal-to-interference ratio at IF is:</p>
+<p>The desired signal is downconverted by the LO <strong>carrier</strong>(conversion gain $G_{c,c}$); an interferer, meanwhile, is downconverted by riding on the LO's <strong>phase-noise sideband</strong> at offset $\Delta\omega$ (conversion gain $G_{c,n}$). The signal-to-interference ratio at IF is:</p>
 <div class="eq-box">
 $$S=\bbox[#fff3b0,4px]{\frac{\text{IF signal power}}{\text{IF noise power}}}=\frac{|G_{c,c}|^2\cdot C}{|G_{c,n}|^2\cdot I}=\frac{P_0\cdot C}{P_n\cdot I}=\frac{P_0\cdot C}{\big(P_0\cdot\mathcal{L}(\Delta\omega)\cdot B\big)\cdot I}=\frac{C}{\mathcal{L}(\Delta\omega)\cdot B\cdot I}$$
 $$\Rightarrow\; \mathcal{L}(\Delta\omega) = \frac{C}{S\cdot I\cdot B}\;\;\text{(1/Hz)}$$
@@ -3183,9 +3183,9 @@ $$\Rightarrow\; \mathcal{L}(\Delta\omega) = \frac{C}{S\cdot I\cdot B}\;\;\text{(
 <summary style="cursor:pointer;list-style:revert;padding:6px 10px;font-weight:600;color:#1a4a8a;font-size:0.9em">Working through the chain of equalities step by step (click to expand)</summary>
 <div style="padding:8px 14px 12px;font-size:0.92em;line-height:1.7">
 <ul style="margin:4px 0 0 22px">
-<li><strong>The second equality:</strong>the conversion (power) gain is proportional to “the LO power at that frequency” → the carrier path has $|G_{c,c}|^2 \propto P_0$ (the LO oscillation power) and the noise path $|G_{c,n}|^2 \propto P_n$ (the sideband power at offset $\Delta\omega$).</li>
-<li><strong>The third equality:</strong>by the definition of $\mathcal{L}$, the sideband power = the carrier power × the phase noise × the bandwidth: $P_n = P_0\cdot\mathcal{L}(\Delta\omega)\cdot B$ ($B$ = the IF bandwidth, integrating the per-Hz $\mathcal{L}$ across the whole channel).</li>
-<li><strong>The fourth equality:</strong>$P_0$ cancels between numerator and denominator<strong>cancels</strong> → the result is independent of LO power, leaving only $C$, $I$, $\mathcal{L}$ and $B$ — so raising the LO power does nothing for reciprocal mixing; the only cure is to lower $\mathcal{L}$.</li>
+<li><strong>The second equality:</strong> the conversion (power) gain is proportional to “the LO power at that frequency” → the carrier path has $|G_{c,c}|^2 \propto P_0$ (the LO oscillation power) and the noise path $|G_{c,n}|^2 \propto P_n$ (the sideband power at offset $\Delta\omega$).</li>
+<li><strong>The third equality:</strong> by the definition of $\mathcal{L}$, the sideband power = the carrier power × the phase noise × the bandwidth: $P_n = P_0\cdot\mathcal{L}(\Delta\omega)\cdot B$ ($B$ = the IF bandwidth, integrating the per-Hz $\mathcal{L}$ across the whole channel).</li>
+<li><strong>The fourth equality:</strong>$P_0$ cancels between numerator and denominator <strong>cancels</strong> → the result is independent of LO power, leaving only $C$, $I$, $\mathcal{L}$ and $B$ — so raising the LO power does nothing for reciprocal mixing; the only cure is to lower $\mathcal{L}$.</li>
 </ul>
 </div>
 </details>
@@ -3434,7 +3434,7 @@ For a 900 MHz output with 200 kHz channel spacing (GSM), you need $f_\text{ref} 
 <p>A fractional-N PLL provides a <strong>non-integer-valued</strong> division ratio, so the VCO output can be at an <em>integer-plus-fractional</em> multiple of the reference. This decouples the step size from the reference frequency.</p>
 
 <h4>How it works</h4>
-<p>A digital divider can only divide by an<strong>integer</strong>, but a non-integer divisor between $N$ and $N+1$ can be approximated by<strong>switching the divider dynamically</strong>:</p>
+<p>A digital divider can only divide by an <strong>integer</strong>, but a non-integer divisor between $N$ and $N+1$ can be approximated by <strong>switching the divider dynamically</strong>:</p>
 <ul>
 <li>Of every $R$ reference cycles, $K$ divide by $(N+1)$.</li>
 <li>The remaining $(R-K)$ cycles divide by $N$.</li>
@@ -3443,7 +3443,7 @@ For a 900 MHz output with 200 kHz channel spacing (GSM), you need $f_\text{ref} 
 <p>The average division ratio is:</p>
 <div class="eq-box">
 $$N_\text{avg} = \frac{(R-K)\cdot N + K\cdot(N+1)}{R} = N + \frac{K}{R}$$
-<div style="text-align:right;font-size:0.85rem;color:#4a4a4a;margin-top:-6px">The numerator = the<strong>total number of VCO cycles</strong>in $R$ reference cycles: the $(R-K)$ cycles set to $\div N$ each accumulate $N$ cycles (the first term) plus <strong>the $K$ cycles switched to $\div(N{+}1)$, each accumulating $N{+}1$ (the second term)</strong>; divide by $R$ to get the average divisor</div>
+<div style="text-align:right;font-size:0.85rem;color:#4a4a4a;margin-top:-6px">The numerator = the <strong>total number of VCO cycles</strong> in $R$ reference cycles: the $(R-K)$ cycles set to $\div N$ each accumulate $N$ cycles (the first term) plus <strong>the $K$ cycles switched to $\div(N{+}1)$, each accumulating $N{+}1$ (the second term)</strong>; divide by $R$ to get the average divisor</div>
 </div>
 
 <p>So the output frequency is:</p>
@@ -3594,7 +3594,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
 <p>$C_\text{eq} = \dfrac{50\times 100}{50+100} = \dfrac{5000}{150} = 33.3\,\text{pF} = 3.33\times 10^{-11}\,\text{F}$.</p>
 <p>$L_3 C_\text{eq} = 100\times 10^{-9}\times 33.3\times 10^{-12} = 3.33\times 10^{-18}\,\text{s}^2$, so $\sqrt{\cdot} = 1.826\times 10^{-9}\,\text{s}$.</p>
 <p>$$f_0 = \frac{1}{2\pi\times 1.826\times 10^{-9}} = \frac{1}{1.147\times 10^{-8}} = \mathbf{87.2\,MHz}$$</p>
-<p><em>Erratum:</em>the original solution gives 87.6 MHz, which comes from taking $C_\text{eq}$ as 33.0 pF; with the correct $C_\text{eq} = 100/3 = 33.33\,\text{pF}$ the result is <strong>87.2 MHz</strong>of the image-reject mixer at low IF.</p>
+<p><em>Erratum:</em> the original solution gives 87.6 MHz, which comes from taking $C_\text{eq}$ as 33.0 pF; with the correct $C_\text{eq} = 100/3 = 33.33\,\text{pF}$ the result is <strong>87.2 MHz</strong>.</p>
 <p>The gain condition: $\dfrac{g_m}{G_i} \geq \dfrac{C_2}{C_1} = \dfrac{100}{50} = \mathbf{2}$.</p>
 <p><strong>Physical interpretation:</strong> $C_2/C_1 = 2$ is a mild requirement — any properly biased transistor far exceeds it; a real design would multiply it by a further 2–3× of start-up margin (see P1.1). The frequency is set mainly by $C_\text{eq}$ (dominated by the smaller $C_1$) together with $L_3$.</p>
 </div></details>
@@ -3624,7 +3624,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
 <p><strong>Given / required:</strong> $C = -85\,\text{dBm}$, $I = -25\,\text{dBm}$ @ $\Delta f = 1\,\text{MHz}$, $S = 12\,\text{dB}$, $B = 30\,\text{kHz}$. Find the upper limit on the LO phase noise at 1 MHz offset.</p>
 <p><strong>Formulas and sources</strong>(reciprocal mixing, 5.1.10): the LO skirt downconverts the interferer into in-band IF noise of power $= I + \mathcal{L}(\Delta f) + 10\log B$; this must be $S$ dB below the desired signal:</p>
 <p>$$\mathcal{L}(\Delta f) \leq C - S - I - 10\log B$$</p>
-<p><strong>Substituting step by step:</strong>The bandwidth term: $10\log(3\times 10^4) = 10(0.477 + 4) = 44.77\,\text{dB}$. Note that $I$ is negative, so “subtracting $I$” becomes an addition:</p>
+<p><strong>Substituting step by step:</strong> The bandwidth term: $10\log(3\times 10^4) = 10(0.477 + 4) = 44.77\,\text{dB}$. Note that $I$ is negative, so “subtracting $I$” becomes an addition:</p>
 <p>$$\mathcal{L} \leq -85 - 12 - (-25) - 44.77 = -85 - 12 + 25 - 44.77 = \mathbf{-116.8\,dBc/Hz}\ @\ 1\,\text{MHz}$$</p>
 <p><strong>Physical interpretation:</strong> The physical picture: the interferer is $-25-(-85) = 60\,\text{dB}$ stronger than the desired signal, and a further 12 dB of SIR is required — a total of 72 dB carried entirely by the LO's spectral purity at 1 MHz, then spread over a 30 kHz bandwidth (44.8 dB) → $-72-44.8 \approx -117$. −117 dBc/Hz @ 1 MHz is a reasonable, achievable specification for a PLL + LC-VCO (compare the Leeson estimate of P5.3).</p>
 </div></details>
@@ -3652,9 +3652,9 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
 <p><strong>Given / required:</strong> a 32-bit DDS with $f_\text{clk} = 1\,\text{GHz}$ and a target $f_\text{out} = 123.456789\,\text{MHz}$. Find the FTW.</p>
 <p><strong>Formulas and sources</strong>(DDS phase accumulator,5.2.4):</p>
 <p>$$\text{FTW} = \frac{f_\text{out}}{f_\text{clk}}\cdot 2^{32},\qquad 2^{32} = 4{,}294{,}967{,}296$$</p>
-<p><strong>Substituting step by step:</strong>The frequency ratio: $\dfrac{123.456789\times 10^6}{10^9} = 0.123456789$.</p>
+<p><strong>Substituting step by step:</strong> The frequency ratio: $\dfrac{123.456789\times 10^6}{10^9} = 0.123456789$.</p>
 <p>$$\text{FTW} = 0.123456789\times 4{,}294{,}967{,}296 = 530{,}242{,}871.2 \;\Rightarrow\; \mathbf{530{,}242{,}871} = \mathbf{0\text{x}1F9A\,DD37}$$</p>
-<p><em>Erratum:</em>the original solution's 530,241,910 (0x1F9ADDA6) has a multiplication error; the correct value is 530,242,871 = 0x1F9ADD37 (check: $530{,}242{,}871/2^{32}\times 1\,\text{GHz} = 123.45678895\,\text{MHz}$).</p>
+<p><em>Erratum:</em> the original solution's 530,241,910 (0x1F9ADDA6) has a multiplication error; the correct value is 530,242,871 = 0x1F9ADD37 (check: $530{,}242{,}871/2^{32}\times 1\,\text{GHz} = 123.45678895\,\text{MHz}$).</p>
 <p>Resolution per LSB: $\dfrac{f_\text{clk}}{2^{32}} = \dfrac{10^9}{4.295\times 10^9} = 0.2328\,\text{Hz}$.</p>
 <p>Rounding error: the FTW discards 0.2 LSB → an output error of $\approx 0.2\times 0.233 = 0.05\,\text{Hz}$ (a relative error of $4\times 10^{-10}$ at 123 MHz) — “exactly” only holds to LSB precision, and the real accuracy is set by the crystal behind $f_\text{clk}$.</p>
 <p><strong>Physical interpretation:</strong> This illustrates the digital nature of DDS: an arbitrarily awkward frequency (123.456789 MHz) is just a 32-bit integer, and changing frequency = changing a register — instantaneous and phase-continuous. A PLL achieving the same resolution would need a huge accumulator and time to re-lock.</p>
@@ -3815,7 +3815,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>Taking the square root: $\dfrac{\omega_0}{2Q\omega_m} \leq \sqrt{1.97\times 10^7} = 4441$ (note that $\omega_0/\omega_m = f_0/f_m$, the 2π cancelling).</p>
         <p>$$Q \geq \frac{f_0}{2 f_m \cdot 4441} = \frac{915\times 10^6}{2\times 10^5 \times 4441} = \frac{915\times 10^6}{8.88\times 10^8} = \mathbf{1.03}$$</p>
         <div class="key-result">A loaded Q of only ~1 is needed for −95 dBc/Hz @ 100 kHz — easily met by a typical integrated LC tank (Q ≈ 8–15).</div>
-        <p><strong>Physical interpretation:</strong> This problem shows that the bottleneck at 915 MHz is<strong>frequency accuracy</strong>(which forces the PLL architecture) rather than phase noise (Q ≈ 1 would do, an easy margin of more than tenfold). −95 dBc/Hz @ 100 kHz is a relaxed specification for sub-GHz ISM; for cellular (of the order of −118, see P5.2) the Q requirement rises immediately.</p>
+        <p><strong>Physical interpretation:</strong> This problem shows that the bottleneck at 915 MHz is <strong>frequency accuracy</strong>(which forces the PLL architecture) rather than phase noise (Q ≈ 1 would do, an easy margin of more than tenfold). −95 dBc/Hz @ 100 kHz is a relaxed specification for sub-GHz ISM; for cellular (of the order of −118, see P5.2) the Q requirement rises immediately.</p>
       </div>
     </div>
   </div>
@@ -3888,7 +3888,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
       <div class="answer-box">
         <span class="ans-label">Answer</span>
         <p><strong>Given / required:</strong> a Hartley oscillator with a tapped inductor $L_1 = 4.7\,\mu\text{H}$, $L_2 = 22\,\mu\text{H}$ and $C_3 = 47\,\text{pF}$. Find $f_0$ and $g_m/G_i$.</p>
-        <p><strong>Formulas and sources</strong>(the three-reactance condition $X_1+X_2+X_3=0$, 5.1.4): Hartley uses two inductors ($X_1, X_2 &gt; 0$) with one capacitor ($X_3 &lt; 0$), and the two inductances<strong>add in series</strong>(ignoring mutual inductance) to resonate with $C_3$:</p>
+        <p><strong>Formulas and sources</strong>(the three-reactance condition $X_1+X_2+X_3=0$, 5.1.4): Hartley uses two inductors ($X_1, X_2 &gt; 0$) with one capacitor ($X_3 &lt; 0$), and the two inductances <strong>add in series</strong>(ignoring mutual inductance) to resonate with $C_3$:</p>
         <p>$$f_0 = \frac{1}{2\pi\sqrt{(L_1+L_2)\,C_3}},\qquad \frac{g_m}{G_i} \geq \frac{L_1}{L_2}$$</p>
         <p><strong>Substituting step by step:</strong></p>
         <p>(a) $L_1+L_2 = 4.7 + 22 = 26.7\,\mu\text{H} = 2.67\times 10^{-5}\,\text{H}$.</p>
@@ -3927,19 +3927,19 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
       <div class="answer-box">
         <span class="ans-label">Answer</span>
         <p><strong>Given / required:</strong> a 32.768 kHz watch crystal with unloaded $Q_u \approx 50{,}000$, series resistance $R_s = 50\,\text{k}\Omega$ and $C_1 = C_2 = 12\,\text{pF}$. Identify the topology, estimate the loaded Q, and explain the crystal's advantages.</p>
-        <p><strong>(a) Choice of topology</strong>(5.1.4):<strong>Pierce</strong> — it is simply a CE Colpitts with $L_3$ replaced by a crystal. A crystal is<strong>inductive</strong>only in the narrow interval between its series resonance $f_s$ and its parallel resonance $f_p$ ($f_p - f_s \approx f_s\,C_m/2C_0$, usually only a few hundred ppm wide), where it plays exactly the role of $X_3 &gt; 0$; the oscillation frequency is pinned inside that narrow interval, which is the root of the crystal oscillator's stability.</p>
+        <p><strong>(a) Choice of topology</strong>(5.1.4):<strong>Pierce</strong> — it is simply a CE Colpitts with $L_3$ replaced by a crystal. A crystal is <strong>inductive</strong> only in the narrow interval between its series resonance $f_s$ and its parallel resonance $f_p$ ($f_p - f_s \approx f_s\,C_m/2C_0$, usually only a few hundred ppm wide), where it plays exactly the role of $X_3 &gt; 0$; the oscillation frequency is pinned inside that narrow interval, which is the root of the crystal oscillator's stability.</p>
         <p><strong>(b) Estimating the loaded Q:</strong> Seen from the crystal, the two divider capacitors are in series:</p>
         <p>$$C_L = \frac{C_1 C_2}{C_1+C_2} = \frac{12\times 12}{24} = 6\,\text{pF}$$</p>
         <p>Estimate the loaded Q from “the ratio of $C_L$'s reactance to $R_s$”: $\omega_0 = 2\pi\times 32768 = 2.06\times 10^5$ rad/s and $X_{C_L} = 1/(\omega_0 C_L) = 1/(2.06\times 10^5 \times 6\times 10^{-12}) = 809\,\text{k}\Omega$.</p>
         <p>$$Q_L = \frac{1}{\omega_0 R_\text{eff} C_L} \approx \mathbf{16{,}200}\quad(\text{corresponding to } R_\text{eff} = 50\,\Omega)$$</p>
-        <p><em>Erratum:</em>substituting the $R_s = 50\,\text{k}\Omega$ given in the problem directly into this expression gives $809\text{k}/50\text{k} = 16.2$, a factor of 1000 away from the original answer of 16,200 — the original expression implicitly assumes $R_\text{eff} = 50\,\Omega$. The physically correct picture is this: the crystal's motional inductance is enormous ($L_m = Q_u R_s/\omega_0 \approx 12{,}000\,\text{H}$!), and the near-lossless $C_L$ only shifts the frequency without appreciably lowering Q; the real Q degradation comes from the amplifier's equivalent resistive loading. Typically the loaded Q ends up between 1/3 and 1/2 of $Q_u$, i.e. of the order of <strong>~16,000–25,000</strong>, consistent with 16,200.</p>
+        <p><em>Erratum:</em> substituting the $R_s = 50\,\text{k}\Omega$ given in the problem directly into this expression gives $809\text{k}/50\text{k} = 16.2$, a factor of 1000 away from the original answer of 16,200 — the original expression implicitly assumes $R_\text{eff} = 50\,\Omega$. The physically correct picture is this: the crystal's motional inductance is enormous ($L_m = Q_u R_s/\omega_0 \approx 12{,}000\,\text{H}$!), and the near-lossless $C_L$ only shifts the frequency without appreciably lowering Q; the real Q degradation comes from the amplifier's equivalent resistive loading. Typically the loaded Q ends up between 1/3 and 1/2 of $Q_u$, i.e. of the order of <strong>~16,000–25,000</strong>, consistent with 16,200.</p>
         <p><strong>(c) Crystal vs discrete LC:</strong></p>
         <ul>
           <li>Frequency stability: a crystal is ≈ 10 ppm over temperature; an LC is ≈ 10,000 ppm (1%) → an improvement of ~10³.</li>
           <li>Q: a crystal is ≈ 50,000; an LC is ≈ 50–200 → an improvement of ~10²–10³; and by Leeson ($\mathcal{L}\propto 1/Q^2$, 5.1.9) the phase noise improves by 40–60 dB.</li>
         </ul>
         <div class="key-result">The Pierce topology; loaded Q ~ 1.6×10⁴ (still over a hundred times an LC); stability and phase noise both improve by roughly three orders of magnitude — which is why a watch loses only a few seconds a month.</div>
-        <p><strong>Physical interpretation:</strong> The price of a high Q is that it is<strong>not tunable</strong>: a crystal can only be “pulled” a few hundred ppm between $f_s$ and $f_p$ (trimmed with $C_L$). So system design always pairs “a crystal providing a stable low-frequency reference” with “a PLL/VCO providing the tunable RF” (5.2).</p>
+        <p><strong>Physical interpretation:</strong> The price of a high Q is that it is <strong>not tunable</strong>: a crystal can only be “pulled” a few hundred ppm between $f_s$ and $f_p$ (trimmed with $C_L$). So system design always pairs “a crystal providing a stable low-frequency reference” with “a PLL/VCO providing the tunable RF” (5.2).</p>
       </div>
     </div>
   </div>
@@ -3976,14 +3976,14 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <span class="ans-label">Answer</span>
         <p><strong>Given / required:</strong> $f_0 = 100\,\text{MHz}$, tuning of ±5 MHz (±5%), $g_m = 40\,\text{mS}$, $G_i = 0.5\,\text{mS}$ and a start-up margin of ×2. Find $C_1, C_2$, $L_3$ and the varactor range.</p>
         <p><strong>Formulas and sources:</strong> the Colpitts start-up condition $g_m/G_i \geq C_2/C_1$ (5.1.4 + Barkhausen 5.1.2); resonance at $f_0 = 1/(2\pi\sqrt{L_3 C_\text{eq}})$ with $C_\text{eq} = C_1C_2/(C_1+C_2)$.</p>
-        <p><strong>(a) Choosing $C_1, C_2$:</strong> The start-up condition is $g_m \geq G_i\,(C_2/C_1)$, so the<strong>maximum</strong>permissible ratio is</p>
+        <p><strong>(a) Choosing $C_1, C_2$:</strong> The start-up condition is $g_m \geq G_i\,(C_2/C_1)$, so the <strong>maximum</strong> permissible ratio is</p>
         <p>$$\frac{C_2}{C_1}\Big|_\max = \frac{g_m}{G_i} = \frac{40\,\text{mS}}{0.5\,\text{mS}} = 80$$</p>
-        <p><em>Erratum:</em>the original answer takes $C_2/C_1 = 160$ as a “2× margin”, which has the direction backwards — a ratio of 160 would need $g_m = 0.5\,\text{mS}\times 160 = 80\,\text{mS}$, exceeding the 40 mS available, so it would<strong>fail to start up</strong>. The margin should be taken downwards: $C_2/C_1 = 80/2 = 40$, requiring $g_m = 0.5\times 40 = 20\,\text{mS}$, against the 40 mS actually available = a 2× margin ✓.</p>
+        <p><em>Erratum:</em> the original answer takes $C_2/C_1 = 160$ as a “2× margin”, which has the direction backwards — a ratio of 160 would need $g_m = 0.5\,\text{mS}\times 160 = 80\,\text{mS}$, exceeding the 40 mS available, so it would <strong>fail to start up</strong>. The margin should be taken downwards: $C_2/C_1 = 80/2 = 40$, requiring $g_m = 0.5\times 40 = 20\,\text{mS}$, against the 40 mS actually available = a 2× margin ✓.</p>
         <p>Take $C_1 = 10\,\text{pF}$ and $C_2 = 390\,\text{pF}$ (E12 standard values, a ratio of 39): $C_\text{eq} = \dfrac{10\times 390}{400} = 9.75\,\text{pF} \approx 10\,\text{pF}$, still dominated by $C_1$ (which keeps the varactor analysis of (c) simple).</p>
         <p><strong>(b) The inductor:</strong> $\omega_0 = 2\pi\times 10^8 = 6.283\times 10^8$ rad/s, so $\omega_0^2 = 3.95\times 10^{17}$.</p>
         <p>$$L_3 = \frac{1}{\omega_0^2 C_\text{eq}} = \frac{1}{3.95\times 10^{17}\times 10\times 10^{-12}} = \frac{1}{3.95\times 10^6} = 2.53\times 10^{-7}\,\text{H} = \mathbf{253\,nH}$$</p>
         <p><strong>(c) The varactor range:</strong> $f \propto 1/\sqrt{C}$ → $\dfrac{\Delta f}{f} = -\dfrac{1}{2}\dfrac{\Delta C}{C}$ → ±5% in $f_0$ requires ∓10% in $C_\text{eq}$.</p>
-        <p>$C_\text{eq}$ must swing between $9\,\text{pF} \leftrightarrow 11\,\text{pF}$. Since $C_\text{eq}$ is dominated by $C_1$, simply split $C_1$ into “a fixed 9 pF + a varactor of 0–2 pF”: the varactor supplies a <strong>variation of 0 to 2 pF</strong>. A real varactor (an MV2104, say, at 5–15 pF) varies far too much, so a<strong>series fixed capacitor</strong>is used to compress the effective swing down to 2 pF.</p>
+        <p>$C_\text{eq}$ must swing between $9\,\text{pF} \leftrightarrow 11\,\text{pF}$. Since $C_\text{eq}$ is dominated by $C_1$, simply split $C_1$ into “a fixed 9 pF + a varactor of 0–2 pF”: the varactor supplies a <strong>variation of 0 to 2 pF</strong>. A real varactor (an MV2104, say, at 5–15 pF) varies far too much, so a <strong>series fixed capacitor</strong> is used to compress the effective swing down to 2 pF.</p>
         <div class="key-result">C₁ ≈ 10 pF (including the varactor), C₂ a few hundred pF, L₃ = 253 nH. K_VCO check: 10 MHz range / 5 V control ≈ 2 MHz/V — well under the 10 MHz/V ceiling ✓</div>
         <p><strong>Physical interpretation:</strong> The central trade-off of this problem: a large $C_2/C_1$ → the varactor analysis is simple ($C_\text{eq}\approx C_1$) but it costs $g_m$ (current); a small $C_2/C_1$ → it saves power but the varactor's leverage on $C_\text{eq}$ becomes more involved. Keeping $K_\text{VCO}$ low (2 MHz/V) helps the PLL: noise on the control line is converted into FM with less gain, giving cleaner phase noise.</p>
       </div>
@@ -4027,7 +4027,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>$$Z_L = \mathbf{30 - j40\,\Omega}$$</p>
         <p>(b) $X_L = -40\,\Omega &lt; 0$ → <strong>capacitive</strong>. The equivalent capacitance is $C = \dfrac{1}{\omega_0 |X_L|} = \dfrac{1}{40\,\omega_0}$ (for example $C \approx 0.80\,\text{pF}$ at $f_0 = 5\,\text{GHz}$). The device's $+j40$ is inductive and the load cancels it with an equal capacitive reactance — together they form a resonator.</p>
         <div class="key-result">Z_L = 30 − j40 Ω (capacitive). Z_L must be passive (R_L &gt; 0): here R_L = 30 Ω &gt; 0 ✓ — all the negative resistance is supplied by the device.</div>
-        <p><strong>Physical interpretation:</strong> Note that this is the<strong>steady-state</strong>condition ($I_0$ being the large-signal operating point). At start-up you must use the small-signal $Z_\text{in}$ and need $R_L &lt; |R_\text{in}(0)|$ (commonly $R_L = |R_\text{in}|/3$, see P8.2), making the net resistance negative so the amplitude grows; $|R_\text{in}(A)|$ then shrinks with amplitude until it settles at $|R_\text{in}(A_0)| = R_L = 30\,\Omega$.</p>
+        <p><strong>Physical interpretation:</strong> Note that this is the <strong>steady-state</strong> condition ($I_0$ being the large-signal operating point). At start-up you must use the small-signal $Z_\text{in}$ and need $R_L &lt; |R_\text{in}(0)|$ (commonly $R_L = |R_\text{in}|/3$, see P8.2), making the net resistance negative so the amplitude grows; $|R_\text{in}(A)|$ then shrinks with amplitude until it settles at $|R_\text{in}(A_0)| = R_L = 30\,\Omega$.</p>
       </div>
     </div>
   </div>
@@ -4068,7 +4068,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>Expanding the numerator: $1.346\times 0.654 + j\,1.346\times 0.200 + j\,0.200\times 0.654 - 0.200\times 0.200 = 0.880 + j0.269 + j0.131 - 0.040 = 0.840 + j0.400$.</p>
         <p>Denominator: $0.428 + 0.040 = 0.468$.</p>
         <p>$$Z_L = 50\,(1.795 + j0.854) = \mathbf{89.7 + j42.7\,\Omega}$$</p>
-        <p>(c) $|\Gamma_L| = 0.4 &lt; 1$ → <strong>inside</strong> Smith chart → $R_L = 89.7\,\Omega &gt; 0$, so it is a<strong>passive load</strong> ✓. Conversely $|\Gamma_\text{in}| = 2.5 &gt; 1$ falls outside the Smith chart, corresponding to $R_\text{in} &lt; 0$ (active, producing power).</p>
+        <p>(c) $|\Gamma_L| = 0.4 &lt; 1$ → <strong>inside</strong> Smith chart → $R_L = 89.7\,\Omega &gt; 0$, so it is a <strong>passive load</strong> ✓. Conversely $|\Gamma_\text{in}| = 2.5 &gt; 1$ falls outside the Smith chart, corresponding to $R_\text{in} &lt; 0$ (active, producing power).</p>
         <div class="key-result">Γ_L = 0.4∠+30°, Z_L = 89.7 + j42.7 Ω (passive ✓). The geometric meaning of Γ_L Γ_in = 1: the further the device sticks out beyond the chart, the closer in the conjugate direction the load must sit inside it.</div>
         <p><strong>Physical interpretation:</strong> This is the standard finish to a two-port oscillator: however far the active device “protrudes” beyond the Smith chart ($|\Gamma_\text{in}|&gt;1$, reflecting more than is incident, with net power flowing out) is taken up by an ordinary passive matching network. Check: $Z_\text{in} = Z_0(1+\Gamma_\text{in})/(1-\Gamma_\text{in}) \approx -89.7 - j42.7\,\Omega = -Z_L$ ✓.</p>
       </div>
@@ -4104,11 +4104,11 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
     <div class="answer open">
       <div class="answer-box">
         <span class="ans-label">Answer</span>
-        <p><strong>Given / required:</strong> the 4 GHz S-parameters of a common-gate GaAs MESFET with a 5 nH series gate inductor (deliberately enhancing the instability) are as given. The procedure (Pozar Example 13.5 / 5.1.6, two-port oscillator design): ① verify it is potentially unstable → ② draw the terminating-port stability circle and pick $\Gamma_T$ in the<strong>unstable region</strong>so that $|\Gamma_\text{in}|&gt;1$ → ③ design the load network from $\Gamma_L\Gamma_\text{in}=1$.</p>
-        <p><strong>(a) Instability check:</strong>The quickest criterion: $|S'_{11}| = 2.18 &gt; 1$ — even with port 2 terminated in $Z_0$, the input already presents a negative resistance → potentially unstable, and suitable for an oscillator ✓.</p>
+        <p><strong>Given / required:</strong> the 4 GHz S-parameters of a common-gate GaAs MESFET with a 5 nH series gate inductor (deliberately enhancing the instability) are as given. The procedure (Pozar Example 13.5 / 5.1.6, two-port oscillator design): ① verify it is potentially unstable → ② draw the terminating-port stability circle and pick $\Gamma_T$ in the <strong>unstable region</strong> so that $|\Gamma_\text{in}|&gt;1$ → ③ design the load network from $\Gamma_L\Gamma_\text{in}=1$.</p>
+        <p><strong>(a) Instability check:</strong> The quickest criterion: $|S'_{11}| = 2.18 &gt; 1$ — even with port 2 terminated in $Z_0$, the input already presents a negative resistance → potentially unstable, and suitable for an oscillator ✓.</p>
         <p>Corroborate with the K factor (Rollett): $|\Delta'|$ is 2.349 from (b),</p>
         <p>$$K = \frac{1-|S'_{11}|^2-|S'_{22}|^2+|\Delta'|^2}{2|S'_{12}S'_{21}|} = \frac{1-4.752-0.270+5.518}{2\times 3.47} = \frac{1.496}{6.94} = 0.22 &lt; 1 \;\checkmark$$</p>
-        <p><strong>(b) Output(terminating)-port stability circle:</strong>First compute $\Delta' = S'_{11}S'_{22} - S'_{12}S'_{21}$ (multiplying in polar form: multiply the magnitudes, add the phases):</p>
+        <p><strong>(b) Output(terminating)-port stability circle:</strong> First compute $\Delta' = S'_{11}S'_{22} - S'_{12}S'_{21}$ (multiplying in polar form: multiply the magnitudes, add the phases):</p>
         <p>$S'_{11}S'_{22} = 2.18\times 0.52\,\angle{(-35+155)°} = 1.13\,\angle{120°}$</p>
         <p>$S'_{12}S'_{21} = 1.26\times 2.75\,\angle{(18+96)°} = 3.47\,\angle{114°}$</p>
         <p>The subtraction requires rectangular form: $1.13\angle{120°} = -0.565+j0.978$; $3.47\angle{114°} = -1.412+j3.169$.</p>
@@ -4121,7 +4121,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>Radius: $R_T = \dfrac{|S'_{12}S'_{21}|}{\big|\,|S'_{22}|^2-|\Delta'|^2\,\big|} = \dfrac{3.47}{5.248} = 0.661$.</p>
         <div class="key-result">C_T ≈ 1.07 ∠33°, R_T ≈ 0.66 (Pozar's textbook gives 1.08 ∠33°, 0.665 — agreement within rounding).</div>
         <p>Deciding which side is the unstable region: $|S'_{11}| &gt; 1$ means that at $\Gamma_T = 0$ (the chart centre) $|\Gamma_\text{in}| &gt; 1$ → <strong>the centre is already on the unstable side</strong>; so when choosing $\Gamma_T$, staying outside the circle near the centre keeps it unstable, and the larger $|\Gamma_\text{in}|$ the better.</p>
-        <p><strong>(c) From $\Gamma_T$ find $\Gamma_\text{in}$, $\Gamma_L$ and $Z_L$:</strong>Choose $\Gamma_T = 0.59\,\angle{-104°} = -0.143 - j0.572$ (in the inductive region, giving a large $|\Gamma_\text{in}|$).</p>
+        <p><strong>(c) From $\Gamma_T$ find $\Gamma_\text{in}$, $\Gamma_L$ and $Z_L$:</strong> Choose $\Gamma_T = 0.59\,\angle{-104°} = -0.143 - j0.572$ (in the inductive region, giving a large $|\Gamma_\text{in}|$).</p>
         <p>$$\Gamma_\text{in} = S'_{11} + \frac{S'_{12}S'_{21}\Gamma_T}{1-S'_{22}\Gamma_T}$$</p>
         <p>Denominator: $S'_{22}\Gamma_T = 0.52\times 0.59\,\angle{(155-104)°} = 0.307\,\angle{51°} = 0.193 + j0.239$;</p>
         <p>$1 - S'_{22}\Gamma_T = 0.807 - j0.239 = 0.842\,\angle{-16.5°}$.</p>
@@ -4132,7 +4132,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>The oscillation condition $\Gamma_L\Gamma_\text{in} = 1$: take the reciprocal of the magnitude and negate the phase:</p>
         <p>$$\Gamma_L = \frac{1}{\Gamma_\text{in}} = \frac{1}{3.96}\,\angle{+2.4°} = \mathbf{0.25\,\angle{+2.4°}}$$</p>
         <p>Converting to impedance: $Z_L = 50\dfrac{1+\Gamma_L}{1-\Gamma_L} = \mathbf{84 + j1.9\,\Omega}$ — passive ($R_L &gt; 0$), as a load must be; equivalently $Z_\text{in} = -84 - j1.9\,\Omega$ and $Z_L = -Z_\text{in}$.</p>
-        <p><strong>Start-up(empirical rule):</strong>The $84\,\Omega$ above is the “exactly balanced” value — under large signal $|R_\text{in}|$ shrinks, so taking 84 Ω from the outset might never start. The rule of thumb is to take $R_L = |R_\text{in}|/3$ leaving $X_L$ unchanged:</p>
+        <p><strong>Start-up(empirical rule):</strong> The $84\,\Omega$ above is the “exactly balanced” value — under large signal $|R_\text{in}|$ shrinks, so taking 84 Ω from the outset might never start. The rule of thumb is to take $R_L = |R_\text{in}|/3$ leaving $X_L$ unchanged:</p>
         <p>$$Z_L \approx \frac{84}{3} + j1.9 = \mathbf{28 + j1.9\,\Omega}$$</p>
         <p>The small-signal net resistance is $= -84 + 28 = -56\,\Omega &lt; 0$ → the amplitude grows exponentially until $|R_\text{in}(A)|$ falls to 28 Ω.</p>
         <p><strong>Physical interpretation:</strong> Each of the three steps corresponds to a physical action: the gate inductor “pushes” the device out of the stable region (creating negative resistance); the choice of $\Gamma_T$ sets how deep that negative resistance is ($|\Gamma_\text{in}| = 3.96$ is very deep, making the design robust); and the $/3$ rule trades a little output power for reliable start-up across temperature and bias. The actual oscillation frequency will differ slightly from 4 GHz (since $X_\text{in}$ also moves under large signal), with the steady-state point set by the Kurokawa condition (5.1.6).</p>
@@ -4187,8 +4187,8 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
           <li><strong>0 dB/dec($f^0$):</strong> beyond the resonator half-bandwidth the noise is no longer amplified by the feedback, leaving the additive thermal floor $FkT_0/2P_0$.</li>
         </ul>
         <p><strong>(b) Reading off the corners:</strong></p>
-        <p>The $f^{-3}\to f^{-2}$ boundary = the flicker corner:<strong>$f_c \approx 100\,\text{Hz}$</strong>(i.e. where $f_c/f_m = 1$).</p>
-        <p>The $f^{-2}\to f^{0}$ boundary = the resonator half-bandwidth:<strong>$\dfrac{f_0}{2Q_L} \approx 100\,\text{kHz}$</strong>(i.e. where $f_0/(2Q_Lf_m)=1$).</p>
+        <p>The $f^{-3}\to f^{-2}$ boundary = the flicker corner: <strong>$f_c \approx 100\,\text{Hz}$</strong>(i.e. where $f_c/f_m = 1$).</p>
+        <p>The $f^{-2}\to f^{0}$ boundary = the resonator half-bandwidth: <strong>$\dfrac{f_0}{2Q_L} \approx 100\,\text{kHz}$</strong>(i.e. where $f_0/(2Q_Lf_m)=1$).</p>
         <p>Working Q backwards (assuming $f_0 = 1\,\text{GHz}$): $Q_L = \dfrac{f_0}{2\times 100\,\text{kHz}} = \dfrac{10^9}{2\times 10^5} = 5000$.</p>
         <div class="key-result">flicker corner ≈ 100 Hz; f₀/2Q ≈ 100 kHz → if f₀ = 1 GHz then Q ≈ 5000 (implies a crystal or very high-Q cavity).</div>
         <p><strong>Physical interpretation:</strong> A phase-noise plot lets you diagnose an oscillator without opening it up: the flicker corner reflects the transistor process (about 1–10 kHz for a BJT, up to MHz for CMOS), and the half-bandwidth corner gives the loaded Q directly. A flicker corner as low as 100 Hz together with Q = 5000 is the signature of a crystal oscillator.</p>
@@ -4329,7 +4329,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p><strong>Given / required:</strong> a desired signal $C = -90\,\text{dBm}$, a blocker $I = -30\,\text{dBm}$ @ $\Delta f = 200\,\text{kHz}$, a required SIR of $S = 15\,\text{dB}$ and an IF bandwidth $B = 30\,\text{kHz}$. Find the upper limit on the LO phase noise at 200 kHz offset.</p>
         <p><strong>Formulas and sources</strong>(reciprocal mixing, 5.1.10): the LO's phase-noise skirt downconverts the blocker into noise falling within the IF bandwidth, of power $= I + \mathcal{L}(\Delta f) + 10\log B$ (adding in dB). That noise must be $S$ below the desired signal:</p>
         <p>$$I + \mathcal{L}(\Delta f) + 10\log B \leq C - S \;\Rightarrow\; \mathcal{L}(\Delta f) \leq C - S - I - 10\log B$$</p>
-        <p><strong>Substituting step by step:</strong>First the bandwidth term: $10\log(30{,}000) = 10\log(3\times 10^4) = 10(0.477+4) = 44.77\,\text{dB}$.</p>
+        <p><strong>Substituting step by step:</strong> First the bandwidth term: $10\log(30{,}000) = 10\log(3\times 10^4) = 10(0.477+4) = 44.77\,\text{dB}$.</p>
         <p>$$\mathcal{L} \leq -90 - 15 - (-30) - 44.77 = -90 - 15 + 30 - 44.77 = \mathbf{-119.8\,\text{dBc/Hz}}\ @\ 200\,\text{kHz}$$</p>
         <div class="key-result">𝓛(200 kHz) ≤ −119.8 dBc/Hz ≈ −120 dBc/Hz</div>
         <p><strong>Physical interpretation:</strong> The direction of every term can be sanity-checked: the stronger the blocker ($I\uparrow$), the higher the SIR required ($S\uparrow$), and the wider the bandwidth ($B\uparrow$, collecting more skirt noise) → the tighter the phase-noise limit; the stronger the desired signal ($C\uparrow$) → the more relaxed. −120 dBc/Hz @ 200 kHz is rather tight for a free-running LC-VCO and is usually achieved with a PLL plus a high-Q tank.</p>
@@ -4362,7 +4362,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p><strong>Given / required:</strong> the GSM blocking template: carrier $C = -99\,\text{dBm}$, $B = 200\,\text{kHz}$, blocker powers at each offset as given, and a rejection of $S = 9\,\text{dB}$. Find the $\mathcal{L}$ specification at each offset and identify the most demanding one.</p>
         <p><strong>Formulas and sources</strong>(reciprocal mixing,5.1.10):</p>
         <p>$$\mathcal{L}(\Delta f) \leq C - S - I - 10\log B$$</p>
-        <p><strong>Substituting step by step:</strong>The bandwidth term $10\log(200{,}000) = 10\log(2\times 10^5) = 10(0.301+5) = 53.0\,\text{dB}$. The three offsets share $C$, $S$ and $B$, so combine the constants first:</p>
+        <p><strong>Substituting step by step:</strong> The bandwidth term $10\log(200{,}000) = 10\log(2\times 10^5) = 10(0.301+5) = 53.0\,\text{dB}$. The three offsets share $C$, $S$ and $B$, so combine the constants first:</p>
         <p>$$\mathcal{L} = -99 - 9 - I - 53 = -161 - I \quad(I\ \text{substituted in dBm})$$</p>
         <p>Row by row: $I = -23 \Rightarrow \mathcal{L} = -161+23 = -138$; $I = -33 \Rightarrow -128$; $I = -43 \Rightarrow -118$:</p>
         <table class="spec-table">
@@ -4373,7 +4373,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
             <tr><td>0.6 MHz</td><td>−43</td><td>−118 dBc/Hz</td></tr>
           </tbody>
         </table>
-        <p><strong>Which is the hardest?</strong>Numerically −138 (at 3 MHz) is the lowest, but “hard” must be judged against the oscillator's natural skirt shape: in Leeson's $1/f^2$ region the noise falls 20 dB per decade of offset. Going from 0.6 MHz to 3 MHz is a factor of 5 ($20\log 5 = 14\,\text{dB}$), so the oscillator naturally improves by 14 dB while the specification tightens by 20 dB… A more precise approach is to normalize all three specifications to the same offset. Taking 0.6 MHz as the reference: the −138 at 3 MHz is equivalent to $-138 + 14 = -124$ at 0.6 MHz; the −128 at 1.6 MHz is equivalent to $-128 + 20\log(1.6/0.6) = -128+8.5 = -119.5$. Comparing {−118, −119.5, −124} → <strong>the 3 MHz specification (−138) is the tightest once normalized</strong>, though all three are quite close, and the −118 read directly at 0.6 MHz is the representative value for close-in design.</p>
+        <p><strong>Which is the hardest?</strong> Numerically −138 (at 3 MHz) is the lowest, but “hard” must be judged against the oscillator's natural skirt shape: in Leeson's $1/f^2$ region the noise falls 20 dB per decade of offset. Going from 0.6 MHz to 3 MHz is a factor of 5 ($20\log 5 = 14\,\text{dB}$), so the oscillator naturally improves by 14 dB while the specification tightens by 20 dB… A more precise approach is to normalize all three specifications to the same offset. Taking 0.6 MHz as the reference: the −138 at 3 MHz is equivalent to $-138 + 14 = -124$ at 0.6 MHz; the −128 at 1.6 MHz is equivalent to $-128 + 20\log(1.6/0.6) = -128+8.5 = -119.5$. Comparing {−118, −119.5, −124} → <strong>the 3 MHz specification (−138) is the tightest once normalized</strong>, though all three are quite close, and the −118 read directly at 0.6 MHz is the representative value for close-in design.</p>
         <div class="key-result">𝓛 spec: −138 @ 3 MHz, −128 @ 1.6 MHz, −118 @ 0.6 MHz; normalized along the 1/f² skirt all three fall between −118 and −124 (@0.6 MHz) — the GSM template deliberately squeezes the whole skirt at once, and it is what sets the Q requirement of the VCO tank.</div>
         <p><strong>Physical interpretation:</strong> GSM sets the blocker power to rise 10 dB per step of offset (the further away, the stronger it may be), which is just slightly faster than the natural fall of the $1/f^2$ skirt — so a designer cannot attend to a single point but must meet the specification across the whole skirt, which is why 5.1.10 uses it as a teaching example.</p>
       </div>
@@ -4413,7 +4413,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p><strong>Given / required:</strong> $C = -70\,\text{dBm}$, $S = 21\,\text{dB}$, a WiFi blocker $I = +10\,\text{dBm}$ @ $\Delta f = 22\,\text{MHz}$, $B = 1\,\text{MHz}$; the candidate VCO has $f_0 = 2.4\,\text{GHz}$, $Q = 10$, $F = 5\,\text{dB}$, $P_0 = -5\,\text{dBm}$. Find (a) the phase-noise requirement and (b) whether it can be met.</p>
         <p><strong>(a) Reciprocal mixing</strong>(5.1.10): the bandwidth term is $10\log(10^6) = 60\,\text{dB}$.</p>
         <p>$$\mathcal{L} \leq C - S - I - 10\log B = -70 - 21 - (+10) - 60 = \mathbf{-161\,\text{dBc/Hz}}\ @\ 22\,\text{MHz}$$</p>
-        <p>Note that $I$ is a<strong>positive</strong> +10 dBm (the WiFi at the next table); that term alone makes this 40 dB harder than the scenario of P5.1.</p>
+        <p>Note that $I$ is a <strong>positive</strong> +10 dBm (the WiFi at the next table); that term alone makes this 40 dB harder than the scenario of P5.1.</p>
         <p><strong>(b) Checking against Leeson</strong>(5.1.9, $1/f^2$ region). Convert to linear first:</p>
         <ul>
           <li>$F = 5\,\text{dB} \Rightarrow 10^{0.5} = 3.16$</li>
@@ -4422,7 +4422,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>The noise-floor term: $\dfrac{kT_0F}{2P_0} = \dfrac{4\times 10^{-21}\times 3.16}{2\times 3.16\times 10^{-4}} = 2\times 10^{-17}\,/\text{Hz}$ (= −167 dBc/Hz).</p>
         <p>The resonant amplification term: $\dfrac{f_0}{2Qf_m} = \dfrac{2.4\times 10^9}{2\times 10\times 2.2\times 10^7} = \dfrac{2.4\times 10^9}{4.4\times 10^8} = 5.45$; and $20\log(5.45) = +14.7\,\text{dB}$.</p>
         <p>$$\mathcal{L} = 2\times 10^{-17}\times 5.45^2 = 5.94\times 10^{-16}\,/\text{Hz} \;\Rightarrow\; 10\log = -167 + 14.7 \approx \mathbf{-152\,\text{dBc/Hz}}$$</p>
-        <p>Against the specification: −161 is required, −152 is achieved → <strong>9 dB short, a fail</strong>of the image-reject mixer at low IF.</p>
+        <p>Against the specification: −161 is required, −152 is achieved → <strong>9 dB short, a fail</strong>.</p>
         <p><strong>Remedies</strong>(9 dB ≈ linear ×7.9):</p>
         <ul>
           <li>Raise Q: $\mathcal{L}\propto 1/Q^2$ → $Q_\text{new} = 10\times 10^{9/20} = 10\times 2.8 = 28$ — hard on-chip.</li>
@@ -4467,7 +4467,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p><strong>Formulas and sources</strong>(the integer-N PLL, 5.2.2): when locked, the two phase-detector inputs are at the same frequency, $f_\text{out}/N = f_\text{ref}$, so</p>
         <p>$$f_\text{out} = N\,f_\text{ref},\qquad N = \frac{f_\text{out}}{f_\text{ref}}$$</p>
         <p><strong>Substituting step by step:</strong></p>
-        <p>(a) At the lower edge: $N = \dfrac{880\times 10^6}{2\times 10^5} = 4400$; at the upper edge: $N = \dfrac{915\times 10^6}{2\times 10^5} = 4575$. Both divide exactly ✓ (GSM channels lie on a 200 kHz raster). Range: <strong>N = 4400..4575</strong>of the image-reject mixer at low IF.</p>
+        <p>(a) At the lower edge: $N = \dfrac{880\times 10^6}{2\times 10^5} = 4400$; at the upper edge: $N = \dfrac{915\times 10^6}{2\times 10^5} = 4575$. Both divide exactly ✓ (GSM channels lie on a 200 kHz raster). Range: <strong>N = 4400..4575</strong>.</p>
         <p>(b) The number of channels (inclusive): $4575 - 4400 + 1 = \mathbf{176}$, with a spacing equal to $f_\text{ref} = 200\,\text{kHz}$. (Compare the GSM-900 specification: ARFCN 0–124 are the 125 P-GSM channels, extended E-GSM giving ~174–176 in total — the same order.)</p>
         <div class="key-result">N = 4400–4575, 176 channels at 200 kHz spacing — in integer-N the channel spacing is forced to equal f_ref.</div>
         <p><strong>Physical interpretation:</strong> Hidden here is integer-N's fundamental trade-off: a fine channel raster (200 kHz) forces a low $f_\text{ref}$, whereupon (i) the loop bandwidth is limited to about $f_\text{ref}/10 = 20\,\text{kHz}$ → slow switching; and (ii) $N$ reaches ~4500 → in-band noise amplified by $20\log N = 73\,\text{dB}$ (see P6.2). These two pain points are exactly why fractional-N (5.2.3) exists.</p>
@@ -4499,7 +4499,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
       <div class="answer-box">
         <span class="ans-label">Answer</span>
         <p><strong>Given / required:</strong> the reference has $\mathcal{L}_\text{ref}(1\,\text{kHz}) = -160\,\text{dBc/Hz}$. Find the in-band (within the loop bandwidth) output phase noise for (a) integer-N with $N=4500$ and (b) fractional-N with $N_\text{frac}=35$.</p>
-        <p><strong>Formulas and sources</strong>(PLL in-band noise, 5.2.2): within the loop bandwidth the PLL locks the output into an $N$-times copy of the reference phase — the phase is multiplied by $N$, so the noise<strong>power</strong>is multiplied by $N^2$:</p>
+        <p><strong>Formulas and sources</strong>(PLL in-band noise, 5.2.2): within the loop bandwidth the PLL locks the output into an $N$-times copy of the reference phase — the phase is multiplied by $N$, so the noise <strong>power</strong> is multiplied by $N^2$:</p>
         <p>$$\mathcal{L}_\text{out}(f_m) = \mathcal{L}_\text{ref}(f_m) + 20\log N \quad (f_m &lt; f_\text{BW})$$</p>
         <p>The intuitive reason: $\phi_\text{out} = N\,\phi_\text{ref}$ (multiply the frequency by $N$ and the phase is multiplied by $N$ too), and power $\propto \phi^2$.</p>
         <p><strong>Substituting step by step:</strong></p>
@@ -4539,7 +4539,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
       <div class="answer-box">
         <span class="ans-label">Answer</span>
         <p><strong>Given / required:</strong> $f_\text{ref} = 19.2\,\text{MHz}$, $N = 156$, an accumulator of $R = 2^{24} = 16{,}777{,}216$ and $K = 5{,}592{,}405$. Find $f_\text{out}$ and the frequency resolution.</p>
-        <p><strong>Formulas and sources</strong>(fractional-N, 5.2.3): the accumulator switches the divisor between $N$ and $N+1$ with a duty cycle of $K/R$, giving an<strong>average</strong>divisor of $N + K/R$:</p>
+        <p><strong>Formulas and sources</strong>(fractional-N, 5.2.3): the accumulator switches the divisor between $N$ and $N+1$ with a duty cycle of $K/R$, giving an <strong>average</strong> divisor of $N + K/R$:</p>
         <p>$$f_\text{out} = \left(N + \frac{K}{R}\right) f_\text{ref},\qquad \Delta f_\text{min} = \frac{f_\text{ref}}{R}$$</p>
         <p><strong>Substituting step by step:</strong></p>
         <p>(a) The fractional part: $\dfrac{K}{R} = \dfrac{5{,}592{,}405}{16{,}777{,}216} = 0.333333$ (deliberately chosen as $\approx 2^{24}/3$, i.e. 1/3).</p>
@@ -4588,12 +4588,12 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>Lower edge: $N = \dfrac{2110}{38.4} = 54.95$; upper edge: $N = \dfrac{2170}{38.4} = 56.51$ → an integer part of <strong>54..57</strong>, with the fractional part supplied by the accumulator.</p>
         <p>The resolution condition: $\Delta f = \dfrac{f_\text{ref}}{R} \leq 1\,\text{kHz} \Rightarrow R \geq \dfrac{38.4\times 10^6}{10^3} = 38{,}400$.</p>
         <p>Take a power of 2: $R = 2^{16} = 65{,}536 \Rightarrow \Delta f = \dfrac{38.4\times 10^6}{65{,}536} = \mathbf{586\,Hz}$ (better than 1 kHz; over-resolving does no harm).</p>
-        <p><strong>(b) Settling time:</strong>Rule of thumb: settling ≈ $5/\omega_\text{BW}$ (the angular-frequency version) or $5/f_\text{BW}$ (the conservative version):</p>
+        <p><strong>(b) Settling time:</strong> Rule of thumb: settling ≈ $5/\omega_\text{BW}$ (the angular-frequency version) or $5/f_\text{BW}$ (the conservative version):</p>
         <p>$$t_s \approx \frac{5}{2\pi\times 10^5} = 7.96\,\mu\text{s}\quad\text{(even conservatively, } 5/f_\text{BW} = 50\,\mu\text{s}\text{)} \ll 200\,\mu\text{s} \checkmark$$</p>
         <p>Checking the loop bandwidth is legitimate: $f_\text{PD} = 38.4\,\text{MHz}$ and $f_\text{BW} = 100\,\text{kHz} = f_\text{PD}/384 \ll f_\text{PD}/10$ ✓ (ample stability margin).</p>
-        <p><strong>(c) The integer-N counterexample:</strong>For 1 kHz resolution, integer-N is forced to $f_\text{ref} = f_\text{PD} = 1\,\text{kHz}$, whereupon</p>
+        <p><strong>(c) The integer-N counterexample:</strong> For 1 kHz resolution, integer-N is forced to $f_\text{ref} = f_\text{PD} = 1\,\text{kHz}$, whereupon</p>
         <p>$$N = \frac{2.17\times 10^9}{10^3} = 2.17\times 10^6 \;\Rightarrow\; 20\log N = +126.7\,\text{dB}$$</p>
-        <p>Even with a reference at $-160\,\text{dBc/Hz}$, the in-band output is $= -160 + 127 = \mathbf{-33\,\text{dBc/Hz}}$ — completely unusable (even the SSB signal itself would be swamped by phase noise). And the loop bandwidth ≤ 100 Hz → settling of tens of ms, violating the 200 µs. Fractional-N is<strong>necessary</strong>here, not optional.</p>
+        <p>Even with a reference at $-160\,\text{dBc/Hz}$, the in-band output is $= -160 + 127 = \mathbf{-33\,\text{dBc/Hz}}$ — completely unusable (even the SSB signal itself would be swamped by phase noise). And the loop bandwidth ≤ 100 Hz → settling of tens of ms, violating the 200 µs. Fractional-N is <strong>necessary</strong> here, not optional.</p>
         <div class="key-result">N = 54–57 (integer) + an R = 2¹⁶ accumulator (586 Hz); settling ~8 µs ≪ 200 µs. Modern cellular synthesizers use Σ-Δ fractional-N to combine 1 kHz resolution with reference frequencies of tens of MHz.</div>
         <p><strong>Physical interpretation:</strong> The 127 dB figure in (c) is worth remembering: integer-N's noise penalty $20\log N$ scales directly with the ratio “output frequency / resolution”, and at cellular grade (a GHz output with kHz resolution) that ratio of ~10⁶ rules integer-N out completely. Fractional-N decouples “resolution” from “phase-detector frequency”, which is the core message of 5.2.3.</p>
       </div>
@@ -4637,7 +4637,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>Since 0.15 is not a combination of $2^{-k}$, the FTW must be rounded → the actual output is $= \dfrac{644{,}245{,}094}{2^{32}}\times 500\,\text{MHz} = 74.999{,}999{,}95\,\text{MHz}$, an error of only $0.4\,\text{LSB} \approx 0.047\,\text{Hz}$ (0.6 ppb).</p>
         <p>(b) $$\Delta f_\text{LSB} = \frac{5\times 10^8}{4.295\times 10^9} = \mathbf{0.1164\,Hz}$$</p>
         <div class="key-result">FTW = 644,245,094 (= 0x2666_6666); resolution = 0.116 Hz — sub-Hz resolution is the hallmark of DDS.</div>
-        <p><strong>Physical interpretation:</strong> A DDS's frequency accuracy is limited only by FTW quantization (&lt; 0.06 Hz) and the accuracy of the clock itself, and changing frequency means “writing one register”, takes effect within a single clock cycle and is<strong>phase-continuous</strong> — three things a PLL cannot do. The costs are in P7.2/P7.3: the output frequency ceiling and DAC spurs.</p>
+        <p><strong>Physical interpretation:</strong> A DDS's frequency accuracy is limited only by FTW quantization (&lt; 0.06 Hz) and the accuracy of the clock itself, and changing frequency means “writing one register”, takes effect within a single clock cycle and is <strong>phase-continuous</strong> — three things a PLL cannot do. The costs are in P7.2/P7.3: the output frequency ceiling and DAC spurs.</p>
       </div>
     </div>
   </div>
@@ -4677,7 +4677,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>In addition, the DAC's $\text{sinc}$ roll-off ($\sin(\pi f/f_\text{clk})/(\pi f/f_\text{clk})$) costs 3.92 dB at Nyquist and about 2.4 dB at 200 MHz — the closer to Nyquist, the weaker the signal and the stronger the image, compounding the problem.</p>
         <p><strong>(c) Strategies for more bandwidth:</strong><strong>Raising $f_\text{clk}$</strong> is the clean route — the bandwidth and the image spacing scale together, leaving the filter's proportions unchanged. Modern DDS ICs (the AD9914/9915 and similar) run at 3.5–4 GS/s. Paralleling several DDSs (polyphase/interleaving) requires solving phase synchronization and gain/timing calibration, and is used only in ultra-wideband instruments.</p>
         <div class="key-result">Theoretically 250 MHz (Nyquist); practically ≈ 200 MHz (40% of f_clk, limited by the image-filter transition band).</div>
-        <p><strong>Physical interpretation:</strong> The “40% rule” is essentially<strong>filter physics</strong>rather than mathematics: Nyquist says 250 MHz is allowed, but you would need a brick-wall filter to collect it. This also explains why a DDS is usually used as a fine reference or IF source for a PLL, leaving the GHz carrier to the PLL (see P8.4c).</p>
+        <p><strong>Physical interpretation:</strong> The “40% rule” is essentially <strong>filter physics</strong> rather than mathematics: Nyquist says 250 MHz is allowed, but you would need a brick-wall filter to collect it. This also explains why a DDS is usually used as a fine reference or IF source for a PLL, leaving the GHz carrier to the PLL (see P8.4c).</p>
       </div>
     </div>
   </div>
@@ -4719,10 +4719,10 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p><strong>(b) Accumulator width</strong>(5.2.4):$\Delta f = \dfrac{f_\text{clk}}{2^M} \leq 10\,\text{Hz}$:</p>
         <p>$$2^M \geq \frac{3\times 10^9}{10} = 3\times 10^8,\qquad \log_2(3\times 10^8) = \frac{\log_{10}(3\times 10^8)}{\log_{10}2} = \frac{8.477}{0.301} = 28.2$$</p>
         <p>Take the next standard width, $\mathbf{M = 32\,bits}$ → $\Delta f = \dfrac{3\times 10^9}{2^{32}} = 0.70\,\text{Hz}$ (a 14× margin).</p>
-        <p><strong>(c) DAC resolution:</strong>The rule of thumb for the quantization-harmonic ceiling is SFDR ≈ 6 dB/bit (strictly, $6.02N+1.76$ is the SNR; SFDR is a little better when the spurs are concentrated, but ~6 dB/bit remains the working estimate):</p>
+        <p><strong>(c) DAC resolution:</strong> The rule of thumb for the quantization-harmonic ceiling is SFDR ≈ 6 dB/bit (strictly, $6.02N+1.76$ is the SNR; SFDR is a little better when the spurs are concentrated, but ~6 dB/bit remains the working estimate):</p>
         <p>$$N \geq \frac{75}{6} = 12.5 \;\Rightarrow\; \textbf{14-bit DAC}$$</p>
         <p>Theoretically ~84 dB; after deducting the 5–10 dB lost to package coupling, layout and clock feedthrough, the measured value is ~75 dB — only just meeting the specification, which is why 13 bits is not chosen.</p>
-        <p><strong>Verifying the hop time:</strong>Changing frequency = writing a new FTW, effective in one clock cycle: $t = \dfrac{1}{3\times 10^9} = 0.33\,\text{ns} \ll 100\,\text{ns}$ ✓, and phase-continuous (preserving the coherence of a radar pulse train).</p>
+        <p><strong>Verifying the hop time:</strong> Changing frequency = writing a new FTW, effective in one clock cycle: $t = \dfrac{1}{3\times 10^9} = 0.33\,\text{ns} \ll 100\,\text{ns}$ ✓, and phase-continuous (preserving the coherence of a radar pulse train).</p>
         <div class="key-result">f_clk = 3 GHz, M = 32 bits (0.70 Hz), a 14-bit DAC. Realistic chip: Analog Devices AD9914 (3.5 GS/s, 12-bit, 32-bit accum) — matches all specs except SFDR (~70 dB typical), close but may need additional filtering.</div>
         <p><strong>Physical interpretation:</strong> This specification sheet is exactly the DDS sweet spot: a PLL must re-lock to change frequency (µs–ms), whereas a DDS does it in nanoseconds and phase-continuously — frequency-agile radar and EW systems simply have to use DDS. The bottleneck is always the DAC: demanding both speed (3 GS/s) and linearity (14 bits) drives up power and price.</p>
       </div>
@@ -4825,12 +4825,12 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
         <p>The resonance (frequency) condition $X_L = -X_{in} = +25\,\Omega$ (inductive, cancelling the device's $-j25$):</p>
         <p>$$L = \frac{X_L}{2\pi f} = \frac{25}{2\pi\times 6\times 10^9} = \frac{25}{3.77\times 10^{10}} = 6.6\times 10^{-10}\,\text{H} = \mathbf{0.66\,nH}\ \text{(series inductor)}$$</p>
         <p>(At 6 GHz, 0.66 nH is already bond-wire / short-transmission-line territory — in practice a transmission-line stub is used directly.)</p>
-        <p><strong>(b) Why $|R_{in}|/3$:</strong>Start-up needs a negative net resistance at small amplitude, $R_{in}(0) + R_L = -44 + 14.7 = -29.3\,\Omega &lt; 0$; the more negative, the faster and more reliable the start-up. Taking 1/3 leaves 2/3 of the negative resistance as margin, covering temperature, bias and component spread. The trade-off:</p>
+        <p><strong>(b) Why $|R_{in}|/3$:</strong> Start-up needs a negative net resistance at small amplitude, $R_{in}(0) + R_L = -44 + 14.7 = -29.3\,\Omega &lt; 0$; the more negative, the faster and more reliable the start-up. Taking 1/3 leaves 2/3 of the negative resistance as margin, covering temperature, bias and component spread. The trade-off:</p>
         <ul>
           <li>$R_L \to |R_{in}|$: the margin disappears and it may fail to start at a process corner (as soon as the large-signal $|R_{in}(A)|$ shrinks below $R_L$).</li>
           <li>$R_L \ll |R_{in}|/3$: available negative resistance is wasted — the steady-state power delivered to the load $\propto R_L A_0^2/2$ falls, and the amplitude must swing further before limiting, increasing harmonic distortion.</li>
         </ul>
-        <p><strong>(c) Steady-state amplitude:</strong>The steady-state condition $R_{in}(A_0) + R_L = 0$, i.e. $|R_{in}(A_0)| = R_L$:</p>
+        <p><strong>(c) Steady-state amplitude:</strong> The steady-state condition $R_{in}(A_0) + R_L = 0$, i.e. $|R_{in}(A_0)| = R_L$:</p>
         <p>$$44\left(1-\frac{A_0}{2}\right) = 14.7 \;\Rightarrow\; 1-\frac{A_0}{2} = 0.334 \;\Rightarrow\; A_0 = 2(1-0.334) = \mathbf{1.33\,V}$$</p>
         <p><strong>(d) Kurokawa stability</strong>(5.1.6), with $T$ = the sum of device and load:</p>
         <p>$$\frac{\partial R_T}{\partial A}\frac{\partial X_T}{\partial \omega} - \frac{\partial X_T}{\partial A}\frac{\partial R_T}{\partial \omega} &gt; 0$$</p>
@@ -4892,7 +4892,7 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
           <li><strong>Fractional-N:</strong> $f_{PD} = 13\,\text{MHz}$ → $N = \dfrac{935}{13} = 71.9$ → $20\log(71.9) = 37.1\,\text{dB}$ → in-band $= -150 + 37.1 = \mathbf{-112.9\,dBc/Hz}$.</li>
         </ul>
         <div class="key-result">Fractional-N is 36.3 dB quieter in-band — exactly 20·log(4675/71.9), the whole argument for fractional-N in 5.2.3</div>
-        <p><strong>(d) Where to put the loop bandwidth:</strong>The optimum loop bandwidth ≈ the crossover between “the reference noise multiplied by $N$” and “the free-running VCO noise”. The VCO noise rises towards lower offsets as $1/f_m^2$ (+20 dB/dec): working back from the −140.2 @ 600 kHz of (b), reaching −112.9 requires a rise of 27.3 dB → a reduction in offset by a factor of $10^{27.3/20} = 23$:</p>
+        <p><strong>(d) Where to put the loop bandwidth:</strong> The optimum loop bandwidth ≈ the crossover between “the reference noise multiplied by $N$” and “the free-running VCO noise”. The VCO noise rises towards lower offsets as $1/f_m^2$ (+20 dB/dec): working back from the −140.2 @ 600 kHz of (b), reaching −112.9 requires a rise of 27.3 dB → a reduction in offset by a factor of $10^{27.3/20} = 23$:</p>
         <p>$$f_m = \frac{600\,\text{kHz}}{23} \approx 26\,\text{kHz}\quad(\text{check: the } -110.6\ @\ 20\,\text{kHz given in the problem lies on the same line})$$</p>
         <p>Hence <strong>loop BW ≈ 25 kHz</strong>: inside the bandwidth the quieter multiplied reference (−112.9) disciplines the VCO; outside it, the VCO — by then quieter — is left to run free. Opening the loop too wide would stamp the −112.9 onto a region where the VCO is naturally better; making it too narrow would leave the VCO's close-in $1/f^2$ noise unchecked.</p>
         <p><strong>Physical interpretation:</strong> This problem is a complete LO design chain: system specification (the blocker) → device check (the VCO has 22 dB of margin, a pass) → architecture (integer-N cannot even reach −118: a dismal −76.6; fractional-N passes) → parameters (put the loop bandwidth at the crossover). When a synthesizer design question comes up in an exam, follow these four steps.</p>
@@ -4931,15 +4931,15 @@ $$\boxed{\;f_\text{out} = \frac{\text{FTW}}{2^M}\,f_\text{clk}\;}$$
       <div class="answer-box">
         <span class="ans-label">Answer</span>
         <p><strong>Given / required:</strong> an output of 2.402–2.480 GHz, 1 MHz channels, $f_\text{ref} = 16\,\text{MHz}$ and lock &lt; 40 µs; the rules: loop BW ≤ $f_{PD}/10$ and $t_\text{lock} \approx 4/f_\text{BW}$; a 20-bit fractional part; a DDS ceiling of $0.4f_\text{clk}$ and SFDR of 70 dBc. Compare the three architectures.</p>
-        <p><strong>(a) Integer-N:</strong>The channel spacing chains $f_{PD} = 1\,\text{MHz}$:</p>
+        <p><strong>(a) Integer-N:</strong> The channel spacing chains $f_{PD} = 1\,\text{MHz}$:</p>
         <p>$N = \dfrac{f_\text{out}}{f_{PD}} = \dfrac{2402\text{–}2480\,\text{MHz}}{1\,\text{MHz}} = \mathbf{2402\text{–}2480}$.</p>
         <p>Loop BW $\leq \dfrac{f_{PD}}{10} = 100\,\text{kHz}$ → $t_\text{lock} \approx \dfrac{4}{10^5} = \mathbf{40\,\mu s}$ — <strong>Exactly on the line, with zero margin</strong>(any drift in the loop parameters and it overruns). In-band penalty: $20\log(2440) = 67.7\,\text{dB}$.</p>
         <p><strong>(b) Fractional-N:</strong>$f_{PD} = f_\text{ref} = 16\,\text{MHz}$:</p>
         <p>$N = \dfrac{2402}{16} = 150.125$ to $\dfrac{2480}{16} = 155.000$ → <strong>N = 150.125–155.000</strong>(the fractional part realized by the ΔΣ modulator).</p>
         <p>Resolution: $\dfrac{16\times 10^6}{2^{20}} = \dfrac{16\times 10^6}{1.049\times 10^6} = \mathbf{15.3\,Hz} \ll 1\,\text{MHz}$ ✓ (the channel raster comes free, and the Hz-level resolution incidentally also compensates the crystal's ppm error).</p>
-        <p>In-band: $20\log(152.5) = 43.7\,\text{dB}$ → against integer-N's 67.7 dB, that is <strong>24 dB quieter</strong>of the image-reject mixer at low IF.</p>
+        <p>In-band: $20\log(152.5) = 43.7\,\text{dB}$ → against integer-N's 67.7 dB, that is <strong>24 dB quieter</strong>.</p>
         <p>Lock: the $f_{PD}/10$ ceiling rises to 1.6 MHz, but ΔΣ quantization noise rises at high offsets, so the practical loop ceiling is ~200 kHz → $t_\text{lock} \approx \dfrac{4}{2\times 10^5} = \mathbf{20\,\mu s}$ — a 2× margin ✓.</p>
-        <p><strong>(c) The DDS route:</strong>Direct generation would need $f_\text{clk} \geq \dfrac{2.48\,\text{GHz}}{0.4} = 6.2\,\text{GHz}$ — the power and cost of a 6 GS/s DAC are wholly disproportionate for a BLE SoC (5.2.4). Take the “low-frequency DDS × multiplication” route instead: multiplying 152.5 MHz by 16 up to 2.44 GHz multiplies the phase (and hence the spurs) by 16 as well:</p>
+        <p><strong>(c) The DDS route:</strong> Direct generation would need $f_\text{clk} \geq \dfrac{2.48\,\text{GHz}}{0.4} = 6.2\,\text{GHz}$ — the power and cost of a 6 GS/s DAC are wholly disproportionate for a BLE SoC (5.2.4). Take the “low-frequency DDS × multiplication” route instead: multiplying 152.5 MHz by 16 up to 2.44 GHz multiplies the phase (and hence the spurs) by 16 as well:</p>
         <p>$$\text{spur degradation} = 20\log 16 = 24.1\,\text{dB} \;\Rightarrow\; -70 + 24.1 = \mathbf{-45.9\,dBc}$$</p>
         <p>Spurs at −46 dBc will not pass a typical adjacent-channel specification — a DDS-as-reference scheme must either keep the multiplication factor low or narrowband-filter the DDS output.</p>
         <p><strong>(d) Architecture recommendation:</strong></p>

@@ -214,11 +214,11 @@ footer{margin-top:24px;padding-top:12px;border-top:1px solid #d4c9a8;font-size:0
 <div class="eq-box">
 $$\omega_{IF} = |\omega_{RF} - \omega_{LO}|$$
 </div>
-<p>This means two different RF frequencies, $\omega_{LO}+\omega_{IF}$ (USB, upper sideband) and $\omega_{LO}-\omega_{IF}$ (LSB, lower sideband),<strong>are mixed down to the same IF frequency</strong>. One of them is the wanted signal, the other is the image.</p>
+<p>This means two different RF frequencies, $\omega_{LO}+\omega_{IF}$ (USB, upper sideband) and $\omega_{LO}-\omega_{IF}$ (LSB, lower sideband), <strong>are mixed down to the same IF frequency</strong>. One of them is the wanted signal, the other is the image.</p>
 
 <div class="callout warn">
 <div class="callout-title">The traditional approach: block the image with an RF filter — but…</div>
-When the IF is low (a few MHz, say), the RF filter has to be extremely narrowband and high-Q — which is all but impossible to build at GHz RF. That is exactly where you need the <strong>image-reject mixer</strong>: rather than filtering, it uses<strong>phase magic</strong>to route the USB and the LSB to<em>different output ports</em>, so you can pick whichever one you want.
+When the IF is low (a few MHz, say), the RF filter has to be extremely narrowband and high-Q — which is all but impossible to build at GHz RF. That is exactly where you need the <strong>image-reject mixer</strong>: rather than filtering, it uses <strong>phase magic</strong> to route the USB and the LSB to <em>different output ports</em>, so you can pick whichever one you want.
 </div>
 
 <!-- ============ Topology breakdown ============ -->
@@ -238,8 +238,8 @@ When the IF is low (a few MHz, say), the RF filter has to be extremely narrowban
 <h3>③ The two LPFs: strip off the sum and harmonic products, leaving the IF</h3>
 <p>Every mixer output contains components at $\omega_{RF}\pm\omega_{LO}$ and beyond; the LPF blocks the sum term $\omega_{RF}+\omega_{LO}$ and keeps the difference $|\omega_{RF}-\omega_{LO}|=\omega_{IF}$.</p>
 
-<h3>④ The 90° IF hybrid on the right: one more 90° phase shift, producing<strong>coherent phase interference</strong></h3>
-<p>This is where the trick happens — after the USB and LSB have accumulated<strong>two</strong> $90°$ shifts their phases differ, so at the two output ports of this hybrid they respectively undergo<strong>constructive addition</strong>or<strong>destructive cancellation</strong>, and are therefore routed to different outputs.</p>
+<h3>④ The 90° IF hybrid on the right: one more 90° phase shift, producing <strong>coherent phase interference</strong></h3>
+<p>This is where the trick happens — after the USB and LSB have accumulated <strong>two</strong> $90°$ shifts their phases differ, so at the two output ports of this hybrid they respectively undergo <strong>constructive addition</strong> or <strong>destructive cancellation</strong>, and are therefore routed to different outputs.</p>
 
 <!-- ============ Small-signal analysis ============ -->
 <h2>Small-signal analysis (why the USB and LSB end up at different ports)</h2>
@@ -260,7 +260,7 @@ v_{RF}^B(t) &= \tfrac{1}{\sqrt{2}}\bigl[V_U\cos((\omega_{LO}+\omega_{IF})t - 180
 &= -\tfrac{1}{\sqrt{2}}\bigl[V_U\cos(\omega_{LO}+\omega_{IF})t + V_L\cos(\omega_{LO}-\omega_{IF})t\bigr]
 \end{aligned}$$
 </div>
-<p style="font-size:0.9em;color:#444">Note that the USB and the LSB travel<strong>along the same hybrid path</strong>, so the extra $-90°$ (or $-180°$) that each picks up here is<strong>exactly the same</strong>. The difference between USB and LSB has not appeared yet — it only emerges once the mixer multiplies them by the LO.</p>
+<p style="font-size:0.9em;color:#444">Note that the USB and the LSB travel <strong>along the same hybrid path</strong>, so the extra $-90°$ (or $-180°$) that each picks up here is <strong>exactly the same</strong>. The difference between USB and LSB has not appeared yet — it only emerges once the mixer multiplies them by the LO.</p>
 
 <h3>Step 3 — the mixer multiplies by the LO, the LPF keeps the IF</h3>
 <p>Each mixer multiplies the RF by the LO ($V_{LO}\cos\omega_{LO}t$). Using the product-to-sum identity:</p>
@@ -275,7 +275,7 @@ $$v_{IF}^A(t) = \frac{K V_{LO}}{2\sqrt{2}}\bigl[\underbrace{V_U\sin(+\omega_{IF}
 <div class="eq-box">
 $$v_{IF}^B(t) = -\frac{K V_{LO}}{2\sqrt{2}}\bigl[V_U\cos\omega_{IF}t + V_L\cos\omega_{IF}t\bigr] = -\frac{K V_{LO}}{2\sqrt{2}}(V_U + V_L)\cos\omega_{IF}t$$
 </div>
-<p style="font-size:0.9em;color:#444"><strong>The key point</strong>: after mixing, the USB retains a positive $\omega_{IF}$ phase; the LSB, being lower in frequency than the LO, comes out with a<strong>negative</strong> $\omega_{IF}$ phase. Since $\sin(-x) = -\sin x$, on path A the USB and LSB end up<strong>subtracting</strong>, while on path B they add.</p>
+<p style="font-size:0.9em;color:#444"><strong>The key point</strong>: after mixing, the USB retains a positive $\omega_{IF}$ phase; the LSB, being lower in frequency than the LO, comes out with a <strong>negative</strong> $\omega_{IF}$ phase. Since $\sin(-x) = -\sin x$, on path A the USB and LSB end up <strong>subtracting</strong>, while on path B they add.</p>
 
 <h3>Step 4 — phasor form</h3>
 <div class="eq-box">
@@ -298,8 +298,8 @@ $$v_2(t) = -\frac{K V_{LO} V_U}{2}\sin\omega_{IF}t \quad\Rightarrow\quad \text{I
 
 <div class="callout key">
 <div class="callout-title">This is the phase magic behind image rejection</div>
-On both the RF→A and the RF→B path the USB picks up<em>an extra 90° each</em>; after the IF hybrid the two paths add in phase at $V_2$ (constructive) and cancel in antiphase at $V_1$ (destructive) → <strong>the USB goes only to $V_2$</strong>.
-Because the “direction” of $\omega_{IF}$ is reversed for the LSB, its accumulated phase differs from the USB's by exactly $180°$, so it takes precisely the opposite route → <strong>the LSB goes only to $V_1$</strong>of the image-reject mixer at low IF.
+On both the RF→A and the RF→B path the USB picks up <em>an extra 90° each</em>; after the IF hybrid the two paths add in phase at $V_2$ (constructive) and cancel in antiphase at $V_1$ (destructive) → <strong>the USB goes only to $V_2$</strong>.
+Because the “direction” of $\omega_{IF}$ is reversed for the LSB, its accumulated phase differs from the USB's by exactly $180°$, so it takes precisely the opposite route → <strong>the LSB goes only to $V_1$</strong>.
 </div>
 
 <!-- ============ Practical issues ============ -->
@@ -308,7 +308,7 @@ Because the “direction” of $\omega_{IF}$ is reversed for the LSB, its accumu
 <table>
 <tr><th>Item</th><th>Notes</th></tr>
 <tr><td><strong>Image rejection</strong></td><td>Typically ~20–30 dB (set by the amplitude/phase match of the two mixer paths). Reaching 40+ dB requires trimming or calibration.</td></tr>
-<tr><td><strong>Manufacturing difficulty</strong></td><td>The IF is usually very low (a few MHz to a few tens of MHz), yet building a<strong>low-frequency 90° hybrid</strong> is hard — lumped elements (LC) have limited accuracy, while distributed elements ($\lambda/4$) become far too large at low frequencies. This is the<strong>main limitation</strong>of the image-reject mixer at low IF.</td></tr>
+<tr><td><strong>Manufacturing difficulty</strong></td><td>The IF is usually very low (a few MHz to a few tens of MHz), yet building a <strong>low-frequency 90° hybrid</strong> is hard — lumped elements (LC) have limited accuracy, while distributed elements ($\lambda/4$) become far too large at low frequencies. This is the <strong>main limitation</strong> of the image-reject mixer at low IF.</td></tr>
 <tr><td><strong>The advantage at the RF end</strong></td><td>The RF-end hybrid is easy to build at GHz frequencies (branch-line or Lange couplers both work), so it is not the bottleneck.</td></tr>
 <tr><td><strong>Conversion loss</strong></td><td>Because the signal is split by ×$\tfrac{1}{\sqrt{2}}$ twice, the total loss is about 6 dB more than for a single mixer.</td></tr>
 <tr><td><strong>When to use it</strong></td><td>The only option when the IF is too low for the RF preselect filter to be made narrow enough. Common in communication receivers (GSM/LTE), radar and spectrum analysers.</td></tr>
@@ -316,12 +316,12 @@ Because the “direction” of $\omega_{IF}$ is reversed for the LSB, its accumu
 
 <!-- ============ Up-conversion (SSB modulator) ============ -->
 <h2>Running it backwards: an SSB modulator (upconversion)</h2>
-<p>Use the whole circuit<strong>in reverse</strong>:</p>
+<p>Use the whole circuit <strong>in reverse</strong>:</p>
 <ul style="margin:4px 0 6px 22px">
 <li>Inject the IF signal at $v_1$ → only RF-LSB comes out (the image is inherently suppressed)</li>
 <li>Inject the IF signal at $v_2$ → only RF-USB comes out</li>
 </ul>
-<p>This is precisely a<strong>single-sideband modulator</strong>(SSB modulator) — you can choose whether to transmit USB or LSB without any additional bandpass filter, which is why it is a staple of traditional broadcast and amateur-radio transmitters.</p>
+<p>This is precisely a <strong>single-sideband modulator</strong>(SSB modulator) — you can choose whether to transmit USB or LSB without any additional bandpass filter, which is why it is a staple of traditional broadcast and amateur-radio transmitters.</p>
 
 <!-- ============ Color legend ============ -->
 <h2>Colour key</h2>
@@ -338,14 +338,14 @@ Because the “direction” of $\omega_{IF}$ is reversed for the LSB, its accumu
 <h2>Three sentences to take away</h2>
 <div class="callout tip">
 <ol style="margin:4px 0 4px 22px">
-<li><strong>When the RF mixes with the LO, the USB and the LSB fold onto the same $\omega_{IF}$</strong> — that is the image problem. An image-reject mixer separates them not by filtering but by<strong>phase interference</strong>.</li>
+<li><strong>When the RF mixes with the LO, the USB and the LSB fold onto the same $\omega_{IF}$</strong> — that is the image problem. An image-reject mixer separates them not by filtering but by <strong>phase interference</strong>.</li>
 <li><strong>Two 90° hybrids (one at the RF end, one at the IF end) give the USB and the LSB different accumulated phases</strong>, so at the two IF output ports they add constructively and destructively respectively → one output is pure USB, the other pure LSB.</li>
 <li><strong>The main bottleneck is that the IF hybrid is hard to build at low frequencies</strong>. Reaching 40+ dB of image rejection demands precise matching; the total loss is about 6 dB higher; and run in reverse it becomes an SSB modulator.</li>
 </ol>
 </div>
 
 <p style="text-align:center;margin-top:20px;font-size:0.92em">
-🔗 Related reading:<a href="slide26_90deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">90° hybrid single-balanced mixer</a> ·
+🔗 Related reading: <a href="slide26_90deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">90° hybrid single-balanced mixer</a> ·
 <a href="slide28_180deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">180° hybrid single-balanced mixer</a> ·
 <a href="slide29_double_balanced_ring_mixer_interactive_EN.html" style="color:#1a4a8a;font-weight:600">Double-balanced ring mixer (interactive)</a>
 </p>

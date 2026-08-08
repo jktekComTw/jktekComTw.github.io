@@ -230,7 +230,7 @@
 <!-- ====================================================== -->
 <h2 id="sec1">1. Definition of Phase Margin</h2>
 
-<p><strong>Phase margin (PM)</strong> is the key metric for the<strong>stability</strong>of a control system or feedback amplifier.</p>
+<p><strong>Phase margin (PM)</strong> is the key metric for the <strong>stability</strong> of a control system or feedback amplifier.</p>
 
 <h3>Mathematical definition</h3>
 <p>For the open-loop transfer function \( L(j\omega) = G(j\omega)H(j\omega) \):</p>
@@ -241,7 +241,7 @@ PM = 180° + \angle L(j\omega_{gc})
 \]
 </div>
 
-<p>where \( \omega_{gc} \) is the<strong>gain crossover frequency</strong>, the frequency at which \( |L(j\omega_{gc})| = 1 \) (i.e. 0 dB).</p>
+<p>where \( \omega_{gc} \) is the <strong>gain crossover frequency</strong>, the frequency at which \( |L(j\omega_{gc})| = 1 \) (i.e. 0 dB).</p>
 
 <h3>Reading off stability</h3>
 <table>
@@ -256,7 +256,7 @@ PM = 180° + \angle L(j\omega_{gc})
 <!-- ====================================================== -->
 <h2 id="sec2">2. The Barkhausen Oscillation Criterion</h2>
 
-<p>When designing an oscillator you must simultaneously satisfy<strong>two conditions</strong>:</p>
+<p>When designing an oscillator you must simultaneously satisfy <strong>two conditions</strong>:</p>
 
 <table>
   <tr><th>Condition</th><th>Expression</th><th>Physical meaning</th></tr>
@@ -281,7 +281,7 @@ PM = 180° + \angle L(j\omega_{gc})
 </ul>
 
 <blockquote>
-Designing an oscillator means<strong>deliberately</strong>forcing \( \angle AH = 0° \) (equivalently a phase of −180° under negative feedback) with \( |AH| \geq 1 \) → <strong>deliberately making PM = 0</strong>so that the circuit oscillates.
+Designing an oscillator means <strong>deliberately</strong> forcing \( \angle AH = 0° \) (equivalently a phase of −180° under negative feedback) with \( |AH| \geq 1 \) → <strong>deliberately making PM = 0</strong> so that the circuit oscillates.
 </blockquote>
 
 <!-- ====================================================== -->
@@ -299,11 +299,11 @@ Designing an oscillator means<strong>deliberately</strong>forcing \( \angle AH =
 <p>This is also why, at start-up, thermal noise or the power-on transient is amplified exponentially → oscillation builds up.</p>
 
 <h3>The nonlinear view: a stable limit cycle exists</h3>
-<p>But a real circuit<strong>does not blow up</strong>, because:</p>
+<p>But a real circuit <strong>does not blow up</strong>, because:</p>
 <ol>
   <li>The transistor enters saturation / cut-off / triode → the transconductance \( g_m \) <strong>falls as the amplitude grows</strong></li>
-  <li>The effective loop gain is<strong>amplitude-dependent</strong>: \( |AH| = f(A) \)</li>
-  <li>The system converges to a<strong>stable limit cycle</strong></li>
+  <li>The effective loop gain is <strong>amplitude-dependent</strong>: \( |AH| = f(A) \)</li>
+  <li>The system converges to a <strong>stable limit cycle</strong></li>
 </ol>
 
 <h3>The two kinds of stability side by side</h3>
@@ -329,7 +329,7 @@ Designing an oscillator means<strong>deliberately</strong>forcing \( \angle AH =
   <li>LTI asks “<strong>is the origin stable?</strong>” → unstable</li>
   <li>The nonlinear view asks “<strong>is the limit cycle stable?</strong>” → stable</li>
 </ul>
-The two are<strong>not contradictory</strong>; they describe different features of the very same system.
+The two are <strong>not contradictory</strong>; they describe different features of the very same system.
 </div>
 
 <!-- ====================================================== -->
@@ -430,13 +430,13 @@ The two are<strong>not contradictory</strong>; they describe different features 
 <ul>
   <li><strong>The origin is an unstable spiral</strong>(what LTI sees)</li>
   <li><strong>The limit cycle is a stable orbit</strong>(what the nonlinear view sees)</li>
-  <li>Any<strong>non-zero</strong>initial condition eventually converges to the limit cycle → this is the mathematical guarantee that “an oscillator will always start up and settle into steady oscillation”</li>
+  <li>Any <strong>non-zero</strong> initial condition eventually converges to the limit cycle → this is the mathematical guarantee that “an oscillator will always start up and settle into steady oscillation”</li>
 </ul>
 
 <!-- ====================================================== -->
 <h2 id="sec5">5. The Describing Function Method</h2>
 
-<p>In practice, the steady-state amplitude of an oscillator is usually analysed with the <strong>describing function</strong> , which linearizes the nonlinear element into an<strong>amplitude-dependent gain</strong> \( N(A) \).</p>
+<p>In practice, the steady-state amplitude of an oscillator is usually analysed with the <strong>describing function</strong> , which linearizes the nonlinear element into an <strong>amplitude-dependent gain</strong> \( N(A) \).</p>
 
 <h3>Steady-state oscillation condition</h3>
 <div class="formula-box">
@@ -452,7 +452,7 @@ N(A_0) \cdot H(j\omega_0) = 1
 \]
 </div>
 
-<p><strong>Physical meaning:</strong>the loop gain must fall as the amplitude grows, so that a negative-feedback mechanism pulls the amplitude back to \( A_0 \).</p>
+<p><strong>Physical meaning:</strong> the loop gain must fall as the amplitude grows, so that a negative-feedback mechanism pulls the amplitude back to \( A_0 \).</p>
 
 <!-- ====================================================== -->
 <h2 id="sec6">6. Designing \(g_m\) in a Real Circuit</h2>
@@ -482,9 +482,9 @@ Too small → start-up fails; too large → worse phase noise, wasted power and 
 <h2 id="sec7">7. Connections to Radar / RF Systems</h2>
 
 <ol>
-  <li><strong>Phase-noise analysis</strong>: Leeson's model is essentially a perturbation analysis of a limit cycle disturbed by noise — that is,<strong>linearization about the limit cycle</strong>(linearize <em>around</em> the limit cycle, not around the origin).</li>
+  <li><strong>Phase-noise analysis</strong>: Leeson's model is essentially a perturbation analysis of a limit cycle disturbed by noise — that is, <strong>linearization about the limit cycle</strong>(linearize <em>around</em> the limit cycle, not around the origin).</li>
   <li><strong>Injection locking</strong>: an external signal injected into the oscillator locks it. This can only be analysed with nonlinear methods (Adler's equation); LTI fails completely.</li>
-  <li><strong>PLL locking dynamics</strong>: once locked, the small-signal behaviour can be analysed with LTI loop dynamics, but<strong>large-signal acquisition and cycle slipping</strong> must go back to nonlinear analysis.</li>
+  <li><strong>PLL locking dynamics</strong>: once locked, the small-signal behaviour can be analysed with LTI loop dynamics, but <strong>large-signal acquisition and cycle slipping</strong> must go back to nonlinear analysis.</li>
   <li><strong>Saturation behaviour of mixers / PAs</strong>: another application of the describing function.</li>
 </ol>
 
@@ -494,9 +494,9 @@ Too small → start-up fails; too large → worse phase noise, wasted power and 
 <div class="key-takeaway">
 <strong>Core idea:</strong><br>
 The design goal of an oscillator is to make the “<strong>origin</strong>” LTI-unstable while making the “<strong>limit cycle</strong>” nonlinearly stable.<br><br>
-The two notions of stability describe different<strong>invariant sets</strong>:
+The two notions of stability describe different <strong>invariant sets</strong>:
 <ul style="margin-bottom: 0;">
-  <li>Bode / PM / GM → look at the<strong>origin</strong></li>
+  <li>Bode / PM / GM → look at the <strong>origin</strong></li>
   <li>Van der Pol / Lyapunov / describing function → look at the <strong>limit cycle</strong></li>
 </ul>
 </div>

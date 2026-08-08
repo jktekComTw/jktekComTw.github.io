@@ -215,27 +215,27 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid #d4c9a8;font-size:0
 <h3>① The two input ports: RF input (Σ port) and LO input (Δ port)</h3>
 <p>The two arrows on the left inject, respectively:</p>
 <ul style="margin:4px 0 6px 22px">
-<li><strong>RF input</strong>(blue, entering port 1 = <strong>Σ port</strong>, the sum port): the radio-frequency signal to be downconverted, $v_{RF}(t)=V_{RF}\cos\omega_{RF}t$. Σ denotes<strong>in-phase splitting</strong> — the RF is divided equally between the two diodes with the same phase.</li>
-<li><strong>LO input</strong>(red, entering port 4 = <strong>Δ port</strong>, the difference port): the local-oscillator signal $v_{LO}(t)=V_{LO}\cos\omega_{LO}t$, which is<strong style="color:#c01020">responsible for switching the diodes</strong>. Δ denotes<strong>anti-phase splitting</strong> — the LO reaches the two diodes in opposite phase (a $180°$ difference).</li>
+<li><strong>RF input</strong>(blue, entering port 1 = <strong>Σ port</strong>, the sum port): the radio-frequency signal to be downconverted, $v_{RF}(t)=V_{RF}\cos\omega_{RF}t$. Σ denotes <strong>in-phase splitting</strong> — the RF is divided equally between the two diodes with the same phase.</li>
+<li><strong>LO input</strong>(red, entering port 4 = <strong>Δ port</strong>, the difference port): the local-oscillator signal $v_{LO}(t)=V_{LO}\cos\omega_{LO}t$, which is <strong style="color:#c01020">responsible for switching the diodes</strong>. Δ denotes <strong>anti-phase splitting</strong> — the LO reaches the two diodes in opposite phase (a $180°$ difference).</li>
 </ul>
 <div class="callout warn">
 <div class="callout-title">The fundamental difference between the 90° and 180° topologies</div>
-90° hybrid: the RF/LO phase differences of the two paths are<strong>swapped with each other</strong>(asymmetric).<br>
-180° hybrid:<strong>RF in phase, LO in anti-phase</strong> — this Σ/Δ structure is the hallmark of the 180° topology. As a result, the RF reflections at the<em>two</em>diodes are identical ($V_\Gamma^1=V_\Gamma^2$), so travelling back to the Δ port (LO) they cancel exactly, while travelling back to the Σ port (RF) they add exactly.
+90° hybrid: the RF/LO phase differences of the two paths are <strong>swapped with each other</strong>(asymmetric).<br>
+180° hybrid: <strong>RF in phase, LO in anti-phase</strong> — this Σ/Δ structure is the hallmark of the 180° topology. As a result, the RF reflections at the <em>two</em> diodes are identical ($V_\Gamma^1=V_\Gamma^2$), so travelling back to the Δ port (LO) they cancel exactly, while travelling back to the Σ port (RF) they add exactly.
 </div>
 
 <details style="margin:10px 0;background:#eef6fc;border:1px solid #a8c4e8;border-radius:6px;padding:0">
 <summary style="cursor:pointer;list-style:revert;padding:8px 12px;font-weight:600;color:#1a4a8a">Terminology: what exactly is a “hybrid”?</summary>
 <div style="padding:6px 14px 12px;font-size:0.95em;line-height:1.7">
 
-<p><strong>Hybrid</strong>(hybrid junction / hybrid coupler) is the microwave-engineering name for a particular class of<strong>four-port passive component</strong>. It splits one signal<em>into two</em>, or combines two signals<em>into one</em>, while strictly controlling the<strong>phase difference and power ratio</strong>of the image-reject mixer at low IF.</p>
+<p><strong>Hybrid</strong>(hybrid junction / hybrid coupler) is the microwave-engineering name for a particular class of <strong>four-port passive component</strong>. It splits one signal <em>into two</em>, or combines two signals <em>into one</em>, while strictly controlling the <strong>phase difference and power ratio</strong>.</p>
 
 <p style="margin-top:6px;font-weight:600;color:#1a4a8a">The four defining properties</p>
 <ol style="margin:4px 0 6px 22px">
-<li><strong>Four ports (4-port)</strong>, each of which, taken on its own, is<strong>perfectly matched</strong>($S_{ii}=0$).</li>
+<li><strong>Four ports (4-port)</strong>, each of which, taken on its own, is <strong>perfectly matched</strong>($S_{ii}=0$).</li>
 <li><strong>Equal power split</strong>(3 dB): a signal incident on any port → each of the two output ports takes half the power.</li>
-<li>There is a<strong>fixed phase difference</strong>between the two output ports ($180°$ for this topology).</li>
-<li>The remaining port is<strong>completely isolated</strong>of the image-reject mixer at low IF.</li>
+<li>There is a <strong>fixed phase difference</strong> between the two output ports ($180°$ for this topology).</li>
+<li>The remaining port is <strong>completely isolated</strong>.</li>
 </ol>
 
 <p style="margin-top:6px;font-weight:600;color:#1a4a8a">Concrete implementations of the 180° hybrid</p>
@@ -256,7 +256,7 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid #d4c9a8;font-size:0
 <li><strong>One $3\lambda/4$ long arm (red)</strong>: taking the long way round from port 4 back to port 1.</li>
 <li>All four ports have a characteristic impedance of $\sqrt{2}Z_0\approx 70.7\,\Omega$ (in a 50 Ω system), connected to the external 50 Ω through a $\lambda/4$ impedance transformation.</li>
 </ul>
-<p>The $\lambda/2$ path-length difference<strong>between $\lambda/4$ and $3\lambda/4$</strong> is<strong>the very reason the whole hybrid can produce a $180°$ phase difference</strong>(every extra $\lambda/2$ travelled adds $180°$).</p>
+<p>The $\lambda/2$ path-length difference <strong>between $\lambda/4$ and $3\lambda/4$</strong> is <strong>the very reason the whole hybrid can produce a $180°$ phase difference</strong>(every extra $\lambda/2$ travelled adds $180°$).</p>
 
 <p>The scattering matrix of the complete 4-port structure (port numbering as in ①②③④) is:</p>
 <div class="eq-box">
@@ -272,7 +272,7 @@ $$[S] = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{rfd1a}{1} & \cssId{rfd2a}{
 <div class="callout warn">
 <div class="callout-title">Reading the [S]-matrix elements (port 1 = RF/Σ, 2 = diode 1, 3 = diode 2, 4 = LO/Δ)</div>
 
-<p style="margin:4px 0"><strong>How to read it:</strong> $S_{ij}=$ the complex voltage ratio for a wave incident at port $j$ and emerging at port $i$. Every non-zero element has<strong>magnitude $1/\sqrt{2}$</strong>(an equal 3 dB split) plus an overall $-j$ prefix; the $\pm 1$ in the matrix sets the additional $0°$ or $180°$ of phase.</p>
+<p style="margin:4px 0"><strong>How to read it:</strong> $S_{ij}=$ the complex voltage ratio for a wave incident at port $j$ and emerging at port $i$. Every non-zero element has <strong>magnitude $1/\sqrt{2}$</strong>(an equal 3 dB split) plus an overall $-j$ prefix; the $\pm 1$ in the matrix sets the additional $0°$ or $180°$ of phase.</p>
 
 <div style="overflow-x:auto">
 <table style="border-collapse:collapse;font-size:0.92em;margin:6px 0;min-width:520px">
@@ -286,11 +286,11 @@ $$[S] = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{rfd1a}{1} & \cssId{rfd2a}{
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{11},S_{22},S_{33},S_{44}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">self → self</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">All four ports are<strong>perfectly matched</strong>(return loss = ∞)</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">All four ports are <strong>perfectly matched</strong>(return loss = ∞)</td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{14}=S_{41}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">RF(Σ) ↔ LO(Δ)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">The Σ and Δ ports are<strong>inherently isolated</strong>(not by virtue of symmetry)</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">The Σ and Δ ports are <strong>inherently isolated</strong>(not by virtue of symmetry)</td></tr>
 <tr><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{23}=S_{32}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$0$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">diode 1 ↔ diode 2</td>
@@ -298,19 +298,19 @@ $$[S] = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{rfd1a}{1} & \cssId{rfd2a}{
 <tr style="background:#fff2c4"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{21}=S_{12}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">RF (1) → diode 1 (2)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ in-phase split: half power,<strong>$-90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ in-phase split: half power, <strong>$-90°$</strong></td></tr>
 <tr style="background:#ffd9b0"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{31}=S_{13}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">RF (1) → diode 2 (3)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Σ in-phase split: half power,<strong>$-90°$</strong>(<strong>in phase</strong>with the cell above!)</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Σ in-phase split: half power, <strong>$-90°$</strong>(<strong>in phase</strong> with the cell above!)</td></tr>
 <tr style="background:#ffb8a8"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{24}=S_{42}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{+j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">LO (4) → diode 1 (2)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ anti-phase split: half power,<strong>$+90°$</strong></td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ anti-phase split: half power, <strong>$+90°$</strong></td></tr>
 <tr style="background:#a8d8ff"><td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$S_{34}=S_{43}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070;text-align:center">$\dfrac{-j}{\sqrt{2}}$</td>
     <td style="padding:3px 8px;border:1px solid #d8b070">LO (4) → diode 2 (3)</td>
-    <td style="padding:3px 8px;border:1px solid #d8b070">Δ anti-phase split: half power,<strong>$-90°$</strong>(<strong>in anti-phase</strong>with the cell above!)</td></tr>
+    <td style="padding:3px 8px;border:1px solid #d8b070">Δ anti-phase split: half power, <strong>$-90°$</strong>(<strong>in anti-phase</strong> with the cell above!)</td></tr>
 </tbody>
 </table>
 </div>
@@ -321,13 +321,13 @@ $$[S] = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{rfd1a}{1} & \cssId{rfd2a}{
 </div>
 
 <h3>③ The “$-90°$” and “$+90°$” marked beside port 2 / port 3</h3>
-<p>The angles in the figure are the phases of the <strong>LO signal</strong>as it arrives at ports 2 and 3 after entering at port 4 (to a suitable reference):</p>
+<p>The angles in the figure are the phases of the <strong>LO signal</strong> as it arrives at ports 2 and 3 after entering at port 4 (to a suitable reference):</p>
 <ul style="margin:4px 0 6px 22px">
 <li><strong>LO (4) → diode 1 (port 2):</strong> via $S_{24}=+j/\sqrt{2}$ → phase $\mathbf{+90°}$</li>
 <li><strong>LO (4) → diode 2 (port 3):</strong> via $S_{34}=-j/\sqrt{2}$ → phase $\mathbf{-90°}$</li>
 </ul>
 <p>The LO phases at the two ports differ by $180°$ — that is where the name “180° hybrid” comes from, and it is the anti-phase split of the Δ port.</p>
-<p style="font-size:0.88em;color:#444">⚠ Note: the “$\pm 90°$” in the figure is<em>not</em>the phase of the RF. Once the RF enters from the Σ port it reaches both diodes with<strong>the same $-90°$</strong>($S_{21}=S_{31}=-j/\sqrt{2}$) — that is, the RF is common-mode and the LO is differential-mode. Comparing them explicitly:</p>
+<p style="font-size:0.88em;color:#444">⚠ Note: the “$\pm 90°$” in the figure is <em>not</em> the phase of the RF. Once the RF enters from the Σ port it reaches both diodes with <strong>the same $-90°$</strong>($S_{21}=S_{31}=-j/\sqrt{2}$) — that is, the RF is common-mode and the LO is differential-mode. Comparing them explicitly:</p>
 <table>
 <tr><th>Path</th><th>Phase</th><th>Comment</th></tr>
 <tr><td>RF (1) → diode 1</td><td class="c">$-90°$</td><td>Σ behaviour — the two are in phase</td></tr>
@@ -337,16 +337,16 @@ $$[S] = \frac{-j}{\sqrt{2}}\begin{bmatrix} 0 & \cssId{rfd1a}{1} & \cssId{rfd2a}{
 </table>
 
 <h3>④ The two diodes (an anti-parallel pair)</h3>
-<p>Exactly as in the 90° version — the two diodes are connected in series with<strong>opposite orientation</strong>, so that the upper one has an effective coefficient of $+a_1$ and the lower one $-a_1$.</p>
+<p>Exactly as in the 90° version — the two diodes are connected in series with <strong>opposite orientation</strong>, so that the upper one has an effective coefficient of $+a_1$ and the lower one $-a_1$.</p>
 
 <div class="callout">
 <div class="callout-title">Why does the signal-flow diagram say “diode pair, ±a₁v²”?</div>
 
 <p style="margin:4px 0"><strong>① Where does $a_1 v^2$ come from?</strong> The I–V curve of a single diode is nonlinear; expanding the current as a Taylor series in the applied voltage:</p>
 <div class="eq-box">$$i(v) = a_0 v + a_1 v^2 + a_2 v^3 + \cdots$$</div>
-<p style="margin:4px 0;font-size:0.92em">The numbering convention in this course (and in Pozar) calls the<em>second-order term</em>$a_1$. So $a_1$ is the<strong>square-law coefficient</strong>, and it is<strong>the engine of the entire mixer</strong> — without the $v^2$ term there is no mixing.</p>
+<p style="margin:4px 0;font-size:0.92em">The numbering convention in this course (and in Pozar) calls the <em>second-order term</em>$a_1$. So $a_1$ is the <strong>square-law coefficient</strong>, and it is <strong>the engine of the entire mixer</strong> — without the $v^2$ term there is no mixing.</p>
 
-<p style="margin:6px 0"><strong>② Where does the “$\pm$” come from?</strong> The two diodes are connected in series back to back, so the lower one carries a<strong>minus sign</strong>at some port:</p>
+<p style="margin:6px 0"><strong>② Where does the “$\pm$” come from?</strong> The two diodes are connected in series back to back, so the lower one carries a <strong>minus sign</strong>:</p>
 <div class="eq-box">
 $$i_1(t) \approx \mathbf{+}a_1\bigl[v_1(t)+v_n(t)\bigr]^2, \qquad i_2(t) \approx \mathbf{-}a_1\bigl[v_2(t)+v_n(t)\bigr]^2$$
 </div>
@@ -364,7 +364,7 @@ $$i_o = i_1 + i_2 \approx a_1\bigl[v_1^2 - v_2^2\bigr] + 2a_1 v_n(t)\bigl[v_1 - 
 <div class="eq-box">
 $$v_1 = \tfrac{1}{\sqrt{2}}\bigl[V_{RF}\sin\omega_{RF}t - V_{LO}\sin\omega_{LO}t\bigr], \quad v_2 = \tfrac{1}{\sqrt{2}}\bigl[V_{RF}\sin\omega_{RF}t + V_{LO}\sin\omega_{LO}t\bigr]$$
 </div>
-<p>Note that the RF parts of $v_1$ and $v_2$ have<strong>the same sign</strong>(common mode) while the LO parts have<strong>opposite signs</strong>(differential mode). Substituting into $v_1^2-v_2^2$ gives</p>
+<p>Note that the RF parts of $v_1$ and $v_2$ have <strong>the same sign</strong>(common mode) while the LO parts have <strong>opposite signs</strong>(differential mode). Substituting into $v_1^2-v_2^2$ gives</p>
 <div class="eq-box">
 $$v_1^2 - v_2^2 = -2 V_{RF} V_{LO} \sin\omega_{RF}t \sin\omega_{LO}t = -V_{RF}V_{LO}\bigl[\cos(\omega_{RF}-\omega_{LO})t - \cos(\omega_{RF}+\omega_{LO})t\bigr]$$
 </div>
@@ -372,10 +372,10 @@ $$v_1^2 - v_2^2 = -2 V_{RF} V_{LO} \sin\omega_{RF}t \sin\omega_{LO}t = -V_{RF}V_
 <div class="eq-box">
 $$\color{#c01020}{\boldsymbol{i_{IF}(t) \approx -a_1 V_{RF}V_{LO}\cos(\omega_{RF}-\omega_{LO})t = -\tfrac{1}{2}g'_{DC}V_{RF}V_{LO}\cos\omega_{IF}t}}$$
 </div>
-<p style="font-size:0.92em">Note: the IF of the 180° version has a<strong>cos</strong>form (versus sin for the 90° version); the amplitudes are identical and only the $90°$ of phase differs.</p>
+<p style="font-size:0.92em">Note: the IF of the 180° version has a <strong>cos</strong>form (versus sin for the 90° version); the amplitudes are identical and only the $90°$ of phase differs.</p>
 
 <h3>⑦ The red curled-back arrows: $V_\Gamma^{RF}, V_\Gamma^{LO}, V_\Gamma^1, V_\Gamma^2$</h3>
-<p>Every red “curl back on itself” arrow is the<strong>reflected voltage phasor</strong>at some port:</p>
+<p>Every red “curl back on itself” arrow is the <strong>reflected voltage phasor</strong> at some port:</p>
 <table>
 <tr><th>Symbol</th><th>Location</th><th>Meaning</th></tr>
 <tr><td class="c">$V_\Gamma^1$</td><td>Inside port 2</td><td>The voltage reflected by diode 1 because it is mismatched</td></tr>
@@ -399,7 +399,7 @@ $$V_\Gamma^1 = \Gamma\,V_1 = \frac{-j\Gamma V_{RF}}{\sqrt{2}}, \qquad V_\Gamma^2
 </div>
 <p style="margin:4px 0;font-size:0.92em">$V_\Gamma^1 = V_\Gamma^2$ (same amplitude, same phase).</p>
 
-<p style="margin:4px 0"><strong>Step 3 — the hybrid redistributes these two<em>identical</em>reflections to port 1 (Σ/RF) and port 4 (Δ/LO):</strong></p>
+<p style="margin:4px 0"><strong>Step 3 — the hybrid redistributes these two <em>identical</em> reflections to port 1 (Σ/RF) and port 4 (Δ/LO):</strong></p>
 <div class="eq-box">
 $$V_\Gamma^{RF} = S_{12}V_\Gamma^1 + S_{13}V_\Gamma^2, \qquad V_\Gamma^{LO} = S_{42}V_\Gamma^1 + S_{43}V_\Gamma^2$$
 </div>
@@ -414,7 +414,7 @@ V_\Gamma^{RF} &= \frac{-j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} + 
 \color{#c01020}{\boldsymbol{V_\Gamma^{LO}}} &\color{#c01020}{\boldsymbol{= \frac{+j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} + \frac{-j}{\sqrt{2}}\!\cdot\!\frac{-j\Gamma V_{RF}}{\sqrt{2}} = \frac{\Gamma V_{RF}}{2} + \frac{-\Gamma V_{RF}}{2} = 0}} \quad\color{#c01020}{\boldsymbol{\text{(the reflection coefficient at the LO port is 0)}}}
 \end{aligned}$$
 </div>
-Even if the two diodes are completely mismatched,<strong>the LO port always looks perfectly isolated ($V_\Gamma^{LO}=0$)</strong> — the two paths of the Δ split are $180°$ apart and cancel. All of the reflection goes to the RF port instead (adding in phase), giving $|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$. So what this 180° hybrid buys you is “<strong>RF-to-LO isolation is always perfect</strong>”, at the cost of “the RF match depends on how well the diodes are matched”.
+Even if the two diodes are completely mismatched, <strong>the LO port always looks perfectly isolated ($V_\Gamma^{LO}=0$)</strong> — the two paths of the Δ split are $180°$ apart and cancel. All of the reflection goes to the RF port instead (adding in phase), giving $|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$. So what this 180° hybrid buys you is “<strong>RF-to-LO isolation is always perfect</strong>”, at the cost of “the RF match depends on how well the diodes are matched”.
 </div>
 
 <div class="callout">
@@ -431,7 +431,7 @@ Even if the two diodes are completely mismatched,<strong>the LO port always look
 <tr><td>Poor</td><td class="c">0.5</td><td class="c">50%</td><td class="c">6 dB</td></tr>
 </table>
 
-<p style="margin:8px 0;padding:6px 10px;background:#fceaea;border-left:3px solid #a02020"><strong>Overall conclusion (180° version):</strong> the LO port is<strong>unconditionally and perfectly isolated</strong>($V_\Gamma^{LO}=0$) ✅; the RF match<strong>depends on how well the diodes are matched</strong>($|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$) ⚠. This is precisely the 90° version's<strong>mirror image</strong>of the image-reject mixer at low IF.</p>
+<p style="margin:8px 0;padding:6px 10px;background:#fceaea;border-left:3px solid #a02020"><strong>Overall conclusion (180° version):</strong> the LO port is <strong>unconditionally and perfectly isolated</strong>($V_\Gamma^{LO}=0$) ✅; the RF match <strong>depends on how well the diodes are matched</strong>($|V_\Gamma^{RF}/V_{RF}|=|\Gamma|$) ⚠. This is precisely the 90° version's <strong>mirror image</strong>.</p>
 </div>
 
 <!-- ============== Signal-flow summary ============== -->
@@ -474,7 +474,7 @@ $$v_1^2 = \tfrac{1}{2}\bigl[V_{RF}^2\sin^2\omega_{RF}t - 2V_{RF}V_{LO}\sin\omega
 $$v_2^2 = \tfrac{1}{2}\bigl[V_{RF}^2\sin^2\omega_{RF}t + 2V_{RF}V_{LO}\sin\omega_{RF}t\sin\omega_{LO}t + V_{LO}^2\sin^2\omega_{LO}t\bigr]$$
 </div>
 
-<p>Subtracting:<strong>The $V_{RF}^2$ and $V_{LO}^2$ terms cancel exactly</strong>(because both sides have the same sign)! What remains is:</p>
+<p>Subtracting: <strong>The $V_{RF}^2$ and $V_{LO}^2$ terms cancel exactly</strong>(because both sides have the same sign)! What remains is:</p>
 <div class="eq-box">
 $$v_1^2 - v_2^2 = -2 V_{RF}V_{LO}\sin\omega_{RF}t\sin\omega_{LO}t$$
 </div>
@@ -534,7 +534,7 @@ $$\color{#c01020}{\boldsymbol{i_{IF}(t) \approx -a_1 V_{RF}V_{LO}\cos(\omega_{RF
 </div>
 
 <p style="text-align:center;margin-top:24px;font-size:0.95em">
-🔗 The 90° version that pairs with this page:<a href="slide26_90deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">slide26_90deg_single_balanced_mixer_explained.html</a>
+🔗 The 90° version that pairs with this page: <a href="slide26_90deg_single_balanced_mixer_explained_EN.html" style="color:#1a4a8a;font-weight:600">slide26_90deg_single_balanced_mixer_explained.html</a>
 </p>
 
 <footer>

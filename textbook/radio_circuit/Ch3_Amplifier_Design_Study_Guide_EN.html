@@ -1296,8 +1296,8 @@ $$Z_\Gamma = Z_0\,\frac{1+\Gamma}{1-\Gamma}, \qquad R_\Gamma = Z_0\,\frac{1-|\Ga
 
 <p style="margin-top:8px"><strong>The trade-off:</strong> the only hard constraint is &quot;stay on the gain circle.&quot; Anywhere on it gives the target gain, so within that freedom you pick the point closest to the center for the smallest network and best bandwidth. Other reasons to leave the center (e.g. hitting a noise-figure target) only matter when they conflict with the gain constraint.</p>
 
-<p style="margin-top:6px;color:#666;font-size:0.9em"><strong>In brief:</strong>The closer to the centre of the Smith chart ($\Gamma=0$, i.e. $Z=Z_0$), the smaller the impedance transformation the matching network has to perform: the required inductance, capacitance or stub length is smaller, and the network $Q$ is low ($Q=\sqrt{R_{\text{high}}/R_{\text{low}}-1}$), so the bandwidth is wider. Any point on the gain circle achieves the target gain, so choosing the point on the circle nearest the centre buys you the smallest components and the widest bandwidth for free.</p>
-<p style="margin-top:4px;color:#666;font-size:0.88em"><strong>Terminology:</strong>A “stub” is<strong>a short length of transmission line</strong>used as a matching element. Common combinations:<em>open stub</em>= open-circuit stub,<em>shorted stub</em>= short-circuit stub,<em>quarter-wave stub</em>= quarter-wave stub ($\lambda/4$ stub); single- / double-stub matching uses one or two such stubs.</p>
+<p style="margin-top:6px;color:#666;font-size:0.9em"><strong>In brief:</strong> The closer to the centre of the Smith chart ($\Gamma=0$, i.e. $Z=Z_0$), the smaller the impedance transformation the matching network has to perform: the required inductance, capacitance or stub length is smaller, and the network $Q$ is low ($Q=\sqrt{R_{\text{high}}/R_{\text{low}}-1}$), so the bandwidth is wider. Any point on the gain circle achieves the target gain, so choosing the point on the circle nearest the centre buys you the smallest components and the widest bandwidth for free.</p>
+<p style="margin-top:4px;color:#666;font-size:0.88em"><strong>Terminology:</strong> A “stub” is <strong>a short length of transmission line</strong> used as a matching element. Common combinations: <em>open stub</em>= open-circuit stub, <em>shorted stub</em>= short-circuit stub, <em>quarter-wave stub</em>= quarter-wave stub ($\lambda/4$ stub); single- / double-stub matching uses one or two such stubs.</p>
 </div>
 </details>
 $$\Gamma_s = (0.627 - 0.294)\angle{120°} = 0.333\angle{120°}$$
@@ -1575,7 +1575,7 @@ $$z_{\text{in,\,FET}}(\ell_s,\,\ell_1) \;\stackrel{!}{=}\; z_s \;=\; 0.616 + j\,
 
 <p style="margin-top:10px"><strong>Why these specific lengths?</strong> They are read off the Smith chart — choose the intersection of the constant-$|\Gamma|$ circle with the appropriate constant-$g$ circle, then convert angular positions to electrical line length using $\lambda$. Alternative realizations (shorted stub, series stub, two-stub network, etc.) yield different lengths but the same final $\Gamma_s, \Gamma_l$.</p>
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>This circuit realises the chosen $\Gamma_s, \Gamma_l$ with a<strong>series transmission line plus a shunt open-circuit stub</strong>. Every line has a 50 Ω characteristic impedance, so the impedance transformation comes purely from the lengths (in units of $\lambda$): the series line rotates the operating point along a constant-$|\Gamma|$ circle, while the open stub supplies a pure susceptance $B$, moving it along a constant-$g$ circle. An open stub is easier to fabricate on a PCB than a short-circuit one (which needs a via to ground), which is why microwave circuits favour it. The input-side 0.179 λ + 0.100 λ and output-side 0.045 λ + 0.432 λ are the lengths read off the Smith chart at the intersection of the $|\Gamma|$ circle and the $g$ circle; swapping to short-circuit stubs or another topology gives different lengths but the same final $\Gamma$.</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong> This circuit realises the chosen $\Gamma_s, \Gamma_l$ with a <strong>series transmission line plus a shunt open-circuit stub</strong>. Every line has a 50 Ω characteristic impedance, so the impedance transformation comes purely from the lengths (in units of $\lambda$): the series line rotates the operating point along a constant-$|\Gamma|$ circle, while the open stub supplies a pure susceptance $B$, moving it along a constant-$g$ circle. An open stub is easier to fabricate on a PCB than a short-circuit one (which needs a via to ground), which is why microwave circuits favour it. The input-side 0.179 λ + 0.100 λ and output-side 0.045 λ + 0.432 λ are the lengths read off the Smith chart at the intersection of the $|\Gamma|$ circle and the $g$ circle; swapping to short-circuit stubs or another topology gives different lengths but the same final $\Gamma$.</p>
 </div>
 </details>
 
@@ -1586,7 +1586,7 @@ $$z_{\text{in,\,FET}}(\ell_s,\,\ell_1) \;\stackrel{!}{=}\; z_s \;=\; 0.616 + j\,
 </svg>
 
 <p>It can be seen that the desired gain of <strong>11 dB</strong> is achieved at <strong>4 GHz</strong>. The return loss, however, is not very good — only about <strong>5 dB</strong> at the design frequency. This is due to the deliberate <em>mismatch</em> introduced into the matching sections to back off from $G_{S,\max}$ and $G_{L,\max}$ in order to achieve the specified (lower) gain.</p>
-<p>You can see that at the design frequency <strong>4 GHz</strong> the target gain <strong>11 dB</strong>is achieved. The return loss, however, is not good — only about <strong>5 dB</strong>at the design frequency. That is because the matching network<strong>deliberately introduces a mismatch</strong>, backing off from $G_{S,\max}$ and $G_{L,\max}$ to trade for the specified (lower) gain.</p>
+<p>You can see that at the design frequency <strong>4 GHz</strong> the target gain <strong>11 dB</strong>is achieved. The return loss, however, is not good — only about <strong>5 dB</strong>at the design frequency. That is because the matching network <strong>deliberately introduces a mismatch</strong>, backing off from $G_{S,\max}$ and $G_{L,\max}$ to trade for the specified (lower) gain.</p>
 </div>
 </details>
 </div>
@@ -1644,7 +1644,7 @@ $$U \;=\; |X|_{\max} \;=\; \frac{|S_{11}||S_{12}||S_{21}||S_{22}|}{(1-|S_{11}|^2
 <p>Replacing $|X|$ by $U$ gives the conservative form used in practice:</p>
 $$\frac{1}{(1+U)^2} \;\le\; \frac{G_T}{G_{TU}} \;\le\; \frac{1}{(1-U)^2}.$$
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>The error ratio is $G_T/G_{TU} = 1/|1-X|^2$, where $X = S_{12}S_{21}\Gamma_s\Gamma_l / [(1-S_{11}\Gamma_s)(1-S_{22}\Gamma_l)]$. Applying the triangle inequality $1-|X| \le |1-X| \le 1+|X|$ and taking the reciprocal squared gives the upper and lower bounds. When $\Gamma_s, \Gamma_l$ are conjugately matched, $|X|$ reaches its maximum value $U$ (the unilateral figure of merit).</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong> The error ratio is $G_T/G_{TU} = 1/|1-X|^2$, where $X = S_{12}S_{21}\Gamma_s\Gamma_l / [(1-S_{11}\Gamma_s)(1-S_{22}\Gamma_l)]$. Applying the triangle inequality $1-|X| \le |1-X| \le 1+|X|$ and taking the reciprocal squared gives the upper and lower bounds. When $\Gamma_s, \Gamma_l$ are conjugately matched, $|X|$ reaches its maximum value $U$ (the unilateral figure of merit).</p>
 </div>
 </details>
 
@@ -1719,7 +1719,7 @@ $$R_L \;=\; \frac{\sqrt{1 - 2k\,|S_{12}S_{21}|\,g_P \;+\; |S_{12}S_{21}|^2\,g_P^
 <li><strong>$G_P = 0$</strong>: $g_P = 0$, $R_L = 1$, $C_L = 0$ — the circle becomes the entire unit disk boundary (every $\Gamma_l$ gives zero gain, trivially).</li>
 </ul>
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>Starting from the operating power gain $G_P$, substitute the dependence of $\Gamma_{in}$ on $\Gamma_l$ and reduce the denominator to an expression linear in $|\Gamma_l|^2$ and $\mathrm{Re}\{C_2\Gamma_l\}$ (where $C_2 = S_{22} - \Delta S_{11}^*$) — which is the standard form of a circle. Completing the square gives the centre $C_L = g_P C_2^*/[1+g_P(|S_{22}|^2-|\Delta|^2)]$ and the radius $R_L$; the stability factor $k$ and $|S_{12}S_{21}|$ appear inside the discriminant, so the size of the circle is intimately tied to stability. The derivation of the $G_A$ circles at the input is exactly symmetric ($1\leftrightarrow 2$).</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong> Starting from the operating power gain $G_P$, substitute the dependence of $\Gamma_{in}$ on $\Gamma_l$ and reduce the denominator to an expression linear in $|\Gamma_l|^2$ and $\mathrm{Re}\{C_2\Gamma_l\}$ (where $C_2 = S_{22} - \Delta S_{11}^*$) — which is the standard form of a circle. Completing the square gives the centre $C_L = g_P C_2^*/[1+g_P(|S_{22}|^2-|\Delta|^2)]$ and the radius $R_L$; the stability factor $k$ and $|S_{12}S_{21}|$ appear inside the discriminant, so the size of the circle is intimately tied to stability. The derivation of the $G_A$ circles at the input is exactly symmetric ($1\leftrightarrow 2$).</p>
 </div>
 </details>
 
@@ -1808,7 +1808,7 @@ $$R_S \;=\; \frac{\sqrt{1 - 2k\,|S_{12}S_{21}|\,g_A \;+\; |S_{12}S_{21}|^2\,g_A^
 <li><strong>Mirror symmetry with output:</strong> every formula is obtained from the $C_L$, $R_L$ derivation by the swap $\{S_{11}, S_{22}, \Gamma_l, g_P, G_P, C_2\} \leftrightarrow \{S_{22}, S_{11}, \Gamma_s, g_A, G_A, C_1\}$.</li>
 </ul>
 
-<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong>Starting from the available gain $G_A$, substitute the dependence of $\Gamma_{out}$ on $\Gamma_s$ and simplify the denominator using $C_1 = S_{11} - \Delta S_{22}^*$ to obtain the equation of a circle in the $\Gamma_s$ plane. Completing the square gives the centre and the radius, with the stability factor $k$ and $|S_{12}S_{21}|$ under the square root in the numerator. This expression follows from the output-side derivation simply by swapping $1\leftrightarrow 2$ — the structure is perfectly symmetric.</p>
+<p style="margin-top:10px;color:#666;font-size:0.92em"><strong>In brief:</strong> Starting from the available gain $G_A$, substitute the dependence of $\Gamma_{out}$ on $\Gamma_s$ and simplify the denominator using $C_1 = S_{11} - \Delta S_{22}^*$ to obtain the equation of a circle in the $\Gamma_s$ plane. Completing the square gives the centre and the radius, with the stability factor $k$ and $|S_{12}S_{21}|$ under the square root in the numerator. This expression follows from the output-side derivation simply by swapping $1\leftrightarrow 2$ — the structure is perfectly symmetric.</p>
 </div>
 </details>
 
@@ -3124,7 +3124,7 @@ $$U = \frac{|S_{12}||S_{21}||S_{11}||S_{22}|}{(1-|S_{11}|^2)(1-|S_{22}|^2)}$$
 $$\frac{1}{(1+U)^2} \;<\; \frac{G_T}{G_{TU}} \;<\; \frac{1}{(1-U)^2}$$
 <p style="margin:4px 0">Here $U \approx 0.05$, corresponding to an error of about $\pm 0.4$ dB — accurate enough for a sanity check.</p>
 
-<p style="margin:8px 0 4px"><strong>The exact bilateral maximum gain</strong>would use $G_{MAG} = \dfrac{|S_{21}|}{|S_{12}|}(k - \sqrt{k^2-1})$, but that first requires computing $k$ and $\Delta$, which is more work. $G_{TU,\max}$ gives an upper bound in one line, which is enough for a directional check (that the answer really is in the right ballpark).</p>
+<p style="margin:8px 0 4px"><strong>The exact bilateral maximum gain</strong> would use $G_{MAG} = \dfrac{|S_{21}|}{|S_{12}|}(k - \sqrt{k^2-1})$, but that first requires computing $k$ and $\Delta$, which is more work. $G_{TU,\max}$ gives an upper bound in one line, which is enough for a directional check (that the answer really is in the right ballpark).</p>
 </div>
 </details>
 
