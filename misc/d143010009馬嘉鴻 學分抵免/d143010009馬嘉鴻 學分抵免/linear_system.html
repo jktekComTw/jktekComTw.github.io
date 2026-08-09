@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
+<html lang="zh-Hant"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>線性控制系統 LINEAR CONTROL SYSTEMS — NTU ME5220 課程大綱 | 昭群科技</title>
@@ -69,55 +68,126 @@
   .src a{color:var(--accent)}
   a{color:var(--accent)}
 </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="zh";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"線性控制系統 — NTU 課程大綱 | 昭群科技",en:"Linear Control Systems — NTU Syllabus | JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
 
 <header>
-  <div class="crumb"><a href="%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html">&larr; 回 課程內容對應表</a></div>
-  <h1>線性控制系統
+  <div class="crumb"><a href="%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html">← <span data-l="zh">回 課程內容對應表</span><span data-l="en">back to Course Content Mapping</span></a></div>
+  <h1><span data-l="zh">線性控制系統</span><span data-l="en">Linear Control Systems</span>
     <span class="en">LINEAR CONTROL SYSTEMS</span>
   </h1>
   <div class="badges">
-    <span class="chip">國立臺灣大學 NTU</span>
+    <span class="chip"><span data-l="zh">國立臺灣大學 NTU</span><span data-l="en">National Taiwan University (NTU)</span></span>
     <span class="chip">ME5220</span>
     <span class="chip">522 U5040</span>
     <span class="chip">95-1</span>
-    <span class="chip">3 學分</span>
+    <span class="chip"><span data-l="zh">3 學分</span><span data-l="en">3 credits</span></span>
   </div>
 </header>
 
 <main>
 
 <section class="block">
-  <h2>課程資訊</h2>
+  <h2><span data-l="zh">課程資訊</span><span data-l="en">Course Information</span></h2>
   <div class="inner">
     <table class="info">
-      <tr><td>課程名稱</td><td>線性控制系統<br>LINEAR CONTROL SYSTEMS</td></tr>
-      <tr><td>開課學期</td><td>95-1</td></tr>
-      <tr><td>授課對象</td><td>工學院　機械工程學研究所</td></tr>
-      <tr><td>授課教師</td><td>王富正</td></tr>
-      <tr><td>課號</td><td>ME5220</td></tr>
-      <tr><td>課程識別碼</td><td>522 U5040</td></tr>
-      <tr><td>學分</td><td>3</td></tr>
-      <tr><td>全/半年</td><td>半年</td></tr>
-      <tr><td>必/選修</td><td>選修</td></tr>
-      <tr><td>上課時間</td><td>星期四 6,7,8（13:20~16:20）</td></tr>
-      <tr><td>上課地點</td><td>工綜 205</td></tr>
-      <tr><td>備註</td><td>系統控制知識領域選修<br>總人數上限：40 人</td></tr>
-      <tr><td>Ceiba 課程網頁</td><td>http://ceiba.ntu.edu.tw/951_linear_fcw</td></tr>
-    </table>
+      <tbody><tr><td><span data-l="zh">課程名稱</span><span data-l="en">Course title</span></td><td><span data-l="zh">線性控制系統</span><span data-l="en">Linear Control Systems</span><br>LINEAR CONTROL SYSTEMS</td></tr>
+      <tr><td><span data-l="zh">開課學期</span><span data-l="en">Semester</span></td><td>95-1</td></tr>
+      <tr><td><span data-l="zh">授課對象</span><span data-l="en">Offered to</span></td><td><span data-l="zh">工學院　機械工程學研究所</span><span data-l="en">College of Engineering — Graduate Institute of Mechanical Engineering</span></td></tr>
+      <tr><td><span data-l="zh">授課教師</span><span data-l="en">Instructor</span></td><td>王富正</td></tr>
+      <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>ME5220</td></tr>
+      <tr><td><span data-l="zh">課程識別碼</span><span data-l="en">Course identifier</span></td><td>522 U5040</td></tr>
+      <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td>3</td></tr>
+      <tr><td><span data-l="zh">全/半年</span><span data-l="en">Full-year / one semester</span></td><td><span data-l="zh">半年</span><span data-l="en">One semester</span></td></tr>
+      <tr><td><span data-l="zh">必/選修</span><span data-l="en">Required / elective</span></td><td><span data-l="zh"><span data-l="zh">選修</span></span><span data-l="en">Elective</span></td></tr>
+      <tr><td><span data-l="zh">上課時間</span><span data-l="en">Class time</span></td><td><span data-l="zh">星期四 6,7,8（13:20~16:20）</span><span data-l="en">Thursday, periods 6–8 (13:20–16:20)</span></td></tr>
+      <tr><td><span data-l="zh">上課地點</span><span data-l="en">Location</span></td><td><span data-l="zh">工綜 205</span><span data-l="en">Engineering Building Complex, Room 205</span></td></tr>
+      <tr><td><span data-l="zh">備註</span><span data-l="en">Notes</span></td><td><span data-l="zh">系統控制知識領域選修</span><span data-l="en">Systems and Control knowledge area (elective)</span><br><span data-l="zh">總人數上限：40 人</span><span data-l="en">Enrolment cap: 40</span></td></tr>
+      <tr><td><span data-l="zh">Ceiba 課程網頁</span><span data-l="en">Ceiba course page</span></td><td>http://ceiba.ntu.edu.tw/951_linear_fcw</td></tr>
+    </tbody></table>
   </div>
 </section>
 
 <section class="block">
-  <h2>課程大綱</h2>
+  <h2><span data-l="zh">課程大綱</span><span data-l="en">Syllabus</span></h2>
   <div class="inner">
-    <div class="notice">為確保您我的權利，請尊重智慧財產權及不得非法影印。</div>
+    <div class="notice"><span data-l="zh">為確保您我的權利，請尊重智慧財產權及不得非法影印。</span><span data-l="en">To protect everyone's rights, please respect intellectual property and do not photocopy illegally.</span></div>
 
-    <h3>課程概述 / Description</h3>
+    <h3><span data-l="zh">課程概述 / Description</span><span data-l="en">Description</span></h3>
     <p>This course is designed for both graduate and undergraduate students, as a continuation of Automatic Control I. In Automatic Control I, we learned about the classical control design methods, such as root-locus, Bode plot, Nyquist criterion, etc. As the second course in control system, this course focuses on the so-called <i>modern control</i> techniques, i.e. the state-space methods. Besides, we will also introduce some basic concepts on the frequency domain control design, robust control and digital control.</p>
 
-    <h3>課程目標 / Objectives</h3>
+    <h3><span data-l="zh">課程目標 / Objectives</span><span data-l="en">Objectives</span></h3>
     <p>This course covers four parts:</p>
     <p><b>(1) State-space control design</b></p>
     <ol class="sub">
@@ -137,14 +207,14 @@
     </ol>
     <p><b>(3) Robust Control</b></p>
 
-    <h3>課程要求 / Requirements</h3>
-    <p>預修課程：自動控制（一）。<br>
-       評分考試：期中考 (1) 30%，期中考 (2) 30%，期末考 40%。</p>
+    <h3><span data-l="zh">課程要求 / Requirements</span><span data-l="en">Requirements</span></h3>
+    <p><span data-l="zh">預修課程：自動控制（一）。</span><span data-l="en">Prerequisite: Automatic Control (I).</span><br>
+       <span data-l="zh">評分考試：期中考 (1) 30%，期中考 (2) 30%，期末考 40%。</span><span data-l="en">Grading: Midterm 1 30%, Midterm 2 30%, Final 40%.</span></p>
 
     <h3>Office Hours</h3>
-    <p>每週一 14:00~18:00</p>
+    <p><span data-l="zh">每週一 14:00~18:00</span><span data-l="en">Mondays 14:00–18:00</span></p>
 
-    <h3>參考書目 / References</h3>
+    <h3><span data-l="zh">參考書目 / References</span><span data-l="en">References</span></h3>
     <ol>
       <li>C. T. Chen, <i>Linear Systems, Theory and Design</i>, 3rd ed.</li>
       <li>J. Dwight Aplevich, <i>The Essentials of Linear State-Space Systems</i>.</li>
@@ -155,50 +225,51 @@
 </section>
 
 <section class="block">
-  <h2>評量方式（僅供參考）</h2>
+  <h2><span data-l="zh">評量方式（僅供參考）</span><span data-l="en">Grading (for reference only)</span></h2>
   <div class="inner">
     <table class="gr">
-      <tr><th>No.</th><th>項目</th><th>百分比</th><th>說明</th></tr>
-      <tr><td>1.</td><td>期中考</td><td>30%</td><td></td></tr>
-      <tr><td>2.</td><td>隨堂測驗 and 作業</td><td>30%</td><td></td></tr>
-      <tr><td>3.</td><td>期末考</td><td>40%</td><td></td></tr>
-    </table>
+      <tbody><tr><th>No.</th><th><span data-l="zh">項目</span><span data-l="en">Item</span></th><th><span data-l="zh">百分比</span><span data-l="en">Weight</span></th><th><span data-l="zh">說明</span><span data-l="en">Description</span></th></tr>
+      <tr><td>1.</td><td><span data-l="zh">期中考</span><span data-l="en">Midterm exam</span></td><td>30%</td><td></td></tr>
+      <tr><td>2.</td><td><span data-l="zh">隨堂測驗 and 作業</span><span data-l="en">In-class quizzes and homework</span></td><td>30%</td><td></td></tr>
+      <tr><td>3.</td><td><span data-l="zh">期末考</span><span data-l="en">Final exam</span></td><td>40%</td><td></td></tr>
+    </tbody></table>
     <ol style="font-size:12.5px;color:var(--muted);margin-top:10px">
-      <li>本校尚無訂定 A+ 比例上限。</li>
-      <li>本校採用等第制評定成績，學生成績評量辦法中的百分制分數區間與單科成績對照表僅供參考，授課教師可依等第定義調整分數區間。</li>
+      <li><span data-l="zh">本校尚無訂定 A+ 比例上限。</span><span data-l="en">The university has not set an upper limit on the proportion of A+ grades.</span></li>
+      <li><span data-l="zh">本校採用等第制評定成績，學生成績評量辦法中的百分制分數區間與單科成績對照表僅供參考，授課教師可依等第定義調整分數區間。</span><span data-l="en">The university grades on a letter-grade system. The percentage ranges in the student grading regulations are for reference only; instructors may adjust them according to the letter-grade definitions.</span></li>
     </ol>
   </div>
 </section>
 
 <section class="block">
-  <h2>課程進度</h2>
+  <h2><span data-l="zh">課程進度</span><span data-l="en">Course Schedule</span></h2>
   <div class="inner">
     <table class="wk">
-      <tr><th>週次</th><th>日期</th><th>單元主題</th></tr>
-      <tr><td>第1週</td><td>9/21</td><td>Introduction</td></tr>
-      <tr><td>第2週</td><td>9/28</td><td>Chapter 1: Writing State-Space Models</td></tr>
-      <tr><td>第3週</td><td>10/05</td><td>(continued)　·　Chapter 2: Solutions of state-space models</td></tr>
-      <tr><td>第4週</td><td>10/12</td><td>(continued)</td></tr>
-      <tr><td>第5週</td><td>10/19</td><td>Chapter 3: Stability</td></tr>
-      <tr><td>第6週</td><td>10/26</td><td>(continued)</td></tr>
-      <tr><td>第7週</td><td>11/02</td><td>Chapter 4: Controllability and Observability</td></tr>
-      <tr><td>第9週</td><td>11/16</td><td>Chapter 5: State Feedback and Estimator Design</td></tr>
-      <tr><td>第11週</td><td>11/30</td><td>Chapter 6: Transfer Function Control Design</td></tr>
-      <tr><td>第13週</td><td>12/14</td><td>Mid-term Exam</td></tr>
-      <tr><td>第14週</td><td>12/21</td><td>Robust Control</td></tr>
-      <tr><td>第15週</td><td>12/28</td><td>(continued)</td></tr>
-      <tr><td>第16週</td><td>1/04</td><td>(continued)</td></tr>
-      <tr><td>第17週</td><td>1/11</td><td>Term Exam</td></tr>
-    </table>
+      <tbody><tr><th><span data-l="zh">週次</span><span data-l="en">Week</span></th><th><span data-l="zh">日期</span><span data-l="en">Date</span></th><th><span data-l="zh">單元主題</span><span data-l="en">Topic</span></th></tr>
+      <tr><td><span data-l="zh">第1週</span><span data-l="en">Week 1</span></td><td>9/21</td><td>Introduction</td></tr>
+      <tr><td><span data-l="zh">第2週</span><span data-l="en">Week 2</span></td><td>9/28</td><td>Chapter 1: Writing State-Space Models</td></tr>
+      <tr><td><span data-l="zh">第3週</span><span data-l="en">Week 3</span></td><td>10/05</td><td>(continued)　·　Chapter 2: Solutions of state-space models</td></tr>
+      <tr><td><span data-l="zh">第4週</span><span data-l="en">Week 4</span></td><td>10/12</td><td>(continued)</td></tr>
+      <tr><td><span data-l="zh">第5週</span><span data-l="en">Week 5</span></td><td>10/19</td><td>Chapter 3: Stability</td></tr>
+      <tr><td><span data-l="zh">第6週</span><span data-l="en">Week 6</span></td><td>10/26</td><td>(continued)</td></tr>
+      <tr><td><span data-l="zh">第7週</span><span data-l="en">Week 7</span></td><td>11/02</td><td>Chapter 4: Controllability and Observability</td></tr>
+      <tr><td><span data-l="zh">第9週</span><span data-l="en">Week 9</span></td><td>11/16</td><td>Chapter 5: State Feedback and Estimator Design</td></tr>
+      <tr><td><span data-l="zh">第11週</span><span data-l="en">Week 11</span></td><td>11/30</td><td>Chapter 6: Transfer Function Control Design</td></tr>
+      <tr><td><span data-l="zh">第13週</span><span data-l="en">Week 13</span></td><td>12/14</td><td>Mid-term Exam</td></tr>
+      <tr><td><span data-l="zh">第14週</span><span data-l="en">Week 14</span></td><td>12/21</td><td>Robust Control</td></tr>
+      <tr><td><span data-l="zh">第15週</span><span data-l="en">Week 15</span></td><td>12/28</td><td>(continued)</td></tr>
+      <tr><td><span data-l="zh">第16週</span><span data-l="en">Week 16</span></td><td>1/04</td><td>(continued)</td></tr>
+      <tr><td><span data-l="zh">第17週</span><span data-l="en">Week 17</span></td><td>1/11</td><td>Term Exam</td></tr>
+    </tbody></table>
   </div>
 </section>
 
 <div class="src">
-  資料來源：國立臺灣大學課程網 (NTU NOL) 課程大綱列印頁，擷取於 2026-06-17。<br>
+  <span data-l="zh">資料來源：國立臺灣大學課程網 (NTU NOL) 課程大綱列印頁，擷取於 2026-06-17。</span><span data-l="en">Source: National Taiwan University Course Information Network (NTU NOL), syllabus print page, retrieved 2026-06-17.</span><br>
   https://nol.ntu.edu.tw/nol/coursesearch/print_table.php?course_id=522 U5040&amp;class=&amp;dpt_code=5220&amp;ser_no=12769&amp;semester=95-1&amp;lang=CH<br>
-  本頁為該課程大綱之網頁重製版本，內容依原始大綱逐項轉錄，僅供學分抵免採計對照參考；著作權仍屬原授課單位所有。
+  <span data-l="zh">本頁為該課程大綱之網頁重製版本，內容依原始大綱逐項轉錄，僅供學分抵免採計對照參考；著作權仍屬原授課單位所有。</span><span data-l="en">This page is a web reproduction of that syllabus, transcribed item by item from the original, and is provided solely for reference in credit-transfer assessment; copyright remains with the original teaching unit.</span>
 </div>
 
 </main>
-</body>
-</html>
+
+
+</body></html>

@@ -394,8 +394,79 @@
             }
         }
     </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="en";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"WebAssembly 費氏數列示範 — 昭群科技",en:"WebAssembly Fibonacci Demo — JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
     <div class="diagonal-background">
         <button class="hamburger-menu" id="hamburgerBtn" onclick="toggleMobileMenu()">
             <span></span>
@@ -409,51 +480,56 @@
             </div>
             <div class="title-section">
                 <h1>昭群科技</h1>
-                <h2>Welcome to JiaoKuan Technology</h2>
+                <h2><span data-l="zh">歡迎光臨昭群科技</span><span data-l="en">Welcome to JiaoKuan Technology</span></h2>
             </div>
         </div>
 
         <div class="navigation">
-            <a href="index.html">Home</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="projects.html" class="active">Projects/Web App</a>
-            <a href="#">Project/FOC Motor Drive</a>
+            <a href="index.html"><span data-l="zh">首頁</span><span data-l="en">Home</span></a>
+            <a href="aboutus.html"><span data-l="zh">關於我們</span><span data-l="en">About Us</span></a>
+            <a href="projects.html" class="active"><span data-l="zh">專案 / 網頁應用</span><span data-l="en">Projects/Web App</span></a>
+            <a href="#"><span data-l="zh">專案 / FOC 馬達驅動</span><span data-l="en">Project/FOC Motor Drive</span></a>
         </div>
 
         <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
 
         <div class="mobile-menu" id="mobileMenu">
-            <a href="index.html" onclick="closeMobileMenu()">Home</a>
-            <a href="aboutus.html" onclick="closeMobileMenu()">About Us</a>
-            <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
-            <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
+            <a href="index.html" onclick="closeMobileMenu()"><span data-l="zh">首頁</span><span data-l="en">Home</span></a>
+            <a href="aboutus.html" onclick="closeMobileMenu()"><span data-l="zh">關於我們</span><span data-l="en">About Us</span></a>
+            <a href="projects.html" onclick="closeMobileMenu()"><span data-l="zh">專案 / 網頁應用</span><span data-l="en">Projects/Web App</span></a>
+            <a href="#" onclick="closeMobileMenu()"><span data-l="zh">專案 / FOC 馬達驅動</span><span data-l="en">Project/FOC Motor Drive</span></a>
         </div>
 
         <div class="main-content">
-            <h1>WebAssembly Fibonacci Demo</h1>
+            <h1 data-l="zh">WebAssembly 費氏數列示範</h1>
+            <h1 data-l="en">WebAssembly Fibonacci Demo</h1>
 
-            <p>A small demo that calls a Fibonacci function compiled to WebAssembly from C. Enter an integer and press <strong>Calculate</strong>.</p>
+            <p data-l="zh">這是一個小示範,呼叫由 C 編譯成 WebAssembly 的費氏數列函式。輸入一個整數後按下<strong>計算</strong>。</p>
+            <p data-l="en">A small demo that calls a Fibonacci function compiled to WebAssembly from C. Enter an integer and press <strong>Calculate</strong>.</p>
 
             <div class="demo-row">
-                <label for="value4fib">Input:</label>
-                <input type="text" id="value4fib" placeholder="e.g. 30">
-                <button id="calculate" onclick="calculate()">Calculate</button>
+                <label for="value4fib"><span data-l="zh">輸入:</span><span data-l="en">Input:</span></label>
+                <input type="text" id="value4fib" placeholder="e.g. 30" data-i18n='{"zh":{"placeholder":"例如 30"}}'>
+                <button id="calculate" onclick="calculate()"><span data-l="zh">計算</span><span data-l="en">Calculate</span></button>
             </div>
 
             <div class="demo-row">
-                <label for="output4fib">Output:</label>
+                <label for="output4fib"><span data-l="zh">輸出:</span><span data-l="en">Output:</span></label>
                 <input type="text" id="output4fib" readonly>
             </div>
 
-            <h2>References</h2>
+            <h2 data-l="zh">參考資料</h2>
+            <h2 data-l="en">References</h2>
             <ul>
                 <li><a href="https://openhome.cc/Gossip/WebAssembly/C2Wasm.html">openhome.cc — C to Wasm</a></li>
                 <li><a href="https://wasdk.github.io/WasmFiddle/">WasmFiddle</a></li>
                 <li><a href="https://medium.com/@itsems/webgl%E6%98%AF%E4%BB%80%E9%BA%BC-b2fcdabe74ba">WebGL 是什麼</a></li>
             </ul>
 
-            <h2>Dynamic-programming Fibonacci (C)</h2>
-            <p>Below is another version of the Fibonacci series using dynamic programming. It will be implemented in WebAssembly later.</p>
+            <h2 data-l="zh">動態規劃版費氏數列 (C)</h2>
+            <h2 data-l="en">Dynamic-programming Fibonacci (C)</h2>
+            <p data-l="zh">以下是另一個以動態規劃實作的費氏數列版本,之後會再用 WebAssembly 實作。</p>
+            <p data-l="en">Below is another version of the Fibonacci series using dynamic programming. It will be implemented in WebAssembly later.</p>
             <pre><code class="language-c">#include &lt;stdio.h&gt;
 
 long fib(int i);

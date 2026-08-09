@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phase-Canceling SIL Ultrasonic Radar — Study Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <script>
 MathJax = {
   tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], tags: 'ams' },
@@ -105,32 +104,103 @@ footer{margin-top:60px;padding:30px 0;text-align:center;border-top:2px solid var
 .kpi .v{font-family:'JetBrains Mono',monospace;font-size:1.45rem;font-weight:600;color:var(--accent);}
 .kpi .l{font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
 </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="zh";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"相位消除 SIL 超音波雷達 — 學習指南 | 昭群科技",en:"Phase-Canceling SIL Ultrasonic Radar — Study Guide | JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
 
 <header>
 <div class="container">
   <div class="chap-label">IEEE Trans. BioCAS · Vol. 14 · 2020 · Yu &amp; Horng</div>
   <h1>Highly Linear Phase-Canceling Self-Injection-Locked Ultrasonic Radar</h1>
-  <p class="subtitle">相位消除自我注入鎖定超音波雷達學習指南 — 用「可調延遲線 + PI 回授」把 SIL 雷達的非線性 null-point 釘在 $\theta=\pi$ 線性工作點，於 14 個波長 (~120 mm) 內線性量測呼吸與心跳。</p>
+  <p class="subtitle" data-l="zh">相位消除自我注入鎖定超音波雷達學習指南 — 用「可調延遲線 + PI 回授」把 SIL 雷達的非線性 null-point 釘在 $\theta=\pi$ 線性工作點，於 14 個波長 (~120 mm) 內線性量測呼吸與心跳。</p><p class="subtitle" data-l="en">A study guide to the phase-canceling self-injection-locked ultrasonic radar — a tunable delay line plus PI feedback pins the radar to the linear operating point $\theta=\pi$, escaping the null points and giving linear measurement of respiration and heartbeat over 14 wavelengths (~120 mm).</p>
 </div>
 </header>
 
 <div class="container">
 
-<details class="outline" open>
+<details class="outline" open="">
 <summary>Outline — click to expand</summary>
 
-<details open>
+<details open="">
 <summary>0 · Big Picture</summary>
 <ul>
-  <li><a href="#sec-0">一頁總覽 The core idea</a></li>
-  <li><a href="#kpi">關鍵成果 (KPI)</a></li>
-  <li><a href="#glossary">名詞速查表 Glossary</a></li>
+  <li><a href="#sec-0" data-l="zh">一頁總覽 The core idea</a><a href="#sec-0" data-l="en">One-page overview — the core idea</a></li>
+  <li><a href="#kpi" data-l="zh">關鍵成果 (KPI)</a><a href="#kpi" data-l="en">Key results (KPI)</a></li>
+  <li><a href="#glossary" data-l="zh">名詞速查表 Glossary</a><a href="#glossary" data-l="en">Glossary</a></li>
 </ul>
 </details>
 
-<details open>
+<details open="">
 <summary>1 · Concepts &amp; Nonlinearity</summary>
 <ul>
   <li><a href="#sec-1">1 SIL radar &amp; prior methods</a></li>
@@ -138,7 +208,7 @@ footer{margin-top:60px;padding:30px 0;text-align:center;border-top:2px solid var
 </ul>
 </details>
 
-<details open>
+<details open="">
 <summary>2 · The Solution</summary>
 <ul>
   <li><a href="#sec-3">3 Feedback demodulation</a></li>
@@ -147,7 +217,7 @@ footer{margin-top:60px;padding:30px 0;text-align:center;border-top:2px solid var
 </ul>
 </details>
 
-<details open>
+<details open="">
 <summary>3 · Implementation &amp; Results</summary>
 <ul>
   <li><a href="#sec-6">6 Design example &amp; simulation</a></li>
@@ -156,13 +226,13 @@ footer{margin-top:60px;padding:30px 0;text-align:center;border-top:2px solid var
 </ul>
 </details>
 
-<details open>
+<details open="">
 <summary>4 · Reference &amp; Practice</summary>
 <ul>
   <li><a href="#sec-9">9 Equation cheat-sheet</a></li>
-  <li><a href="#sec-compare">對照 vs DSIL (Wu)</a></li>
-  <li><a href="#sec-appendix">附錄 A &amp; B 完整推導</a></li>
-  <li class="ex"><a href="#sec-practice" class="ex">Practice Problems (8 題)</a></li>
+  <li><a href="#sec-compare" data-l="zh">對照 vs DSIL (Wu)</a><a href="#sec-compare" data-l="en">Comparison vs DSIL (Wu)</a></li>
+  <li><a href="#sec-appendix" data-l="zh">附錄 A &amp; B 完整推導</a><a href="#sec-appendix" data-l="en">Appendix A &amp; B — full derivations</a></li>
+  <li class="ex"><a href="#sec-practice" class="ex" data-l="zh">Practice Problems (8 題)</a><a href="#sec-practice" class="ex" data-l="en">Practice Problems (8)</a></li>
 </ul>
 </details>
 
@@ -170,52 +240,61 @@ footer{margin-top:60px;padding:30px 0;text-align:center;border-top:2px solid var
 
 <!-- ===== SECTION 0 — BIG PICTURE ===== -->
 <section id="sec-0">
-<h2 class="section-title">0 · The Big Picture — 一句話講完這篇</h2>
+<h2 class="section-title" data-l="zh">0 · The Big Picture — 一句話講完這篇</h2><h2 class="section-title" data-l="en">0 · The Big Picture — the paper in one sentence</h2>
 
-<p>一台 <span class="term">自我注入鎖定 (Self-Injection-Locked, SIL)</span> 雷達靠「讓振盪器的回波注回自己」來偵測目標的微小運動：振盪頻率會隨目標位移而漂移。經典難題是 — 這個關係是<strong>非線性</strong>的，每 $\lambda/4$ 就出現一個「null point（零點）」，所以任何大於 $\lambda/4$ 的運動都會被嚴重失真。</p>
+<p data-l="zh">一台 <span class="term">自我注入鎖定 (Self-Injection-Locked, SIL)</span> 雷達靠「讓振盪器的回波注回自己」來偵測目標的微小運動：振盪頻率會隨目標位移而漂移。經典難題是 — 這個關係是<strong>非線性</strong>的，每 $\lambda/4$ 就出現一個「null point（零點）」，所以任何大於 $\lambda/4$ 的運動都會被嚴重失真。</p><p data-l="en">A <span class="term">self-injection-locked (SIL)</span> radar senses tiny target motion by letting the oscillator's own echo be injected back into itself: the oscillation frequency drifts as the target moves. The classic difficulty is that the relationship is <strong>nonlinear</strong> — a <em>null point</em> appears every $\lambda/4$, so any motion larger than $\lambda/4$ is badly distorted.</p>
 
-<p>本論文提出 <span class="term">相位消除回授解調 (phase-canceling feedback demodulation)</span>：用一條<strong>電子可調延遲線</strong>主動追蹤目標，把雷達永遠釘在單一線性工作點上。成果是一台 40 kHz <strong>超音波</strong> SIL 雷達（史上第一台用超音波的 SIL 雷達），能在 <strong>14 個波長 (~120 mm)</strong> 內線性感測運動、失真僅 2.3% — 足以乾淨地分離呼吸 (~2.5 mm) 與心跳 (~0.2 mm) 的胸腔位移。</p>
+<p data-l="zh">本論文提出 <span class="term">相位消除回授解調 (phase-canceling feedback demodulation)</span>：用一條<strong>電子可調延遲線</strong>主動追蹤目標，把雷達永遠釘在單一線性工作點上。成果是一台 40 kHz <strong>超音波</strong> SIL 雷達（史上第一台用超音波的 SIL 雷達），能在 <strong>14 個波長 (~120 mm)</strong> 內線性感測運動、失真僅 2.3% — 足以乾淨地分離呼吸 (~2.5 mm) 與心跳 (~0.2 mm) 的胸腔位移。</p><p data-l="en">The paper proposes <span class="term">phase-canceling feedback demodulation</span>: an <strong>electronically tunable delay line</strong> actively tracks the target, holding the radar at a single linear operating point at all times. The result is a 40 kHz <strong>ultrasonic</strong> SIL radar (the first SIL radar to use ultrasound) that senses motion linearly over <strong>14 wavelengths (~120 mm)</strong> with only 2.3% distortion — enough to cleanly separate the chest displacement caused by respiration (~2.5 mm) from that caused by heartbeat (~0.2 mm).</p>
 
 <div class="summary-grid">
-<div class="summary-card">
+<div class="summary-card" data-l="zh">
 <h5>The core trick — 核心招式</h5>
 在接收回波上加一個<strong>可調延遲 $d$</strong>。PI 控制器調整 $d$，使總往返相位維持定值（反相點 $\theta=\pi$）。抵消目標運動所需的延遲量<strong>線性正比於位移</strong> — 所以「延遲值本身」就是雷達輸出。
+</div><div class="summary-card" data-l="en">
+<h5>The core trick</h5>
+Insert a <strong>tunable delay $d$</strong> in the received echo path. A PI controller adjusts $d$ so that the total round-trip phase stays constant (the anti-phase point $\theta=\pi$). The delay needed to cancel the target motion is <strong>linearly proportional to displacement</strong> — so the delay value <em>itself</em> is the radar output.
 </div>
-<div class="summary-card">
+<div class="summary-card" data-l="zh">
 <h5>Why ultrasound — 為什麼用超音波</h5>
 40 kHz 超音波在空氣中 $\lambda\approx8.6$ mm，遠短於微波。波長越短，固定位移就跨越越多波長，$\lambda/4$ 限制咬得越凶。把非線性解掉，才讓超音波 SIL 雷達首次變得實用。
+</div><div class="summary-card" data-l="en">
+<h5>Why ultrasound</h5>
+At 40 kHz in air, $\lambda\approx8.6$ mm — far shorter than a microwave carrier. The shorter the wavelength, the more wavelengths a given displacement spans, and the harder the $\lambda/4$ limit bites. Only by removing the nonlinearity does an ultrasonic SIL radar become practical for the first time.
 </div>
 </div>
 
-<div class="callout key">
+<div class="callout key" data-l="zh">
 <div class="callout-title">One-line takeaway — 一行總結</div>
 與其用數學（arctangent / 相位解纏）去硬抗非線性的「頻率對距離」曲線，作者選擇<strong>用回授控制的延遲把工作點實體釘住</strong>，讓雷達永遠坐在它的線性甜蜜點上 — 就像「讓雷達隨目標同步移動」。
+</div><div class="callout key" data-l="en">
+<div class="callout-title">One-line takeaway</div>
+Rather than fighting the nonlinear frequency-vs-distance curve mathematically (arctangent demodulation / phase unwrapping), the authors <strong>physically pin the operating point with a feedback-controlled delay</strong>, so the radar always sits in its linear sweet spot — as if the radar moved along with the target.
 </div>
 
-<h3 id="kpi">關鍵成果 (Key results)</h3>
+<h3 id="kpi" data-l="zh">關鍵成果 (Key results)</h3><h3 id="kpi" data-l="en">Key results</h3>
 <div class="kpi-grid">
-<div class="kpi"><div class="v">40 kHz</div><div class="l">超音波載波</div></div>
-<div class="kpi"><div class="v">14 λ</div><div class="l">線性感測範圍</div></div>
-<div class="kpi"><div class="v">120 mm</div><div class="l">最大 pk-pk 位移</div></div>
-<div class="kpi"><div class="v">2.3 %</div><div class="l">THD @ 60 mm 振幅</div></div>
-<div class="kpi"><div class="v">3.4 µm</div><div class="l">運動解析度</div></div>
-<div class="kpi"><div class="v">&lt; 1 BPM</div><div class="l">心率誤差</div></div>
-<div class="kpi"><div class="v">20.4 m/s</div><div class="l">最大可測速度 $v_{max}$</div></div>
-<div class="kpi"><div class="v">Q = 25</div><div class="l">共振器品質因數</div></div>
+<div class="kpi"><div class="v">40 kHz</div><div class="l" data-l="zh">超音波載波</div><div class="l" data-l="en">Ultrasonic carrier</div></div>
+<div class="kpi"><div class="v">14 λ</div><div class="l" data-l="zh">線性感測範圍</div><div class="l" data-l="en">Linear sensing range</div></div>
+<div class="kpi"><div class="v">120 mm</div><div class="l" data-l="zh">最大 pk-pk 位移</div><div class="l" data-l="en">Max pk-pk displacement</div></div>
+<div class="kpi"><div class="v">2.3 %</div><div class="l" data-l="zh">THD @ 60 mm 振幅</div><div class="l" data-l="en">THD @ 60 mm amplitude</div></div>
+<div class="kpi"><div class="v">3.4 µm</div><div class="l" data-l="zh">運動解析度</div><div class="l" data-l="en">Motion resolution</div></div>
+<div class="kpi"><div class="v">&lt; 1 BPM</div><div class="l" data-l="zh">心率誤差</div><div class="l" data-l="en">Heart-rate error</div></div>
+<div class="kpi"><div class="v">20.4 m/s</div><div class="l" data-l="zh">最大可測速度 $v_{max}$</div><div class="l" data-l="en">Max detectable speed $v_{max}$</div></div>
+<div class="kpi"><div class="v">Q = 25</div><div class="l" data-l="zh">共振器品質因數</div><div class="l" data-l="en">Resonator quality factor</div></div>
 </div>
 
-<h3 id="glossary">名詞速查表 (Glossary)</h3>
+<h3 id="glossary" data-l="zh">名詞速查表 (Glossary)</h3><h3 id="glossary" data-l="en">Glossary</h3>
 <table class="cmp-table">
-<tr><th>術語</th><th>英文</th><th>白話</th></tr>
-<tr><td>SIL</td><td>Self-Injection-Locked</td><td>振盪器被自己的反射回波注入而鎖定 → 高靈敏度都卜勒</td></tr>
-<tr><td>Adler 方程</td><td>Adler's equation</td><td>把注入鎖定振盪器的頻率寫成注入相位的正弦函數</td></tr>
-<tr><td>反相模式</td><td>anti-phase mode</td><td>工作在 $\theta=\pi$（反相注入）；負的 plant gain、最大線性度</td></tr>
-<tr><td>相位消除</td><td>phase-canceling</td><td>用可調延遲抵消運動造成的都卜勒相位移</td></tr>
-<tr><td>頻率鑑別器</td><td>frequency discriminator</td><td>$T/4$ 延遲 + FM 解調，量測頻率偏移 $\Delta\omega$</td></tr>
-<tr><td>$\theta$ / $\Delta\omega$</td><td>injection phase / freq. shift</td><td>注入相位（設定點 $=\pi$）；頻率偏移 $=\omega-\omega_n$</td></tr>
-<tr><td>$\omega_{BW}$</td><td>control bandwidth</td><td>PI 設計唯一自由參數 — 決定追蹤速度 ↔ 穩定裕度</td></tr>
-<tr><td>THD</td><td>Total Harmonic Distortion</td><td>諧波對基頻的比，衡量線性度</td></tr>
-</table>
+<tbody><tr><th data-l="zh">術語</th><th data-l="en">Term</th><th data-l="zh">英文</th><th data-l="en">Full name</th><th data-l="zh">白話</th><th data-l="en">In plain words</th></tr>
+<tr><td>SIL</td><td>Self-Injection-Locked</td><td data-l="zh">振盪器被自己的反射回波注入而鎖定 → 高靈敏度都卜勒</td><td data-l="en">The oscillator is locked by injection of its own reflected echo → highly sensitive Doppler sensing</td></tr>
+<tr><td data-l="zh">Adler 方程</td><td data-l="en">Adler's equation</td><td>Adler's equation</td><td data-l="zh">把注入鎖定振盪器的頻率寫成注入相位的正弦函數</td><td data-l="en">Writes the frequency of an injection-locked oscillator as a sine of the injection phase</td></tr>
+<tr><td data-l="zh">反相模式</td><td data-l="en">Anti-phase mode</td><td>anti-phase mode</td><td data-l="zh">工作在 $\theta=\pi$（反相注入）；負的 plant gain、最大線性度</td><td data-l="en">Operation at $\theta=\pi$ (out-of-phase injection); negative plant gain, maximum linearity</td></tr>
+<tr><td data-l="zh">相位消除</td><td data-l="en">Phase-canceling</td><td>phase-canceling</td><td data-l="zh">用可調延遲抵消運動造成的都卜勒相位移</td><td data-l="en">Using a tunable delay to cancel the Doppler phase shift caused by motion</td></tr>
+<tr><td data-l="zh">頻率鑑別器</td><td data-l="en">Frequency discriminator</td><td>frequency discriminator</td><td data-l="zh">$T/4$ 延遲 + FM 解調，量測頻率偏移 $\Delta\omega$</td><td data-l="en">$T/4$ delay + FM demodulation; measures the frequency shift $\Delta\omega$</td></tr>
+<tr><td>$\theta$ / $\Delta\omega$</td><td>injection phase / freq. shift</td><td data-l="zh">注入相位（設定點 $=\pi$）；頻率偏移 $=\omega-\omega_n$</td><td data-l="en">Injection phase (set-point $=\pi$); frequency shift $=\omega-\omega_n$</td></tr>
+<tr><td>$\omega_{BW}$</td><td>control bandwidth</td><td data-l="zh">PI 設計唯一自由參數 — 決定追蹤速度 ↔ 穩定裕度</td><td data-l="en">The only free parameter in the PI design — trades tracking speed against stability margin</td></tr>
+<tr><td>THD</td><td>Total Harmonic Distortion</td><td data-l="zh">諧波對基頻的比，衡量線性度</td><td data-l="en">Ratio of harmonics to the fundamental; a measure of linearity</td></tr>
+</tbody></table>
 </section>
 
 <!-- ===== SECTION 1 ===== -->
@@ -223,51 +302,58 @@ footer{margin-top:60px;padding:30px 0;text-align:center;border-top:2px solid var
 <h2 class="section-title">1 · Key Concepts &amp; Background</h2>
 
 <h3>Self-Injection-Locked (SIL) radar</h3>
-<p>振盪器產生載波並發射，由運動目標反射的回波被<strong>注回</strong>同一個振盪器。依 <span class="term">Adler 方程</span>，振盪頻率與振幅都成為注入相位 $\theta$ 的函數。目標運動調變 $\theta$ → 調變頻率 → 由<strong>頻率偏移 $\Delta\omega=\omega-\omega_n$</strong> 還原運動。</p>
+<p data-l="zh">振盪器產生載波並發射，由運動目標反射的回波被<strong>注回</strong>同一個振盪器。依 <span class="term">Adler 方程</span>，振盪頻率與振幅都成為注入相位 $\theta$ 的函數。目標運動調變 $\theta$ → 調變頻率 → 由<strong>頻率偏移 $\Delta\omega=\omega-\omega_n$</strong> 還原運動。</p><p data-l="en">An oscillator generates and transmits the carrier; the echo reflected by a moving target is <strong>injected back</strong> into the same oscillator. By <span class="term">Adler's equation</span>, both the oscillation frequency and amplitude become functions of the injection phase $\theta$. Target motion modulates $\theta$ → modulates the frequency → the motion is recovered from the <strong>frequency shift $\Delta\omega=\omega-\omega_n$</strong>.</p>
 <ul>
-  <li><strong>優點：</strong>電路複雜度低、抗雜訊佳、靈敏度高（注入鎖定提升相位 SNR）。</li>
-  <li><strong>缺點：</strong>頻率偏移對距離是週期性 $\sin$ 函數 → 強非線性，每 $\lambda/4$ 出現 null point。</li>
+  <li data-l="zh"><strong>優點：</strong>電路複雜度低、抗雜訊佳、靈敏度高（注入鎖定提升相位 SNR）。</li><li data-l="en"><strong>Advantages:</strong> low circuit complexity, good noise immunity, high sensitivity (injection locking improves phase SNR).</li>
+  <li data-l="zh"><strong>缺點：</strong>頻率偏移對距離是週期性 $\sin$ 函數 → 強非線性，每 $\lambda/4$ 出現 null point。</li><li data-l="en"><strong>Drawback:</strong> the frequency shift is a periodic $\sin$ function of distance → strongly nonlinear, with a null point every $\lambda/4$.</li>
 </ul>
 
-<h3>Prior demodulation methods（前人方法與其缺陷）</h3>
+<h3 data-l="zh">Prior demodulation methods（前人方法與其缺陷）</h3><h3 data-l="en">Prior demodulation methods and their weaknesses</h3>
 <table class="cmp-table">
-<tr><th>方法</th><th>想法</th><th>弱點</th></tr>
-<tr><td>Arctangent demodulation</td><td>I/Q 正交檢測 + arctan + 相位解纏</td><td>對 DC offset 與 I/Q 不匹配極敏感；null point 附近失真</td></tr>
-<tr><td>Phase-tracking (PLL)</td><td>PLL 調 TX 頻率以維持波長計數固定；運動 ∝ 頻率變化</td><td>可測範圍受 PLL 調諧範圍與收發頻寬限制（很少 &gt; 2λ）</td></tr>
-<tr><td>本論文：phase-canceling</td><td>可調<strong>延遲</strong>抵消都卜勒相位；延遲 = 輸出</td><td>寬線性範圍、單通道、對電路非理想性容忍度高</td></tr>
-</table>
+<tbody><tr><th data-l="zh">方法</th><th data-l="en">Method</th><th data-l="zh">想法</th><th data-l="en">Idea</th><th data-l="zh">弱點</th><th data-l="en">Weakness</th></tr>
+<tr><td>Arctangent demodulation</td><td data-l="zh">I/Q 正交檢測 + arctan + 相位解纏</td><td data-l="en">I/Q quadrature detection + arctan + phase unwrapping</td><td data-l="zh">對 DC offset 與 I/Q 不匹配極敏感；null point 附近失真</td><td data-l="en">Very sensitive to DC offset and I/Q mismatch; distorts near null points</td></tr>
+<tr><td>Phase-tracking (PLL)</td><td data-l="zh">PLL 調 TX 頻率以維持波長計數固定；運動 ∝ 頻率變化</td><td data-l="en">A PLL tunes the TX frequency to keep the wavelength count fixed; motion ∝ frequency change</td><td data-l="zh">可測範圍受 PLL 調諧範圍與收發頻寬限制（很少 &gt; 2λ）</td><td data-l="en">Range limited by the PLL tuning range and TX/RX bandwidth (rarely &gt; 2λ)</td></tr>
+<tr><td data-l="zh">本論文：phase-canceling</td><td data-l="en">This paper: phase-canceling</td><td data-l="zh">可調<strong>延遲</strong>抵消都卜勒相位；延遲 = 輸出</td><td data-l="en">A tunable <strong>delay</strong> cancels the Doppler phase; the delay <em>is</em> the output</td><td data-l="zh">寬線性範圍、單通道、對電路非理想性容忍度高</td><td data-l="en">Wide linear range, single channel, high tolerance to circuit non-idealities</td></tr>
+</tbody></table>
 
-<h3>Operating point $\theta$ 與「反相」模式</h3>
-<p>plant gain（頻率對相位的靈敏度）隨 $\theta$ 變化。存在兩個平坦點：</p>
+<h3 data-l="zh">Operating point $\theta$ 與「反相」模式</h3><h3 data-l="en">The operating point $\theta$ and the anti-phase mode</h3>
+<p data-l="zh">plant gain（頻率對相位的靈敏度）隨 $\theta$ 變化。存在兩個平坦點：</p><p data-l="en">The plant gain (sensitivity of frequency to phase) varies with $\theta$. Two flat points exist:</p>
 <ul>
-  <li><strong>$\theta=0$（同相）：</strong>$u_{inj}$ 與 $u_{out}$ 同相 → 正的 plant gain、振盪振幅最大。</li>
-  <li><strong>$\theta=\pi$（反相）：</strong>反相 → <strong>負的 plant gain</strong>、振幅最小。本論文選此點，因為當注入振幅 $A_{inj}=0.5$ 時它具有<strong>最大平坦 (maximal flatness, 最線性)</strong> 性質。</li>
+  <li data-l="zh"><strong>$\theta=0$（同相）：</strong>$u_{inj}$ 與 $u_{out}$ 同相 → 正的 plant gain、振盪振幅最大。</li><li data-l="en"><strong>$\theta=0$ (in-phase):</strong> $u_{inj}$ and $u_{out}$ are in phase → positive plant gain, maximum oscillation amplitude.</li>
+  <li data-l="zh"><strong>$\theta=\pi$（反相）：</strong>反相 → <strong>負的 plant gain</strong>、振幅最小。本論文選此點，因為當注入振幅 $A_{inj}=0.5$ 時它具有<strong>最大平坦 (maximal flatness, 最線性)</strong> 性質。</li><li data-l="en"><strong>$\theta=\pi$ (anti-phase):</strong> out of phase → <strong>negative plant gain</strong>, minimum amplitude. The paper chooses this point because, at an injection amplitude of $A_{inj}=0.5$, it has the <strong>maximal-flatness</strong> (most linear) property.</li>
 </ul>
 </section>
 
 <!-- ===== SECTION 2 ===== -->
 <section id="sec-2">
 <h2 class="section-title">2 · Why SIL Radars Are Nonlinear</h2>
-<p>注入相位 $\theta$ 追隨往返時間，因此取決於目標距離：</p>
+<p data-l="zh">注入相位 $\theta$ 追隨往返時間，因此取決於目標距離：</p><p data-l="en">The injection phase $\theta$ follows the round-trip time, so it depends on the target distance:</p>
 
 <div class="eq-box" id="eq-1">
-<span class="eq-label">注入相位 — 延遲 (1)</span>
+<span class="eq-label" data-l="zh">注入相位 — 延遲 (1)</span><span class="eq-label" data-l="en">Injection phase vs delay (1)</span>
 $$\theta(t)\approx\omega_n D(t),\qquad D(t)=\frac{2}{c}\big[R_0+x(t)\big]$$
 </div>
-<p style="font-size:0.9em;color:var(--text2)">$D$ = 往返延遲；$c$ = 聲速；$R_0$ = 初始距離；$x$ = 位移。</p>
+<p style="font-size:0.9em;color:var(--text2)" data-l="zh">$D$ = 往返延遲；$c$ = 聲速；$R_0$ = 初始距離；$x$ = 位移。</p><p style="font-size:0.9em;color:var(--text2)" data-l="en">$D$ = round-trip delay; $c$ = speed of sound; $R_0$ = initial distance; $x$ = displacement.</p>
 
-<p>Adler 方程把瞬時振盪頻率寫成相位的<strong>正弦</strong>：</p>
+<p data-l="zh">Adler 方程把瞬時振盪頻率寫成相位的<strong>正弦</strong>：</p><p data-l="en">Adler's equation writes the instantaneous oscillation frequency as a <strong>sine</strong> of the phase:</p>
 <div class="eq-box" id="eq-2">
-<span class="eq-label">Adler — 頻率偏移 (2)</span>
+<span class="eq-label" data-l="zh">Adler — 頻率偏移 (2)</span><span class="eq-label" data-l="en">Adler — frequency shift (2)</span>
 $$\omega(t)-\omega_n\approx-\frac{\omega_n}{2Q}\,\frac{B}{A}\,\sin\big[\theta(t)\big]$$
 </div>
-<p style="font-size:0.9em;color:var(--text2)">$Q$ = 共振器品質因數；$B$ = 注入訊號振幅；$A$ = 振盪振幅。</p>
+<p style="font-size:0.9em;color:var(--text2)" data-l="zh">$Q$ = 共振器品質因數；$B$ = 注入訊號振幅；$A$ = 振盪振幅。</p><p style="font-size:0.9em;color:var(--text2)" data-l="en">$Q$ = resonator quality factor; $B$ = injection signal amplitude; $A$ = oscillation amplitude.</p>
 
-<div class="callout warning">
+<div class="callout warning" data-l="zh">
 <div class="callout-title">The problem — 問題所在</div>
 頻率偏移是距離的<em>週期</em>函數，<strong>每 $\lambda/4$ 出現一個 null point</strong>。任何移動超過四分之一波長的目標都會掃過零點 → 嚴重失真。相位變化與位移的關係為：
 <div class="eq-box" id="eq-4" style="margin-top:10px">
 <span class="eq-label">相位 ⇔ 位移 (4)</span>
+$$\Delta\theta(t)\approx\frac{2\omega_n}{c}\,x(t)=\frac{4\pi}{\lambda}\,x(t)$$
+</div>
+</div><div class="callout warning" data-l="en">
+<div class="callout-title">The problem</div>
+The frequency shift is a <em>periodic</em> function of distance, with <strong>a null point every $\lambda/4$</strong>. Any target moving more than a quarter wavelength sweeps through a null → severe distortion. Phase change relates to displacement as:
+<div class="eq-box" id="eq-4" style="margin-top:10px">
+<span class="eq-label">Phase ⇔ displacement (4)</span>
 $$\Delta\theta(t)\approx\frac{2\omega_n}{c}\,x(t)=\frac{4\pi}{\lambda}\,x(t)$$
 </div>
 </div>
@@ -275,219 +361,231 @@ $$\Delta\theta(t)\approx\frac{2\omega_n}{c}\,x(t)=\frac{4\pi}{\lambda}\,x(t)$$
 <figure>
 <svg viewBox="0 0 560 250" style="width:100%;max-width:520px;display:block;margin:8px auto" font-family="'DM Sans',sans-serif">
   <defs>
-    <marker id="ax" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#333"/></marker>
-    <marker id="ay" markerWidth="7" markerHeight="7" refX="3.5" refY="0" orient="auto"><path d="M0,7 L7,7 L3.5,0 z" fill="#333"/></marker>
+    <marker id="ax" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#333"></path></marker>
+    <marker id="ay" markerWidth="7" markerHeight="7" refX="3.5" refY="0" orient="auto"><path d="M0,7 L7,7 L3.5,0 z" fill="#333"></path></marker>
   </defs>
-  <line x1="40" y1="125" x2="540" y2="125" stroke="#333" stroke-width="1.5" marker-end="url(#ax)"/>
-  <line x1="40" y1="225" x2="40" y2="25" stroke="#333" stroke-width="1.5" marker-end="url(#ay)"/>
-  <path d="M40,125 C80,83 120,45 160,45 C200,45 240,83 280,125 C320,167 360,205 400,205 C440,205 480,167 520,125" fill="none" stroke="#3a5998" stroke-width="2.5"/>
-  <text x="538" y="145" text-anchor="end" fill="#333" font-size="13" font-weight="700">x (λ/4 單位)</text>
+  <line x1="40" y1="125" x2="540" y2="125" stroke="#333" stroke-width="1.5" marker-end="url(#ax)"></line>
+  <line x1="40" y1="225" x2="40" y2="25" stroke="#333" stroke-width="1.5" marker-end="url(#ay)"></line>
+  <path d="M40,125 C80,83 120,45 160,45 C200,45 240,83 280,125 C320,167 360,205 400,205 C440,205 480,167 520,125" fill="none" stroke="#3a5998" stroke-width="2.5"></path>
+  <text x="538" y="145" text-anchor="end" fill="#333" font-size="13" font-weight="700" data-l="zh">x (λ/4 單位)</text><text x="538" y="145" text-anchor="end" fill="#333" font-size="13" font-weight="700" data-l="en">x (units of λ/4)</text>
   <text x="20" y="48" fill="#3a5998" font-size="13" font-weight="700">Δω</text>
-  <circle cx="40" cy="125" r="4" fill="#c00"/><text x="50" y="143" fill="#c00" font-size="12" font-weight="700">null</text>
-  <circle cx="160" cy="45" r="5" fill="#2a6e5a"/><text x="160" y="35" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700">線性點</text>
-  <circle cx="280" cy="125" r="4" fill="#c00"/><text x="280" y="143" text-anchor="middle" fill="#c00" font-size="12" font-weight="700">null λ/4</text>
-  <circle cx="400" cy="205" r="5" fill="#2a6e5a"/><text x="400" y="223" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700">線性點</text>
-  <circle cx="520" cy="125" r="4" fill="#c00"/><text x="520" y="143" text-anchor="middle" fill="#c00" font-size="12" font-weight="700">null λ/2</text>
-  <text x="300" y="244" text-anchor="middle" fill="#888" font-size="11" font-style="italic">頻率偏移 ∝ sin(4π x/λ)：每 λ/4 一個零點，運動 &gt; λ/4 即失真</text>
+  <circle cx="40" cy="125" r="4" fill="#c00"></circle><text x="50" y="143" fill="#c00" font-size="12" font-weight="700">null</text>
+  <circle cx="160" cy="45" r="5" fill="#2a6e5a"></circle><text x="160" y="35" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700" data-l="zh">線性點</text><text x="160" y="35" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700" data-l="en">linear pt</text>
+  <circle cx="280" cy="125" r="4" fill="#c00"></circle><text x="280" y="143" text-anchor="middle" fill="#c00" font-size="12" font-weight="700">null λ/4</text>
+  <circle cx="400" cy="205" r="5" fill="#2a6e5a"></circle><text x="400" y="223" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700" data-l="zh">線性點</text><text x="400" y="223" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700" data-l="en">linear pt</text>
+  <circle cx="520" cy="125" r="4" fill="#c00"></circle><text x="520" y="143" text-anchor="middle" fill="#c00" font-size="12" font-weight="700">null λ/2</text>
+  <text x="300" y="244" text-anchor="middle" fill="#888" font-size="11" font-style="italic" data-l="zh">頻率偏移 ∝ sin(4π x/λ)：每 λ/4 一個零點，運動 &gt; λ/4 即失真</text><text x="300" y="244" text-anchor="middle" fill="#888" font-size="11" font-style="italic" data-l="en">Δω ∝ sin(4π x/λ): a null every λ/4 — motion &gt; λ/4 is distorted</text>
 </svg>
-<figcaption>圖 1 — SIL 雷達的非線性。頻率偏移是位移的正弦函數，每 $\lambda/4$ 出現一個 null point。</figcaption>
+<figcaption data-l="zh">圖 1 — SIL 雷達的非線性。頻率偏移是位移的正弦函數，每 $\lambda/4$ 出現一個 null point。</figcaption><figcaption data-l="en">Fig. 1 — Nonlinearity of a SIL radar. The frequency shift is a sine function of displacement, with a null point every $\lambda/4$.</figcaption>
 </figure>
 
-<p><strong>Naive workaround（笨方法）：</strong>把目標擺在讓 $\theta$ 略偏離 $2\pi$ 整數倍的地方，使 $\Delta\omega$ 在局部近似線性於 $\Delta\theta$（式 3）。但這對初始位置與容許位移施加了嚴苛限制 — 對真實監測而言不可接受。</p>
+<p data-l="zh"><strong>Naive workaround（笨方法）：</strong>把目標擺在讓 $\theta$ 略偏離 $2\pi$ 整數倍的地方，使 $\Delta\omega$ 在局部近似線性於 $\Delta\theta$（式 3）。但這對初始位置與容許位移施加了嚴苛限制 — 對真實監測而言不可接受。</p><p data-l="en"><strong>Naive workaround:</strong> place the target so that $\theta$ sits slightly away from an integer multiple of $2\pi$, making $\Delta\omega$ locally approximately linear in $\Delta\theta$ (eq. 3). But that imposes severe constraints on the initial position and the allowable displacement — unacceptable for real monitoring.</p>
 </section>
 
 <!-- ===== SECTION 3 ===== -->
 <section id="sec-3">
 <h2 class="section-title">3 · The Solution — Feedback Demodulation</h2>
-<p>論文第 III 節 — 全篇的心臟。加入一條動態調整的<strong>延遲線 $d$</strong>，抵消目標運動造成的往返延遲變化，把總相位 $\theta$ 調節到定值 ($\theta=\pi$)。當運動被完美抵消時，被調延遲的波形<strong>就複製了目標的運動</strong>。</p>
+<p data-l="zh">論文第 III 節 — 全篇的心臟。加入一條動態調整的<strong>延遲線 $d$</strong>，抵消目標運動造成的往返延遲變化，把總相位 $\theta$ 調節到定值 ($\theta=\pi$)。當運動被完美抵消時，被調延遲的波形<strong>就複製了目標的運動</strong>。</p><p data-l="en">Section III of the paper — the heart of the work. A dynamically adjusted <strong>delay line $d$</strong> cancels the change in round-trip delay caused by target motion, regulating the total phase $\theta$ to a constant value ($\theta=\pi$). When the motion is perfectly cancelled, the waveform of the adjusted delay <strong>is a replica of the target motion</strong>.</p>
 
 <figure>
 <svg viewBox="0 0 700 250" style="width:100%;max-width:680px;display:block;margin:8px auto" font-family="'DM Sans',sans-serif">
   <defs>
-    <marker id="af" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="#333"/></marker>
-    <marker id="ag" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="#2a6e5a"/></marker>
+    <marker id="af" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="#333"></path></marker>
+    <marker id="ag" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="#2a6e5a"></path></marker>
   </defs>
   <!-- forward path row -->
-  <circle cx="52" cy="50" r="22" fill="#fff" stroke="#3a5998" stroke-width="2"/>
-  <path d="M52,40 v20 M42,50 h20" stroke="#3a5998" stroke-width="1.5"/>
+  <circle cx="52" cy="50" r="22" fill="#fff" stroke="#3a5998" stroke-width="2"></circle>
+  <path d="M52,40 v20 M42,50 h20" stroke="#3a5998" stroke-width="1.5"></path>
   <text x="52" y="90" text-anchor="middle" fill="#3a5998" font-size="10.5" font-weight="700">Oscillator u</text>
   <!-- Resonator (ADDED) -->
-  <text x="143" y="24" text-anchor="middle" fill="#b9760a" font-size="9" font-weight="700">★ 新增區塊</text>
-  <rect x="104" y="32" width="78" height="36" fill="#ffe9b3" stroke="#b9760a" stroke-width="2.5"/>
+  <text x="143" y="24" text-anchor="middle" fill="#b9760a" font-size="9" font-weight="700" data-l="zh">★ 新增區塊</text><text x="143" y="24" text-anchor="middle" fill="#b9760a" font-size="9" font-weight="700" data-l="en">★ added block</text>
+  <rect x="104" y="32" width="78" height="36" fill="#ffe9b3" stroke="#b9760a" stroke-width="2.5"></rect>
   <text x="143" y="49" text-anchor="middle" fill="#8a5a00" font-size="10.5" font-weight="700">Resonator</text>
-  <text x="143" y="61" text-anchor="middle" fill="#8a5a00" font-size="8.5">共振腔 ω₀, Q</text>
-  <rect x="222" y="32" width="60" height="36" fill="#fce8e4" stroke="#b44a2f" stroke-width="2"/>
+  <text x="143" y="61" text-anchor="middle" fill="#8a5a00" font-size="8.5" data-l="zh">共振腔 ω₀, Q</text><text x="143" y="61" text-anchor="middle" fill="#8a5a00" font-size="8.5" data-l="en">cavity ω₀, Q</text>
+  <rect x="222" y="32" width="60" height="36" fill="#fce8e4" stroke="#b44a2f" stroke-width="2"></rect>
   <text x="252" y="54" text-anchor="middle" fill="#b44a2f" font-size="11" font-weight="700">PA→TX</text>
-  <rect x="320" y="32" width="72" height="36" fill="#fff8f0" stroke="#b44a2f" stroke-width="2"/>
+  <rect x="320" y="32" width="72" height="36" fill="#fff8f0" stroke="#b44a2f" stroke-width="2"></rect>
   <text x="356" y="54" text-anchor="middle" fill="#b44a2f" font-size="11" font-weight="700">Target x(t)</text>
-  <rect x="430" y="32" width="60" height="36" fill="#fce8e4" stroke="#b44a2f" stroke-width="2"/>
+  <rect x="430" y="32" width="60" height="36" fill="#fce8e4" stroke="#b44a2f" stroke-width="2"></rect>
   <text x="460" y="54" text-anchor="middle" fill="#b44a2f" font-size="11" font-weight="700">RX→LNA</text>
-  <rect x="528" y="32" width="84" height="36" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"/>
+  <rect x="528" y="32" width="84" height="36" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"></rect>
   <text x="570" y="49" text-anchor="middle" fill="#3a5998" font-size="11" font-weight="700">Tunable</text>
   <text x="570" y="62" text-anchor="middle" fill="#3a5998" font-size="11" font-weight="700">delay d</text>
-  <line x1="74" y1="50" x2="102" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
-  <line x1="182" y1="50" x2="220" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
-  <line x1="282" y1="50" x2="318" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
-  <line x1="392" y1="50" x2="428" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
-  <line x1="490" y1="50" x2="526" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
+  <line x1="74" y1="50" x2="102" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
+  <line x1="182" y1="50" x2="220" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
+  <line x1="282" y1="50" x2="318" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
+  <line x1="392" y1="50" x2="428" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
+  <line x1="490" y1="50" x2="526" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
   <!-- inject back to oscillator -->
-  <line x1="550" y1="68" x2="550" y2="100" stroke="#333" stroke-width="1.5"/>
-  <line x1="550" y1="100" x2="52" y2="100" stroke="#333" stroke-width="1.5"/>
-  <line x1="52" y1="100" x2="52" y2="74" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
-  <text x="300" y="114" text-anchor="middle" fill="#666" font-size="10" font-style="italic">u_inj （延遲後回授注入 → 控制 θ）</text>
+  <line x1="550" y1="68" x2="550" y2="100" stroke="#333" stroke-width="1.5"></line>
+  <line x1="550" y1="100" x2="52" y2="100" stroke="#333" stroke-width="1.5"></line>
+  <line x1="52" y1="100" x2="52" y2="74" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
+  <text x="300" y="114" text-anchor="middle" fill="#666" font-size="10" font-style="italic" data-l="zh">u_inj （延遲後回授注入 → 控制 θ）</text><text x="300" y="114" text-anchor="middle" fill="#666" font-size="10" font-style="italic" data-l="en">u_inj (delayed echo injected back → controls θ)</text>
   <!-- control path row -->
-  <rect x="120" y="150" width="150" height="40" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"/>
+  <rect x="120" y="150" width="150" height="40" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"></rect>
   <text x="195" y="166" text-anchor="middle" fill="#3a5998" font-size="10.5" font-weight="700">Freq. discriminator</text>
   <text x="195" y="180" text-anchor="middle" fill="#3a5998" font-size="9.5">T/4 delay + FM demod F</text>
-  <rect x="305" y="150" width="86" height="40" fill="#e6f5ee" stroke="#2a6e5a" stroke-width="2"/>
+  <rect x="305" y="150" width="86" height="40" fill="#e6f5ee" stroke="#2a6e5a" stroke-width="2"></rect>
   <text x="348" y="166" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700">PI ctrl C</text>
   <text x="348" y="181" text-anchor="middle" fill="#2a6e5a" font-size="9.5">→ PWM → d</text>
-  <rect x="425" y="150" width="160" height="40" fill="#f0e8f5" stroke="#6b4c9a" stroke-width="2"/>
+  <rect x="425" y="150" width="160" height="40" fill="#f0e8f5" stroke="#6b4c9a" stroke-width="2"></rect>
   <text x="505" y="166" text-anchor="middle" fill="#6b4c9a" font-size="10.5" font-weight="700">x̂ = −0.5c (d − a)</text>
-  <text x="505" y="181" text-anchor="middle" fill="#6b4c9a" font-size="9.5">estimated motion 輸出</text>
+  <text x="505" y="181" text-anchor="middle" fill="#6b4c9a" font-size="9.5" data-l="zh">estimated motion 輸出</text><text x="505" y="181" text-anchor="middle" fill="#6b4c9a" font-size="9.5" data-l="en">estimated motion (output)</text>
   <!-- osc -> discriminator -->
-  <line x1="52" y1="100" x2="52" y2="170" stroke="#333" stroke-width="1.2" stroke-dasharray="4,3"/>
-  <line x1="52" y1="170" x2="118" y2="170" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
-  <line x1="270" y1="170" x2="303" y2="170" stroke="#333" stroke-width="1.5" marker-end="url(#af)"/>
-  <line x1="391" y1="170" x2="423" y2="170" stroke="#2a6e5a" stroke-width="1.5" marker-end="url(#ag)"/>
+  <line x1="52" y1="100" x2="52" y2="170" stroke="#333" stroke-width="1.2" stroke-dasharray="4,3"></line>
+  <line x1="52" y1="170" x2="118" y2="170" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
+  <line x1="270" y1="170" x2="303" y2="170" stroke="#333" stroke-width="1.5" marker-end="url(#af)"></line>
+  <line x1="391" y1="170" x2="423" y2="170" stroke="#2a6e5a" stroke-width="1.5" marker-end="url(#ag)"></line>
   <!-- PI sets delay (closes the loop: PI output d -> Tunable delay block) -->
-  <line x1="360" y1="150" x2="360" y2="128" stroke="#2a6e5a" stroke-width="1.5"/>
-  <line x1="360" y1="128" x2="590" y2="128" stroke="#2a6e5a" stroke-width="1.5"/>
-  <line x1="590" y1="128" x2="590" y2="70" stroke="#2a6e5a" stroke-width="1.5" marker-end="url(#ag)"/>
-  <text x="478" y="124" text-anchor="middle" fill="#2a6e5a" font-size="9.5" font-weight="700">設定延遲 d（閉迴路）</text>
-  <text x="350" y="218" text-anchor="middle" fill="#888" font-size="11" font-style="italic">FD 量測 Δω → PI 算修正 → 設定延遲 d 使 θ 鎖在 π；延遲波形 d(t) 即為運動 x̂(t)</text>
+  <line x1="360" y1="150" x2="360" y2="128" stroke="#2a6e5a" stroke-width="1.5"></line>
+  <line x1="360" y1="128" x2="590" y2="128" stroke="#2a6e5a" stroke-width="1.5"></line>
+  <line x1="590" y1="128" x2="590" y2="70" stroke="#2a6e5a" stroke-width="1.5" marker-end="url(#ag)"></line>
+  <text x="478" y="124" text-anchor="middle" fill="#2a6e5a" font-size="9.5" font-weight="700" data-l="zh">設定延遲 d（閉迴路）</text><text x="478" y="124" text-anchor="middle" fill="#2a6e5a" font-size="9.5" font-weight="700" data-l="en">sets delay d (closed loop)</text>
+  <text x="350" y="218" text-anchor="middle" fill="#888" font-size="11" font-style="italic" data-l="zh">FD 量測 Δω → PI 算修正 → 設定延遲 d 使 θ 鎖在 π；延遲波形 d(t) 即為運動 x̂(t)</text><text x="350" y="218" text-anchor="middle" fill="#888" font-size="11" font-style="italic" data-l="en">FD measures Δω → PI computes the correction → sets d so θ locks at π; d(t) is the motion x̂(t)</text>
 </svg>
-<figcaption>圖 2 — 相位消除回授解調方塊圖。上排為含可調延遲的 SIL 迴路（求和節點 + <strong>共振腔 Resonator</strong> 構成注入鎖定振盪器，u_inj 注入使相位 θ 鎖在 π）；下排為頻率鑑別器 → PI 控制器 → 延遲控制的閉迴路。</figcaption>
+<figcaption data-l="zh">圖 2 — 相位消除回授解調方塊圖。上排為含可調延遲的 SIL 迴路（求和節點 + <strong>共振腔 Resonator</strong> 構成注入鎖定振盪器，u_inj 注入使相位 θ 鎖在 π）；下排為頻率鑑別器 → PI 控制器 → 延遲控制的閉迴路。</figcaption><figcaption data-l="en">Fig. 2 — Block diagram of phase-canceling feedback demodulation. Top row: the SIL loop with the tunable delay (the summing node plus the <strong>resonator</strong> form the injection-locked oscillator; injecting u_inj locks the phase at θ=π). Bottom row: the closed loop of frequency discriminator → PI controller → delay control.</figcaption>
 </figure>
 
-<p>估計軌跡直接由延遲訊號還原：</p>
-<div class="eq-box" id="eq-5">
+<p data-l="zh">估計軌跡直接由延遲訊號還原：</p><p data-l="en">The estimated trajectory is recovered directly from the delay signal:</p>
+<div class="eq-box" id="eq-5" data-l="zh">
 <span class="eq-label">雷達輸出 (5)</span>
 $$\hat{x}(t)=-\tfrac{1}{2}c\,\big[d(t)-a\big]\;\;{\scriptstyle\textcolor{gray}{\text{(移除 DC 分量 a，乘 −0.5c；線性、免解纏)}}}$$
+</div><div class="eq-box" id="eq-5" data-l="en">
+<span class="eq-label">Radar output (5)</span>
+$$\hat{x}(t)=-\tfrac{1}{2}c\,\big[d(t)-a\big]\;\;{\scriptstyle\textcolor{gray}{\text{(remove the DC term a, scale by −0.5c; linear, no unwrapping)}}}$$
 </div>
 
 <div class="summary-grid">
-<div class="summary-card"><h5>為何調節 Δω 而非相位 θ？</h5>
-頻率鑑別器量測 $\Delta\omega$，它在設定點附近<strong>近似線性正比</strong>於相位偏差。比較器把類比訊號變成方波（relay-feedback 振盪器），讓全數位 FPGA 實作成為可能 — 不需片上 ADC/DAC。</div>
-<div class="summary-card"><h5>T/4 延遲方塊</h5>
-自由振盪週期的四分之一，$T/4=\pi/(2\omega_n)$。配合乘法器 + LPF，形成 FM 解調器（頻率鑑別器）來偵測頻率偏移。</div>
+<div class="summary-card" data-l="zh"><h5>為何調節 Δω 而非相位 θ？</h5>
+頻率鑑別器量測 $\Delta\omega$，它在設定點附近<strong>近似線性正比</strong>於相位偏差。比較器把類比訊號變成方波（relay-feedback 振盪器），讓全數位 FPGA 實作成為可能 — 不需片上 ADC/DAC。</div><div class="summary-card" data-l="en"><h5>Why regulate Δω instead of the phase θ?</h5>
+The frequency discriminator measures $\Delta\omega$, which near the set-point is <strong>approximately linearly proportional</strong> to the phase error. A comparator turns the analog signal into a square wave (a relay-feedback oscillator), which makes an all-digital FPGA implementation possible — no on-chip ADC/DAC needed.</div>
+<div class="summary-card" data-l="zh"><h5>T/4 延遲方塊</h5>
+自由振盪週期的四分之一，$T/4=\pi/(2\omega_n)$。配合乘法器 + LPF，形成 FM 解調器（頻率鑑別器）來偵測頻率偏移。</div><div class="summary-card" data-l="en"><h5>The T/4 delay block</h5>
+A quarter of the free-running period, $T/4=\pi/(2\omega_n)$. Together with a multiplier and an LPF it forms the FM demodulator (frequency discriminator) that detects the frequency shift.</div>
 </div>
 </section>
 
 <!-- ===== SECTION 4 ===== -->
 <section id="sec-4">
 <h2 class="section-title">4 · The Small-Signal Plant Model</h2>
-<p>設計控制器前，需要一個從控制訊號（延遲 $d$）到解調器輸出 $w$ 的轉移函數：</p>
+<p data-l="zh">設計控制器前，需要一個從控制訊號（延遲 $d$）到解調器輸出 $w$ 的轉移函數：</p><p data-l="en">Before designing the controller we need a transfer function from the control signal (the delay $d$) to the demodulator output $w$:</p>
 
 <div class="eq-box" id="eq-6">
-<span class="eq-label">Plant 轉移函數 (6)</span>
+<span class="eq-label" data-l="zh">Plant 轉移函數 (6)</span><span class="eq-label" data-l="en">Plant transfer function (6)</span>
 $$P(s)=g(\theta;A_{inj})\cdot e^{-(T/8)s}\cdot F(s)$$
 </div>
-<div class="eq-box" id="eq-7">
+<div class="eq-box" id="eq-7" data-l="zh">
 <span class="eq-label">Plant gain (7)</span>
 $$g(\theta;A_{inj})=\frac{2A_{inj}\cos\theta\,\big(1+A_{inj}\cos\theta\big)\,\omega_n}{\pi Q}\;\;{\scriptstyle\textcolor{gray}{\text{(增益隨工作點 θ 變 = 非線性)}}}$$
+</div><div class="eq-box" id="eq-7" data-l="en">
+<span class="eq-label">Plant gain (7)</span>
+$$g(\theta;A_{inj})=\frac{2A_{inj}\cos\theta\,\big(1+A_{inj}\cos\theta\big)\,\omega_n}{\pi Q}\;\;{\scriptstyle\textcolor{gray}{\text{(the gain varies with the operating point θ = nonlinear)}}}$$
 </div>
 
-<p>把 $P(s)$ 拆開看，它其實是<strong>三段串接</strong>：控制訊號（延遲 $d$）先變相位、再經 Adler 變頻率、最後被 FM 解調成輸出 $w$。每段都是工作點附近的<strong>小信號（$\delta$）增益</strong>：</p>
+<p data-l="zh">把 $P(s)$ 拆開看，它其實是<strong>三段串接</strong>：控制訊號（延遲 $d$）先變相位、再經 Adler 變頻率、最後被 FM 解調成輸出 $w$。每段都是工作點附近的<strong>小信號（$\delta$）增益</strong>：</p><p data-l="en">Unpacked, $P(s)$ is really a <strong>cascade of three stages</strong>: the control signal (delay $d$) first becomes phase, then Adler's equation turns phase into frequency, and finally FM demodulation turns that into the output $w$. Each stage is a <strong>small-signal ($\delta$) gain</strong> around the operating point:</p>
 <figure>
 <svg viewBox="0 0 980 230" style="width:100%;max-width:900px;display:block;margin:8px auto" font-family="'DM Sans',sans-serif">
   <defs>
-    <marker id="ap3" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L0,9 L9,4.5 z" fill="#333"/></marker>
+    <marker id="ap3" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L0,9 L9,4.5 z" fill="#333"></path></marker>
   </defs>
   <text x="4" y="94" fill="#333" font-size="19" font-weight="700" font-style="italic">δd</text>
-  <line x1="34" y1="88" x2="62" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"/>
+  <line x1="34" y1="88" x2="62" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"></line>
   <!-- box1 -->
-  <rect x="64" y="54" width="158" height="66" rx="4" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"/>
-  <text x="143" y="84" text-anchor="middle" fill="#3a5998" font-size="23" font-weight="700">相位累積</text>
+  <rect x="64" y="54" width="158" height="66" rx="4" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"></rect>
+  <text x="143" y="84" text-anchor="middle" fill="#3a5998" font-size="23" font-weight="700" data-l="zh">相位累積</text><text x="143" y="84" text-anchor="middle" fill="#3a5998" font-size="20" font-weight="700" data-l="en">Phase accum.</text>
   <text x="143" y="108" text-anchor="middle" fill="#555" font-size="18">δθ = ωₙ·δd</text>
   <text x="143" y="150" text-anchor="middle" fill="#b44a2f" font-size="21" font-weight="700">ωₙ</text>
-  <line x1="222" y1="88" x2="320" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"/>
+  <line x1="222" y1="88" x2="320" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"></line>
   <text x="271" y="80" text-anchor="middle" fill="#666" font-size="19" font-style="italic">δθ</text>
   <!-- box2 -->
-  <rect x="322" y="54" width="226" height="66" rx="4" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"/>
-  <text x="435" y="84" text-anchor="middle" fill="#3a5998" font-size="23" font-weight="700">Adler 方程式</text>
+  <rect x="322" y="54" width="226" height="66" rx="4" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"></rect>
+  <text x="435" y="84" text-anchor="middle" fill="#3a5998" font-size="23" font-weight="700" data-l="zh">Adler 方程式</text><text x="435" y="84" text-anchor="middle" fill="#3a5998" font-size="22" font-weight="700" data-l="en">Adler's equation</text>
   <text x="435" y="108" text-anchor="middle" fill="#555" font-size="17">δΔω/δθ = −ωₙB/2QA·cosθ</text>
   <text x="435" y="150" text-anchor="middle" fill="#b44a2f" font-size="19" font-weight="700">−ωₙB/2QA·cosθ</text>
-  <line x1="548" y1="88" x2="598" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"/>
+  <line x1="548" y1="88" x2="598" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"></line>
   <text x="573" y="80" text-anchor="middle" fill="#666" font-size="17" font-style="italic">δΔω</text>
   <!-- box3 -->
-  <rect x="600" y="54" width="226" height="66" rx="4" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"/>
-  <text x="713" y="84" text-anchor="middle" fill="#3a5998" font-size="23" font-weight="700">FM 解調器</text>
+  <rect x="600" y="54" width="226" height="66" rx="4" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"></rect>
+  <text x="713" y="84" text-anchor="middle" fill="#3a5998" font-size="23" font-weight="700" data-l="zh">FM 解調器</text><text x="713" y="84" text-anchor="middle" fill="#3a5998" font-size="22" font-weight="700" data-l="en">FM demodulator</text>
   <text x="713" y="108" text-anchor="middle" fill="#555" font-size="16">−πA²/4ωₙ·e^(−sT/8)·F(s)</text>
   <text x="713" y="150" text-anchor="middle" fill="#b44a2f" font-size="16.5" font-weight="700">−πA²/4ωₙ·e^(−sT/8)F(s)</text>
-  <line x1="826" y1="88" x2="870" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"/>
+  <line x1="826" y1="88" x2="870" y2="88" stroke="#333" stroke-width="2" marker-end="url(#ap3)"></line>
   <text x="848" y="80" text-anchor="middle" fill="#666" font-size="17" font-style="italic">δw</text>
   <!-- output -->
-  <rect x="872" y="54" width="106" height="66" rx="4" fill="#f0e8f5" stroke="#6b4c9a" stroke-width="2"/>
+  <rect x="872" y="54" width="106" height="66" rx="4" fill="#f0e8f5" stroke="#6b4c9a" stroke-width="2"></rect>
   <text x="925" y="96" text-anchor="middle" fill="#6b4c9a" font-size="23" font-weight="700">w(t)</text>
   <!-- brace + P(s) -->
-  <path d="M64,164 q0,8 8,8 L437,172 q8,0 8,8 q0,-8 8,-8 L818,172 q8,0 8,-8" fill="none" stroke="#b44a2f" stroke-width="1.6"/>
+  <path d="M64,164 q0,8 8,8 L437,172 q8,0 8,8 q0,-8 8,-8 L818,172 q8,0 8,-8" fill="none" stroke="#b44a2f" stroke-width="1.6"></path>
   <text x="445" y="210" text-anchor="middle" fill="#b44a2f" font-size="21" font-weight="700">P(s) = δw/δd = ωₙ × (−ωₙB/2QA·cosθ) × (−πA²/4ωₙ)·e^(−sT/8)·F(s)</text>
 </svg>
-<figcaption>圖 3a — plant $P(s)=\delta w/\delta d$ 的三段展開：相位累積（$\times\omega_n$，A24）→ Adler 線性化斜率（$\propto\cos\theta$，A14 微分）→ FM 解調（$-\tfrac{\pi A^2}{4\omega_n}e^{-sT/8}F(s)$，A32）。三段相乘、代入 $B,A$ 化簡即得 $g(\theta)e^{-sT/8}F(s)$＝式 (6)(7)/(A36)。中間 Adler 那段是<strong>線性化斜率</strong>，所以非線性的 $\sin\theta$ 在 plant 裡變成 $\cos\theta$。</figcaption>
+<figcaption data-l="zh">圖 3a — plant $P(s)=\delta w/\delta d$ 的三段展開：相位累積（$\times\omega_n$，A24）→ Adler 線性化斜率（$\propto\cos\theta$，A14 微分）→ FM 解調（$-\tfrac{\pi A^2}{4\omega_n}e^{-sT/8}F(s)$，A32）。三段相乘、代入 $B,A$ 化簡即得 $g(\theta)e^{-sT/8}F(s)$＝式 (6)(7)/(A36)。中間 Adler 那段是<strong>線性化斜率</strong>，所以非線性的 $\sin\theta$ 在 plant 裡變成 $\cos\theta$。</figcaption><figcaption data-l="en">Fig. 3a — The plant $P(s)=\delta w/\delta d$ expanded into three stages: phase accumulation ($\times\omega_n$, A24) → the linearized Adler slope ($\propto\cos\theta$, the derivative of A14) → FM demodulation ($-\tfrac{\pi A^2}{4\omega_n}e^{-sT/8}F(s)$, A32). Multiplying the three and substituting $B,A$ gives $g(\theta)e^{-sT/8}F(s)$ = eqs. (6)(7)/(A36). The middle Adler stage is a <strong>linearized slope</strong>, which is why the nonlinear $\sin\theta$ appears as $\cos\theta$ in the plant.</figcaption>
 </figure>
 
 <div class="callout concept" style="margin:8px 0">
-<div class="callout-title">三段增益的推導（環節 1 &amp; 2）</div>
+<div class="callout-title" data-l="zh">三段增益的推導（環節 1 &amp; 2）</div><div class="callout-title" data-l="en">Deriving the three gains (stages 1 &amp; 2)</div>
 
-<p style="margin:8px 0 4px"><strong>環節 1：可調延遲 → 相位變化</strong></p>
-<p style="margin:4px 0">可調延遲 $d$ 的微小變化 $\delta d$ 造成注入相位 $\theta$ 的變化。由 $\theta(t)=\omega(t)(D+d)$ 且 $\omega\approx\omega_n$：</p>
+<p style="margin:8px 0 4px"><strong data-l="zh">環節 1：可調延遲 → 相位變化</strong><strong data-l="en">Stage 1: tunable delay → phase change</strong></p>
+<p style="margin:4px 0" data-l="zh">可調延遲 $d$ 的微小變化 $\delta d$ 造成注入相位 $\theta$ 的變化。由 $\theta(t)=\omega(t)(D+d)$ 且 $\omega\approx\omega_n$：</p><p style="margin:4px 0" data-l="en">A small change $\delta d$ in the tunable delay $d$ changes the injection phase $\theta$. From $\theta(t)=\omega(t)(D+d)$ with $\omega\approx\omega_n$:</p>
 <div class="eq-box" style="margin:6px 0">$$\frac{\delta\theta}{\delta d}\approx\omega_n\qquad(23)$$</div>
 
-<p style="margin:8px 0 4px"><strong>環節 2：相位變化 → 頻率偏移（Adler 方程式）</strong></p>
-<p style="margin:4px 0">由 Adler 注入鎖定方程式 $\Delta\omega=-\dfrac{\omega_n B}{2QA}\sin\theta$，對 $\theta$ 做小信號微擾 $\theta\to\theta+\delta\theta$：</p>
+<p style="margin:8px 0 4px"><strong data-l="zh">環節 2：相位變化 → 頻率偏移（Adler 方程式）</strong><strong data-l="en">Stage 2: phase change → frequency shift (Adler's equation)</strong></p>
+<p style="margin:4px 0" data-l="zh">由 Adler 注入鎖定方程式 $\Delta\omega=-\dfrac{\omega_n B}{2QA}\sin\theta$，對 $\theta$ 做小信號微擾 $\theta\to\theta+\delta\theta$：</p><p style="margin:4px 0" data-l="en">Starting from the Adler injection-locking equation $\Delta\omega=-\dfrac{\omega_n B}{2QA}\sin\theta$, apply the small-signal perturbation $\theta\to\theta+\delta\theta$:</p>
 <div class="eq-box" style="margin:6px 0">
 $$\Delta\omega+\delta\Delta\omega=-\frac{\omega_n B}{2QA}\sin(\theta+\delta\theta)\approx-\frac{\omega_n B}{2QA}\big[\sin\theta+\cos\theta\cdot\delta\theta\big]\qquad(24)$$
 </div>
-<p style="margin:4px 0">減去靜態項 $\Delta\omega=-\dfrac{\omega_n B}{2QA}\sin\theta$ 後，得到小信號關係：</p>
+<p style="margin:4px 0" data-l="zh">減去靜態項 $\Delta\omega=-\dfrac{\omega_n B}{2QA}\sin\theta$ 後，得到小信號關係：</p><p style="margin:4px 0" data-l="en">Subtracting the static term $\Delta\omega=-\dfrac{\omega_n B}{2QA}\sin\theta$ leaves the small-signal relation:</p>
 <div class="eq-box" style="margin:6px 0">
 $$\boxed{\;\dfrac{\delta\Delta\omega}{\delta\theta}\approx-\dfrac{\omega_n B}{2QA}\cos\theta\;}\qquad(25)$$
 </div>
 
-<div class="callout tip" style="margin:6px 0">
+<div class="callout tip" style="margin:6px 0" data-l="zh">
 <div class="callout-title">用到的展開 — 正弦泰勒展開</div>
 $$\sin(x+\epsilon)\approx\sin x+\epsilon\cos x\quad(\epsilon\text{ 很小})$$
 此處 $x=\theta$、$\epsilon=\delta\theta$ —— 這就是 $\sin\theta$ 變成斜率 $\cos\theta$ 的來源。
+</div><div class="callout tip" style="margin:6px 0" data-l="en">
+<div class="callout-title">The expansion used — Taylor series of the sine</div>
+$$\sin(x+\epsilon)\approx\sin x+\epsilon\cos x\quad(\epsilon\text{ small})$$
+Here $x=\theta$ and $\epsilon=\delta\theta$ — this is where the slope $\cos\theta$ comes from, replacing $\sin\theta$.
 </div>
 
-<p style="margin-bottom:0"><strong>環節 3：頻率偏移 → 解調輸出</strong> 即 FM 解調器 $\dfrac{\delta w}{\delta\Delta\omega}=-\dfrac{\pi A^2}{4\omega_n}e^{-sT/8}F(s)$（推導見附錄 B「細看 ② — 解調器的乘積數學」）。<strong>環節 1 × 2 × 3</strong> 相乘、代入 $B,A$ 化簡，即得圖 3a 的 $P(s)=g(\theta)e^{-sT/8}F(s)$。</p>
+<p style="margin-bottom:0" data-l="zh"><strong>環節 3：頻率偏移 → 解調輸出</strong> 即 FM 解調器 $\dfrac{\delta w}{\delta\Delta\omega}=-\dfrac{\pi A^2}{4\omega_n}e^{-sT/8}F(s)$（推導見附錄 B「細看 ② — 解調器的乘積數學」）。<strong>環節 1 × 2 × 3</strong> 相乘、代入 $B,A$ 化簡，即得圖 3a 的 $P(s)=g(\theta)e^{-sT/8}F(s)$。</p><p style="margin-bottom:0" data-l="en"><strong>Stage 3: frequency shift → demodulator output</strong> is the FM demodulator $\dfrac{\delta w}{\delta\Delta\omega}=-\dfrac{\pi A^2}{4\omega_n}e^{-sT/8}F(s)$ (derived in Appendix B, "A closer look at ② — the multiplier maths of the demodulator"). Multiplying <strong>stages 1 × 2 × 3</strong> and substituting $B,A$ gives $P(s)=g(\theta)e^{-sT/8}F(s)$ as in Fig. 3a.</p>
 </div>
 
-<h3>Choosing the operating point（選工作點）</h3>
-<p>目標：挑一個讓增益 $g$ 幾乎定值 → 最線性的 $\theta$。當 <strong>$A_{inj}=0.5$</strong> 時，增益在 <strong>$\theta=\pi$</strong> 具有<strong>最大平坦</strong>性質：</p>
+<h3 data-l="zh">Choosing the operating point（選工作點）</h3><h3 data-l="en">Choosing the operating point</h3>
+<p data-l="zh">目標：挑一個讓增益 $g$ 幾乎定值 → 最線性的 $\theta$。當 <strong>$A_{inj}=0.5$</strong> 時，增益在 <strong>$\theta=\pi$</strong> 具有<strong>最大平坦</strong>性質：</p><p data-l="en">Goal: pick a $\theta$ at which the gain $g$ is nearly constant, i.e. the most linear point. With <strong>$A_{inj}=0.5$</strong>, the gain is <strong>maximally flat</strong> at <strong>$\theta=\pi$</strong>:</p>
 <div class="eq-box" id="eq-8">
-<span class="eq-label">最大平坦條件 (8)</span>
+<span class="eq-label" data-l="zh">最大平坦條件 (8)</span><span class="eq-label" data-l="en">Maximal-flatness condition (8)</span>
 $$\left.\frac{dg}{d\theta}=\frac{d^2g}{d\theta^2}=\frac{d^3g}{d\theta^3}=0\right|_{\theta=\pi}$$
 </div>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">為何鎖 $\theta=\pi$ 而非 $\theta=0$？（兩個都「平坦」，差在更高階）</summary>
-<p style="margin:6px 0">原文點出兩個候選點：</p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">為何鎖 $\theta=\pi$ 而非 $\theta=0$？（兩個都「平坦」，差在更高階）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">Why lock at $\theta=\pi$ rather than $\theta=0$? (both are "flat" — the difference is in the higher orders)</summary>
+<p style="margin:6px 0" data-l="zh">原文點出兩個候選點：</p><p style="margin:6px 0" data-l="en">The paper names two candidate points:</p>
 <blockquote style="margin:6px 0;padding:8px 14px;border-left:3px solid var(--accent3);background:var(--blue-light);font-size:0.95em">Consider two candidate points θ=0 and θ=π at which the plant has better linearity with a flat gain. In-phase injection occurs when θ=0 (u_inj and u_out in-phase), resulting in a pronounced maximum in the oscillation amplitude, and the plant gain g is positive. Anti-phase injection occurs when θ=π (out-of-phase), yielding a minimum in oscillation amplitude and a negative plant gain.</blockquote>
-<p style="margin:6px 0">$\theta=0$ 與 $\theta=\pi$ <strong>都是增益的極值</strong>（$dg/d\theta=0$），也都對應同一 set-point（$\Delta\omega=0$）—— 光看一階兩個都「平坦」。差別在<strong>二階</strong>。由 $g\propto\cos\theta(1+A_{inj}\cos\theta)$：</p>
+<p style="margin:6px 0" data-l="zh">$\theta=0$ 與 $\theta=\pi$ <strong>都是增益的極值</strong>（$dg/d\theta=0$），也都對應同一 set-point（$\Delta\omega=0$）—— 光看一階兩個都「平坦」。差別在<strong>二階</strong>。由 $g\propto\cos\theta(1+A_{inj}\cos\theta)$：</p><p style="margin:6px 0" data-l="en">Both $\theta=0$ and $\theta=\pi$ are <strong>extrema of the gain</strong> ($dg/d\theta=0$) and both correspond to the same set-point ($\Delta\omega=0$) — to first order both look "flat". The difference shows up at <strong>second order</strong>. From $g\propto\cos\theta(1+A_{inj}\cos\theta)$:</p>
 <div class="eq-box" style="margin:6px 0">$$g''=-A_{inj}\cos\theta-2A_{inj}^2\cos2\theta$$</div>
 <table style="margin:6px 0">
-<tr><th>工作點</th><th>$g''$</th><th>平坦度</th><th>振幅 / 增益</th></tr>
-<tr><td>$\theta=0$（同相）</td><td>$-A_{inj}-2A_{inj}^2\neq0$</td><td>只一階平坦＝<strong>尖峰</strong></td><td>振幅最大、$g>0$</td></tr>
-<tr><td>$\theta=\pi$（反相）</td><td>$A_{inj}-2A_{inj}^2\xrightarrow{A_{inj}=0.5}0$</td><td>$g'=g''=g'''=0$＝<strong>最大平坦</strong>（式 8）</td><td>振幅最小、$g<0$</td></tr>
-</table>
-<p style="margin-bottom:0"><strong>結論：</strong>設計刻意選 $A_{inj}=0.5$，讓 $\theta=\pi$ 成為最大平坦點（增益對相位擺動最不敏感）→ 最線性 → 可當常數增益線性 plant。而 $\theta=\pi$ 的<strong>負增益反而是好事</strong>：配上正增益 PI 控制器，迴路增益為負 = <strong>負回授</strong>，正好把相位穩定地鎖在 $\theta=\pi$（這個負號已併入式 9 的 $-k$）。$\theta=0$ 雖也穩定，但只是一階平坦的尖峰，相位一偏離線性度就壞。</p>
+<tbody><tr><th data-l="zh">工作點</th><th data-l="en">Operating point</th><th>$g''$</th><th data-l="zh">平坦度</th><th data-l="en">Flatness</th><th data-l="zh">振幅 / 增益</th><th data-l="en">Amplitude / gain</th></tr>
+<tr><td data-l="zh">$\theta=0$（同相）</td><td data-l="en">$\theta=0$ (in-phase)</td><td>$-A_{inj}-2A_{inj}^2\neq0$</td><td data-l="zh">只一階平坦＝<strong>尖峰</strong></td><td data-l="en">Flat only to first order = a <strong>sharp peak</strong></td><td data-l="zh">振幅最大、$g&gt;0$</td><td data-l="en">Maximum amplitude, $g&gt;0$</td></tr>
+<tr><td data-l="zh">$\theta=\pi$（反相）</td><td data-l="en">$\theta=\pi$ (anti-phase)</td><td>$A_{inj}-2A_{inj}^2\xrightarrow{A_{inj}=0.5}0$</td><td data-l="zh">$g'=g''=g'''=0$＝<strong>最大平坦</strong>（式 8）</td><td data-l="en">$g'=g''=g'''=0$ = <strong>maximally flat</strong> (eq. 8)</td><td data-l="zh">振幅最小、$g&lt;0$</td><td data-l="en">Minimum amplitude, $g&lt;0$</td></tr>
+</tbody></table>
+<p style="margin-bottom:0" data-l="zh"><strong>結論：</strong>設計刻意選 $A_{inj}=0.5$，讓 $\theta=\pi$ 成為最大平坦點（增益對相位擺動最不敏感）→ 最線性 → 可當常數增益線性 plant。而 $\theta=\pi$ 的<strong>負增益反而是好事</strong>：配上正增益 PI 控制器，迴路增益為負 = <strong>負回授</strong>，正好把相位穩定地鎖在 $\theta=\pi$（這個負號已併入式 9 的 $-k$）。$\theta=0$ 雖也穩定，但只是一階平坦的尖峰，相位一偏離線性度就壞。</p><p style="margin-bottom:0" data-l="en"><strong>Conclusion:</strong> the design deliberately picks $A_{inj}=0.5$ so that $\theta=\pi$ becomes the maximally flat point (the gain is least sensitive to phase swing) → most linear → usable as a constant-gain linear plant. The <strong>negative gain at $\theta=\pi$ is in fact desirable</strong>: combined with a positive-gain PI controller the loop gain is negative, i.e. <strong>negative feedback</strong>, which is exactly what locks the phase stably at $\theta=\pi$ (this minus sign is absorbed into the $-k$ of eq. 9). $\theta=0$ is stable too, but it is only a first-order-flat peak: linearity degrades as soon as the phase moves away.</p>
 </details>
 
 <figure>
 <svg viewBox="0 0 560 250" style="width:100%;max-width:520px;display:block;margin:8px auto" font-family="'DM Sans',sans-serif">
   <defs>
-    <marker id="ax2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#333"/></marker>
-    <marker id="ay2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#333"/></marker>
+    <marker id="ax2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#333"></path></marker>
+    <marker id="ay2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#333"></path></marker>
   </defs>
-  <line x1="50" y1="160" x2="540" y2="160" stroke="#333" stroke-width="1.5" marker-end="url(#ax2)"/>
-  <line x1="50" y1="225" x2="50" y2="25" stroke="#333" stroke-width="1.5" marker-end="url(#ay2)"/>
+  <line x1="50" y1="160" x2="540" y2="160" stroke="#333" stroke-width="1.5" marker-end="url(#ax2)"></line>
+  <line x1="50" y1="225" x2="50" y2="25" stroke="#333" stroke-width="1.5" marker-end="url(#ay2)"></line>
   <!-- g(theta) = cosθ + 0.5cos^2θ, mapped v=1.5->y40, v=-0.5->y200 -->
-  <path d="M50.0,40.0 L54.0,40.2 L58.0,40.9 L62.0,42.0 L66.0,43.5 L70.0,45.4 L74.0,47.7 L78.0,50.5 L82.0,53.5 L86.0,57.0 L90.0,60.7 L94.0,64.8 L98.0,69.1 L102.0,73.7 L106.0,78.5 L110.0,83.4 L114.0,88.6 L118.0,93.8 L122.0,99.2 L126.0,104.6 L130.0,110.0 L134.0,115.4 L138.0,120.8 L142.0,126.2 L146.0,131.5 L150.0,136.6 L154.0,141.6 L158.0,146.5 L162.0,151.2 L166.0,155.7 L170.0,160.0 L174.0,164.1 L178.0,167.9 L182.0,171.5 L186.0,174.9 L190.0,178.0 L194.0,180.9 L198.0,183.5 L202.0,185.9 L206.0,188.1 L210.0,190.0 L214.0,191.7 L218.0,193.2 L222.0,194.5 L226.0,195.6 L230.0,196.6 L234.0,197.4 L238.0,198.0 L242.0,198.5 L246.0,199.0 L250.0,199.3 L254.0,199.5 L258.0,199.7 L262.0,199.8 L266.0,199.9 L270.0,200.0 L274.0,200.0 L278.0,200.0 L282.0,200.0 L286.0,200.0 L290.0,200.0 L294.0,200.0 L298.0,200.0 L302.0,200.0 L306.0,200.0 L310.0,200.0 L314.0,199.9 L318.0,199.8 L322.0,199.7 L326.0,199.5 L330.0,199.3 L334.0,199.0 L338.0,198.5 L342.0,198.0 L346.0,197.4 L350.0,196.6 L354.0,195.6 L358.0,194.5 L362.0,193.2 L366.0,191.7 L370.0,190.0 L374.0,188.1 L378.0,185.9 L382.0,183.5 L386.0,180.9 L390.0,178.0 L394.0,174.9 L398.0,171.5 L402.0,167.9 L406.0,164.1 L410.0,160.0 L414.0,155.7 L418.0,151.2 L422.0,146.5 L426.0,141.6 L430.0,136.6 L434.0,131.5 L438.0,126.2 L442.0,120.8 L446.0,115.4 L450.0,110.0 L454.0,104.6 L458.0,99.2 L462.0,93.8 L466.0,88.6 L470.0,83.4 L474.0,78.5 L478.0,73.7 L482.0,69.1 L486.0,64.8 L490.0,60.7 L494.0,57.0 L498.0,53.5 L502.0,50.5 L506.0,47.7 L510.0,45.4 L514.0,43.5 L518.0,42.0 L522.0,40.9 L526.0,40.2 L530.0,40.0" fill="none" stroke="#3a5998" stroke-width="2.5"/>
+  <path d="M50.0,40.0 L54.0,40.2 L58.0,40.9 L62.0,42.0 L66.0,43.5 L70.0,45.4 L74.0,47.7 L78.0,50.5 L82.0,53.5 L86.0,57.0 L90.0,60.7 L94.0,64.8 L98.0,69.1 L102.0,73.7 L106.0,78.5 L110.0,83.4 L114.0,88.6 L118.0,93.8 L122.0,99.2 L126.0,104.6 L130.0,110.0 L134.0,115.4 L138.0,120.8 L142.0,126.2 L146.0,131.5 L150.0,136.6 L154.0,141.6 L158.0,146.5 L162.0,151.2 L166.0,155.7 L170.0,160.0 L174.0,164.1 L178.0,167.9 L182.0,171.5 L186.0,174.9 L190.0,178.0 L194.0,180.9 L198.0,183.5 L202.0,185.9 L206.0,188.1 L210.0,190.0 L214.0,191.7 L218.0,193.2 L222.0,194.5 L226.0,195.6 L230.0,196.6 L234.0,197.4 L238.0,198.0 L242.0,198.5 L246.0,199.0 L250.0,199.3 L254.0,199.5 L258.0,199.7 L262.0,199.8 L266.0,199.9 L270.0,200.0 L274.0,200.0 L278.0,200.0 L282.0,200.0 L286.0,200.0 L290.0,200.0 L294.0,200.0 L298.0,200.0 L302.0,200.0 L306.0,200.0 L310.0,200.0 L314.0,199.9 L318.0,199.8 L322.0,199.7 L326.0,199.5 L330.0,199.3 L334.0,199.0 L338.0,198.5 L342.0,198.0 L346.0,197.4 L350.0,196.6 L354.0,195.6 L358.0,194.5 L362.0,193.2 L366.0,191.7 L370.0,190.0 L374.0,188.1 L378.0,185.9 L382.0,183.5 L386.0,180.9 L390.0,178.0 L394.0,174.9 L398.0,171.5 L402.0,167.9 L406.0,164.1 L410.0,160.0 L414.0,155.7 L418.0,151.2 L422.0,146.5 L426.0,141.6 L430.0,136.6 L434.0,131.5 L438.0,126.2 L442.0,120.8 L446.0,115.4 L450.0,110.0 L454.0,104.6 L458.0,99.2 L462.0,93.8 L466.0,88.6 L470.0,83.4 L474.0,78.5 L478.0,73.7 L482.0,69.1 L486.0,64.8 L490.0,60.7 L494.0,57.0 L498.0,53.5 L502.0,50.5 L506.0,47.7 L510.0,45.4 L514.0,43.5 L518.0,42.0 L522.0,40.9 L526.0,40.2 L530.0,40.0" fill="none" stroke="#3a5998" stroke-width="2.5"></path>
   <!-- flat region highlight around pi -->
-  <line x1="258" y1="200" x2="322" y2="200" stroke="#2a6e5a" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="290" cy="200" r="5" fill="#2a6e5a"/>
-  <text x="290" y="222" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700">θ=π 最大平坦（負增益）</text>
+  <line x1="258" y1="200" x2="322" y2="200" stroke="#2a6e5a" stroke-width="4" stroke-linecap="round"></line>
+  <circle cx="290" cy="200" r="5" fill="#2a6e5a"></circle>
+  <text x="290" y="222" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700" data-l="zh">θ=π 最大平坦（負增益）</text><text x="290" y="222" text-anchor="middle" fill="#2a6e5a" font-size="12" font-weight="700" data-l="en">θ=π maximally flat (negative gain)</text>
   <text x="50" y="35" text-anchor="start" fill="#3a5998" font-size="12" font-weight="700">g(θ)</text>
   <text x="540" y="150" text-anchor="end" fill="#333" font-size="12" font-weight="700">θ</text>
   <text x="50" y="178" text-anchor="middle" fill="#666" font-size="11">0</text>
@@ -496,208 +594,222 @@ $$\left.\frac{dg}{d\theta}=\frac{d^2g}{d\theta^2}=\frac{d^3g}{d\theta^3}=0\right
   <text x="410" y="178" text-anchor="middle" fill="#666" font-size="11">3π/2</text>
   <text x="524" y="178" text-anchor="middle" fill="#666" font-size="11">2π</text>
 </svg>
-<figcaption>圖 3 — 以 $A_{inj}=0.5$ 畫出的 plant gain $g(\theta)$。$\theta=\pi$ 附近曲線極平坦（前三階導數為零），即使相位大幅擺動增益仍幾乎定值。</figcaption>
+<figcaption data-l="zh">圖 3 — 以 $A_{inj}=0.5$ 畫出的 plant gain $g(\theta)$。$\theta=\pi$ 附近曲線極平坦（前三階導數為零），即使相位大幅擺動增益仍幾乎定值。</figcaption><figcaption data-l="en">Fig. 3 — Plant gain $g(\theta)$ plotted for $A_{inj}=0.5$. The curve is extremely flat around $\theta=\pi$ (its first three derivatives vanish), so the gain stays nearly constant even for a large phase swing.</figcaption>
 </figure>
 
-<p>$\theta=\pi$ 附近增益近乎定值（圖 3），可採用<strong>常數增益線性模型</strong>：</p>
-<div class="eq-box" id="eq-9">
+<p data-l="zh">$\theta=\pi$ 附近增益近乎定值（圖 3），可採用<strong>常數增益線性模型</strong>：</p><p data-l="en">Since the gain is nearly constant around $\theta=\pi$ (Fig. 3), a <strong>constant-gain linear model</strong> can be used:</p>
+<div class="eq-box" id="eq-9" data-l="zh">
 <span class="eq-label">線性化 plant (9),(10)</span>
 $$P(s)=-k\cdot e^{-(T/8)s}\cdot F(s),\qquad k=\frac{f_n}{Q}=\frac{1}{QT}\;\;{\scriptstyle\textcolor{gray}{\text{(k = 共振器頻寬；負號 = 反相點負增益)}}}$$
+</div><div class="eq-box" id="eq-9" data-l="en">
+<span class="eq-label">Linearized plant (9),(10)</span>
+$$P(s)=-k\cdot e^{-(T/8)s}\cdot F(s),\qquad k=\frac{f_n}{Q}=\frac{1}{QT}\;\;{\scriptstyle\textcolor{gray}{\text{(k = resonator bandwidth; the minus sign = negative gain at the anti-phase point)}}}$$
 </div>
 
 <div class="callout concept">
-<div class="callout-title">控制方塊圖 — Adler plant 在迴路裡長什麼樣（對應論文 Fig 4）</div>
-<p style="margin:6px 0">圖 2 是<strong>硬體訊號流</strong>，Adler 動態藏在「Oscillator」方塊內，沒被畫成獨立 plant。下圖是<strong>控制方塊圖</strong>，把 $P(s)$ 明確拉出來：控制器 $C(s)$ 設定延遲 $d$，目標運動以擾動 $D(s)$ 進入，兩者相加經 plant（內含 $d\to\theta$ 的 $\times\omega_n$、Adler $\sin\theta$、$T/4$ 鑑別、解調 LPF）得到解調輸出 $w$，再負回授。</p>
+<div class="callout-title" data-l="zh">控制方塊圖 — Adler plant 在迴路裡長什麼樣（對應論文 Fig 4）</div><div class="callout-title" data-l="en">Control block diagram — what the Adler plant looks like inside the loop (paper Fig. 4)</div>
+<p style="margin:6px 0" data-l="zh">圖 2 是<strong>硬體訊號流</strong>，Adler 動態藏在「Oscillator」方塊內，沒被畫成獨立 plant。下圖是<strong>控制方塊圖</strong>，把 $P(s)$ 明確拉出來：控制器 $C(s)$ 設定延遲 $d$，目標運動以擾動 $D(s)$ 進入，兩者相加經 plant（內含 $d\to\theta$ 的 $\times\omega_n$、Adler $\sin\theta$、$T/4$ 鑑別、解調 LPF）得到解調輸出 $w$，再負回授。</p><p style="margin:6px 0" data-l="en">Fig. 2 shows the <strong>hardware signal flow</strong>, where the Adler dynamics hide inside the "Oscillator" block rather than appearing as a separate plant. The diagram below is the <strong>control block diagram</strong>, which pulls $P(s)$ out explicitly: the controller $C(s)$ sets the delay $d$, target motion enters as the disturbance $D(s)$, their sum passes through the plant (containing the $\times\omega_n$ of $d\to\theta$, the Adler $\sin\theta$, the $T/4$ discriminator and the demodulation LPF) to give the demodulated output $w$, which is fed back negatively.</p>
 <figure>
 <svg viewBox="0 0 840 255" style="width:100%;max-width:820px;display:block;margin:8px auto" font-family="'DM Sans',sans-serif">
   <defs>
-    <marker id="afc" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L0,9 L9,4.5 z" fill="#333"/></marker>
-    <marker id="apc" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L0,9 L9,4.5 z" fill="#6b4c9a"/></marker>
+    <marker id="afc" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L0,9 L9,4.5 z" fill="#333"></path></marker>
+    <marker id="apc" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L0,9 L9,4.5 z" fill="#6b4c9a"></path></marker>
   </defs>
   <!-- r input -->
   <text x="12" y="124" fill="#333" font-size="15" font-weight="700">r=0</text>
-  <text x="12" y="142" fill="#888" font-size="12">設定點</text>
-  <line x1="44" y1="120" x2="60" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"/>
+  <text x="12" y="142" fill="#888" font-size="12" data-l="zh">設定點</text><text x="12" y="142" fill="#888" font-size="12" data-l="en">set-point</text>
+  <line x1="44" y1="120" x2="60" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"></line>
   <!-- sum1 -->
-  <circle cx="78" cy="120" r="18" fill="#fff" stroke="#333" stroke-width="2"/>
-  <path d="M78,104 v32 M62,120 h32" stroke="#333" stroke-width="1.2"/>
+  <circle cx="78" cy="120" r="18" fill="#fff" stroke="#333" stroke-width="2"></circle>
+  <path d="M78,104 v32 M62,120 h32" stroke="#333" stroke-width="1.2"></path>
   <text x="50" y="110" fill="#c00" font-size="20" font-weight="700">−</text>
-  <line x1="96" y1="120" x2="126" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"/>
+  <line x1="96" y1="120" x2="126" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"></line>
   <!-- C block -->
-  <rect x="128" y="92" width="120" height="56" fill="#e6f5ee" stroke="#2a6e5a" stroke-width="2"/>
+  <rect x="128" y="92" width="120" height="56" fill="#e6f5ee" stroke="#2a6e5a" stroke-width="2"></rect>
   <text x="188" y="118" text-anchor="middle" fill="#2a6e5a" font-size="18" font-weight="700">C(s) PI</text>
   <text x="188" y="139" text-anchor="middle" fill="#2a6e5a" font-size="14">kp + kI/s</text>
   <!-- C -> sum2 (d), with tap -->
-  <line x1="248" y1="120" x2="400" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"/>
-  <text x="322" y="108" text-anchor="middle" fill="#666" font-size="14" font-style="italic">d（可調延遲）</text>
+  <line x1="248" y1="120" x2="400" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"></line>
+  <text x="322" y="108" text-anchor="middle" fill="#666" font-size="14" font-style="italic" data-l="zh">d（可調延遲）</text><text x="322" y="108" text-anchor="middle" fill="#666" font-size="14" font-style="italic" data-l="en">d (tunable delay)</text>
   <!-- sum2 -->
-  <circle cx="420" cy="120" r="18" fill="#fff" stroke="#333" stroke-width="2"/>
-  <path d="M420,104 v32 M404,120 h32" stroke="#333" stroke-width="1.2"/>
+  <circle cx="420" cy="120" r="18" fill="#fff" stroke="#333" stroke-width="2"></circle>
+  <path d="M420,104 v32 M404,120 h32" stroke="#333" stroke-width="1.2"></path>
   <!-- disturbance -->
-  <rect x="318" y="18" width="210" height="50" fill="#fff8f0" stroke="#b44a2f" stroke-width="2"/>
-  <text x="423" y="42" text-anchor="middle" fill="#b44a2f" font-size="15" font-weight="700">目標運動 x(t)</text>
-  <text x="423" y="62" text-anchor="middle" fill="#b44a2f" font-size="14">→ 往返延遲 D(s)=2x/c</text>
-  <line x1="420" y1="68" x2="420" y2="100" stroke="#b44a2f" stroke-width="2" marker-end="url(#afc)"/>
-  <text x="468" y="90" fill="#b44a2f" font-size="13">擾動</text>
+  <rect x="318" y="18" width="210" height="50" fill="#fff8f0" stroke="#b44a2f" stroke-width="2"></rect>
+  <text x="423" y="42" text-anchor="middle" fill="#b44a2f" font-size="15" font-weight="700" data-l="zh">目標運動 x(t)</text><text x="423" y="42" text-anchor="middle" fill="#b44a2f" font-size="15" font-weight="700" data-l="en">target motion x(t)</text>
+  <text x="423" y="62" text-anchor="middle" fill="#b44a2f" font-size="14" data-l="zh">→ 往返延遲 D(s)=2x/c</text><text x="423" y="62" text-anchor="middle" fill="#b44a2f" font-size="14" data-l="en">→ round-trip delay D(s)=2x/c</text>
+  <line x1="420" y1="68" x2="420" y2="100" stroke="#b44a2f" stroke-width="2" marker-end="url(#afc)"></line>
+  <text x="468" y="90" fill="#b44a2f" font-size="13" data-l="zh">擾動</text><text x="468" y="90" fill="#b44a2f" font-size="13" data-l="en">disturb.</text>
   <!-- sum2 -> plant -->
-  <line x1="438" y1="120" x2="476" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"/>
+  <line x1="438" y1="120" x2="476" y2="120" stroke="#333" stroke-width="2" marker-end="url(#afc)"></line>
   <text x="457" y="108" text-anchor="middle" fill="#666" font-size="13">D+d</text>
   <!-- plant -->
-  <rect x="478" y="86" width="340" height="72" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"/>
+  <rect x="478" y="86" width="340" height="72" fill="#e8f0fa" stroke="#3a5998" stroke-width="2"></rect>
   <text x="648" y="116" text-anchor="middle" fill="#3a5998" font-size="18" font-weight="700">Plant P(s)=g(θ)·e^(−sT/8)·F(s)</text>
-  <text x="648" y="139" text-anchor="middle" fill="#888" font-size="14">延遲→θ(×ωₙ)→Adler sinθ</text>
-  <text x="648" y="157" text-anchor="middle" fill="#888" font-size="14">→T/4 鑑別→解調 LPF</text>
+  <text x="648" y="139" text-anchor="middle" fill="#888" font-size="14" data-l="zh">延遲→θ(×ωₙ)→Adler sinθ</text><text x="648" y="139" text-anchor="middle" fill="#888" font-size="14" data-l="en">delay→θ(×ωₙ)→Adler sinθ</text>
+  <text x="648" y="157" text-anchor="middle" fill="#888" font-size="14" data-l="zh">→T/4 鑑別→解調 LPF</text><text x="648" y="157" text-anchor="middle" fill="#888" font-size="14" data-l="en">→T/4 discriminator→demod LPF</text>
   <!-- plant -> w feedback -->
-  <line x1="818" y1="120" x2="828" y2="120" stroke="#333" stroke-width="2"/>
-  <line x1="828" y1="120" x2="828" y2="235" stroke="#333" stroke-width="2"/>
-  <line x1="828" y1="235" x2="78" y2="235" stroke="#333" stroke-width="2"/>
-  <line x1="78" y1="235" x2="78" y2="140" stroke="#333" stroke-width="2" marker-end="url(#afc)"/>
-  <text x="440" y="229" text-anchor="middle" fill="#666" font-size="14" font-style="italic">w（解調輸出 → 負回授）</text>
+  <line x1="818" y1="120" x2="828" y2="120" stroke="#333" stroke-width="2"></line>
+  <line x1="828" y1="120" x2="828" y2="235" stroke="#333" stroke-width="2"></line>
+  <line x1="828" y1="235" x2="78" y2="235" stroke="#333" stroke-width="2"></line>
+  <line x1="78" y1="235" x2="78" y2="140" stroke="#333" stroke-width="2" marker-end="url(#afc)"></line>
+  <text x="440" y="229" text-anchor="middle" fill="#666" font-size="14" font-style="italic" data-l="zh">w（解調輸出 → 負回授）</text><text x="440" y="229" text-anchor="middle" fill="#666" font-size="14" font-style="italic" data-l="en">w (demodulated output → negative feedback)</text>
   <!-- x_hat tap -->
-  <line x1="300" y1="120" x2="300" y2="180" stroke="#6b4c9a" stroke-width="2" marker-end="url(#apc)"/>
-  <rect x="150" y="182" width="260" height="48" fill="#f0e8f5" stroke="#6b4c9a" stroke-width="2"/>
-  <text x="280" y="212" text-anchor="middle" fill="#6b4c9a" font-size="16" font-weight="700">x̂ = −0.5c (d − a)　輸出</text>
+  <line x1="300" y1="120" x2="300" y2="180" stroke="#6b4c9a" stroke-width="2" marker-end="url(#apc)"></line>
+  <rect x="150" y="182" width="260" height="48" fill="#f0e8f5" stroke="#6b4c9a" stroke-width="2"></rect>
+  <text x="280" y="212" text-anchor="middle" fill="#6b4c9a" font-size="16" font-weight="700" data-l="zh">x̂ = −0.5c (d − a)　輸出</text><text x="280" y="212" text-anchor="middle" fill="#6b4c9a" font-size="15" font-weight="700" data-l="en">x̂ = −0.5c (d − a) — output</text>
 </svg>
-<figcaption>圖 3b — 控制方塊圖（對應論文 Fig 4）。Adler 非線性 + $T/4$ 鑑別被收進 plant $P(s)=g(\theta)e^{-sT/8}F(s)$；$\theta=\pi$ 線性化後 $g\to-k$（負增益）配正增益 PI = 負回授。雷達輸出不是 $w$，而是控制器設定的延遲 $d$（$\hat{x}=-0.5c(d-a)$）。</figcaption>
+<figcaption data-l="zh">圖 3b — 控制方塊圖（對應論文 Fig 4）。Adler 非線性 + $T/4$ 鑑別被收進 plant $P(s)=g(\theta)e^{-sT/8}F(s)$；$\theta=\pi$ 線性化後 $g\to-k$（負增益）配正增益 PI = 負回授。雷達輸出不是 $w$，而是控制器設定的延遲 $d$（$\hat{x}=-0.5c(d-a)$）。</figcaption><figcaption data-l="en">Fig. 3b — Control block diagram (paper Fig. 4). The Adler nonlinearity and the $T/4$ discriminator are folded into the plant $P(s)=g(\theta)e^{-sT/8}F(s)$; linearized at $\theta=\pi$, $g\to-k$ (negative gain), which with a positive-gain PI gives negative feedback. The radar output is not $w$ but the delay $d$ set by the controller ($\hat{x}=-0.5c(d-a)$).</figcaption>
 </figure>
 </div>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">與 DSIL 應用版（Wu 5.8 GHz master's thesis）的差異 — 方波 vs 弦波（點擊展開）</summary>
-<p style="margin:6px 0">本（超音波）論文的 plant/控制框架，被後續的<strong>Wu's master's thesis</strong>直接搬到 5.8 GHz EM 雷達（DSIL）。最顯眼的差別是<strong>載波波形</strong>：</p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">與 DSIL 應用版（Wu 5.8 GHz master's thesis）的差異 — 方波 vs 弦波（點擊展開）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">Differences from the DSIL version (Wu's 5.8 GHz master's thesis) — square wave vs sinusoid (click to expand)</summary>
+<p style="margin:6px 0" data-l="zh">本（超音波）論文的 plant/控制框架，被後續的<strong>Wu's master's thesis</strong>直接搬到 5.8 GHz EM 雷達（DSIL）。最顯眼的差別是<strong>載波波形</strong>：</p><p style="margin:6px 0" data-l="en">The plant/control framework of this (ultrasonic) paper was carried over directly into a 5.8 GHz EM radar (DSIL) in <strong>Wu's master's thesis</strong>. The most visible difference is the <strong>carrier waveform</strong>:</p>
 <table style="margin:6px 0">
-<tr><th></th><th>本論文（超音波）</th><th>DSIL 版（Wu 5.8 GHz）</th></tr>
-<tr><td>載波</td><td><strong>超音波方波</strong></td><td><strong>5.8 GHz EM 弦波</strong></td></tr>
-<tr><td>振盪器</td><td>relay-feedback（比較器 → 方波）</td><td>類比 RF 振盪器（弦波）</td></tr>
-<tr><td>送到 target</td><td>方波（諧波經窄帶換能器/介質濾掉）</td><td>弦波 RF</td></tr>
-<tr><td>佐證</td><td>$u_{out},u_{inj}$ 皆方波，基頻 $B=\tfrac{4}{\pi}A_{inj}$</td><td>頻譜為單一乾淨載波（5.80004 GHz）</td></tr>
-</table>
+<tbody><tr><th></th><th data-l="zh">本論文（超音波）</th><th data-l="en">This paper (ultrasonic)</th><th data-l="zh">DSIL 版（Wu 5.8 GHz）</th><th data-l="en">DSIL version (Wu, 5.8 GHz)</th></tr>
+<tr><td data-l="zh">載波</td><td data-l="en">Carrier</td><td><strong data-l="zh">超音波方波</strong><strong data-l="en">Ultrasonic square wave</strong></td><td><strong data-l="zh">5.8 GHz EM 弦波</strong><strong data-l="en">5.8 GHz EM sinusoid</strong></td></tr>
+<tr><td data-l="zh">振盪器</td><td data-l="en">Oscillator</td><td data-l="zh">relay-feedback（比較器 → 方波）</td><td data-l="en">Relay feedback (comparator → square wave)</td><td data-l="zh">類比 RF 振盪器（弦波）</td><td data-l="en">Analog RF oscillator (sinusoid)</td></tr>
+<tr><td data-l="zh">送到 target</td><td data-l="en">Sent to target</td><td data-l="zh">方波（諧波經窄帶換能器/介質濾掉）</td><td data-l="en">Square wave (harmonics filtered by the narrowband transducer / medium)</td><td data-l="zh">弦波 RF</td><td data-l="en">Sinusoidal RF</td></tr>
+<tr><td data-l="zh">佐證</td><td data-l="en">Evidence</td><td data-l="zh">$u_{out},u_{inj}$ 皆方波，基頻 $B=\tfrac{4}{\pi}A_{inj}$</td><td data-l="en">$u_{out},u_{inj}$ are both square waves, fundamental $B=\tfrac{4}{\pi}A_{inj}$</td><td data-l="zh">頻譜為單一乾淨載波（5.80004 GHz）</td><td data-l="en">The spectrum is a single clean carrier (5.80004 GHz)</td></tr>
+</tbody></table>
 
-<p style="margin:6px 0"><strong>但 plant 的「非線性核心」相同。</strong>兩者鎖定關係都是同一條廣義 Adler $\Delta\omega=\frac{\omega}{2Q}\frac{\eta\sin\theta}{1+\eta\cos\theta}$。關鍵是<strong>方波的 $\tfrac{4}{\pi}$ 會自己消掉</strong>：本論文頻率方程 (A14) 是 $\frac{B}{A}$，其中 $B=\tfrac{4}{\pi}A_{inj}$、$A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$，$\tfrac{4}{\pi}$ 上下相消：</p>
-<div class="eq-box" style="margin:6px 0">
+<p style="margin:6px 0" data-l="zh"><strong>但 plant 的「非線性核心」相同。</strong>兩者鎖定關係都是同一條廣義 Adler $\Delta\omega=\frac{\omega}{2Q}\frac{\eta\sin\theta}{1+\eta\cos\theta}$。關鍵是<strong>方波的 $\tfrac{4}{\pi}$ 會自己消掉</strong>：本論文頻率方程 (A14) 是 $\frac{B}{A}$，其中 $B=\tfrac{4}{\pi}A_{inj}$、$A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$，$\tfrac{4}{\pi}$ 上下相消：</p><p style="margin:6px 0" data-l="en"><strong>But the nonlinear core of the plant is identical.</strong> Both lock through the same generalized Adler relation $\Delta\omega=\frac{\omega}{2Q}\frac{\eta\sin\theta}{1+\eta\cos\theta}$. The key point is that <strong>the square wave's $\tfrac{4}{\pi}$ cancels itself out</strong>: the frequency equation (A14) here contains $\frac{B}{A}$ with $B=\tfrac{4}{\pi}A_{inj}$ and $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$, so the $\tfrac{4}{\pi}$ cancels between numerator and denominator:</p>
+<div class="eq-box" style="margin:6px 0" data-l="zh">
 $$\frac{B}{A}=\frac{\tfrac{4}{\pi}A_{inj}}{\tfrac{4}{\pi}(1+A_{inj}\cos\theta)}=\frac{A_{inj}}{1+A_{inj}\cos\theta}\;\;\xrightarrow{\text{結構等同}}\;\;\eta=\frac{A_{inj}}{A_{osc}}$$
+</div><div class="eq-box" style="margin:6px 0" data-l="en">
+$$\frac{B}{A}=\frac{\tfrac{4}{\pi}A_{inj}}{\tfrac{4}{\pi}(1+A_{inj}\cos\theta)}=\frac{A_{inj}}{1+A_{inj}\cos\theta}\;\;\xrightarrow{\text{structurally identical}}\;\;\eta=\frac{A_{inj}}{A_{osc}}$$
 </div>
-<p style="margin:6px 0">→ <strong>方波 vs 弦波並不改變 SIL 的相位非線性本身</strong>。兩者工作點 $\theta=\pi$、$Q=25$、$A_{inj}=0.5$、穩定區 $(0.5\pi,1.5\pi)$ 全相同。</p>
+<p style="margin:6px 0" data-l="zh">→ <strong>方波 vs 弦波並不改變 SIL 的相位非線性本身</strong>。兩者工作點 $\theta=\pi$、$Q=25$、$A_{inj}=0.5$、穩定區 $(0.5\pi,1.5\pi)$ 全相同。</p><p style="margin:6px 0" data-l="en">→ <strong>Square wave vs sinusoid does not change the SIL phase nonlinearity itself.</strong> Operating point $\theta=\pi$, $Q=25$, $A_{inj}=0.5$ and the stable region $(0.5\pi,1.5\pi)$ are all the same.</p>
 
-<p style="margin:6px 0"><strong>真正的差異在 plant 的前後端：</strong></p>
+<p style="margin:6px 0"><strong data-l="zh">真正的差異在 plant 的前後端：</strong><strong data-l="en">The real differences are at the front and back ends of the plant:</strong></p>
 <table style="margin:6px 0">
-<tr><th>plant 描述</th><th>本論文（超音波）</th><th>DSIL 版（Wu）</th></tr>
-<tr><td>$\tfrac{4}{\pi}$ 因子</td><td><strong>有</strong>（殘留在 $g\propto\frac{\cdots}{\pi Q}$，式 7）</td><td><strong>無</strong>（直接用 $A_{inj}/A_{osc}$）</td></tr>
-<tr><td>完整 $P(s)$</td><td>$P(s)=g(\theta)e^{-sT/8}F(s)$（input=延遲 $d$，output=解調 $w$）</td><td>沿用同一鎖定/工作點框架，未自推方波式 $P(s)$</td></tr>
-<tr><td>頻率解調</td><td>$u(t)\,u(t-T/4)$ 自乘式 FM 鑑別器</td><td>I/Q mixer + Low-IF (40 kHz) + Hartley 影像消除</td></tr>
-<tr><td>控制</td><td>TDL + PI，鎖 $\theta=\pi$</td><td>TDL + PIC，鎖 $\theta=\pi$（相同）</td></tr>
-</table>
-<p style="margin-bottom:0"><strong>一句話：</strong>載波波形（方波 vs 弦波）只影響「物理實作」與「demod plant 的數值因子（$\tfrac{4}{\pi}$／$\pi$）」；SIL 的相位非線性與工作點 plant 兩者完全相同。Wu是把本論文的 plant/控制框架搬到 5.8 GHz 弦波載波 + I/Q Low-IF Hartley 解調的版本。</p>
+<tbody><tr><th data-l="zh">plant 描述</th><th data-l="en">Plant aspect</th><th data-l="zh">本論文（超音波）</th><th data-l="en">This paper (ultrasonic)</th><th data-l="zh">DSIL 版（Wu）</th><th data-l="en">DSIL version (Wu)</th></tr>
+<tr><td data-l="zh">$\tfrac{4}{\pi}$ 因子</td><td data-l="en">$\tfrac{4}{\pi}$ factor</td><td data-l="zh"><strong>有</strong>（殘留在 $g\propto\frac{\cdots}{\pi Q}$，式 7）</td><td data-l="en"><strong>Present</strong> (left over in $g\propto\frac{\cdots}{\pi Q}$, eq. 7)</td><td data-l="zh"><strong>無</strong>（直接用 $A_{inj}/A_{osc}$）</td><td data-l="en"><strong>Absent</strong> (uses $A_{inj}/A_{osc}$ directly)</td></tr>
+<tr><td data-l="zh">完整 $P(s)$</td><td data-l="en">Full $P(s)$</td><td data-l="zh">$P(s)=g(\theta)e^{-sT/8}F(s)$（input=延遲 $d$，output=解調 $w$）</td><td data-l="en">$P(s)=g(\theta)e^{-sT/8}F(s)$ (input = delay $d$, output = demodulated $w$)</td><td data-l="zh">沿用同一鎖定/工作點框架，未自推方波式 $P(s)$</td><td data-l="en">Reuses the same locking / operating-point framework; does not re-derive a square-wave $P(s)$</td></tr>
+<tr><td data-l="zh">頻率解調</td><td data-l="en">Frequency demodulation</td><td data-l="zh">$u(t)\,u(t-T/4)$ 自乘式 FM 鑑別器</td><td data-l="en">Self-multiplying FM discriminator $u(t)\,u(t-T/4)$</td><td data-l="zh">I/Q mixer + Low-IF (40 kHz) + Hartley 影像消除</td><td data-l="en">I/Q mixer + Low-IF (40 kHz) + Hartley image rejection</td></tr>
+<tr><td data-l="zh">控制</td><td data-l="en">Control</td><td data-l="zh">TDL + PI，鎖 $\theta=\pi$</td><td data-l="en">TDL + PI, locking $\theta=\pi$</td><td data-l="zh">TDL + PIC，鎖 $\theta=\pi$（相同）</td><td data-l="en">TDL + PIC, locking $\theta=\pi$ (identical)</td></tr>
+</tbody></table>
+<p style="margin-bottom:0" data-l="zh"><strong>一句話：</strong>載波波形（方波 vs 弦波）只影響「物理實作」與「demod plant 的數值因子（$\tfrac{4}{\pi}$／$\pi$）」；SIL 的相位非線性與工作點 plant 兩者完全相同。Wu是把本論文的 plant/控制框架搬到 5.8 GHz 弦波載波 + I/Q Low-IF Hartley 解調的版本。</p><p style="margin-bottom:0" data-l="en"><strong>In one sentence:</strong> the carrier waveform (square vs sinusoidal) only affects the physical implementation and the numeric factor in the demodulation plant ($\tfrac{4}{\pi}$ / $\pi$); the SIL phase nonlinearity and the operating-point plant are identical in both. Wu's work ports this paper's plant/control framework to a 5.8 GHz sinusoidal carrier with I/Q Low-IF Hartley demodulation.</p>
 </details>
 </section>
 
 <!-- ===== SECTION 5 ===== -->
 <section id="sec-5">
 <h2 class="section-title">5 · PI Controller Design</h2>
-<p>典型的「設定點調節 + 干擾抑制」問題：都卜勒相位移是<strong>干擾</strong>，控制器把它抵消並維持 $\theta=\pi$。</p>
+<p data-l="zh">典型的「設定點調節 + 干擾抑制」問題：都卜勒相位移是<strong>干擾</strong>，控制器把它抵消並維持 $\theta=\pi$。</p><p data-l="en">A textbook set-point regulation plus disturbance rejection problem: the Doppler phase shift is the <strong>disturbance</strong>, and the controller cancels it to hold $\theta=\pi$.</p>
 
 <div class="eq-box" id="eq-11">
-<span class="eq-label">PI 控制器 (11)</span>
+<span class="eq-label" data-l="zh">PI 控制器 (11)</span><span class="eq-label" data-l="en">PI controller (11)</span>
 $$C(s)=\frac{k_I}{s}+k_p$$
 </div>
-<div class="eq-box" id="eq-12">
+<div class="eq-box" id="eq-12" data-l="zh">
 <span class="eq-label">PI 增益 (12)</span>
 $$k_I=\frac{\omega_{BW}}{k},\qquad k_p=\frac{k_I}{\omega_c}\;\;{\scriptstyle\textcolor{gray}{\text{(ω_c = 解調濾波器截止；兩增益都只取決於 ω_BW)}}}$$
+</div><div class="eq-box" id="eq-12" data-l="en">
+<span class="eq-label">PI gains (12)</span>
+$$k_I=\frac{\omega_{BW}}{k},\qquad k_p=\frac{k_I}{\omega_c}\;\;{\scriptstyle\textcolor{gray}{\text{(ω_c = demodulation filter cutoff; both gains depend only on ω_BW)}}}$$
 </div>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">為何 PI 增益這樣設？— 一階近似 + 故意零點對消成純積分器（點擊展開）</summary>
-<p style="margin:6px 0"><strong>① 真實 plant 是「高階 + 延遲」。</strong>解調濾波器 $F(s)$ 實作上是<strong>兩個串級二階濾波器</strong>（截止 13 kHz 與 19 kHz）→ 等效 4 階；再加上 plant 的 $e^{-sT/8}$ 延遲。所以完整 plant（式 9）$P(s)=-k\,e^{-sT/8}F(s)$ 是「high-order-plus-delay」。</p>
-<p style="margin:6px 0"><strong>② 用一階低通近似它的低頻響應（式 13）。</strong>論文把高階+延遲 plant 近似成單極點一階模型：</p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">為何 PI 增益這樣設？— 一階近似 + 故意零點對消成純積分器（點擊展開）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">Why are the PI gains set this way? — a first-order approximation plus deliberate pole-zero cancellation into a pure integrator (click to expand)</summary>
+<p style="margin:6px 0" data-l="zh"><strong>① 真實 plant 是「高階 + 延遲」。</strong>解調濾波器 $F(s)$ 實作上是<strong>兩個串級二階濾波器</strong>（截止 13 kHz 與 19 kHz）→ 等效 4 階；再加上 plant 的 $e^{-sT/8}$ 延遲。所以完整 plant（式 9）$P(s)=-k\,e^{-sT/8}F(s)$ 是「high-order-plus-delay」。</p><p style="margin:6px 0" data-l="en"><strong>① The real plant is high-order plus delay.</strong> The demodulation filter $F(s)$ is implemented as <strong>two cascaded second-order filters</strong> (cutoffs 13 kHz and 19 kHz) → fourth order overall, on top of the plant's $e^{-sT/8}$ delay. So the full plant (eq. 9) $P(s)=-k\,e^{-sT/8}F(s)$ is "high-order-plus-delay".</p>
+<p style="margin:6px 0" data-l="zh"><strong>② 用一階低通近似它的低頻響應（式 13）。</strong>論文把高階+延遲 plant 近似成單極點一階模型：</p><p style="margin:6px 0" data-l="en"><strong>② Approximate its low-frequency response by a first-order low-pass (eq. 13).</strong> The paper approximates the high-order-plus-delay plant by a single-pole first-order model:</p>
 <div class="eq-box" id="eq-13" style="margin:6px 0">
-<span class="eq-label">一階近似 plant (13)</span>
+<span class="eq-label" data-l="zh">一階近似 plant (13)</span><span class="eq-label" data-l="en">First-order approximate plant (13)</span>
 $$\hat{P}(s)=\frac{-k\,\omega_c}{s+\omega_c}$$
 </div>
-<p style="margin:6px 0">原文明言它「<em>approximates the original model (9) well at low frequencies in that it preserves the original DC gain and cutoff frequency</em>」—— 即<strong>在低頻保留 DC 增益 $-k$ 與截止頻率 $\omega_c$</strong>。此近似只在控制頻寬 $\omega_{BW}\ll\omega_c$（$F(s)$ 高階極點）且 $\ll 1/T$（延遲）時成立。</p>
-<p style="margin:6px 0"><strong>③ 故意把 PI 的零點放在 $\omega_c$ 去對消 plant 的極點。</strong>PI 控制器可寫成</p>
+<p style="margin:6px 0" data-l="zh">原文明言它「<em>approximates the original model (9) well at low frequencies in that it preserves the original DC gain and cutoff frequency</em>」—— 即<strong>在低頻保留 DC 增益 $-k$ 與截止頻率 $\omega_c$</strong>。此近似只在控制頻寬 $\omega_{BW}\ll\omega_c$（$F(s)$ 高階極點）且 $\ll 1/T$（延遲）時成立。</p><p style="margin:6px 0" data-l="en">The paper states that it "<em>approximates the original model (9) well at low frequencies in that it preserves the original DC gain and cutoff frequency</em>" — i.e. it <strong>keeps the DC gain $-k$ and the cutoff frequency $\omega_c$ at low frequency</strong>. The approximation only holds when the control bandwidth satisfies $\omega_{BW}\ll\omega_c$ (the high-order poles of $F(s)$) and $\ll 1/T$ (the delay).</p>
+<p style="margin:6px 0" data-l="zh"><strong>③ 故意把 PI 的零點放在 $\omega_c$ 去對消 plant 的極點。</strong>PI 控制器可寫成</p><p style="margin:6px 0" data-l="en"><strong>③ Deliberately place the PI zero at $\omega_c$ to cancel the plant pole.</strong> The PI controller can be written as</p>
 <div class="eq-box" style="margin:6px 0">
 $$C(s)=\frac{k_I}{s}+k_p=\frac{k_p\,(s+k_I/k_p)}{s}\;\xrightarrow{\;k_p=k_I/\omega_c\;}\;\frac{k_p\,(s+\omega_c)}{s}$$
 </div>
-<p style="margin:6px 0">取 $k_p=k_I/\omega_c$（式 12）→ PI <strong>零點落在 $s=-\omega_c$</strong>，剛好對消 $\hat{P}(s)$ 在 $s=-\omega_c$ 的<strong>極點</strong>。</p>
-<p style="margin:6px 0"><strong>④ 對消後開迴路化成純積分器（式 14）：</strong></p>
+<p style="margin:6px 0" data-l="zh">取 $k_p=k_I/\omega_c$（式 12）→ PI <strong>零點落在 $s=-\omega_c$</strong>，剛好對消 $\hat{P}(s)$ 在 $s=-\omega_c$ 的<strong>極點</strong>。</p><p style="margin:6px 0" data-l="en">Choosing $k_p=k_I/\omega_c$ (eq. 12) puts the <strong>PI zero at $s=-\omega_c$</strong>, exactly cancelling the <strong>pole</strong> of $\hat{P}(s)$ at $s=-\omega_c$.</p>
+<p style="margin:6px 0"><strong data-l="zh">④ 對消後開迴路化成純積分器（式 14）：</strong><strong data-l="en">④ After cancellation the open loop becomes a pure integrator (eq. 14):</strong></p>
 <div class="eq-box" style="margin:6px 0">
 $$C(s)\hat{P}(s)=\frac{k_p(s+\omega_c)}{s}\cdot\frac{-k\,\omega_c}{s+\omega_c}=\frac{-k\,k_p\,\omega_c}{s}\;\xrightarrow{\;k_p=\frac{\omega_{BW}}{k\,\omega_c}\;}\;-\frac{\omega_{BW}}{s}$$
 </div>
-<p style="margin-bottom:0">$(s+\omega_c)$ 上下相消，只剩單極點積分器 $-\omega_{BW}/s$。於是整個迴路<strong>只剩一個設計參數 $\omega_{BW}$</strong>（= 迴路增益降到 1 的頻率），其餘增益由式 12 自動決定。代價：對消依賴一階近似，故 $\omega_{BW}$ 必須遠低於 $\omega_c$ 與 $1/T$，否則被忽略的高階極點與延遲會吃掉相位裕度。</p>
+<p style="margin-bottom:0" data-l="zh">$(s+\omega_c)$ 上下相消，只剩單極點積分器 $-\omega_{BW}/s$。於是整個迴路<strong>只剩一個設計參數 $\omega_{BW}$</strong>（= 迴路增益降到 1 的頻率），其餘增益由式 12 自動決定。代價：對消依賴一階近似，故 $\omega_{BW}$ 必須遠低於 $\omega_c$ 與 $1/T$，否則被忽略的高階極點與延遲會吃掉相位裕度。</p><p style="margin-bottom:0" data-l="en">$(s+\omega_c)$ cancels top and bottom, leaving the single-pole integrator $-\omega_{BW}/s$. The whole loop therefore has <strong>only one design parameter, $\omega_{BW}$</strong> (the frequency at which the loop gain falls to unity), with the remaining gains fixed by eq. 12. The price: the cancellation relies on the first-order approximation, so $\omega_{BW}$ must stay well below both $\omega_c$ and $1/T$, or the neglected high-order poles and the delay will eat the phase margin.</p>
 </details>
 
-<div class="callout key">
+<div class="callout key" data-l="zh">
 <div class="callout-title">Elegant simplification — 漂亮的簡化</div>
 PI 設計收斂成<strong>單一設計參數 — 控制頻寬 $\omega_{BW}$</strong>。把「高階 + 延遲」plant 近似成一階模型後，開迴路 $C(s)\hat{P}(s)=-\dfrac{\omega_{BW}}{s}$（式 14），所以 $\omega_{BW}$ <em>就是</em>迴路增益降到單位增益 (unity gain) 的頻率。
+</div><div class="callout key" data-l="en">
+<div class="callout-title">Elegant simplification</div>
+The PI design collapses to a <strong>single design parameter — the control bandwidth $\omega_{BW}$</strong>. Once the high-order-plus-delay plant is approximated by a first-order model, the open loop is $C(s)\hat{P}(s)=-\dfrac{\omega_{BW}}{s}$ (eq. 14), so $\omega_{BW}$ <em>is</em> the unity-gain frequency of the loop.
 </div>
 
-<h3>The fundamental trade-off（根本權衡）</h3>
+<h3 data-l="zh">The fundamental trade-off（根本權衡）</h3><h3 data-l="en">The fundamental trade-off</h3>
 <ul>
-  <li><strong>較高 $\omega_{BW}$</strong> → 更佳干擾抑制 → 可測<strong>更快的目標</strong>，但<strong>穩定裕度較低</strong>。</li>
-  <li><strong>較低 $\omega_{BW}$</strong> → 更穩定但較慢。</li>
+  <li data-l="zh"><strong>較高 $\omega_{BW}$</strong> → 更佳干擾抑制 → 可測<strong>更快的目標</strong>，但<strong>穩定裕度較低</strong>。</li><li data-l="en"><strong>Higher $\omega_{BW}$</strong> → better disturbance rejection → <strong>faster targets</strong> can be measured, but <strong>lower stability margin</strong>.</li>
+  <li data-l="zh"><strong>較低 $\omega_{BW}$</strong> → 更穩定但較慢。</li><li data-l="en"><strong>Lower $\omega_{BW}$</strong> → more stable but slower.</li>
 </ul>
-<p>由增益/相位裕度圖（圖 5）依目標裕度（例如 PM ≥ 60°）選 $\omega_{BW}$。</p>
+<p data-l="zh">由增益/相位裕度圖（圖 5）依目標裕度（例如 PM ≥ 60°）選 $\omega_{BW}$。</p><p data-l="en">$\omega_{BW}$ is picked from the gain/phase-margin plot (Fig. 5) for a target margin (e.g. PM ≥ 60°).</p>
 
-<h3>Maximum detectable speed（最大可測速度）</h3>
-<p>若目標移動快過迴路所能追蹤，相位誤差 $e=\theta-\pi$ 會增大；一旦 $|e|&gt;0.5\pi$，plant gain <strong>變號</strong> → 不穩定。穩定區大約是 $\theta\in(0.5\pi,1.5\pi)$。最大可測速度：</p>
+<h3 data-l="zh">Maximum detectable speed（最大可測速度）</h3><h3 data-l="en">Maximum detectable speed</h3>
+<p data-l="zh">若目標移動快過迴路所能追蹤，相位誤差 $e=\theta-\pi$ 會增大；一旦 $|e|&gt;0.5\pi$，plant gain <strong>變號</strong> → 不穩定。穩定區大約是 $\theta\in(0.5\pi,1.5\pi)$。最大可測速度：</p><p data-l="en">If the target moves faster than the loop can track, the phase error $e=\theta-\pi$ grows; once $|e|&gt;0.5\pi$ the plant gain <strong>changes sign</strong> → instability. The stable region is roughly $\theta\in(0.5\pi,1.5\pi)$. The maximum detectable speed is:</p>
 <div class="eq-box" id="eq-18">
-<span class="eq-label">最大可測速度 (18)</span>
+<span class="eq-label" data-l="zh">最大可測速度 (18)</span><span class="eq-label" data-l="en">Maximum detectable speed (18)</span>
 $$v_{max}=\frac{\pi\,\omega_{BW}}{5\,\omega_n}\cdot c\quad\text{m/s}$$
 </div>
-<p style="font-size:0.9em;color:var(--text2)">取決於聲速 $c$、自由振盪頻率 $\omega_n$ 與控制頻寬 $\omega_{BW}$（唯一可調旋鈕）。</p>
+<p style="font-size:0.9em;color:var(--text2)" data-l="zh">取決於聲速 $c$、自由振盪頻率 $\omega_n$ 與控制頻寬 $\omega_{BW}$（唯一可調旋鈕）。</p><p style="font-size:0.9em;color:var(--text2)" data-l="en">Set by the speed of sound $c$, the free-running frequency $\omega_n$, and the control bandwidth $\omega_{BW}$ (the only adjustable knob).</p>
 </section>
 
 <!-- ===== SECTION 6 ===== -->
 <section id="sec-6">
 <h2 class="section-title">6 · Design Example &amp; Simulation</h2>
 <table class="cmp-table">
-<tr><th>參數</th><th>數值</th></tr>
-<tr><td>換能器</td><td>40 kHz 超音波 (TX UTT4016, RX UTR4016)</td></tr>
-<tr><td>自由振盪頻率 $f_n$</td><td>40 kHz</td></tr>
-<tr><td>共振器品質因數 $Q$</td><td>25</td></tr>
-<tr><td>解調濾波器 $F$</td><td>兩級串接 Butterworth LPF (13 kHz + 19 kHz) → 截止 ≈ 11.9 kHz</td></tr>
-<tr><td>注入振幅 $A_{inj}$</td><td>0.5（在 θ=π 得最大平坦增益）</td></tr>
+<tbody><tr><th data-l="zh">參數</th><th data-l="en">Parameter</th><th data-l="zh">數值</th><th data-l="en">Value</th></tr>
+<tr><td data-l="zh">換能器</td><td data-l="en">Transducers</td><td data-l="zh">40 kHz 超音波 (TX UTT4016, RX UTR4016)</td><td data-l="en">40 kHz ultrasonic (TX UTT4016, RX UTR4016)</td></tr>
+<tr><td data-l="zh">自由振盪頻率 $f_n$</td><td data-l="en">Free-running frequency $f_n$</td><td>40 kHz</td></tr>
+<tr><td data-l="zh">共振器品質因數 $Q$</td><td data-l="en">Resonator quality factor $Q$</td><td>25</td></tr>
+<tr><td data-l="zh">解調濾波器 $F$</td><td data-l="en">Demodulation filter $F$</td><td data-l="zh">兩級串接 Butterworth LPF (13 kHz + 19 kHz) → 截止 ≈ 11.9 kHz</td><td data-l="en">Two cascaded Butterworth LPFs (13 kHz + 19 kHz) → cutoff ≈ 11.9 kHz</td></tr>
+<tr><td data-l="zh">注入振幅 $A_{inj}$</td><td data-l="en">Injection amplitude $A_{inj}$</td><td data-l="zh">0.5（在 θ=π 得最大平坦增益）</td><td data-l="en">0.5 (gives maximally flat gain at θ=π)</td></tr>
 <tr><td>Plant gain $k$</td><td>$1/(TQ)=1600$</td></tr>
-<tr><td>選定控制頻寬</td><td>$\omega_{BW}=2\pi\times3820$ rad/s (PM = 61°, GM = 2.5)</td></tr>
-<tr><td>PI 增益</td><td>$k_I=15,\ k_p=2\times10^{-4}$</td></tr>
-<tr><td>預測 $v_{max}$</td><td>$(\pi\cdot3.82/5\cdot40)\times340\approx$ <strong>20.4 m/s</strong></td></tr>
-</table>
+<tr><td data-l="zh">選定控制頻寬</td><td data-l="en">Chosen control bandwidth</td><td>$\omega_{BW}=2\pi\times3820$ rad/s (PM = 61°, GM = 2.5)</td></tr>
+<tr><td data-l="zh">PI 增益</td><td data-l="en">PI gains</td><td>$k_I=15,\ k_p=2\times10^{-4}$</td></tr>
+<tr><td data-l="zh">預測 $v_{max}$</td><td data-l="en">Predicted $v_{max}$</td><td>$(\pi\cdot3.82/5\cdot40)\times340\approx$ <strong>20.4 m/s</strong></td></tr>
+</tbody></table>
 
 <div class="example">
-<div class="ex-title">Simulation — 模擬結果</div>
-<div class="step">偵測 10 Hz、0.1 m 振幅的諧波運動（峰值速度 $2\pi\times10\times0.1\approx6.3$ m/s，總位移 20 cm $\approx22.6\,\lambda$）。</div>
-<div class="step">估計 $\hat{x}$ 與實際 $x$ 吻合，偵測誤差 ≈ 1.4%，THD ≈ 0.1%。</div>
-<div class="step">約 2 ms 的啟動暫態（振盪器起振）。初始相位<strong>不必</strong>落在穩定區 — 區外相位會迅速被拉回 $\theta=\pi$。</div>
+<div class="ex-title" data-l="zh">Simulation — 模擬結果</div><div class="ex-title" data-l="en">Simulation results</div>
+<div class="step" data-l="zh">偵測 10 Hz、0.1 m 振幅的諧波運動（峰值速度 $2\pi\times10\times0.1\approx6.3$ m/s，總位移 20 cm $\approx22.6\,\lambda$）。</div><div class="step" data-l="en">Detecting harmonic motion at 10 Hz with 0.1 m amplitude (peak speed $2\pi\times10\times0.1\approx6.3$ m/s, total excursion 20 cm $\approx22.6\,\lambda$).</div>
+<div class="step" data-l="zh">估計 $\hat{x}$ 與實際 $x$ 吻合，偵測誤差 ≈ 1.4%，THD ≈ 0.1%。</div><div class="step" data-l="en">The estimate $\hat{x}$ matches the true $x$ with a detection error of ≈ 1.4% and THD ≈ 0.1%.</div>
+<div class="step" data-l="zh">約 2 ms 的啟動暫態（振盪器起振）。初始相位<strong>不必</strong>落在穩定區 — 區外相位會迅速被拉回 $\theta=\pi$。</div><div class="step" data-l="en">A start-up transient of about 2 ms (the oscillator building up). The initial phase does <strong>not</strong> have to lie inside the stable region — a phase outside it is quickly pulled back to $\theta=\pi$.</div>
 </div>
 
-<div class="callout tip">
+<div class="callout tip" data-l="zh">
 <div class="callout-title">「振幅-頻率乘積」</div>
 $v_{max}$ 預測雷達能感測振幅 $A$、頻率最高約 $v_{max}/A$ 的諧波運動 — 一個方便的單一性能指標。
+</div><div class="callout tip" data-l="en">
+<div class="callout-title">The "amplitude-frequency product"</div>
+$v_{max}$ predicts that the radar can sense harmonic motion of amplitude $A$ up to a frequency of about $v_{max}/A$ — a convenient single figure of merit.
 </div>
 </section>
 
 <!-- ===== SECTION 7 ===== -->
 <section id="sec-7">
 <h2 class="section-title">7 · Ultrasonic Radar Range Equation &amp; FPGA</h2>
-<p>作者推導出一個新的超音波雷達距離方程，納入空氣吸收（用到 <span class="term">Lambert W 函數</span>）：</p>
+<p data-l="zh">作者推導出一個新的超音波雷達距離方程，納入空氣吸收（用到 <span class="term">Lambert W 函數</span>）：</p><p data-l="en">The authors derive a new ultrasonic radar range equation that accounts for absorption in air (using the <span class="term">Lambert W function</span>):</p>
 
 <div class="eq-box" id="eq-24">
-<span class="eq-label">超音波雷達距離 (24)</span>
+<span class="eq-label" data-l="zh">超音波雷達距離 (24)</span><span class="eq-label" data-l="en">Ultrasonic radar range (24)</span>
 $$R=\frac{W\!\big(0.115\,\alpha R_0\big)}{0.115\,\alpha}\quad\text{m}$$
 </div>
 <div class="eq-box" id="eq-25">
-<span class="eq-label">無吸收參考距離 (25)</span>
+<span class="eq-label" data-l="zh">無吸收參考距離 (25)</span><span class="eq-label" data-l="en">Absorption-free reference range (25)</span>
 $$R_0=\left(2.4\times10^{(S+SPL-120)/20}\,\sqrt{A_{obj}}\;\frac{V_T}{V_R}\right)^{1/2}$$
 </div>
 
-<p>取決於發射端聲壓位準 SPL、驅動電壓 $V_T$、接收靈敏度 $S$、最小可測訊號 $V_R$、吸收係數 $\alpha$（40 kHz、20°C、50% RH 時為 1.256 dB/m）與目標反射面積 $A_{obj}$。<strong>預測距離 = 2.9896 m</strong>，實測 = 2.97 m — 準得驚人。</p>
+<p data-l="zh">取決於發射端聲壓位準 SPL、驅動電壓 $V_T$、接收靈敏度 $S$、最小可測訊號 $V_R$、吸收係數 $\alpha$（40 kHz、20°C、50% RH 時為 1.256 dB/m）與目標反射面積 $A_{obj}$。<strong>預測距離 = 2.9896 m</strong>，實測 = 2.97 m — 準得驚人。</p><p data-l="en">It depends on the transmit sound pressure level SPL, the drive voltage $V_T$, the receive sensitivity $S$, the minimum detectable signal $V_R$, the absorption coefficient $\alpha$ (1.256 dB/m at 40 kHz, 20°C, 50% RH) and the target reflecting area $A_{obj}$. <strong>Predicted range = 2.9896 m</strong> versus 2.97 m measured — remarkably accurate.</p>
 
-<h3>FPGA implementation notes（實作要點）</h3>
+<h3 data-l="zh">FPGA implementation notes（實作要點）</h3><h3 data-l="en">FPGA implementation notes</h3>
 <ul>
-  <li>Altera 5CGXFC5C6F27C7 FPGA；SIL 振盪器內部以 10 MHz 運作對應 40 kHz 共振器。</li>
-  <li>可調延遲 = 40,000-bit 移位暫存器，以 50 MHz 時脈：$d_{min}=20$ ns，$d_{max}=0.8$ ms。</li>
-  <li><strong>解析度</strong> $=0.5c\cdot d_{min}=$ <span class="specnum">3.4 µm</span>；<strong>運動範圍</strong> $=0.5c\cdot d_{max}=$ <span class="specnum">136 mm</span>。</li>
-  <li>全數位（移位與加法），無片上 ADC/DAC；比較器 (LT1711) + H 橋 class-D 放大器 (MAX4428)。</li>
+  <li data-l="zh">Altera 5CGXFC5C6F27C7 FPGA；SIL 振盪器內部以 10 MHz 運作對應 40 kHz 共振器。</li><li data-l="en">Altera 5CGXFC5C6F27C7 FPGA; the SIL oscillator runs internally at 10 MHz for a 40 kHz resonator.</li>
+  <li data-l="zh">可調延遲 = 40,000-bit 移位暫存器，以 50 MHz 時脈：$d_{min}=20$ ns，$d_{max}=0.8$ ms。</li><li data-l="en">The tunable delay is a 40,000-bit shift register clocked at 50 MHz: $d_{min}=20$ ns, $d_{max}=0.8$ ms.</li>
+  <li data-l="zh"><strong>解析度</strong> $=0.5c\cdot d_{min}=$ <span class="specnum">3.4 µm</span>；<strong>運動範圍</strong> $=0.5c\cdot d_{max}=$ <span class="specnum">136 mm</span>。</li><li data-l="en"><strong>Resolution</strong> $=0.5c\cdot d_{min}=$ <span class="specnum">3.4 µm</span>; <strong>motion range</strong> $=0.5c\cdot d_{max}=$ <span class="specnum">136 mm</span>.</li>
+  <li data-l="zh">全數位（移位與加法），無片上 ADC/DAC；比較器 (LT1711) + H 橋 class-D 放大器 (MAX4428)。</li><li data-l="en">All digital (shifts and adds), no on-chip ADC/DAC; comparator (LT1711) plus H-bridge class-D amplifier (MAX4428).</li>
 </ul>
 </section>
 
@@ -706,42 +818,45 @@ $$R_0=\left(2.4\times10^{(S+SPL-120)/20}\,\sqrt{A_{obj}}\;\frac{V_T}{V_R}\right)
 <h2 class="section-title">8 · Experimental Results</h2>
 
 <div class="summary-grid">
-<div class="summary-card"><h5>Linearity tests — 線性度測試</h5>
+<div class="summary-card"><h5 data-l="zh">Linearity tests — 線性度測試</h5><h5 data-l="en">Linearity tests</h5>
 <ul style="margin-bottom:0">
-<li>最小可測：1 Hz、<strong>0.01 mm</strong> (10 µm)，距離 30 cm（此微小尺度 THD 達 18.3%，~26 µm pk-pk 雜訊底）。</li>
-<li>最大乾淨運動：1 Hz、<strong>60 mm</strong> 振幅 → 120 mm pk-pk (≈14 λ)，THD 僅 <strong>2.3%</strong>。</li>
-<li>振幅 0.05–60 mm 範圍量測 THD &lt; 4%；多餘失真主要來自致動器而非雷達。</li>
+<li data-l="zh">最小可測：1 Hz、<strong>0.01 mm</strong> (10 µm)，距離 30 cm（此微小尺度 THD 達 18.3%，~26 µm pk-pk 雜訊底）。</li><li data-l="en">Smallest detectable: 1 Hz, <strong>0.01 mm</strong> (10 µm) at 30 cm (at this tiny scale THD reaches 18.3%, with a ~26 µm pk-pk noise floor).</li>
+<li data-l="zh">最大乾淨運動：1 Hz、<strong>60 mm</strong> 振幅 → 120 mm pk-pk (≈14 λ)，THD 僅 <strong>2.3%</strong>。</li><li data-l="en">Largest clean motion: 1 Hz, <strong>60 mm</strong> amplitude → 120 mm pk-pk (≈14 λ) at only <strong>2.3%</strong> THD.</li>
+<li data-l="zh">振幅 0.05–60 mm 範圍量測 THD &lt; 4%；多餘失真主要來自致動器而非雷達。</li><li data-l="en">THD &lt; 4% measured across amplitudes of 0.05–60 mm; the excess distortion comes mainly from the actuator, not the radar.</li>
 </ul>
 </div>
-<div class="summary-card"><h5>Vital sign — 生理訊號監測</h5>
+<div class="summary-card"><h5 data-l="zh">Vital sign — 生理訊號監測</h5><h5 data-l="en">Vital-sign monitoring</h5>
 <ul style="margin-bottom:0">
-<li>50 歲男性，距離 30 cm。胸腔運動 = 呼吸 (~2.5 mm, 低頻) + 心跳 (~0.2 mm, 較高頻)。</li>
-<li>無互調失真 → 呼吸 (14 次/分) 與心率 (83 BPM) 直接由功率譜基頻讀出。</li>
-<li>PPG 感測器參考：估計 HR 83 vs 82.4 BPM。</li>
-<li>4 名受測者、各 10 次測試：<strong>平均 HR 誤差 &lt; 1 BPM</strong> (0.23–0.52 BPM)。</li>
+<li data-l="zh">50 歲男性，距離 30 cm。胸腔運動 = 呼吸 (~2.5 mm, 低頻) + 心跳 (~0.2 mm, 較高頻)。</li><li data-l="en">A 50-year-old male at 30 cm. Chest motion = respiration (~2.5 mm, low frequency) + heartbeat (~0.2 mm, higher frequency).</li>
+<li data-l="zh">無互調失真 → 呼吸 (14 次/分) 與心率 (83 BPM) 直接由功率譜基頻讀出。</li><li data-l="en">No intermodulation distortion → respiration (14 breaths/min) and heart rate (83 BPM) are read directly from the fundamentals of the power spectrum.</li>
+<li data-l="zh">PPG 感測器參考：估計 HR 83 vs 82.4 BPM。</li><li data-l="en">PPG sensor reference: estimated HR 83 vs 82.4 BPM.</li>
+<li data-l="zh">4 名受測者、各 10 次測試：<strong>平均 HR 誤差 &lt; 1 BPM</strong> (0.23–0.52 BPM)。</li><li data-l="en">Four subjects, ten trials each: <strong>mean HR error &lt; 1 BPM</strong> (0.23–0.52 BPM).</li>
 </ul>
 </div>
 </div>
 
 <h3>Performance comparison (Table III)</h3>
 <table class="cmp-table">
-<tr><th>雷達類型</th><th>波 / λ</th><th>最大 pk-pk 位移</th></tr>
-<tr><td>本論文 phase-canceling SIL</td><td>40 kHz 超音波 / 8.6 mm</td><td><strong>120 mm = 14 λ</strong></td></tr>
-<tr><td>Phase-tracking Doppler</td><td>40 kHz–900 kHz 超音波 / 5.8 GHz 微波</td><td>1 mm / 2.56 λ；2.1 m / 0.04 λ</td></tr>
-<tr><td>Arctangent Doppler</td><td>2.4–20 GHz 微波</td><td>8 λ；0.39 λ；0.8 λ；3.6 λ</td></tr>
-</table>
+<tbody><tr><th data-l="zh">雷達類型</th><th data-l="en">Radar type</th><th data-l="zh">波 / λ</th><th data-l="en">Wave / λ</th><th data-l="zh">最大 pk-pk 位移</th><th data-l="en">Max pk-pk displacement</th></tr>
+<tr><td data-l="zh">本論文 phase-canceling SIL</td><td data-l="en">This paper: phase-canceling SIL</td><td data-l="zh">40 kHz 超音波 / 8.6 mm</td><td data-l="en">40 kHz ultrasound / 8.6 mm</td><td><strong>120 mm = 14 λ</strong></td></tr>
+<tr><td>Phase-tracking Doppler</td><td data-l="zh">40 kHz–900 kHz 超音波 / 5.8 GHz 微波</td><td data-l="en">40 kHz–900 kHz ultrasound / 5.8 GHz microwave</td><td data-l="zh">1 mm / 2.56 λ；2.1 m / 0.04 λ</td><td data-l="en">1 mm / 2.56 λ; 2.1 m / 0.04 λ</td></tr>
+<tr><td>Arctangent Doppler</td><td data-l="zh">2.4–20 GHz 微波</td><td data-l="en">2.4–20 GHz microwave</td><td data-l="zh">8 λ；0.39 λ；0.8 λ；3.6 λ</td><td data-l="en">8 λ; 0.39 λ; 0.8 λ; 3.6 λ</td></tr>
+</tbody></table>
 
-<div class="callout key">
+<div class="callout key" data-l="zh">
 <div class="callout-title">Standout result — 亮點</div>
 本雷達的正規化感測範圍 (14 λ) 遠超所有前人 SIL/Doppler 雷達 — 而且這<em>不是</em>物理極限；更大的 FPGA + 更快的時脈可進一步延伸。
+</div><div class="callout key" data-l="en">
+<div class="callout-title">Standout result</div>
+The normalized sensing range of this radar (14 λ) far exceeds every prior SIL/Doppler radar — and it is <em>not</em> a physical limit: a larger FPGA and a faster clock would extend it further.
 </div>
 
-<h3>Robustness observations（穩健性觀察）</h3>
+<h3 data-l="zh">Robustness observations（穩健性觀察）</h3><h3 data-l="en">Robustness observations</h3>
 <ul>
-  <li>具方向性的換能器（~55° 波束）：旁邊有人走動/揮手只增加 ~0.1 mm 擾動。</li>
-  <li>有人走在受測者<strong>背後</strong>會增加多達 0.5 mm 誤差（大於心跳）— 主要干擾路徑。</li>
-  <li>靜止物體部分遮擋胸腔會<strong>縮小</strong>量測到的位移（合成回波降低都卜勒相位移）。</li>
-  <li>對電路非理想性容忍度高：共振器濾掉 DC offset / 帶外雜訊；DC offset 只移動工作點，不影響感測精度（只要迴路穩定）。</li>
+  <li data-l="zh">具方向性的換能器（~55° 波束）：旁邊有人走動/揮手只增加 ~0.1 mm 擾動。</li><li data-l="en">Directional transducers (~55° beam): someone walking or waving beside the subject adds only ~0.1 mm of disturbance.</li>
+  <li data-l="zh">有人走在受測者<strong>背後</strong>會增加多達 0.5 mm 誤差（大於心跳）— 主要干擾路徑。</li><li data-l="en">Someone walking <strong>behind</strong> the subject adds up to 0.5 mm of error (larger than the heartbeat) — the dominant interference path.</li>
+  <li data-l="zh">靜止物體部分遮擋胸腔會<strong>縮小</strong>量測到的位移（合成回波降低都卜勒相位移）。</li><li data-l="en">A stationary object partially blocking the chest <strong>reduces</strong> the measured displacement (the composite echo lowers the Doppler phase shift).</li>
+  <li data-l="zh">對電路非理想性容忍度高：共振器濾掉 DC offset / 帶外雜訊；DC offset 只移動工作點，不影響感測精度（只要迴路穩定）。</li><li data-l="en">High tolerance to circuit non-idealities: the resonator filters out DC offset and out-of-band noise; a DC offset merely shifts the operating point and does not affect sensing accuracy as long as the loop stays stable.</li>
 </ul>
 </section>
 
@@ -749,111 +864,117 @@ $$R_0=\left(2.4\times10^{(S+SPL-120)/20}\,\sqrt{A_{obj}}\;\frac{V_T}{V_R}\right)
 <section id="sec-9">
 <h2 class="section-title">9 · Equation Cheat-Sheet</h2>
 <table class="cmp-table">
-<tr><th>式</th><th>表達式</th><th>意義</th></tr>
-<tr><td>(1)</td><td>$\theta\approx\omega_n D,\ D=\frac{2}{c}(R_0+x)$</td><td>注入相位 ∝ 往返延遲</td></tr>
-<tr><td>(2)</td><td>$\omega-\omega_n\approx-\frac{\omega_n}{2Q}\frac{B}{A}\sin\theta$</td><td>Adler：頻率偏移 = 相位的正弦（非線性源頭）</td></tr>
-<tr><td>(4)</td><td>$\Delta\theta\approx\frac{4\pi}{\lambda}x$</td><td>單位位移的相位偏差</td></tr>
-<tr><td>(5)</td><td>$\hat{x}=-0.5c(d-a)$</td><td><strong>雷達輸出：</strong>由延遲還原運動</td></tr>
-<tr><td>(7)</td><td>$g=\frac{2A_{inj}\cos\theta(1+A_{inj}\cos\theta)\omega_n}{\pi Q}$</td><td>非線性 plant gain 對工作點</td></tr>
-<tr><td>(9-10)</td><td>$P(s)=-k\,e^{-(T/8)s}F(s),\ k=\frac{1}{QT}$</td><td>θ=π 線性化常數增益 plant</td></tr>
-<tr><td>(12)</td><td>$k_I=\frac{\omega_{BW}}{k},\ k_p=\frac{k_I}{\omega_c}$</td><td>由單一參數 ω_BW 決定 PI 增益</td></tr>
-<tr><td>(18)</td><td>$v_{max}=\frac{\pi\omega_{BW}c}{5\omega_n}$</td><td>最大可測目標速度</td></tr>
-<tr><td>(24)</td><td>$R=\frac{W(0.115\alpha R_0)}{0.115\alpha}$</td><td>超音波雷達距離 (Lambert W)</td></tr>
-<tr><td>(A14)</td><td>$\omega-\omega_n=-\frac{\omega_n B}{2QA}\sin\theta$</td><td>頻率方程（與 Adler 一致）</td></tr>
-<tr><td>(A19)</td><td>$A'+\frac{\omega_n}{2Q}A=\frac{\omega_n B}{2Q}\cos\theta+\frac{2\omega_n}{\pi Q}$</td><td>振幅方程（低通，截止 $\omega_n/2Q$）</td></tr>
-</table>
+<tbody><tr><th data-l="zh">式</th><th data-l="en">Eq.</th><th data-l="zh">表達式</th><th data-l="en">Expression</th><th data-l="zh">意義</th><th data-l="en">Meaning</th></tr>
+<tr><td>(1)</td><td>$\theta\approx\omega_n D,\ D=\frac{2}{c}(R_0+x)$</td><td data-l="zh">注入相位 ∝ 往返延遲</td><td data-l="en">Injection phase ∝ round-trip delay</td></tr>
+<tr><td>(2)</td><td>$\omega-\omega_n\approx-\frac{\omega_n}{2Q}\frac{B}{A}\sin\theta$</td><td data-l="zh">Adler：頻率偏移 = 相位的正弦（非線性源頭）</td><td data-l="en">Adler: frequency shift = sine of phase (the source of the nonlinearity)</td></tr>
+<tr><td>(4)</td><td>$\Delta\theta\approx\frac{4\pi}{\lambda}x$</td><td data-l="zh">單位位移的相位偏差</td><td data-l="en">Phase deviation per unit displacement</td></tr>
+<tr><td>(5)</td><td>$\hat{x}=-0.5c(d-a)$</td><td data-l="zh"><strong>雷達輸出：</strong>由延遲還原運動</td><td data-l="en"><strong>Radar output:</strong> motion recovered from the delay</td></tr>
+<tr><td>(7)</td><td>$g=\frac{2A_{inj}\cos\theta(1+A_{inj}\cos\theta)\omega_n}{\pi Q}$</td><td data-l="zh">非線性 plant gain 對工作點</td><td data-l="en">Nonlinear plant gain vs operating point</td></tr>
+<tr><td>(9-10)</td><td>$P(s)=-k\,e^{-(T/8)s}F(s),\ k=\frac{1}{QT}$</td><td data-l="zh">θ=π 線性化常數增益 plant</td><td data-l="en">Constant-gain plant linearized at θ=π</td></tr>
+<tr><td>(12)</td><td>$k_I=\frac{\omega_{BW}}{k},\ k_p=\frac{k_I}{\omega_c}$</td><td data-l="zh">由單一參數 ω_BW 決定 PI 增益</td><td data-l="en">PI gains fixed by the single parameter ω_BW</td></tr>
+<tr><td>(18)</td><td>$v_{max}=\frac{\pi\omega_{BW}c}{5\omega_n}$</td><td data-l="zh">最大可測目標速度</td><td data-l="en">Maximum detectable target speed</td></tr>
+<tr><td>(24)</td><td>$R=\frac{W(0.115\alpha R_0)}{0.115\alpha}$</td><td data-l="zh">超音波雷達距離 (Lambert W)</td><td data-l="en">Ultrasonic radar range (Lambert W)</td></tr>
+<tr><td>(A14)</td><td>$\omega-\omega_n=-\frac{\omega_n B}{2QA}\sin\theta$</td><td data-l="zh">頻率方程（與 Adler 一致）</td><td data-l="en">Frequency equation (agrees with Adler)</td></tr>
+<tr><td>(A19)</td><td>$A'+\frac{\omega_n}{2Q}A=\frac{\omega_n B}{2Q}\cos\theta+\frac{2\omega_n}{\pi Q}$</td><td data-l="zh">振幅方程（低通，截止 $\omega_n/2Q$）</td><td data-l="en">Amplitude equation (low-pass, cutoff $\omega_n/2Q$)</td></tr>
+</tbody></table>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">Appendix highlights — 模型為何有效（點擊展開）</summary>
-<p><strong>A. 慢變頻率/振幅：</strong>對 Adler 型方程在一個振盪週期上取平均（假設 $|\theta'|/\omega\ll1$，因目標相對載波移動很慢），作者<em>不需</em>假設弱注入即可導出頻率 (A14) 與振幅 (A19) 方程。這破除了「Adler 小注入假設會限制模型」的疑慮 — 方程在此處用的大 $A_{inj}=0.5$ 仍成立，並由實驗確認。</p>
-<p><strong>B. Plant 模型：</strong>$u_{out}$ 與 (D+d) 延遲後的 $u_{inj}$ 之間的相位 $\theta\approx\omega(D+d)$，故 $\partial\theta/\partial d\approx\omega_n$ (A24) — 相位變化追隨延遲變化。把頻率與振幅方程在 $\theta=\pi$ 附近線性化即得圖 4 的方塊圖。</p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">Appendix highlights — 模型為何有效（點擊展開）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">Appendix highlights — why the model holds (click to expand)</summary>
+<p data-l="zh"><strong>A. 慢變頻率/振幅：</strong>對 Adler 型方程在一個振盪週期上取平均（假設 $|\theta'|/\omega\ll1$，因目標相對載波移動很慢），作者<em>不需</em>假設弱注入即可導出頻率 (A14) 與振幅 (A19) 方程。這破除了「Adler 小注入假設會限制模型」的疑慮 — 方程在此處用的大 $A_{inj}=0.5$ 仍成立，並由實驗確認。</p><p data-l="en"><strong>A. Slowly-varying frequency/amplitude:</strong> by averaging the Adler-type equations over one oscillation period (assuming $|\theta'|/\omega\ll1$, since the target moves very slowly relative to the carrier), the authors derive the frequency (A14) and amplitude (A19) equations <em>without</em> assuming weak injection. That removes the worry that "Adler's small-injection assumption limits the model" — the equations still hold at the large $A_{inj}=0.5$ used here, as the experiments confirm.</p>
+<p data-l="zh"><strong>B. Plant 模型：</strong>$u_{out}$ 與 (D+d) 延遲後的 $u_{inj}$ 之間的相位 $\theta\approx\omega(D+d)$，故 $\partial\theta/\partial d\approx\omega_n$ (A24) — 相位變化追隨延遲變化。把頻率與振幅方程在 $\theta=\pi$ 附近線性化即得圖 4 的方塊圖。</p><p data-l="en"><strong>B. Plant model:</strong> the phase between $u_{out}$ and the $(D+d)$-delayed $u_{inj}$ is $\theta\approx\omega(D+d)$, so $\partial\theta/\partial d\approx\omega_n$ (A24) — phase change follows delay change. Linearizing the frequency and amplitude equations around $\theta=\pi$ gives the block diagram of Fig. 4.</p>
 </details>
 </section>
 
 <!-- ===== COMPARISON WITH WU DSIL THESIS ===== -->
 <section id="sec-compare">
-<h2 class="section-title">對照 — 本論文 (Yu) vs DSIL 延伸 (Wu's master's thesis)</h2>
-<p>Wu's master's thesis（NSYSU，指導教授 Horng）直接沿用本論文的 SIL 相位消除 plant/控制框架（引用為其參考 [24]），把它從<strong>超音波</strong>搬到 <strong>5.8 GHz 電磁波</strong>，並加上 Low-IF 接收所需的影像消除、雜波消除與測距功能。下表整理兩篇的<strong>全部差異</strong>。</p>
+<h2 class="section-title" data-l="zh">對照 — 本論文 (Yu) vs DSIL 延伸 (Wu's master's thesis)</h2><h2 class="section-title" data-l="en">Comparison — this paper (Yu) vs the DSIL extension (Wu's master's thesis)</h2>
+<p data-l="zh">Wu's master's thesis（NSYSU，指導教授 Horng）直接沿用本論文的 SIL 相位消除 plant/控制框架（引用為其參考 [24]），把它從<strong>超音波</strong>搬到 <strong>5.8 GHz 電磁波</strong>，並加上 Low-IF 接收所需的影像消除、雜波消除與測距功能。下表整理兩篇的<strong>全部差異</strong>。</p><p data-l="en">Wu's master's thesis (NSYSU, advisor Horng) reuses this paper's SIL phase-canceling plant/control framework directly (cited there as reference [24]), moving it from <strong>ultrasound</strong> to <strong>5.8 GHz electromagnetic waves</strong> and adding the image rejection, clutter cancellation and ranging that a Low-IF receiver needs. The tables below list <strong>all</strong> the differences.</p>
 
-<h4>相同的核心（不變）</h4>
+<h4 data-l="zh">相同的核心（不變）</h4><h4 data-l="en">The shared core (unchanged)</h4>
 <table class="cmp-table">
-<tr><th>項目</th><th>兩篇皆同</th></tr>
-<tr><td>原理</td><td>自我注入鎖定 (SIL) + 相位消除：可調延遲抵消都卜勒相位</td></tr>
-<tr><td>鎖定動態</td><td>廣義 Adler $\Delta\omega=\frac{\omega}{2Q}\frac{\eta\sin\theta}{1+\eta\cos\theta}$</td></tr>
-<tr><td>工作點</td><td>$\theta=\pi$（反相，最大平坦、負增益→負回授）</td></tr>
-<tr><td>參數</td><td>$Q=25$、$A_{inj}=0.5$、穩定區 $(0.5\pi,1.5\pi)$</td></tr>
-<tr><td>控制</td><td>TDL（數位可調延遲線）+ PI 控制器，把 $\theta$ 鎖在 $\pi$</td></tr>
-</table>
+<tbody><tr><th data-l="zh">項目</th><th data-l="en">Item</th><th data-l="zh">兩篇皆同</th><th data-l="en">Same in both works</th></tr>
+<tr><td data-l="zh">原理</td><td data-l="en">Principle</td><td data-l="zh">自我注入鎖定 (SIL) + 相位消除：可調延遲抵消都卜勒相位</td><td data-l="en">Self-injection locking (SIL) + phase cancellation: a tunable delay cancels the Doppler phase</td></tr>
+<tr><td data-l="zh">鎖定動態</td><td data-l="en">Locking dynamics</td><td data-l="zh">廣義 Adler $\Delta\omega=\frac{\omega}{2Q}\frac{\eta\sin\theta}{1+\eta\cos\theta}$</td><td data-l="en">Generalized Adler $\Delta\omega=\frac{\omega}{2Q}\frac{\eta\sin\theta}{1+\eta\cos\theta}$</td></tr>
+<tr><td data-l="zh">工作點</td><td data-l="en">Operating point</td><td data-l="zh">$\theta=\pi$（反相，最大平坦、負增益→負回授）</td><td data-l="en">$\theta=\pi$ (anti-phase; maximally flat, negative gain → negative feedback)</td></tr>
+<tr><td data-l="zh">參數</td><td data-l="en">Parameters</td><td data-l="zh">$Q=25$、$A_{inj}=0.5$、穩定區 $(0.5\pi,1.5\pi)$</td><td data-l="en">$Q=25$, $A_{inj}=0.5$, stable region $(0.5\pi,1.5\pi)$</td></tr>
+<tr><td data-l="zh">控制</td><td data-l="en">Control</td><td data-l="zh">TDL（數位可調延遲線）+ PI 控制器，把 $\theta$ 鎖在 $\pi$</td><td data-l="en">TDL (digital tunable delay line) + PI controller locking $\theta$ at $\pi$</td></tr>
+</tbody></table>
 
-<h4>差異（全部）</h4>
+<h4 data-l="zh">差異（全部）</h4><h4 data-l="en">The differences (all of them)</h4>
 <table class="cmp-table">
-<tr><th>面向</th><th>本論文 (Yu, 超音波)</th><th>DSIL 版 (Wu, 5.8 GHz)</th></tr>
-<tr><td>載波 / 波形</td><td>超音波<strong>方波</strong>（relay-feedback，比較器）</td><td>5.8 GHz EM <strong>弦波</strong>（類比 RF 振盪器）</td></tr>
-<tr><td>$\tfrac{4}{\pi}$ 因子</td><td>有（$B=\tfrac{4}{\pi}A_{inj}$，殘留在 $g\propto\frac{\cdots}{\pi Q}$）</td><td>無（直接用 $A_{inj}/A_{osc}$）</td></tr>
-<tr><td>注入比 $\eta=\frac{A_{inj}}{A_{osc}}$<br>的<u>取得路徑</u></td><td>經方波基頻 $B=\tfrac{4}{\pi}A_{inj}$、振幅 $A=B\cos\theta+\tfrac{4}{\pi}$；$\tfrac{4}{\pi}$ 相消 ⟹ $\eta=A_{inj}$</td><td>直接 $\eta=A_{inj}/A_{osc}$（弦波，無 $\tfrac{4}{\pi}$）</td></tr>
-<tr><td>頻率解調</td><td>$u(t)\,u(t-T/4)$ 自乘式 FM 鑑別器</td><td>I/Q mixer + <strong>Low-IF</strong> (40 kHz)</td></tr>
-<tr><td>影像 (image)</td><td>無影像問題（不需消除）</td><td>Low-IF 引入影像 → <strong>數位 Hartley 消除</strong>，IRR 116.85 dB</td></tr>
-<tr><td>雜波 (clutter)</td><td>—</td><td><strong>數位雜波消除</strong>（range-correlation）</td></tr>
-<tr><td>測距</td><td>—（只測位移；另有聲波鏈路距離方程）</td><td><strong>FSK 絕對測距</strong>，誤差 &lt; 3%</td></tr>
-<tr><td>距離量測法</td><td>—</td><td>I/Q <strong>圓擬合</strong>（LSF）取相位</td></tr>
-<tr><td>實作</td><td>FPGA（延遲線 + PI）</td><td><strong>全數位 FPGA</strong>（Cyclone V GX）</td></tr>
-<tr><td>應用</td><td>非接觸呼吸 / 心跳（超音波）</td><td>手腕式生理監測 + 距離（5.8 GHz）</td></tr>
-<tr><td>線性度 / 靈敏度</td><td>0.05–60 mm 內誤差 &lt; 4%</td><td>等速運動 50 µm（數位）vs 100 µm（類比）、理論極限 20.7 µm</td></tr>
-</table>
+<tbody><tr><th data-l="zh">面向</th><th data-l="en">Aspect</th><th data-l="zh">本論文 (Yu, 超音波)</th><th data-l="en">This paper (Yu, ultrasonic)</th><th data-l="zh">DSIL 版 (Wu, 5.8 GHz)</th><th data-l="en">DSIL version (Wu, 5.8 GHz)</th></tr>
+<tr><td data-l="zh">載波 / 波形</td><td data-l="en">Carrier / waveform</td><td data-l="zh">超音波<strong>方波</strong>（relay-feedback，比較器）</td><td data-l="en">Ultrasonic <strong>square wave</strong> (relay feedback, comparator)</td><td data-l="zh">5.8 GHz EM <strong>弦波</strong>（類比 RF 振盪器）</td><td data-l="en">5.8 GHz EM <strong>sinusoid</strong> (analog RF oscillator)</td></tr>
+<tr><td data-l="zh">$\tfrac{4}{\pi}$ 因子</td><td data-l="en">$\tfrac{4}{\pi}$ factor</td><td data-l="zh">有（$B=\tfrac{4}{\pi}A_{inj}$，殘留在 $g\propto\frac{\cdots}{\pi Q}$）</td><td data-l="en">Present ($B=\tfrac{4}{\pi}A_{inj}$, left over in $g\propto\frac{\cdots}{\pi Q}$)</td><td data-l="zh">無（直接用 $A_{inj}/A_{osc}$）</td><td data-l="en">Absent (uses $A_{inj}/A_{osc}$ directly)</td></tr>
+<tr><td data-l="zh">注入比 $\eta=\frac{A_{inj}}{A_{osc}}$<br>的<u>取得路徑</u></td><td data-l="en"><u>How</u> the injection ratio<br>$\eta=\frac{A_{inj}}{A_{osc}}$ is obtained</td><td data-l="zh">經方波基頻 $B=\tfrac{4}{\pi}A_{inj}$、振幅 $A=B\cos\theta+\tfrac{4}{\pi}$；$\tfrac{4}{\pi}$ 相消 ⟹ $\eta=A_{inj}$</td><td data-l="en">Via the square-wave fundamental $B=\tfrac{4}{\pi}A_{inj}$ and amplitude $A=B\cos\theta+\tfrac{4}{\pi}$; the $\tfrac{4}{\pi}$ cancels ⇒ $\eta=A_{inj}$</td><td data-l="zh">直接 $\eta=A_{inj}/A_{osc}$（弦波，無 $\tfrac{4}{\pi}$）</td><td data-l="en">Directly $\eta=A_{inj}/A_{osc}$ (sinusoid, no $\tfrac{4}{\pi}$)</td></tr>
+<tr><td data-l="zh">頻率解調</td><td data-l="en">Frequency demodulation</td><td data-l="zh">$u(t)\,u(t-T/4)$ 自乘式 FM 鑑別器</td><td data-l="en">Self-multiplying FM discriminator $u(t)\,u(t-T/4)$</td><td>I/Q mixer + <strong>Low-IF</strong> (40 kHz)</td></tr>
+<tr><td data-l="zh">影像 (image)</td><td data-l="en">Image</td><td data-l="zh">無影像問題（不需消除）</td><td data-l="en">No image problem (no rejection needed)</td><td data-l="zh">Low-IF 引入影像 → <strong>數位 Hartley 消除</strong>，IRR 116.85 dB</td><td data-l="en">Low-IF introduces an image → <strong>digital Hartley rejection</strong>, IRR 116.85 dB</td></tr>
+<tr><td data-l="zh">雜波 (clutter)</td><td data-l="en">Clutter</td><td>—</td><td data-l="zh"><strong>數位雜波消除</strong>（range-correlation）</td><td data-l="en"><strong>Digital clutter cancellation</strong> (range correlation)</td></tr>
+<tr><td data-l="zh">測距</td><td data-l="en">Ranging</td><td data-l="zh">—（只測位移；另有聲波鏈路距離方程）</td><td data-l="en">— (displacement only; a separate acoustic-link range equation is given)</td><td data-l="zh"><strong>FSK 絕對測距</strong>，誤差 &lt; 3%</td><td data-l="en"><strong>FSK absolute ranging</strong>, error &lt; 3%</td></tr>
+<tr><td data-l="zh">距離量測法</td><td data-l="en">Range measurement method</td><td>—</td><td data-l="zh">I/Q <strong>圓擬合</strong>（LSF）取相位</td><td data-l="en">I/Q <strong>circle fitting</strong> (LSF) to extract phase</td></tr>
+<tr><td data-l="zh">實作</td><td data-l="en">Implementation</td><td data-l="zh">FPGA（延遲線 + PI）</td><td data-l="en">FPGA (delay line + PI)</td><td data-l="zh"><strong>全數位 FPGA</strong>（Cyclone V GX）</td><td data-l="en"><strong>All-digital FPGA</strong> (Cyclone V GX)</td></tr>
+<tr><td data-l="zh">應用</td><td data-l="en">Application</td><td data-l="zh">非接觸呼吸 / 心跳（超音波）</td><td data-l="en">Non-contact respiration / heartbeat (ultrasonic)</td><td data-l="zh">手腕式生理監測 + 距離（5.8 GHz）</td><td data-l="en">Wrist-worn vital-sign monitoring + range (5.8 GHz)</td></tr>
+<tr><td data-l="zh">線性度 / 靈敏度</td><td data-l="en">Linearity / sensitivity</td><td data-l="zh">0.05–60 mm 內誤差 &lt; 4%</td><td data-l="en">Error &lt; 4% over 0.05–60 mm</td><td data-l="zh">等速運動 50 µm（數位）vs 100 µm（類比）、理論極限 20.7 µm</td><td data-l="en">50 µm (digital) vs 100 µm (analog) for constant-velocity motion; theoretical limit 20.7 µm</td></tr>
+</tbody></table>
 
 <div class="callout key" style="margin:8px 0">
-<div class="callout-title">關鍵：$\eta$ 的「值」其實相同 — 兩者都是 $\eta=0.5$</div>
-<p style="margin:6px 0">上表是 $\eta$ 的<strong>取得路徑</strong>不同；但代入廣義 Adler $\dfrac{\eta\sin\theta}{1+\eta\cos\theta}$ 的 $\eta$ <strong>兩篇同為 $0.5$</strong>。Yu 雖經方波的 $\tfrac{4}{\pi}$ 因子，但把頻率方程 (A14) 的 $\dfrac{B}{A}$ 化簡時，分子 $B=\tfrac{4}{\pi}A_{inj}$ 與分母 $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ 的 $\tfrac{4}{\pi}$ 上下相消：</p>
+<div class="callout-title" data-l="zh">關鍵：$\eta$ 的「值」其實相同 — 兩者都是 $\eta=0.5$</div><div class="callout-title" data-l="en">Key point: the <em>value</em> of $\eta$ is the same — both use $\eta=0.5$</div>
+<p style="margin:6px 0" data-l="zh">上表是 $\eta$ 的<strong>取得路徑</strong>不同；但代入廣義 Adler $\dfrac{\eta\sin\theta}{1+\eta\cos\theta}$ 的 $\eta$ <strong>兩篇同為 $0.5$</strong>。Yu 雖經方波的 $\tfrac{4}{\pi}$ 因子，但把頻率方程 (A14) 的 $\dfrac{B}{A}$ 化簡時，分子 $B=\tfrac{4}{\pi}A_{inj}$ 與分母 $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ 的 $\tfrac{4}{\pi}$ 上下相消：</p><p style="margin:6px 0" data-l="en">The table above differs only in <strong>how $\eta$ is obtained</strong>; the $\eta$ substituted into the generalized Adler expression $\dfrac{\eta\sin\theta}{1+\eta\cos\theta}$ is <strong>$0.5$ in both works</strong>. Yu goes through the square wave's $\tfrac{4}{\pi}$ factor, but when the $\dfrac{B}{A}$ of the frequency equation (A14) is simplified, the $\tfrac{4}{\pi}$ in the numerator $B=\tfrac{4}{\pi}A_{inj}$ and the denominator $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ cancel:</p>
 <div class="eq-box" style="margin:6px 0">
 $$\frac{B}{A}=\frac{\tfrac{4}{\pi}A_{inj}\,\sin\theta}{\tfrac{4}{\pi}(1+A_{inj}\cos\theta)}=\frac{A_{inj}\sin\theta}{1+A_{inj}\cos\theta}\;\;\Rightarrow\;\;\eta=A_{inj}=0.5$$
 </div>
-<p style="margin-bottom:0">而 $\eta=0.5$ 是<strong>刻意選的設計值</strong>：它讓 plant 增益 $g\propto\cos\theta\,(1+\eta\cos\theta)$ 在 $\theta=\pi$ 達<strong>最大平坦</strong>（$g'=g''=g'''=0$）。所以「方波 vs 弦波」只改變 $\eta$ 的<strong>取得路徑</strong>，不改變它的<strong>值（0.5）</strong>、也不改變它在 Adler 與最大平坦條件裡的<strong>角色</strong> —— 這正是兩篇 plant 非線性核心相同的數學原因。</p>
+<p style="margin-bottom:0" data-l="zh">而 $\eta=0.5$ 是<strong>刻意選的設計值</strong>：它讓 plant 增益 $g\propto\cos\theta\,(1+\eta\cos\theta)$ 在 $\theta=\pi$ 達<strong>最大平坦</strong>（$g'=g''=g'''=0$）。所以「方波 vs 弦波」只改變 $\eta$ 的<strong>取得路徑</strong>，不改變它的<strong>值（0.5）</strong>、也不改變它在 Adler 與最大平坦條件裡的<strong>角色</strong> —— 這正是兩篇 plant 非線性核心相同的數學原因。</p><p style="margin-bottom:0" data-l="en">And $\eta=0.5$ is a <strong>deliberate design value</strong>: it makes the plant gain $g\propto\cos\theta\,(1+\eta\cos\theta)$ <strong>maximally flat</strong> at $\theta=\pi$ ($g'=g''=g'''=0$). So square wave versus sinusoid changes only <strong>how</strong> $\eta$ is obtained, not its <strong>value (0.5)</strong> nor its <strong>role</strong> in Adler's equation and the maximal-flatness condition — which is precisely the mathematical reason the nonlinear cores of the two plants are identical.</p>
 </div>
 
 <div class="callout concept" style="margin:8px 0">
-<div class="callout-title">為何「自乘式 T/4 鑑別器」(Yu) 與「I/Q + Low-IF + Hartley」(吳) 是類比的？</div>
-<p style="margin:6px 0"><strong>兩者做的同一件事：</strong>把 SIL 振盪器的<strong>瞬時頻率偏移 $\Delta\omega$（= 相位 $\theta$ 的偏差）取出來</strong>，當作 ① 控制迴路鎖 $\theta=\pi$ 的誤差訊號、② 位移讀出。要從載波取出相位/頻率，數學上必須有一對<strong>相差 $90°$ 的正交訊號</strong> —— 兩種方法只差在「怎麼製造這對正交訊號」。</p>
+<div class="callout-title" data-l="zh">為何「自乘式 T/4 鑑別器」(Yu) 與「I/Q + Low-IF + Hartley」(吳) 是類比的？</div><div class="callout-title" data-l="en">Why the self-multiplying T/4 discriminator (Yu) and I/Q + Low-IF + Hartley (Wu) are analogous</div>
+<p style="margin:6px 0" data-l="zh"><strong>兩者做的同一件事：</strong>把 SIL 振盪器的<strong>瞬時頻率偏移 $\Delta\omega$（= 相位 $\theta$ 的偏差）取出來</strong>，當作 ① 控制迴路鎖 $\theta=\pi$ 的誤差訊號、② 位移讀出。要從載波取出相位/頻率，數學上必須有一對<strong>相差 $90°$ 的正交訊號</strong> —— 兩種方法只差在「怎麼製造這對正交訊號」。</p><p style="margin:6px 0" data-l="en"><strong>They do the same job:</strong> extract the SIL oscillator's <strong>instantaneous frequency shift $\Delta\omega$ (= the deviation of the phase $\theta$)</strong> to serve as ① the error signal that locks the control loop at $\theta=\pi$ and ② the displacement readout. Mathematically, recovering phase/frequency from a carrier requires a pair of <strong>quadrature signals $90°$ apart</strong> — the two methods differ only in how that quadrature pair is produced.</p>
 
-<p style="margin:6px 0"><strong>Yu — 自乘式 $T/4$ 鑑別器（自外差 autodyne）：</strong></p>
+<p style="margin:6px 0"><strong data-l="zh">Yu — 自乘式 $T/4$ 鑑別器（自外差 autodyne）：</strong><strong data-l="en">Yu — self-multiplying $T/4$ discriminator (autodyne):</strong></p>
 <ul style="margin:4px 0">
-<li>$u(t)=\cos[\omega_n t+\psi(t)]$，延遲 $T/4$ = 載波移 $90°$ → 產生正交分量。</li>
-<li>自己乘延遲版再低通：$w=\mathrm{LP}\{u(t)u(t-\tfrac{T}{4})\}\propto\sin[\psi(t)-\psi(t-\tfrac{T}{4})]\approx\tfrac{T}{4}\dot\psi=\tfrac{T}{4}\Delta\omega$。</li>
-<li>正交來源 = <strong>時間延遲 $T/4$</strong>；參考 = <strong>訊號自己</strong>（無外部 LO）→ 無影像問題，但只給一條鑑別電壓。</li>
+<li data-l="zh">$u(t)=\cos[\omega_n t+\psi(t)]$，延遲 $T/4$ = 載波移 $90°$ → 產生正交分量。</li><li data-l="en">$u(t)=\cos[\omega_n t+\psi(t)]$; a $T/4$ delay shifts the carrier by $90°$ → producing the quadrature component.</li>
+<li data-l="zh">自己乘延遲版再低通：$w=\mathrm{LP}\{u(t)u(t-\tfrac{T}{4})\}\propto\sin[\psi(t)-\psi(t-\tfrac{T}{4})]\approx\tfrac{T}{4}\dot\psi=\tfrac{T}{4}\Delta\omega$。</li><li data-l="en">Multiply the signal by its delayed copy and low-pass: $w=\mathrm{LP}\{u(t)u(t-\tfrac{T}{4})\}\propto\sin[\psi(t)-\psi(t-\tfrac{T}{4})]\approx\tfrac{T}{4}\dot\psi=\tfrac{T}{4}\Delta\omega$.</li>
+<li data-l="zh">正交來源 = <strong>時間延遲 $T/4$</strong>；參考 = <strong>訊號自己</strong>（無外部 LO）→ 無影像問題，但只給一條鑑別電壓。</li><li data-l="en">Quadrature source = <strong>the time delay $T/4$</strong>; reference = <strong>the signal itself</strong> (no external LO) → no image problem, but it yields only one discriminator voltage.</li>
 </ul>
 
-<p style="margin:6px 0"><strong>吳 — I/Q mixer + Low-IF + Hartley（外差）：</strong></p>
+<p style="margin:6px 0"><strong data-l="zh">吳 — I/Q mixer + Low-IF + Hartley（外差）：</strong><strong data-l="en">Wu — I/Q mixer + Low-IF + Hartley (heterodyne):</strong></p>
 <ul style="margin:4px 0">
-<li><strong>外部 LO（5.8 GHz 載波本振，升/降頻共用）</strong>的 $\cos\omega_{LO}t$、$\sin\omega_{LO}t$ 兩路混頻 → 直接得 I、Q（天生相差 $90°$）。</li>
-<li>$I+jQ$ 的<strong>相位</strong>追蹤 $\theta$，其時間導數 = $\Delta\omega$；I/Q <strong>圓擬合</strong>還能取絕對位移、配 FSK 測距。</li>
-<li>降到 <strong>Low-IF 40 kHz</strong> 避 DC offset/flicker；Low-IF 折進<strong>影像頻率</strong> → 用 <strong>Hartley</strong> 消掉。</li>
-<li>正交來源 = <strong>I/Q LO 的 $90°$ 分相</strong>；參考 = <strong>獨立 5.8 GHz LO</strong>（外差）→ 資訊較豐富，代價是要影像消除。</li>
+<li data-l="zh"><strong>外部 LO（5.8 GHz 載波本振，升/降頻共用）</strong>的 $\cos\omega_{LO}t$、$\sin\omega_{LO}t$ 兩路混頻 → 直接得 I、Q（天生相差 $90°$）。</li><li data-l="en">Mixing with $\cos\omega_{LO}t$ and $\sin\omega_{LO}t$ from an <strong>external LO (the 5.8 GHz carrier local oscillator, shared by up- and down-conversion)</strong> gives I and Q directly (inherently $90°$ apart).</li>
+<li data-l="zh">$I+jQ$ 的<strong>相位</strong>追蹤 $\theta$，其時間導數 = $\Delta\omega$；I/Q <strong>圓擬合</strong>還能取絕對位移、配 FSK 測距。</li><li data-l="en">The <strong>phase</strong> of $I+jQ$ tracks $\theta$, and its time derivative is $\Delta\omega$; I/Q <strong>circle fitting</strong> additionally recovers absolute displacement and supports FSK ranging.</li>
+<li data-l="zh">降到 <strong>Low-IF 40 kHz</strong> 避 DC offset/flicker；Low-IF 折進<strong>影像頻率</strong> → 用 <strong>Hartley</strong> 消掉。</li><li data-l="en">Down-conversion to a <strong>40 kHz Low-IF</strong> avoids DC offset and flicker noise; Low-IF folds in the <strong>image frequency</strong> → removed by the <strong>Hartley</strong> architecture.</li>
+<li data-l="zh">正交來源 = <strong>I/Q LO 的 $90°$ 分相</strong>；參考 = <strong>獨立 5.8 GHz LO</strong>（外差）→ 資訊較豐富，代價是要影像消除。</li><li data-l="en">Quadrature source = <strong>the $90°$ split of the I/Q LO</strong>; reference = <strong>an independent 5.8 GHz LO</strong> (heterodyne) → richer information, at the cost of needing image rejection.</li>
 </ul>
 
-<p style="margin:6px 0;padding:8px 12px;background:var(--blue-light);border-radius:4px"><strong>「外部 LO」到底是什麼？</strong>就是那顆 <strong>5.8 GHz 載波本振</strong>：FPGA 用 DAC 產生 40 kHz I/Q，經此 LO 升頻成 RF $5.8\text{ GHz}+40\text{ kHz}=5.80004$ GHz（影像邊帶 $5.79996$ GHz 被壓 ≈ 62 dB）；回波再由同一顆 LO 降頻回 40 kHz Low-IF。所以頻譜上 $5.80004/5.79996$ GHz = $5.8\text{ GHz}\pm40\text{ kHz}$（載波 ± IF）。<br>⚠️ 注意：吳的 <strong>SIL/Adler 鎖定其實跑在 40 kHz 的 IF（數位域）</strong>，5.8 GHz 只是「空中往返的載波」（相位 $\theta=\omega_{RF}D(t)$ 由 5.8 GHz 累積，但鎖相、TDL、PIC 都在 40 kHz IF 上）—— 這就是它能「全數位 FPGA」的原因。</p>
+<p style="margin:6px 0;padding:8px 12px;background:var(--blue-light);border-radius:4px" data-l="zh"><strong>「外部 LO」到底是什麼？</strong>就是那顆 <strong>5.8 GHz 載波本振</strong>：FPGA 用 DAC 產生 40 kHz I/Q，經此 LO 升頻成 RF $5.8\text{ GHz}+40\text{ kHz}=5.80004$ GHz（影像邊帶 $5.79996$ GHz 被壓 ≈ 62 dB）；回波再由同一顆 LO 降頻回 40 kHz Low-IF。所以頻譜上 $5.80004/5.79996$ GHz = $5.8\text{ GHz}\pm40\text{ kHz}$（載波 ± IF）。<br>⚠️ 注意：吳的 <strong>SIL/Adler 鎖定其實跑在 40 kHz 的 IF（數位域）</strong>，5.8 GHz 只是「空中往返的載波」（相位 $\theta=\omega_{RF}D(t)$ 由 5.8 GHz 累積，但鎖相、TDL、PIC 都在 40 kHz IF 上）—— 這就是它能「全數位 FPGA」的原因。</p><p style="margin:6px 0;padding:8px 12px;background:var(--blue-light);border-radius:4px" data-l="en"><strong>What exactly is the "external LO"?</strong> It is the <strong>5.8 GHz carrier local oscillator</strong>: the FPGA generates a 40 kHz I/Q pair through a DAC, this LO up-converts it to RF at $5.8\text{ GHz}+40\text{ kHz}=5.80004$ GHz (the image sideband at $5.79996$ GHz is suppressed by ≈ 62 dB), and the same LO down-converts the echo back to the 40 kHz Low-IF. Hence the $5.80004/5.79996$ GHz pair in the spectrum = $5.8\text{ GHz}\pm40\text{ kHz}$ (carrier ± IF).<br>⚠ Note: Wu's <strong>SIL/Adler locking actually runs at the 40 kHz IF, in the digital domain</strong>. The 5.8 GHz signal is only the carrier that travels through the air (the phase $\theta=\omega_{RF}D(t)$ accumulates at 5.8 GHz, but the phase locking, TDL and PIC all operate at the 40 kHz IF) — which is what makes the all-digital FPGA implementation possible.</p>
 
-<p style="margin-bottom:0;padding:8px 12px;background:var(--yellow);border-radius:4px"><strong>類比核心：</strong>Yu 的「$T/4$ 時間延遲」 ⟷ 吳的「I/Q LO 的 $90°$ 分相」—— 都是「製造正交對」以解出相位/頻率。所以一個自外差自乘、一個 I/Q 外差，<strong>本質都是正交相位/頻率鑑別器，輸出同一個 $\Delta\omega$</strong>。差別只在豐富度與代價：Yu 單路自混（簡單、免影像，只給鑑別電壓）；吳雙路 I/Q（可圓擬合/FSK、避 DC offset，但需 Hartley 消影像）。</p>
+<p style="margin-bottom:0;padding:8px 12px;background:var(--yellow);border-radius:4px" data-l="zh"><strong>類比核心：</strong>Yu 的「$T/4$ 時間延遲」 ⟷ 吳的「I/Q LO 的 $90°$ 分相」—— 都是「製造正交對」以解出相位/頻率。所以一個自外差自乘、一個 I/Q 外差，<strong>本質都是正交相位/頻率鑑別器，輸出同一個 $\Delta\omega$</strong>。差別只在豐富度與代價：Yu 單路自混（簡單、免影像，只給鑑別電壓）；吳雙路 I/Q（可圓擬合/FSK、避 DC offset，但需 Hartley 消影像）。</p><p style="margin-bottom:0;padding:8px 12px;background:var(--yellow);border-radius:4px" data-l="en"><strong>The analogy in one line:</strong> Yu's "$T/4$ time delay" ↔ Wu's "$90°$ split of the I/Q LO" — both manufacture a quadrature pair in order to solve for phase/frequency. One is an autodyne self-multiplier, the other an I/Q heterodyne, but <strong>both are quadrature phase/frequency discriminators producing the same $\Delta\omega$</strong>. They differ only in richness and cost: Yu's single-path self-mixing is simple and image-free but yields only a discriminator voltage; Wu's dual I/Q path enables circle fitting and FSK and avoids DC offset, at the price of Hartley image rejection.</p>
 </div>
 
-<div class="callout key">
+<div class="callout key" data-l="zh">
 <div class="callout-title">一句話</div>
 兩篇的 <strong>SIL 相位非線性與工作點 plant 完全相同</strong>；差別在 ① 載波（方波→弦波，影響 $\tfrac{4}{\pi}$ 與物理實作）與 ② 接收端（Wu因走 Low-IF，多了 Hartley 影像消除、雜波消除、FSK 測距、I/Q 圓擬合）。plant 差異的深入推導見 §4 的「方波 vs 弦波」展開區塊。
+</div><div class="callout key" data-l="en">
+<div class="callout-title">In one sentence</div>
+The <strong>SIL phase nonlinearity and the operating-point plant are identical</strong> in the two works; they differ in ① the carrier (square wave → sinusoid, which affects the $\tfrac{4}{\pi}$ factor and the physical implementation) and ② the receiver (Wu's Low-IF path adds Hartley image rejection, clutter cancellation, FSK ranging and I/Q circle fitting). For the detailed derivation of the plant differences, see the "square wave vs sinusoid" expandable block in §4.
 </div>
 </section>
 
 <!-- ===== APPENDIX A & B ===== -->
 <section id="sec-appendix">
-<h2 class="section-title">附錄 A &amp; B — 完整推導</h2>
-<p>論文用兩個附錄把前面用到的方程補齊：<strong>附錄 A</strong> 不靠弱注入假設、直接從共振腔微分方程導出頻率與振幅方程；<strong>附錄 B</strong> 由此線性化出小信號 plant 模型 $P(s)$。</p>
+<h2 class="section-title" data-l="zh">附錄 A &amp; B — 完整推導</h2><h2 class="section-title" data-l="en">Appendix A &amp; B — Full Derivations</h2>
+<p data-l="zh">論文用兩個附錄把前面用到的方程補齊：<strong>附錄 A</strong> 不靠弱注入假設、直接從共振腔微分方程導出頻率與振幅方程；<strong>附錄 B</strong> 由此線性化出小信號 plant 模型 $P(s)$。</p><p data-l="en">Two appendices in the paper fill in the equations used above: <strong>Appendix A</strong> derives the frequency and amplitude equations straight from the resonator differential equation, without relying on a weak-injection assumption; <strong>Appendix B</strong> linearizes those to obtain the small-signal plant model $P(s)$.</p>
 
-<div class="callout concept">
+<div class="callout concept" data-l="zh">
 <div class="callout-title">符號約定</div>
 為與前面各節一致，本附錄用 <strong>$\theta$ = 注入相位差（工作點變數）</strong>，另用 <strong>$\psi(t)$ = 振盪訊號自身的相位調變</strong>（即原文 (A1) 裡的相位）。注入方波基頻振幅 $B=\tfrac{4}{\pi}A_{inj}$。
+</div><div class="callout concept" data-l="en">
+<div class="callout-title">Notation</div>
+For consistency with the earlier sections, this appendix uses <strong>$\theta$ = the injection phase difference (the operating-point variable)</strong> and <strong>$\psi(t)$ = the phase modulation of the oscillation signal itself</strong> (the phase appearing in (A1) of the paper). The fundamental amplitude of the injected square wave is $B=\tfrac{4}{\pi}A_{inj}$.
 </div>
 
-<h3 id="appA">A · 慢變頻率與振幅方程（Slowly-Varying Frequency &amp; Amplitude）</h3>
-<p><strong>目的：</strong>證明頻率方程 (A14) 不只是 Adler 的弱注入近似 —— 即使在本設計的大注入 $A_{inj}=0.5$ 下仍成立。手法是<strong>對一個振盪週期取平均</strong>，而不是假設注入很弱。</p>
+<h3 id="appA" data-l="zh">A · 慢變頻率與振幅方程（Slowly-Varying Frequency &amp; Amplitude）</h3><h3 id="appA" data-l="en">A · Slowly-Varying Frequency &amp; Amplitude Equations</h3>
+<p data-l="zh"><strong>目的：</strong>證明頻率方程 (A14) 不只是 Adler 的弱注入近似 —— 即使在本設計的大注入 $A_{inj}=0.5$ 下仍成立。手法是<strong>對一個振盪週期取平均</strong>，而不是假設注入很弱。</p><p data-l="en"><strong>Purpose:</strong> to show that the frequency equation (A14) is more than Adler's weak-injection approximation — it still holds at the large injection $A_{inj}=0.5$ used in this design. The trick is <strong>averaging over one oscillation period</strong> instead of assuming weak injection.</p>
 
-<div class="callout key">
+<div class="callout key" data-l="zh">
 <div class="callout-title">出發點：共振腔 + 注入</div>
 振盪輸出與其瞬時頻率：
 <div class="eq-box">$$u(t)=A(t)\cos[\omega_n t+\psi(t)]\quad(A1),\qquad \omega(t)=\omega_n+\dot\psi(t)\quad(A2)$$</div>
@@ -861,46 +982,54 @@ $$\frac{B}{A}=\frac{\tfrac{4}{\pi}A_{inj}\,\sin\theta}{\tfrac{4}{\pi}(1+A_{inj}\
 <div class="eq-box">$$\ddot u+\frac{\omega_n}{Q}\dot u+\omega_n^2\,u=\frac{\omega_n}{Q}\dot u_1\quad(A3)$$</div>
 輸入 = 方波 $u_{out}$ 基頻（振幅 $4/\pi$）＋注入正弦（振幅 $B$）：
 <div class="eq-box">$$u_1(t)=\tfrac{4}{\pi}\cos[\omega_n t+\psi]+B\cos[\omega_n t+\psi-\theta]\quad(A4)$$</div>
+</div><div class="callout key" data-l="en">
+<div class="callout-title">Starting point: resonator plus injection</div>
+The oscillation output and its instantaneous frequency:
+<div class="eq-box">$$u(t)=A(t)\cos[\omega_n t+\psi(t)]\quad(A1),\qquad \omega(t)=\omega_n+\dot\psi(t)\quad(A2)$$</div>
+A high-$Q$ second-order bandpass resonator (unity peak gain):
+<div class="eq-box">$$\ddot u+\frac{\omega_n}{Q}\dot u+\omega_n^2\,u=\frac{\omega_n}{Q}\dot u_1\quad(A3)$$</div>
+Input = the fundamental of the square wave $u_{out}$ (amplitude $4/\pi$) plus the injected sinusoid (amplitude $B$):
+<div class="eq-box">$$u_1(t)=\tfrac{4}{\pi}\cos[\omega_n t+\psi]+B\cos[\omega_n t+\psi-\theta]\quad(A4)$$</div>
 </div>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">細看 (A4) — 共振腔的兩個驅動（點擊展開）</summary>
-<p style="margin:6px 0">$u_1$ 是<strong>共振腔的輸入（驅動項）</strong>，即 (A3) 右邊 $\frac{\omega_n}{Q}\dot u_1$ 裡的 $u_1$。它由相加的兩個訊號組成：自身再生的方波驅動 $u_{out}$ ＋ 注回來的注入訊號 $u_{inj}$。</p>
-<p style="margin:6px 0"><strong>第一項 $\tfrac{4}{\pi}\cos[\omega_n t+\psi]$（自身方波驅動）：</strong></p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">細看 (A4) — 共振腔的兩個驅動（點擊展開）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">A closer look at (A4) — the two drives of the resonator (click to expand)</summary>
+<p style="margin:6px 0" data-l="zh">$u_1$ 是<strong>共振腔的輸入（驅動項）</strong>，即 (A3) 右邊 $\frac{\omega_n}{Q}\dot u_1$ 裡的 $u_1$。它由相加的兩個訊號組成：自身再生的方波驅動 $u_{out}$ ＋ 注回來的注入訊號 $u_{inj}$。</p><p style="margin:6px 0" data-l="en">$u_1$ is the <strong>input (drive term) of the resonator</strong>, i.e. the $u_1$ inside $\frac{\omega_n}{Q}\dot u_1$ on the right-hand side of (A3). It is the sum of two signals: the self-regenerated square-wave drive $u_{out}$ plus the injected signal $u_{inj}$ coming back.</p>
+<p style="margin:6px 0"><strong data-l="zh">第一項 $\tfrac{4}{\pi}\cos[\omega_n t+\psi]$（自身方波驅動）：</strong><strong data-l="en">First term $\tfrac{4}{\pi}\cos[\omega_n t+\psi]$ (the self drive):</strong></p>
 <ul style="margin:4px 0">
-<li>振盪 $u=A\cos[\omega_n t+\psi]$ 餵進比較器，輸出<strong>單位振幅方波</strong>；方波傅立葉<strong>基頻振幅 $=\tfrac{4}{\pi}\approx1.27$</strong>（方波 $=\frac{4}{\pi}[\cos\omega t-\frac13\cos3\omega t+\dots]$）。</li>
-<li>只留基頻：共振腔<strong>高-$Q$ 窄帶</strong>，把高次諧波全濾掉。</li>
-<li>相位 $\psi$（<strong>與振盪同相</strong>）：方波由振盪自身觸發再生，無額外相移。</li>
+<li data-l="zh">振盪 $u=A\cos[\omega_n t+\psi]$ 餵進比較器，輸出<strong>單位振幅方波</strong>；方波傅立葉<strong>基頻振幅 $=\tfrac{4}{\pi}\approx1.27$</strong>（方波 $=\frac{4}{\pi}[\cos\omega t-\frac13\cos3\omega t+\dots]$）。</li><li data-l="en">The oscillation $u=A\cos[\omega_n t+\psi]$ feeds a comparator whose output is a <strong>unit-amplitude square wave</strong>; the Fourier <strong>fundamental amplitude is $\tfrac{4}{\pi}\approx1.27$</strong> (square wave $=\frac{4}{\pi}[\cos\omega t-\frac13\cos3\omega t+\dots]$).</li>
+<li data-l="zh">只留基頻：共振腔<strong>高-$Q$ 窄帶</strong>，把高次諧波全濾掉。</li><li data-l="en">Only the fundamental survives: the <strong>high-$Q$, narrowband</strong> resonator filters out all higher harmonics.</li>
+<li data-l="zh">相位 $\psi$（<strong>與振盪同相</strong>）：方波由振盪自身觸發再生，無額外相移。</li><li data-l="en">Phase $\psi$ (<strong>in phase with the oscillation</strong>): the square wave is regenerated by the oscillation itself, with no extra phase shift.</li>
 </ul>
-<p style="margin:6px 0"><strong>第二項 $B\cos[\omega_n t+\psi-\theta]$（注入訊號）：</strong></p>
+<p style="margin:6px 0"><strong data-l="zh">第二項 $B\cos[\omega_n t+\psi-\theta]$（注入訊號）：</strong><strong data-l="en">Second term $B\cos[\omega_n t+\psi-\theta]$ (the injected signal):</strong></p>
 <ul style="margin:4px 0">
-<li>同載波 $\omega_n$，但<strong>落後 $\theta$</strong>；$\theta$ = 注入與振盪的相位差（工作點變數，由往返延遲 $\theta=\omega(D+d)$ 造成）。</li>
-<li>振幅 $B=\tfrac{4}{\pi}A_{inj}$（注入方波基頻）。所以 (A14) 的 $\frac{B}{A}$ 換算回來就是注入強度比 $\eta=\frac{A_{inj}}{A_{osc}}$。</li>
+<li data-l="zh">同載波 $\omega_n$，但<strong>落後 $\theta$</strong>；$\theta$ = 注入與振盪的相位差（工作點變數，由往返延遲 $\theta=\omega(D+d)$ 造成）。</li><li data-l="en">Same carrier $\omega_n$, but <strong>lagging by $\theta$</strong>, where $\theta$ is the phase difference between injection and oscillation (the operating-point variable, produced by the round-trip delay $\theta=\omega(D+d)$).</li>
+<li data-l="zh">振幅 $B=\tfrac{4}{\pi}A_{inj}$（注入方波基頻）。所以 (A14) 的 $\frac{B}{A}$ 換算回來就是注入強度比 $\eta=\frac{A_{inj}}{A_{osc}}$。</li><li data-l="en">Amplitude $B=\tfrac{4}{\pi}A_{inj}$ (the fundamental of the injected square wave). So the $\frac{B}{A}$ of (A14) converts back to the injection ratio $\eta=\frac{A_{inj}}{A_{osc}}$.</li>
 </ul>
-<p style="margin:6px 0"><strong>為何只有第一項露出 $\tfrac{4}{\pi}$？其實兩項都有。</strong>注入也是方波，它的 $\tfrac{4}{\pi}$ 被收進符號 $B=\tfrac{4}{\pi}A_{inj}$。展開即可見 $\tfrac{4}{\pi}$ 可整個提出：</p>
+<p style="margin:6px 0" data-l="zh"><strong>為何只有第一項露出 $\tfrac{4}{\pi}$？其實兩項都有。</strong>注入也是方波，它的 $\tfrac{4}{\pi}$ 被收進符號 $B=\tfrac{4}{\pi}A_{inj}$。展開即可見 $\tfrac{4}{\pi}$ 可整個提出：</p><p style="margin:6px 0" data-l="en"><strong>Why does only the first term show a $\tfrac{4}{\pi}$? In fact both have one.</strong> The injection is a square wave too; its $\tfrac{4}{\pi}$ is absorbed into the symbol $B=\tfrac{4}{\pi}A_{inj}$. Expanding shows the $\tfrac{4}{\pi}$ factors out entirely:</p>
 <div class="eq-box" style="margin:6px 0">$$u_1=\tfrac{4}{\pi}\cos[\omega_n t+\psi]+\tfrac{4}{\pi}A_{inj}\cos[\omega_n t+\psi-\theta]=\tfrac{4}{\pi}\big\{\cos[\omega_n t+\psi]+A_{inj}\cos[\omega_n t+\psi-\theta]\big\}$$</div>
 <table style="margin:6px 0">
-<tr><th>訊號</th><th>方波振幅</th><th>基頻振幅</th></tr>
-<tr><td>$u_{out}$（自身驅動）</td><td><strong>歸一化 = 1</strong>（基準）</td><td>$\tfrac{4}{\pi}\cdot1=\tfrac{4}{\pi}$ → 直接寫出</td></tr>
-<tr><td>$u_{inj}$（注入回波）</td><td>$A_{inj}$（設計變數）</td><td>$\tfrac{4}{\pi}A_{inj}\equiv B$ → 包成 $B$</td></tr>
-</table>
-<p style="margin:6px 0">$u_{out}$ 振幅歸一化成 1 當基準，故 $\tfrac{4}{\pi}$ 是純數字直接顯示；$u_{inj}$ 振幅是注入強度 $A_{inj}$，基頻包成 $B$ 讓式子簡潔。後面 $\frac{B}{A}$ 裡 $\tfrac{4}{\pi}$ 上下相消，只剩 $\eta=\frac{A_{inj}}{A_{osc}}$，所以 plant 增益 $g$ 不會殘留單獨的 $\tfrac{4}{\pi}$。</p>
-<p style="margin:6px 0"><strong>物理意義：</strong>注入鎖定的本質就是這個相加驅動 =「自我再生（同相）」+「延遲注入（落後 $\theta$）」。兩相量相加後激發共振腔，<strong>合成相量方向取決於 $\theta$</strong> → 被迫的頻率/振幅隨 $\theta$ 改變。把 (A4) 代回 (A3) 取週期平均，就得到 (A14)(A19)。</p>
-<p style="margin-bottom:0"><strong>小註記：</strong>原文說 (A4) 的等號「sloppy」—— 因為右邊已<strong>丟掉方波高次諧波</strong>、只留基頻。高-$Q$ 下合理，但嚴格講是近似，故後續方程皆為近似式。</p>
+<tbody><tr><th data-l="zh">訊號</th><th data-l="en">Signal</th><th data-l="zh">方波振幅</th><th data-l="en">Square-wave amplitude</th><th data-l="zh">基頻振幅</th><th data-l="en">Fundamental amplitude</th></tr>
+<tr><td data-l="zh">$u_{out}$（自身驅動）</td><td data-l="en">$u_{out}$ (self drive)</td><td data-l="zh"><strong>歸一化 = 1</strong>（基準）</td><td data-l="en"><strong>Normalized to 1</strong> (the reference)</td><td data-l="zh">$\tfrac{4}{\pi}\cdot1=\tfrac{4}{\pi}$ → 直接寫出</td><td data-l="en">$\tfrac{4}{\pi}\cdot1=\tfrac{4}{\pi}$ → written out explicitly</td></tr>
+<tr><td data-l="zh">$u_{inj}$（注入回波）</td><td data-l="en">$u_{inj}$ (injected echo)</td><td data-l="zh">$A_{inj}$（設計變數）</td><td data-l="en">$A_{inj}$ (design variable)</td><td data-l="zh">$\tfrac{4}{\pi}A_{inj}\equiv B$ → 包成 $B$</td><td data-l="en">$\tfrac{4}{\pi}A_{inj}\equiv B$ → folded into $B$</td></tr>
+</tbody></table>
+<p style="margin:6px 0" data-l="zh">$u_{out}$ 振幅歸一化成 1 當基準，故 $\tfrac{4}{\pi}$ 是純數字直接顯示；$u_{inj}$ 振幅是注入強度 $A_{inj}$，基頻包成 $B$ 讓式子簡潔。後面 $\frac{B}{A}$ 裡 $\tfrac{4}{\pi}$ 上下相消，只剩 $\eta=\frac{A_{inj}}{A_{osc}}$，所以 plant 增益 $g$ 不會殘留單獨的 $\tfrac{4}{\pi}$。</p><p style="margin:6px 0" data-l="en">The amplitude of $u_{out}$ is normalized to 1 as the reference, so its $\tfrac{4}{\pi}$ appears as a bare number; the amplitude of $u_{inj}$ is the injection strength $A_{inj}$, whose fundamental is folded into $B$ to keep the equations compact. Later the $\tfrac{4}{\pi}$ in $\frac{B}{A}$ cancels top and bottom, leaving only $\eta=\frac{A_{inj}}{A_{osc}}$, so no lone $\tfrac{4}{\pi}$ survives in the plant gain $g$.</p>
+<p style="margin:6px 0" data-l="zh"><strong>物理意義：</strong>注入鎖定的本質就是這個相加驅動 =「自我再生（同相）」+「延遲注入（落後 $\theta$）」。兩相量相加後激發共振腔，<strong>合成相量方向取決於 $\theta$</strong> → 被迫的頻率/振幅隨 $\theta$ 改變。把 (A4) 代回 (A3) 取週期平均，就得到 (A14)(A19)。</p><p style="margin:6px 0" data-l="en"><strong>Physical meaning:</strong> injection locking is exactly this summed drive = "self-regeneration (in phase)" + "delayed injection (lagging by $\theta$)". The two phasors add and excite the resonator, and <strong>the direction of the resultant phasor depends on $\theta$</strong> → the forced frequency and amplitude vary with $\theta$. Substituting (A4) back into (A3) and averaging over a period yields (A14) and (A19).</p>
+<p style="margin-bottom:0" data-l="zh"><strong>小註記：</strong>原文說 (A4) 的等號「sloppy」—— 因為右邊已<strong>丟掉方波高次諧波</strong>、只留基頻。高-$Q$ 下合理，但嚴格講是近似，故後續方程皆為近似式。</p><p style="margin-bottom:0" data-l="en"><strong>Side note:</strong> the paper calls the equals sign in (A4) "sloppy" — the right-hand side has already <strong>dropped the higher harmonics of the square wave</strong> and kept only the fundamental. That is reasonable at high $Q$, but strictly speaking it is an approximation, so all the equations that follow are approximate.</p>
 </details>
 
-<p>把 (A1)(A2)(A4) 代入 (A3)，並利用<strong>目標移動遠慢於載波</strong>（$|\dot\theta|/\omega\ll1$，式 A8）對一個週期 $T$ 取平均，得兩條非線性 ODE (A11)(A12)。取其靜態解即得：</p>
+<p data-l="zh">把 (A1)(A2)(A4) 代入 (A3)，並利用<strong>目標移動遠慢於載波</strong>（$|\dot\theta|/\omega\ll1$，式 A8）對一個週期 $T$ 取平均，得兩條非線性 ODE (A11)(A12)。取其靜態解即得：</p><p data-l="en">Substituting (A1), (A2) and (A4) into (A3), and averaging over one period $T$ using the fact that <strong>the target moves far more slowly than the carrier</strong> ($|\dot\theta|/\omega\ll1$, eq. A8), gives two nonlinear ODEs (A11)(A12). Their static solutions are:</p>
 
 <div class="eq-box" id="eqA14">
-<span class="eq-label">頻率方程 (A14) — 與 Adler [9] 一致</span>
+<span class="eq-label" data-l="zh">頻率方程 (A14) — 與 Adler [9] 一致</span><span class="eq-label" data-l="en">Frequency equation (A14) — agrees with Adler [9]</span>
 $$\omega-\omega_n=-\frac{\omega_n B}{2QA}\sin\theta$$
 </div>
 <div class="eq-box" id="eqA19">
-<span class="eq-label">振幅：靜態 (A15) / 動態 (A19)</span>
+<span class="eq-label" data-l="zh">振幅：靜態 (A15) / 動態 (A19)</span><span class="eq-label" data-l="en">Amplitude: static (A15) / dynamic (A19)</span>
 $$A=B\cos\theta+\frac{4}{\pi}\quad(A15);\qquad \dot A+\frac{\omega_n}{2Q}A=\frac{\omega_n B}{2Q}\cos\theta+\frac{2\omega_n}{\pi Q}\quad(A19)$$
 </div>
 
-<div class="callout concept" style="margin:8px 0">
+<div class="callout concept" style="margin:8px 0" data-l="zh">
 <div class="callout-title">看懂 (A15)：$A=B\cos\theta+\tfrac{4}{\pi}$</div>
 <p style="margin:6px 0">振盪器穩定下來的振幅 $A$ 由兩項撐起：</p>
 $$A=\underbrace{\tfrac{4}{\pi}}_{\substack{\text{比較器自我維持}\\\text{（固定底子）}}}+\underbrace{B\cos\theta}_{\substack{\text{注入同相分量}\\\text{（隨 }\theta\text{ 增減）}}}$$
@@ -918,93 +1047,122 @@ $$A=\underbrace{\tfrac{4}{\pi}}_{\substack{\text{比較器自我維持}\\\text{�
 <p style="margin:8px 0 4px"><strong>為什麼注入那項是 $\cos\theta$（相量分解）：</strong></p>
 <p style="margin:4px 0">把注入相量 $B$ 與振盪相量夾角 $\theta$ 拆兩個垂直分量 —— <strong>同相</strong>分量 $B\cos\theta$ 加進<strong>振幅</strong>（(A15)）、<strong>正交</strong>分量 $B\sin\theta$ 轉相量改<strong>頻率</strong>（(A14)）。所以 (A15) 的 $\cos\theta$ 與 (A14) 的 $\sin\theta$ 是同一個注入相量的兩個垂直投影。</p>
 
-<p style="margin-bottom:0"><strong>兩個極端：</strong>$\theta=0$（同相）→ $A=B+\tfrac{4}{\pi}$ 最大（建設性）；$\theta=\pi$（反相）→ $A=\tfrac{4}{\pi}-B$ 最小（破壞性）。即論文「in-phase 振幅最大、anti-phase 振幅最小」的來源（$A_{inj}<1$ 時 $A$ 仍 $>0$，振盪維持）。</p>
+<p style="margin-bottom:0"><strong>兩個極端：</strong>$\theta=0$（同相）→ $A=B+\tfrac{4}{\pi}$ 最大（建設性）；$\theta=\pi$（反相）→ $A=\tfrac{4}{\pi}-B$ 最小（破壞性）。即論文「in-phase 振幅最大、anti-phase 振幅最小」的來源（$A_{inj}&lt;1$ 時 $A$ 仍 $&gt;0$，振盪維持）。</p>
+</div><div class="callout concept" style="margin:8px 0" data-l="en">
+<div class="callout-title">Reading (A15): $A=B\cos\theta+\tfrac{4}{\pi}$</div>
+<p style="margin:6px 0">The settled oscillation amplitude $A$ is held up by two terms:</p>
+$$A=\underbrace{\tfrac{4}{\pi}}_{\substack{\text{comparator self-sustaining}\\\text{(fixed floor)}}}+\underbrace{B\cos\theta}_{\substack{\text{in-phase injection component}\\\text{(varies with }\theta)}}$$
+
+<p style="margin:8px 0 4px"><strong>① Which angle is this $\theta$?</strong></p>
+<p style="margin:4px 0">It is the <strong>phase difference between the injected and the oscillating signal</strong>. In (A4) the self term has phase $\psi$ and the injection term has phase $\psi-\theta$, so their difference is $\theta$. It is <strong>not just any angle</strong> but the protagonist of the whole paper — it comes from the round-trip delay $\theta=\omega(D+d)$, carries the displacement as $\theta=\frac{4\pi}{\lambda}x+\text{const}$, and is the $\theta$ the controller locks at $\pi$. The $\cos\theta$ of (A15), the $\sin\theta$ of (A14) and the operating-point $\theta$ are <strong>all the same quantity</strong>.</p>
+
+<p style="margin:8px 0 4px"><strong>② Why is there a constant $\tfrac{4}{\pi}$ in the amplitude?</strong></p>
+<ul style="margin:4px 0">
+<li>This oscillator is <strong>relay (comparator) self-sustaining</strong>: the oscillation $u$ feeds the comparator, whose output is <strong>always a unit-amplitude square wave</strong> ($\pm1$, clipped flat) with fundamental $\tfrac{4}{\pi}$.</li>
+<li>The high-$Q$ resonator keeps only the fundamental → self-regeneration contributes a fixed $\tfrac{4}{\pi}$ to the amplitude.</li>
+<li><strong>Why constant:</strong> the comparator <u>clamps</u> the amplitude — no matter how strong the oscillation, the output square wave is $\pm1$ and its fundamental is $\tfrac{4}{\pi}$, so this term <strong>varies with neither $A$ nor $\theta$</strong> (exactly the automatic amplitude stabilization of a relay oscillator). With no injection $A=\tfrac{4}{\pi}$ and the oscillator lives on its own.</li>
+</ul>
+
+<p style="margin:8px 0 4px"><strong>Why the injection term carries $\cos\theta$ (phasor decomposition):</strong></p>
+<p style="margin:4px 0">Resolve the injection phasor $B$, at angle $\theta$ to the oscillation phasor, into two perpendicular components — the <strong>in-phase</strong> component $B\cos\theta$ adds to the <strong>amplitude</strong> ((A15)), while the <strong>quadrature</strong> component $B\sin\theta$ rotates the phasor and changes the <strong>frequency</strong> ((A14)). So the $\cos\theta$ of (A15) and the $\sin\theta$ of (A14) are two orthogonal projections of one and the same injection phasor.</p>
+
+<p style="margin-bottom:0"><strong>Two extremes:</strong> $\theta=0$ (in phase) → $A=B+\tfrac{4}{\pi}$, the maximum (constructive); $\theta=\pi$ (anti-phase) → $A=\tfrac{4}{\pi}-B$, the minimum (destructive). This is the origin of the paper's statement that the amplitude peaks in-phase and dips anti-phase (with $A_{inj}&lt;1$, $A$ remains $&gt;0$ and the oscillation is sustained).</p>
 </div>
 
 <div class="callout tip">
-<div class="callout-title">這段的重點</div>
+<div class="callout-title" data-l="zh">這段的重點</div><div class="callout-title" data-l="en">Takeaways from this section</div>
 <ul style="margin-bottom:0">
-<li>(A14) 的靜態解<strong>與 Adler 方程完全相同</strong> —— 但這裡是用<u>週期平均</u>導出的，<strong>沒有</strong>用弱注入假設。所以即使 $A_{inj}=0.5$（不小）模型依然有效，這破除了「Adler 小注入假設會限制模型」的疑慮。</li>
-<li>振幅 $A$ 呈<strong>低通</strong>行為（截止 $\omega_n/2Q$）且帶相位資訊（$\cos\theta$）。這就是為何也<em>可以</em>用振幅回授 —— 但它會多出一階低通動態、嚴重限制控制頻寬，所以作者選<strong>頻率</strong>回授。</li>
+<li data-l="zh">(A14) 的靜態解<strong>與 Adler 方程完全相同</strong> —— 但這裡是用<u>週期平均</u>導出的，<strong>沒有</strong>用弱注入假設。所以即使 $A_{inj}=0.5$（不小）模型依然有效，這破除了「Adler 小注入假設會限制模型」的疑慮。</li><li data-l="en">The static solution of (A14) is <strong>exactly Adler's equation</strong> — but here it is derived by <u>period averaging</u>, with <strong>no</strong> weak-injection assumption. So the model remains valid even at $A_{inj}=0.5$ (not small), removing the worry that Adler's small-injection assumption limits the model.</li>
+<li data-l="zh">振幅 $A$ 呈<strong>低通</strong>行為（截止 $\omega_n/2Q$）且帶相位資訊（$\cos\theta$）。這就是為何也<em>可以</em>用振幅回授 —— 但它會多出一階低通動態、嚴重限制控制頻寬，所以作者選<strong>頻率</strong>回授。</li><li data-l="en">The amplitude $A$ behaves as a <strong>low-pass</strong> quantity (cutoff $\omega_n/2Q$) and carries phase information ($\cos\theta$). That is why amplitude feedback <em>could</em> also be used — but it would add a first-order low-pass dynamic and severely limit the control bandwidth, so the authors chose <strong>frequency</strong> feedback.</li>
 </ul>
 </div>
 
-<h3 id="appB">B · 小信號 Plant 模型推導（Derivation of Plant Model）</h3>
-<p><strong>目的：</strong>求從控制訊號「可調延遲 $d$」到「解調器輸出 $w$」的轉移函數 $P(s)$。</p>
+<h3 id="appB" data-l="zh">B · 小信號 Plant 模型推導（Derivation of Plant Model）</h3><h3 id="appB" data-l="en">B · Derivation of the Small-Signal Plant Model</h3>
+<p data-l="zh"><strong>目的：</strong>求從控制訊號「可調延遲 $d$」到「解調器輸出 $w$」的轉移函數 $P(s)$。</p><p data-l="en"><strong>Purpose:</strong> to find the transfer function $P(s)$ from the control signal (the tunable delay $d$) to the demodulator output $w$.</p>
 
-<h4>① 延遲 → 相位</h4>
-<p>$u_{out}$ 與其延遲 $(D+d)$ 版本之間的相位差：</p>
+<h4 data-l="zh">① 延遲 → 相位</h4><h4 data-l="en">① Delay → phase</h4>
+<p data-l="zh">$u_{out}$ 與其延遲 $(D+d)$ 版本之間的相位差：</p><p data-l="en">The phase difference between $u_{out}$ and its $(D+d)$-delayed version:</p>
 <div class="eq-box">$$\theta(t)=\omega(t)\,(D+d)\quad(A23)\;\;\Longrightarrow\;\;\frac{\partial\theta}{\partial d}\approx\omega_n\quad(A24)$$</div>
-<p>相位變化直接追隨延遲變化（係數 $\omega_n$）—— 這正是「調延遲 = 調相位」的依據。</p>
+<p data-l="zh">相位變化直接追隨延遲變化（係數 $\omega_n$）—— 這正是「調延遲 = 調相位」的依據。</p><p data-l="en">Phase change follows delay change directly, with coefficient $\omega_n$ — this is what makes "tuning the delay = tuning the phase" valid.</p>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">細看 ① — (A23)(A24) 怎麼來（點擊展開）</summary>
-<p style="margin:6px 0">$\theta$ 是 $u_{out}$ 與其延遲 $(D+d)$ 版本的<strong>cosine 內角之差</strong>：</p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">細看 ① — (A23)(A24) 怎麼來（點擊展開）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">A closer look at ① — where (A23)(A24) come from (click to expand)</summary>
+<p style="margin:6px 0" data-l="zh">$\theta$ 是 $u_{out}$ 與其延遲 $(D+d)$ 版本的<strong>cosine 內角之差</strong>：</p><p style="margin:6px 0" data-l="en">$\theta$ is the <strong>difference of the cosine arguments</strong> of $u_{out}$ and its $(D+d)$-delayed version:</p>
 <div class="eq-box" style="margin:6px 0">$$\theta=[\omega_n t+\psi(t)]-[\omega_n(t-D-d)+\psi(t-D-d)]=\omega_n(D+d)+[\psi(t)-\psi(t-D-d)]$$</div>
-<p style="margin:6px 0">把 $\psi(t)-\psi(t-D-d)\approx\dot\psi\,(D+d)$ 併進去，並用 $\omega=\omega_n+\dot\psi$ (A2)：</p>
+<p style="margin:6px 0" data-l="zh">把 $\psi(t)-\psi(t-D-d)\approx\dot\psi\,(D+d)$ 併進去，並用 $\omega=\omega_n+\dot\psi$ (A2)：</p><p style="margin:6px 0" data-l="en">Folding in $\psi(t)-\psi(t-D-d)\approx\dot\psi\,(D+d)$ and using $\omega=\omega_n+\dot\psi$ (A2):</p>
 <div class="eq-box" style="margin:6px 0">$$\theta(t)=[\omega_n+\dot\psi]\,(D+d)=\omega(t)\,(D+d)\quad(A23)$$</div>
-<p style="margin-bottom:0"><strong>(A24)：</strong>對 $d$ 取微分。因頻率偏離 $\omega_n$ 極小（$\omega\approx\omega_n$），且 $D$ 在一瞬間視為固定，故 $\delta\theta\approx\omega_n\,\delta d\Rightarrow\dfrac{\partial\theta}{\partial d}\approx\omega_n$。這就是 plant 的<strong>輸入耦合</strong>：控制旋鈕 $d$ 以增益 $\omega_n$ 進入相位。</p>
+<p style="margin-bottom:0" data-l="zh"><strong>(A24)：</strong>對 $d$ 取微分。因頻率偏離 $\omega_n$ 極小（$\omega\approx\omega_n$），且 $D$ 在一瞬間視為固定，故 $\delta\theta\approx\omega_n\,\delta d\Rightarrow\dfrac{\partial\theta}{\partial d}\approx\omega_n$。這就是 plant 的<strong>輸入耦合</strong>：控制旋鈕 $d$ 以增益 $\omega_n$ 進入相位。</p><p style="margin-bottom:0" data-l="en"><strong>(A24):</strong> differentiate with respect to $d$. Since the frequency deviates only slightly from $\omega_n$ ($\omega\approx\omega_n$) and $D$ is momentarily fixed, $\delta\theta\approx\omega_n\,\delta d\Rightarrow\dfrac{\partial\theta}{\partial d}\approx\omega_n$. This is the <strong>input coupling</strong> of the plant: the control knob $d$ enters the phase with gain $\omega_n$.</p>
 </details>
 
-<h4>② 頻率解調器：$T/4$ 延遲的角色</h4>
-<p>解調器計算 $u(t)\,u(t-T/4)$ 再低通。因 $T=2\pi/\omega_n$，<strong>延遲 $T/4$ = 載波相位移 $90°$</strong>，把 $\cos$ 變成 $\sin$：</p>
+<h4 data-l="zh">② 頻率解調器：$T/4$ 延遲的角色</h4><h4 data-l="en">② The frequency demodulator: the role of the $T/4$ delay</h4>
+<p data-l="zh">解調器計算 $u(t)\,u(t-T/4)$ 再低通。因 $T=2\pi/\omega_n$，<strong>延遲 $T/4$ = 載波相位移 $90°$</strong>，把 $\cos$ 變成 $\sin$：</p><p data-l="en">The demodulator computes $u(t)\,u(t-T/4)$ and low-passes the result. Since $T=2\pi/\omega_n$, a <strong>$T/4$ delay is a $90°$ carrier phase shift</strong>, turning $\cos$ into $\sin$:</p>
 <div class="eq-box" id="eqA29">
-<span class="eq-label">解調輸出 (A29)</span>
+<span class="eq-label" data-l="zh">解調輸出 (A29)</span><span class="eq-label" data-l="en">Demodulator output (A29)</span>
 $$w(t)=\mathrm{LP}\big\{u(t)\,u(t-\tfrac{T}{4})\big\}=-\frac{A^2}{2}\sin\!\big[\psi(t)-\psi(t-\tfrac{T}{4})\big]$$
 </div>
-<p>括號內相位差正比於瞬時頻率偏移：</p>
+<p data-l="zh">括號內相位差正比於瞬時頻率偏移：</p><p data-l="en">The bracketed phase difference is proportional to the instantaneous frequency shift:</p>
 <div class="eq-box">$$\psi(t)-\psi(t-\tfrac{T}{4})=\frac{T}{4}\,\dot\psi(t-\tfrac{T}{8})=\frac{\pi}{2}\,\frac{\omega(t-T/8)-\omega_n}{\omega_n}\quad(A30)$$</div>
-<p>因頻偏極小（&lt;1%），$\sin(\cdot)\approx(\cdot)$，故得小信號轉移：</p>
-<div class="eq-box">$$w(t)\approx-\frac{\pi A^2}{4\omega_n}\,\Delta\omega\big(t-\tfrac{T}{8}\big)\;\;\xrightarrow{\text{含 LPF }F(s)}\;\;\frac{\mathcal L\{w\}}{\mathcal L\{\Delta\omega\}}=-\frac{\pi A^2}{4\omega_n}\,e^{-sT/8}\,F(s)\quad(A31,A32)$$</div>
+<p data-l="zh">因頻偏極小（&lt;1%），$\sin(\cdot)\approx(\cdot)$，故得小信號轉移：</p><p data-l="en">Because the frequency deviation is tiny (&lt;1%), $\sin(\cdot)\approx(\cdot)$, giving the small-signal transfer:</p>
+<div class="eq-box" data-l="zh">$$w(t)\approx-\frac{\pi A^2}{4\omega_n}\,\Delta\omega\big(t-\tfrac{T}{8}\big)\;\;\xrightarrow{\text{含 LPF }F(s)}\;\;\frac{\mathcal L\{w\}}{\mathcal L\{\Delta\omega\}}=-\frac{\pi A^2}{4\omega_n}\,e^{-sT/8}\,F(s)\quad(A31,A32)$$</div><div class="eq-box" data-l="en">$$w(t)\approx-\frac{\pi A^2}{4\omega_n}\,\Delta\omega\big(t-\tfrac{T}{8}\big)\;\;\xrightarrow{\text{with LPF }F(s)}\;\;\frac{\mathcal L\{w\}}{\mathcal L\{\Delta\omega\}}=-\frac{\pi A^2}{4\omega_n}\,e^{-sT/8}\,F(s)\quad(A31,A32)$$</div>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">細看 ② — 解調器的乘積數學（點擊展開）</summary>
-<p style="margin:6px 0"><strong>(A29) 怎麼變成 $\sin$：</strong>兩個訊號相乘，$T/4$ 延遲使第二個落後載波 $90°$（$\cos\to\sin$），用積化和差：</p>
-<div class="eq-box" style="margin:6px 0">$$u(t)\,u(t-\tfrac{T}{4})=A^2\cos[\cdots]\sin[\cdots]=\frac{A^2}{2}\Big\{\underbrace{\sin[2\omega_n t+\cdots]}_{\text{高頻，被 LPF 濾掉}}-\sin\big[\psi(t)-\psi(t-\tfrac{T}{4})\big]\Big\}$$</div>
-<p style="margin:6px 0">低通只留差頻（基頻）項 $\Rightarrow w=-\dfrac{A^2}{2}\sin[\psi(t)-\psi(t-\tfrac{T}{4})]$。這是<strong>相移鑑別器（quadrature demod）</strong>。</p>
-<p style="margin:6px 0"><strong>(A30) 括號 ∝ 頻偏：</strong>把小區間 $T/4$ 上的相位差寫成<strong>中心差分</strong>（取中點 $t-T/8$）：$\psi(t)-\psi(t-\tfrac{T}{4})\approx\tfrac{T}{4}\dot\psi(t-\tfrac{T}{8})$。再用 $\dot\psi=\omega-\omega_n=\Delta\omega$ (A2)，且 $\tfrac{T}{4}\omega_n=\tfrac{\pi}{2}$：</p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">細看 ② — 解調器的乘積數學（點擊展開）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">A closer look at ② — the multiplier maths of the demodulator (click to expand)</summary>
+<p style="margin:6px 0" data-l="zh"><strong>(A29) 怎麼變成 $\sin$：</strong>兩個訊號相乘，$T/4$ 延遲使第二個落後載波 $90°$（$\cos\to\sin$），用積化和差：</p><p style="margin:6px 0" data-l="en"><strong>How (A29) becomes a $\sin$:</strong> the two signals are multiplied, the $T/4$ delay makes the second lag the carrier by $90°$ ($\cos\to\sin$), and a product-to-sum identity gives:</p>
+<div class="eq-box" style="margin:6px 0" data-l="zh">$$u(t)\,u(t-\tfrac{T}{4})=A^2\cos[\cdots]\sin[\cdots]=\frac{A^2}{2}\Big\{\underbrace{\sin[2\omega_n t+\cdots]}_{\text{高頻，被 LPF 濾掉}}-\sin\big[\psi(t)-\psi(t-\tfrac{T}{4})\big]\Big\}$$</div><div class="eq-box" style="margin:6px 0" data-l="en">$$u(t)\,u(t-\tfrac{T}{4})=A^2\cos[\cdots]\sin[\cdots]=\frac{A^2}{2}\Big\{\underbrace{\sin[2\omega_n t+\cdots]}_{\text{high frequency, removed by the LPF}}-\sin\big[\psi(t)-\psi(t-\tfrac{T}{4})\big]\Big\}$$</div>
+<p style="margin:6px 0" data-l="zh">低通只留差頻（基頻）項 $\Rightarrow w=-\dfrac{A^2}{2}\sin[\psi(t)-\psi(t-\tfrac{T}{4})]$。這是<strong>相移鑑別器（quadrature demod）</strong>。</p><p style="margin:6px 0" data-l="en">The low-pass keeps only the difference (baseband) term $\Rightarrow w=-\dfrac{A^2}{2}\sin[\psi(t)-\psi(t-\tfrac{T}{4})]$. This is a <strong>phase-shift (quadrature) discriminator</strong>.</p>
+<p style="margin:6px 0" data-l="zh"><strong>(A30) 括號 ∝ 頻偏：</strong>把小區間 $T/4$ 上的相位差寫成<strong>中心差分</strong>（取中點 $t-T/8$）：$\psi(t)-\psi(t-\tfrac{T}{4})\approx\tfrac{T}{4}\dot\psi(t-\tfrac{T}{8})$。再用 $\dot\psi=\omega-\omega_n=\Delta\omega$ (A2)，且 $\tfrac{T}{4}\omega_n=\tfrac{\pi}{2}$：</p><p style="margin:6px 0" data-l="en"><strong>Why the bracket in (A30) is ∝ the frequency deviation:</strong> write the phase difference over the short interval $T/4$ as a <strong>central difference</strong> about the midpoint $t-T/8$: $\psi(t)-\psi(t-\tfrac{T}{4})\approx\tfrac{T}{4}\dot\psi(t-\tfrac{T}{8})$. Then use $\dot\psi=\omega-\omega_n=\Delta\omega$ (A2) and $\tfrac{T}{4}\omega_n=\tfrac{\pi}{2}$:</p>
 <div class="eq-box" style="margin:6px 0">$$\psi(t)-\psi(t-\tfrac{T}{4})\approx\frac{T}{4}\Delta\omega(t-\tfrac{T}{8})=\frac{\pi}{2}\frac{\Delta\omega(t-T/8)}{\omega_n}$$</div>
-<p style="margin-bottom:0"><strong>(A31)(A32)：</strong>小角 $\sin\approx$ 角，$w\approx-\tfrac{A^2}{2}\cdot\tfrac{\pi}{2}\tfrac{\Delta\omega}{\omega_n}=-\tfrac{\pi A^2}{4\omega_n}\Delta\omega(t-\tfrac{T}{8})$。那個延遲 $T/8$（中點）在 Laplace 域變成 $e^{-sT/8}$，再串上解調 LPF $F(s)$ 就是 (A32)。<strong>解調器 = 把頻偏 $\Delta\omega$ 線性轉成電壓 $w$，外加一個 $T/8$ 群延遲。</strong></p>
+<p style="margin-bottom:0" data-l="zh"><strong>(A31)(A32)：</strong>小角 $\sin\approx$ 角，$w\approx-\tfrac{A^2}{2}\cdot\tfrac{\pi}{2}\tfrac{\Delta\omega}{\omega_n}=-\tfrac{\pi A^2}{4\omega_n}\Delta\omega(t-\tfrac{T}{8})$。那個延遲 $T/8$（中點）在 Laplace 域變成 $e^{-sT/8}$，再串上解調 LPF $F(s)$ 就是 (A32)。<strong>解調器 = 把頻偏 $\Delta\omega$ 線性轉成電壓 $w$，外加一個 $T/8$ 群延遲。</strong></p><p style="margin-bottom:0" data-l="en"><strong>(A31)(A32):</strong> for small angles $\sin\approx$ the angle, so $w\approx-\tfrac{A^2}{2}\cdot\tfrac{\pi}{2}\tfrac{\Delta\omega}{\omega_n}=-\tfrac{\pi A^2}{4\omega_n}\Delta\omega(t-\tfrac{T}{8})$. That midpoint delay $T/8$ becomes $e^{-sT/8}$ in the Laplace domain, and cascading the demodulation LPF $F(s)$ gives (A32). <strong>The demodulator converts the frequency deviation $\Delta\omega$ linearly into a voltage $w$, plus a $T/8$ group delay.</strong></p>
 </details>
 
-<div class="callout warning">
+<div class="callout warning" data-l="zh">
 <div class="callout-title">為何故意選 $T/4$（= 90°）—— 與工作點 $\theta=\pi$ 不可混淆</div>
 $T/4$ 讓乘積落在 $\sin$ 的<strong>零交越（最大斜率）</strong>處，使「相位/頻率變化 → 電壓」的鑑別<strong>最線性</strong>。它跟工作點 $\theta=\pi$ 是<u>兩件不同的事</u>：
 <ul style="margin:6px 0 0">
 <li><strong>工作點 $\theta=\pi$</strong>：控制器要鎖的<em>注入相位差</em>，因為 plant 增益 $g(\theta)$ 在此最平坦（可當線性系統）。</li>
 <li><strong>$T/4=90°$</strong>：解調器內部<em>固定</em>的移相，使頻率鑑別最線性；$e^{-sT/8}$ 則是此鑑別器的等效群延遲。</li>
 </ul>
+</div><div class="callout warning" data-l="en">
+<div class="callout-title">Why $T/4$ (= 90°) is chosen — not to be confused with the operating point $\theta=\pi$</div>
+$T/4$ places the product at the <strong>zero crossing (maximum slope)</strong> of the sine, making the "phase/frequency change → voltage" discrimination <strong>most linear</strong>. It is <u>a different thing</u> from the operating point $\theta=\pi$:
+<ul style="margin:6px 0 0">
+<li><strong>Operating point $\theta=\pi$</strong>: the <em>injection phase difference</em> the controller locks onto, because the plant gain $g(\theta)$ is flattest there (so it can be treated as a linear system).</li>
+<li><strong>$T/4=90°$</strong>: a <em>fixed</em> phase shift inside the demodulator that makes frequency discrimination most linear; $e^{-sT/8}$ is the equivalent group delay of that discriminator.</li>
+</ul>
 </div>
 
-<h4>③ 合併 → Plant 模型</h4>
-<p>把 (A24)、頻率方程的微擾 (A25–A27)、解調轉移 (A32)，以及線性化振幅 $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ (A35) 合併：</p>
-<div class="eq-box" id="eqA36">
+<h4 data-l="zh">③ 合併 → Plant 模型</h4><h4 data-l="en">③ Combining → the plant model</h4>
+<p data-l="zh">把 (A24)、頻率方程的微擾 (A25–A27)、解調轉移 (A32)，以及線性化振幅 $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ (A35) 合併：</p><p data-l="en">Combining (A24), the perturbation of the frequency equation (A25–A27), the demodulation transfer (A32) and the linearized amplitude $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ (A35):</p>
+<div class="eq-box" id="eqA36" data-l="zh">
 <span class="eq-label">Plant 模型 (A36)</span>
 $$P(s)=\underbrace{\frac{2A_{inj}\cos\theta\,(1+A_{inj}\cos\theta)\,\omega_n}{\pi Q}}_{g(\theta;A_{inj})\ \text{非線性增益（式 7）}}\;e^{-sT/8}\;F(s)$$
+</div><div class="eq-box" id="eqA36" data-l="en">
+<span class="eq-label">Plant model (A36)</span>
+$$P(s)=\underbrace{\frac{2A_{inj}\cos\theta\,(1+A_{inj}\cos\theta)\,\omega_n}{\pi Q}}_{g(\theta;A_{inj})\ \text{nonlinear gain (eq. 7)}}\;e^{-sT/8}\;F(s)$$
 </div>
 
 <details class="callout concept" style="cursor:pointer;margin:8px 0">
-<summary class="callout-title" style="cursor:pointer;list-style:revert;">細看 ③ — 三段串接相乘出 $g(\theta;A_{inj})$（點擊展開）</summary>
-<p style="margin:6px 0">DC 增益 $\dfrac{dw}{dd}$ 是三段鏈相乘（$F(0)=1$）：</p>
+<summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="zh">細看 ③ — 三段串接相乘出 $g(\theta;A_{inj})$（點擊展開）</summary><summary class="callout-title" style="cursor:pointer;list-style:revert;" data-l="en">A closer look at ③ — the three-stage cascade multiplies out to $g(\theta;A_{inj})$ (click to expand)</summary>
+<p style="margin:6px 0" data-l="zh">DC 增益 $\dfrac{dw}{dd}$ 是三段鏈相乘（$F(0)=1$）：</p><p style="margin:6px 0" data-l="en">The DC gain $\dfrac{dw}{dd}$ is the product of the three-stage chain (with $F(0)=1$):</p>
 <table style="margin:6px 0">
-<tr><th>段</th><th>關係</th><th>增益</th></tr>
+<tbody><tr><th data-l="zh">段</th><th data-l="en">Stage</th><th data-l="zh">關係</th><th data-l="en">Relation</th><th data-l="zh">增益</th><th data-l="en">Gain</th></tr>
 <tr><td>$d\to\theta$</td><td>(A24)</td><td>$\dfrac{\partial\theta}{\partial d}=\omega_n$</td></tr>
-<tr><td>$\theta\to\Delta\omega$</td><td>對頻率方程 (A14) $\Delta\omega=-\frac{\omega_n B}{2QA}\sin\theta$ 取微擾</td><td>$\dfrac{d\Delta\omega}{d\theta}=-\dfrac{\omega_n B}{2QA}\cos\theta$</td></tr>
+<tr><td>$\theta\to\Delta\omega$</td><td data-l="zh">對頻率方程 (A14) $\Delta\omega=-\frac{\omega_n B}{2QA}\sin\theta$ 取微擾</td><td data-l="en">Perturbing the frequency equation (A14) $\Delta\omega=-\frac{\omega_n B}{2QA}\sin\theta$</td><td>$\dfrac{d\Delta\omega}{d\theta}=-\dfrac{\omega_n B}{2QA}\cos\theta$</td></tr>
 <tr><td>$\Delta\omega\to w$</td><td>(A32)</td><td>$\dfrac{dw}{d\Delta\omega}=-\dfrac{\pi A^2}{4\omega_n}$</td></tr>
-</table>
-<p style="margin:6px 0">三者相乘（兩個負號相消）：</p>
+</tbody></table>
+<p style="margin:6px 0" data-l="zh">三者相乘（兩個負號相消）：</p><p style="margin:6px 0" data-l="en">Multiplying the three (the two minus signs cancel):</p>
 <div class="eq-box" style="margin:6px 0">$$\frac{dw}{dd}=\omega_n\cdot\frac{\omega_n B}{2QA}\cos\theta\cdot\frac{\pi A^2}{4\omega_n}=\frac{\pi\,\omega_n B A\cos\theta}{8Q}$$</div>
-<p style="margin:6px 0">代入注入基頻 $B=\tfrac{4}{\pi}A_{inj}$ 與線性化振幅 $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ (A35)，$BA=\tfrac{16}{\pi^2}A_{inj}(A_{inj}\cos\theta+1)$：</p>
+<p style="margin:6px 0" data-l="zh">代入注入基頻 $B=\tfrac{4}{\pi}A_{inj}$ 與線性化振幅 $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ (A35)，$BA=\tfrac{16}{\pi^2}A_{inj}(A_{inj}\cos\theta+1)$：</p><p style="margin:6px 0" data-l="en">Substituting the injection fundamental $B=\tfrac{4}{\pi}A_{inj}$ and the linearized amplitude $A=\tfrac{4}{\pi}(A_{inj}\cos\theta+1)$ (A35), so that $BA=\tfrac{16}{\pi^2}A_{inj}(A_{inj}\cos\theta+1)$:</p>
 <div class="eq-box" style="margin:6px 0">$$\frac{dw}{dd}=\frac{\pi\omega_n\cos\theta}{8Q}\cdot\frac{16}{\pi^2}A_{inj}(A_{inj}\cos\theta+1)=\frac{2A_{inj}\cos\theta\,(1+A_{inj}\cos\theta)\,\omega_n}{\pi Q}=g(\theta;A_{inj})$$</div>
-<p style="margin-bottom:0">$A$ 自身又含 $\cos\theta$，所以 $g$ 出現 $\cos\theta(1+A_{inj}\cos\theta)$ 的<strong>二次</strong>結構 —— 這正是讓 $\theta=\pi$、$A_{inj}=0.5$ 能達成「最大平坦」的來源（式 8）。$\theta=\pi$ 時 $\cos\theta=-1\Rightarrow g<0$，故為負增益（反相）。</p>
+<p style="margin-bottom:0" data-l="zh">$A$ 自身又含 $\cos\theta$，所以 $g$ 出現 $\cos\theta(1+A_{inj}\cos\theta)$ 的<strong>二次</strong>結構 —— 這正是讓 $\theta=\pi$、$A_{inj}=0.5$ 能達成「最大平坦」的來源（式 8）。$\theta=\pi$ 時 $\cos\theta=-1\Rightarrow g&lt;0$，故為負增益（反相）。</p><p style="margin-bottom:0" data-l="en">$A$ itself contains $\cos\theta$, which is why $g$ has the <strong>quadratic</strong> structure $\cos\theta(1+A_{inj}\cos\theta)$ — exactly what lets $\theta=\pi$ with $A_{inj}=0.5$ achieve maximal flatness (eq. 8). At $\theta=\pi$, $\cos\theta=-1\Rightarrow g&lt;0$, hence the negative (anti-phase) gain.</p>
 </details>
 
 <div class="callout concept">
-<div class="callout-title">三個因子各司其職</div>
+<div class="callout-title" data-l="zh">三個因子各司其職</div><div class="callout-title" data-l="en">What each of the three factors does</div>
 <ul style="margin-bottom:0">
-<li>$g(\theta;A_{inj})$：<strong>非線性 plant 增益</strong>，隨工作點 $\theta$ 變化。$A_{inj}=0.5$、$\theta=\pi$ 時最大平坦（式 8，前三階導數為零）→ 當作常數增益 $-k$（式 9–10，$k=1/QT$），plant 變成可控的線性系統。</li>
-<li>$e^{-sT/8}$：解調器的<strong>純延遲</strong>（相位落後），限制可達的控制頻寬 $\omega_{BW}$。</li>
-<li>$F(s)$：解調低通濾波器，論文<strong>刻意不指定具體形式</strong> —— 只要穩定、有限增益、不影響符號分析即可（通常取 $F(s)\approx1$）。</li>
+<li data-l="zh">$g(\theta;A_{inj})$：<strong>非線性 plant 增益</strong>，隨工作點 $\theta$ 變化。$A_{inj}=0.5$、$\theta=\pi$ 時最大平坦（式 8，前三階導數為零）→ 當作常數增益 $-k$（式 9–10，$k=1/QT$），plant 變成可控的線性系統。</li><li data-l="en">$g(\theta;A_{inj})$: the <strong>nonlinear plant gain</strong>, varying with the operating point $\theta$. With $A_{inj}=0.5$ and $\theta=\pi$ it is maximally flat (eq. 8, first three derivatives zero) → treated as the constant gain $-k$ (eqs. 9–10, $k=1/QT$), turning the plant into a controllable linear system.</li>
+<li data-l="zh">$e^{-sT/8}$：解調器的<strong>純延遲</strong>（相位落後），限制可達的控制頻寬 $\omega_{BW}$。</li><li data-l="en">$e^{-sT/8}$: the <strong>pure delay</strong> of the demodulator (phase lag), which limits the achievable control bandwidth $\omega_{BW}$.</li>
+<li data-l="zh">$F(s)$：解調低通濾波器，論文<strong>刻意不指定具體形式</strong> —— 只要穩定、有限增益、不影響符號分析即可（通常取 $F(s)\approx1$）。</li><li data-l="en">$F(s)$: the demodulation low-pass filter, whose form the paper <strong>deliberately leaves unspecified</strong> — it only has to be stable, of finite gain, and not affect the sign analysis (usually taken as $F(s)\approx1$).</li>
 </ul>
 </div>
 </section>
@@ -1012,84 +1170,84 @@ $$P(s)=\underbrace{\frac{2A_{inj}\cos\theta\,(1+A_{inj}\cos\theta)\,\omega_n}{\p
 <!-- ===== PRACTICE ===== -->
 <section id="sec-practice">
 <h2 class="section-title">Practice Problems</h2>
-<p style="color:var(--text2);font-style:italic">點開解答前先自己想一遍。涵蓋 null-point、Adler、反相工作點、ω_BW、解析度與穩定性。</p>
+<p style="color:var(--text2);font-style:italic" data-l="zh">點開解答前先自己想一遍。涵蓋 null-point、Adler、反相工作點、ω_BW、解析度與穩定性。</p><p style="color:var(--text2);font-style:italic" data-l="en">Try each one yourself before revealing the solution. They cover null points, Adler's equation, the anti-phase operating point, ω_BW, resolution and stability.</p>
 
 <div class="practice">
-<div class="pr-title" id="ex-1">Practice 1 — 為什麼傳統 SIL 雷達非線性</div>
-<p><strong>Problem:</strong> 傳統 SIL 雷達為何非線性？症狀是什麼？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-1" data-l="zh">Practice 1 — 為什麼傳統 SIL 雷達非線性</div><div class="pr-title" id="ex-1" data-l="en">Practice 1 — Why a conventional SIL radar is nonlinear</div>
+<p data-l="zh"><strong>Problem:</strong> 傳統 SIL 雷達為何非線性？症狀是什麼？</p><p data-l="en"><strong>Problem:</strong> Why is a conventional SIL radar nonlinear, and what is the symptom?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>因為頻率偏移是注入相位的<em>正弦</em>（Adler，式 2），而相位追隨距離 $\theta\approx\frac{4\pi}{\lambda}x+\text{const}$。每 $\lambda/4$ 出現一個 null point，所以運動 $&gt;\lambda/4$ 就會掃過零點而失真。</p>
+<p data-l="zh">因為頻率偏移是注入相位的<em>正弦</em>（Adler，式 2），而相位追隨距離 $\theta\approx\frac{4\pi}{\lambda}x+\text{const}$。每 $\lambda/4$ 出現一個 null point，所以運動 $&gt;\lambda/4$ 就會掃過零點而失真。</p><p data-l="en">Because the frequency shift is a <em>sine</em> of the injection phase (Adler, eq. 2), while the phase follows distance as $\theta\approx\frac{4\pi}{\lambda}x+\text{const}$. A null point occurs every $\lambda/4$, so motion $&gt;\lambda/4$ sweeps through a null and is distorted.</p>
 </div>
 </details>
 </div>
 
 <div class="practice">
-<div class="pr-title" id="ex-2">Practice 2 — 單一機制讓它線性</div>
-<p><strong>Problem:</strong> 什麼單一機制讓本雷達在 14 個波長內維持線性？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-2" data-l="zh">Practice 2 — 單一機制讓它線性</div><div class="pr-title" id="ex-2" data-l="en">Practice 2 — The single mechanism that makes it linear</div>
+<p data-l="zh"><strong>Problem:</strong> 什麼單一機制讓本雷達在 14 個波長內維持線性？</p><p data-l="en"><strong>Problem:</strong> What single mechanism keeps this radar linear over 14 wavelengths?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>PI 控制的可調延遲線抵消都卜勒相位，把工作點釘在 $\theta=\pi$。完成抵消所需的延遲<strong>線性正比於位移</strong>，所以延遲值即輸出（式 5）：$\hat{x}=-0.5c(d-a)$，無需相位解纏。</p>
+<p data-l="zh">PI 控制的可調延遲線抵消都卜勒相位，把工作點釘在 $\theta=\pi$。完成抵消所需的延遲<strong>線性正比於位移</strong>，所以延遲值即輸出（式 5）：$\hat{x}=-0.5c(d-a)$，無需相位解纏。</p><p data-l="en">A PI-controlled tunable delay line cancels the Doppler phase, pinning the operating point at $\theta=\pi$. The delay required to complete that cancellation is <strong>linearly proportional to displacement</strong>, so the delay value <em>is</em> the output (eq. 5): $\hat{x}=-0.5c(d-a)$, with no phase unwrapping.</p>
 </div>
 </details>
 </div>
 
 <div class="practice">
-<div class="pr-title" id="ex-3">Practice 3 — 為何選 θ=π（反相）</div>
-<p><strong>Problem:</strong> 為什麼工作在 $\theta=\pi$（反相）而非 $\theta=0$？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-3" data-l="zh">Practice 3 — 為何選 θ=π（反相）</div><div class="pr-title" id="ex-3" data-l="en">Practice 3 — Why θ=π (anti-phase)</div>
+<p data-l="zh"><strong>Problem:</strong> 為什麼工作在 $\theta=\pi$（反相）而非 $\theta=0$？</p><p data-l="en"><strong>Problem:</strong> Why operate at $\theta=\pi$ (anti-phase) rather than $\theta=0$?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>當 $A_{inj}=0.5$ 時，plant gain 在 $\theta=\pi$ 具最大平坦性（前三階導數為零，式 8），即使相位大幅擺動仍維持最佳線性度。</p>
+<p data-l="zh">當 $A_{inj}=0.5$ 時，plant gain 在 $\theta=\pi$ 具最大平坦性（前三階導數為零，式 8），即使相位大幅擺動仍維持最佳線性度。</p><p data-l="en">At $A_{inj}=0.5$ the plant gain is maximally flat at $\theta=\pi$ (its first three derivatives vanish, eq. 8), so linearity stays optimal even for a large phase swing.</p>
 </div>
 </details>
 </div>
 
 <div class="practice">
-<div class="pr-title" id="ex-4">Practice 4 — ω_BW 控制什麼權衡</div>
-<p><strong>Problem:</strong> $\omega_{BW}$ 是什麼？它控制什麼權衡？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-4" data-l="zh">Practice 4 — ω_BW 控制什麼權衡</div><div class="pr-title" id="ex-4" data-l="en">Practice 4 — What trade-off ω_BW controls</div>
+<p data-l="zh"><strong>Problem:</strong> $\omega_{BW}$ 是什麼？它控制什麼權衡？</p><p data-l="en"><strong>Problem:</strong> What is $\omega_{BW}$, and what trade-off does it control?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>控制頻寬 — PI 的唯一設計參數。較高 $\omega_{BW}$ = 更佳干擾抑制與更高最大可測速度（式 18，$v_{max}=\frac{\pi\omega_{BW}c}{5\omega_n}$），但穩定裕度較低。</p>
+<p data-l="zh">控制頻寬 — PI 的唯一設計參數。較高 $\omega_{BW}$ = 更佳干擾抑制與更高最大可測速度（式 18，$v_{max}=\frac{\pi\omega_{BW}c}{5\omega_n}$），但穩定裕度較低。</p><p data-l="en">The control bandwidth — the only design parameter of the PI controller. Higher $\omega_{BW}$ means better disturbance rejection and a higher maximum detectable speed (eq. 18, $v_{max}=\frac{\pi\omega_{BW}c}{5\omega_n}$), but a lower stability margin.</p>
 </div>
 </details>
 </div>
 
 <div class="practice">
-<div class="pr-title" id="ex-5">Practice 5 — 為何調節 Δω 而非 θ</div>
-<p><strong>Problem:</strong> 為什麼直接調節頻率偏移 $\Delta\omega$ 而非相位 $\theta$？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-5" data-l="zh">Practice 5 — 為何調節 Δω 而非 θ</div><div class="pr-title" id="ex-5" data-l="en">Practice 5 — Why regulate Δω instead of θ</div>
+<p data-l="zh"><strong>Problem:</strong> 為什麼直接調節頻率偏移 $\Delta\omega$ 而非相位 $\theta$？</p><p data-l="en"><strong>Problem:</strong> Why regulate the frequency shift $\Delta\omega$ directly instead of the phase $\theta$?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>$\Delta\omega$ 在設定點附近近似線性正比於相位偏差，且易由頻率鑑別器量測，使迴路表現良好；比較器又能把它變方波，利於全數位 FPGA 實作。</p>
+<p data-l="zh">$\Delta\omega$ 在設定點附近近似線性正比於相位偏差，且易由頻率鑑別器量測，使迴路表現良好；比較器又能把它變方波，利於全數位 FPGA 實作。</p><p data-l="en">Near the set-point $\Delta\omega$ is approximately linearly proportional to the phase error and is easy to measure with a frequency discriminator, so the loop behaves well; a comparator can also square it up, which suits an all-digital FPGA implementation.</p>
 </div>
 </details>
 </div>
 
 <div class="practice">
-<div class="pr-title" id="ex-6">Practice 6 — 呼吸與心跳如何乾淨分離</div>
-<p><strong>Problem:</strong> 呼吸與心跳是如何被乾淨分離的？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-6" data-l="zh">Practice 6 — 呼吸與心跳如何乾淨分離</div><div class="pr-title" id="ex-6" data-l="en">Practice 6 — How respiration and heartbeat separate cleanly</div>
+<p data-l="zh"><strong>Problem:</strong> 呼吸與心跳是如何被乾淨分離的？</p><p data-l="en"><strong>Problem:</strong> How are respiration and heartbeat separated cleanly?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>雷達高線性度不產生互調失真，因此呼吸 (~14/分, ~2.5 mm) 與心跳 (~83 BPM, ~0.2 mm) 在功率譜上呈現為各自獨立的基頻。</p>
+<p data-l="zh">雷達高線性度不產生互調失真，因此呼吸 (~14/分, ~2.5 mm) 與心跳 (~83 BPM, ~0.2 mm) 在功率譜上呈現為各自獨立的基頻。</p><p data-l="en">The radar's high linearity produces no intermodulation distortion, so respiration (~14/min, ~2.5 mm) and heartbeat (~83 BPM, ~0.2 mm) appear as separate, independent fundamentals in the power spectrum.</p>
 </div>
 </details>
 </div>
 
 <div class="practice">
-<div class="pr-title" id="ex-7">Practice 7 — 硬體決定解析度與範圍</div>
-<p><strong>Problem:</strong> 硬體中是什麼決定雷達的運動解析度與範圍？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-7" data-l="zh">Practice 7 — 硬體決定解析度與範圍</div><div class="pr-title" id="ex-7" data-l="en">Practice 7 — What sets resolution and range in hardware</div>
+<p data-l="zh"><strong>Problem:</strong> 硬體中是什麼決定雷達的運動解析度與範圍？</p><p data-l="en"><strong>Problem:</strong> What in the hardware determines the radar's motion resolution and range?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>移位暫存器式可調延遲：$d_{min}=20$ ns → 解析度 $0.5c\cdot d_{min}=3.4$ µm；$d_{max}=0.8$ ms → 範圍 $0.5c\cdot d_{max}=136$ mm。</p>
+<p data-l="zh">移位暫存器式可調延遲：$d_{min}=20$ ns → 解析度 $0.5c\cdot d_{min}=3.4$ µm；$d_{max}=0.8$ ms → 範圍 $0.5c\cdot d_{max}=136$ mm。</p><p data-l="en">The shift-register tunable delay: $d_{min}=20$ ns → resolution $0.5c\cdot d_{min}=3.4$ µm; $d_{max}=0.8$ ms → range $0.5c\cdot d_{max}=136$ mm.</p>
 </div>
 </details>
 </div>
 
 <div class="practice">
-<div class="pr-title" id="ex-8">Practice 8 — 反相模式天生不穩定嗎</div>
-<p><strong>Problem:</strong> 反相模式天生不穩定嗎？為何在此能運作？</p>
-<details class="pr-answer" open><summary>Click to reveal solution</summary>
+<div class="pr-title" id="ex-8" data-l="zh">Practice 8 — 反相模式天生不穩定嗎</div><div class="pr-title" id="ex-8" data-l="en">Practice 8 — Is the anti-phase mode inherently unstable?</div>
+<p data-l="zh"><strong>Problem:</strong> 反相模式天生不穩定嗎？為何在此能運作？</p><p data-l="en"><strong>Problem:</strong> Is the anti-phase mode inherently unstable? Why does it work here?</p>
+<details class="pr-answer" open=""><summary>Click to reveal solution</summary>
 <div class="sol">
-<p>是 — 若延遲固定，$\theta=\pi$ 為不穩定（正回授，A14/A23）。但對延遲做<strong>回授調整</strong>改變了這個正回授本質，使該模式變得穩定（穩定區約 $\theta\in(0.5\pi,1.5\pi)$；一旦 $|e|&gt;0.5\pi$ plant gain 變號即失穩）。</p>
+<p data-l="zh">是 — 若延遲固定，$\theta=\pi$ 為不穩定（正回授，A14/A23）。但對延遲做<strong>回授調整</strong>改變了這個正回授本質，使該模式變得穩定（穩定區約 $\theta\in(0.5\pi,1.5\pi)$；一旦 $|e|&gt;0.5\pi$ plant gain 變號即失穩）。</p><p data-l="en">Yes — with a fixed delay, $\theta=\pi$ is unstable (positive feedback, A14/A23). But <strong>feedback adjustment</strong> of the delay changes that positive-feedback nature and makes the mode stable (stable region roughly $\theta\in(0.5\pi,1.5\pi)$; once $|e|&gt;0.5\pi$ the plant gain changes sign and stability is lost).</p>
 </div>
 </details>
 </div>
@@ -1098,13 +1256,19 @@ $$P(s)=\underbrace{\frac{2A_{inj}\cos\theta\,(1+A_{inj}\cos\theta)\,\omega_n}{\p
 </div>
 
 <footer>
-<div class="container">
+<div class="container" data-l="zh">
 Phase-Canceling SIL Ultrasonic Radar Study Guide · 基於 S.-H. Yu &amp; T.-S. Horng,
 “Highly Linear Phase-Canceling Self-Injection-Locked Ultrasonic Radar for Non-Contact Monitoring of Respiration and Heartbeat,”
 <em>IEEE Trans. Biomedical Circuits and Systems</em>, vol. 14, no. 1, pp. 75–87, Feb. 2020. DOI: 10.1109/TBCAS.2019.2958598.<br>
 單檔 HTML · MathJax 3.2.2 · 內聯 SVG · NSYSU EE · 僅供學習用途
+</div><div class="container" data-l="en">
+Phase-Canceling SIL Ultrasonic Radar Study Guide · Based on S.-H. Yu &amp; T.-S. Horng,
+“Highly Linear Phase-Canceling Self-Injection-Locked Ultrasonic Radar for Non-Contact Monitoring of Respiration and Heartbeat,”
+<em>IEEE Trans. Biomedical Circuits and Systems</em>, vol. 14, no. 1, pp. 75–87, Feb. 2020. DOI: 10.1109/TBCAS.2019.2958598.<br>
+Single-file HTML · MathJax 3.2.2 · Inline SVG · NSYSU EE · For study purposes only
 </div>
 </footer>
 
-</body>
-</html>
+
+
+</body></html>

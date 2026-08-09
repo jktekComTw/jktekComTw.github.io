@@ -69,80 +69,151 @@
   a.pdf.alt{margin-left:14px;font-weight:400;color:var(--muted)}
   .ref{font-size:12px;color:var(--muted);margin:4px 0}
 </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="zh";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"課程內容對應表 — 學分抵免 | 昭群科技",en:"Course Content Mapping — Credit Transfer | JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
 
 <header>
-  <h1>課程內容對應表 &mdash; 抵免/採計依據</h1>
-  <div class="sub">左：本校 (NSYSU) 課程列表擷圖　·　右：對應之台大 (NTU) 課程大綱（網頁版，並附 PDF 原件）</div>
+  <h1><span data-l="zh">課程內容對應表 &mdash; 抵免/採計依據</span><span data-l="en">Course Content Mapping &mdash; Basis for Credit Transfer</span></h1>
+  <div class="sub"><span data-l="zh">左：本校 (NSYSU) 課程列表擷圖　·　右：對應之台大 (NTU) 課程大綱（網頁版，並附 PDF 原件）</span><span data-l="en">Left: screenshot of the NSYSU course list · Right: the corresponding NTU syllabus (web version, with the original PDF attached)</span></div>
 </header>
 
 <main>
 
 <!-- 1 -->
 <section class="pair">
-  <h2>高等線性控制系統 <span class="en">Advanced Linear Control System</span></h2>
+  <h2><span data-l="zh">高等線性控制系統</span><span data-l="en">Advanced Linear Control Systems</span> <span class="en">Advanced Linear Control System</span></h2>
   <div class="cols">
     <div class="col">
-      <span class="tag a">本校課程 · NSYSU</span>
+      <span class="tag a"><span data-l="zh">本校課程 · NSYSU</span><span data-l="en">NSYSU course</span></span>
       <img class="shot" src="Screenshot%202026-06-17%20063906.png" alt="高等線性控制系統">
       <table class="meta">
-        <tr><td>學程碼</td><td>091 / 1 / 機電碩</td></tr>
-        <tr><td>課號</td><td>63216</td></tr>
-        <tr><td>學分</td><td>3　(選修，學期)</td></tr>
-        <tr><td>授課教師</td><td>趙健祥</td></tr>
-        <tr><td>教師信箱</td><td>（副教授，已退休，未公開）</td></tr>
-        <tr><td>人數上限</td><td>7</td></tr>
+        <tr><td><span data-l="zh">學程碼</span><span data-l="en">Programme code</span></td><td><span data-l="zh">091 / 1 / 機電碩</span><span data-l="en">091 / 1 / Mechatronics MSc</span></td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>63216</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td><span data-l="zh">3　(選修，學期)</span><span data-l="en">3 (elective, one semester)</span></td></tr>
+        <tr><td><span data-l="zh">授課教師</span><span data-l="en">Instructor</span></td><td>趙健祥</td></tr>
+        <tr><td><span data-l="zh">教師信箱</span><span data-l="en">Instructor email</span></td><td><span data-l="zh">（副教授，已退休，未公開）</span><span data-l="en">(Associate Professor, retired; not published)</span></td></tr>
+        <tr><td><span data-l="zh">人數上限</span><span data-l="en">Enrolment cap</span></td><td>7</td></tr>
       </table>
     </div>
     <div class="col">
-      <span class="tag b">對應大綱 · NTU</span>
+      <span class="tag b"><span data-l="zh">對應大綱 · NTU</span><span data-l="en">Corresponding syllabus · NTU</span></span>
       <table class="meta">
-        <tr><td>課名</td><td>LINEAR CONTROL SYSTEMS</td></tr>
-        <tr><td>課號</td><td>ME5220 (522 U5040) · 95-1</td></tr>
-        <tr><td>學分</td><td>3</td></tr>
+        <tr><td><span data-l="zh">課名</span><span data-l="en">Course title</span></td><td>LINEAR CONTROL SYSTEMS</td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>ME5220 (522 U5040) · 95-1</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td>3</td></tr>
       </table>
-      <h4>課程簡介 / Description</h4>
+      <h4><span data-l="zh">課程簡介 / Description</span><span data-l="en">Description</span></h4>
       <p class="desc">Continuation of Automatic Control I. Focuses on modern control (state-space methods), with intro to frequency-domain design, robust control and digital control.</p>
-      <h4>涵蓋內容 / Topics</h4>
+      <h4><span data-l="zh">涵蓋內容 / Topics</span><span data-l="en">Topics</span></h4>
       <ul class="tp">
         <li><b>(1) State-space design:</b> realization &amp; similarity transform, LTI/LTV solutions, stability, Lyapunov theory, controllability/observability, eigenvalue assignment &amp; LQ control, observer design &amp; Kalman filter</li>
         <li><b>(2) Transfer-function design:</b> pole placement via Bezout identity, internal model principle, closed-loop specs in frequency domain</li>
         <li><b>(3) Robust control</b></li>
       </ul>
-      <a class="pdf" href="linear_system.html">📖 開啟大綱（網頁版）</a>
-      <a class="pdf alt" href="linear_system.pdf">📄 PDF 原件</a>
+      <a class="pdf" href="linear_system.html"><span data-l="zh">📖 開啟大綱（網頁版）</span><span data-l="en">📖 Open syllabus (web version)</span></a>
+      <a class="pdf alt" href="linear_system.pdf"><span data-l="zh">📄 PDF 原件</span><span data-l="en">📄 Original PDF</span></a>
     </div>
   </div>
 </section>
 
 <!-- 2 -->
 <section class="pair">
-  <h2>適應控制 <span class="en">Adaptive Control</span></h2>
+  <h2><span data-l="zh">適應控制</span><span data-l="en">Adaptive Control</span> <span class="en">Adaptive Control</span></h2>
   <div class="cols">
     <div class="col">
-      <span class="tag a">本校課程 · NSYSU</span>
+      <span class="tag a"><span data-l="zh">本校課程 · NSYSU</span><span data-l="en">NSYSU course</span></span>
       <img class="shot" src="Screenshot%202026-06-17%20064800.png" alt="適應控制">
       <table class="meta">
-        <tr><td>學程碼</td><td>114 / 2 / 電機碩</td></tr>
-        <tr><td>課號</td><td>EE5225</td></tr>
-        <tr><td>學分</td><td>3　(選修，學期)</td></tr>
-        <tr><td>授課教師</td><td>陳建璋</td></tr>
-        <tr><td>教師信箱</td><td><a href="mailto:ccchen@mail.nsysu.edu.tw">ccchen@mail.nsysu.edu.tw</a></td></tr>
-        <tr><td>教室 / 人數</td><td>工EC 6015-2 · 8</td></tr>
-        <tr><td>備註</td><td>英語授課，半導體設備工程學程</td></tr>
+        <tr><td><span data-l="zh">學程碼</span><span data-l="en">Programme code</span></td><td><span data-l="zh">114 / 2 / 電機碩</span><span data-l="en">114 / 2 / Electrical Engineering MSc</span></td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>EE5225</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td><span data-l="zh">3　(選修，學期)</span><span data-l="en">3 (elective, one semester)</span></td></tr>
+        <tr><td><span data-l="zh">授課教師</span><span data-l="en">Instructor</span></td><td>陳建璋</td></tr>
+        <tr><td><span data-l="zh">教師信箱</span><span data-l="en">Instructor email</span></td><td><a href="mailto:ccchen@mail.nsysu.edu.tw">ccchen@mail.nsysu.edu.tw</a></td></tr>
+        <tr><td><span data-l="zh">教室 / 人數</span><span data-l="en">Classroom / capacity</span></td><td><span data-l="zh">工EC 6015-2 · 8</span><span data-l="en">Eng. EC 6015-2 · 8</span></td></tr>
+        <tr><td><span data-l="zh">備註</span><span data-l="en">Notes</span></td><td><span data-l="zh">英語授課，半導體設備工程學程</span><span data-l="en">Taught in English; Semiconductor Equipment Engineering programme</span></td></tr>
       </table>
     </div>
     <div class="col">
-      <span class="tag b">對應大綱 · NTU</span>
+      <span class="tag b"><span data-l="zh">對應大綱 · NTU</span><span data-l="en">Corresponding syllabus · NTU</span></span>
       <table class="meta">
-        <tr><td>課名</td><td>ADAPTIVE CONTROL</td></tr>
-        <tr><td>課號</td><td>ME7131 (522EM3210) · 95-2</td></tr>
-        <tr><td>學分</td><td>3</td></tr>
+        <tr><td><span data-l="zh">課名</span><span data-l="en">Course title</span></td><td>ADAPTIVE CONTROL</td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>ME7131 (522EM3210) · 95-2</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td>3</td></tr>
       </table>
-      <h4>課程簡介 / Description</h4>
+      <h4><span data-l="zh">課程簡介 / Description</span><span data-l="en">Description</span></h4>
       <p class="desc">Requisite: Automatic Control &amp; Digital Control. Broad intro to adaptive control techniques and practical implementations for deterministic and stochastic systems.</p>
-      <h4>涵蓋內容 / Topics</h4>
+      <h4><span data-l="zh">涵蓋內容 / Topics</span><span data-l="en">Topics</span></h4>
       <p class="desc">
         <span class="chip">Recursive system identification</span>
         <span class="chip">Self-tuning regulator</span>
@@ -151,7 +222,7 @@
         <span class="chip">Gain scheduling</span>
         <span class="chip">Adaptive control w/ lattice filter</span>
       </p>
-      <h4>週次進度 / Schedule</h4>
+      <h4><span data-l="zh">週次進度 / Schedule</span><span data-l="en">Weekly Schedule</span></h4>
       <ol class="wk">
         <li>What is Adaptive Control? (A&amp;W Ch.1)</li>
         <li>Parameter Estimation — Deterministic (Ch.2)</li>
@@ -170,39 +241,39 @@
         <li>Term Project</li>
       </ol>
       <p class="ref">Text: Åström &amp; Wittenmark, <i>Adaptive Control</i> 2e; Goodwin &amp; Sin, <i>Adaptive Filtering, Prediction &amp; Control</i>.</p>
-      <a class="pdf" href="adaptive.html">📖 開啟大綱（網頁版）</a>
-      <a class="pdf alt" href="adaptive.pdf">📄 PDF 原件</a>
+      <a class="pdf" href="adaptive.html"><span data-l="zh">📖 開啟大綱（網頁版）</span><span data-l="en">📖 Open syllabus (web version)</span></a>
+      <a class="pdf alt" href="adaptive.pdf"><span data-l="zh">📄 PDF 原件</span><span data-l="en">📄 Original PDF</span></a>
     </div>
   </div>
 </section>
 
 <!-- 3 -->
 <section class="pair">
-  <h2>數位控制 <span class="en">Digital Control</span></h2>
+  <h2><span data-l="zh">數位控制</span><span data-l="en">Digital Control</span> <span class="en">Digital Control</span></h2>
   <div class="cols">
     <div class="col">
-      <span class="tag a">本校課程 · NSYSU</span>
+      <span class="tag a"><span data-l="zh">本校課程 · NSYSU</span><span data-l="en">NSYSU course</span></span>
       <img class="shot" src="Screenshot%202026-06-17%20065016.png" alt="數位控制">
       <table class="meta">
-        <tr><td>學程碼</td><td>111 / 1 / 機電碩</td></tr>
-        <tr><td>課號</td><td>MEME541</td></tr>
-        <tr><td>學分</td><td>3　(選修，學期)</td></tr>
-        <tr><td>授課教師</td><td>彭昭暐</td></tr>
-        <tr><td>教師信箱</td><td>（個人信箱未公開；系辦 <a href="mailto:mechaa@mail.nsysu.edu.tw">mechaa@mail.nsysu.edu.tw</a>）</td></tr>
-        <tr><td>教室 / 人數</td><td>工EC 3006 · 18</td></tr>
-        <tr><td>備註</td><td>英語授課，半導體設備工程學程</td></tr>
+        <tr><td><span data-l="zh">學程碼</span><span data-l="en">Programme code</span></td><td><span data-l="zh">111 / 1 / 機電碩</span><span data-l="en">111 / 1 / Mechatronics MSc</span></td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>MEME541</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td><span data-l="zh">3　(選修，學期)</span><span data-l="en">3 (elective, one semester)</span></td></tr>
+        <tr><td><span data-l="zh">授課教師</span><span data-l="en">Instructor</span></td><td>彭昭暐</td></tr>
+        <tr><td><span data-l="zh">教師信箱</span><span data-l="en">Instructor email</span></td><td><span data-l="zh">（個人信箱未公開；系辦</span><span data-l="en">(Personal email not published; department office</span> <a href="mailto:mechaa@mail.nsysu.edu.tw">mechaa@mail.nsysu.edu.tw</a>）</td></tr>
+        <tr><td><span data-l="zh">教室 / 人數</span><span data-l="en">Classroom / capacity</span></td><td><span data-l="zh">工EC 3006 · 18</span><span data-l="en">Eng. EC 3006 · 18</span></td></tr>
+        <tr><td><span data-l="zh">備註</span><span data-l="en">Notes</span></td><td><span data-l="zh">英語授課，半導體設備工程學程</span><span data-l="en">Taught in English; Semiconductor Equipment Engineering programme</span></td></tr>
       </table>
     </div>
     <div class="col">
-      <span class="tag b">對應大綱 · NTU</span>
+      <span class="tag b"><span data-l="zh">對應大綱 · NTU</span><span data-l="en">Corresponding syllabus · NTU</span></span>
       <table class="meta">
-        <tr><td>課名</td><td>DIGITAL CONTROL SYSTEM</td></tr>
-        <tr><td>課號</td><td>ME5247 (522 U5350) · 95-2</td></tr>
-        <tr><td>學分</td><td>3</td></tr>
+        <tr><td><span data-l="zh">課名</span><span data-l="en">Course title</span></td><td>DIGITAL CONTROL SYSTEM</td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>ME5247 (522 U5350) · 95-2</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td>3</td></tr>
       </table>
-      <h4>課程簡介 / Description</h4>
+      <h4><span data-l="zh">課程簡介 / Description</span><span data-l="en">Description</span></h4>
       <p class="desc">Basic skills for analysis and control of digital (discrete-time) systems, for students who have taken Automatic Control. Undergraduate level, also suitable for graduate students new to digital control.</p>
-      <h4>涵蓋內容 / Main Topics</h4>
+      <h4><span data-l="zh">涵蓋內容 / Main Topics</span><span data-l="en">Main Topics</span></h4>
       <ul class="tp">
         <li>Z-transform</li>
         <li>Discrete-time model of sampled system</li>
@@ -212,39 +283,39 @@
         <li>Optimal control &amp; optimal observer</li>
       </ul>
       <p class="ref">Ref: Franklin/Powell/Workman, <i>Digital Control of Dynamic Systems</i>; Åström &amp; Wittenmark, <i>Computer-Controlled Systems</i> 3e; Goodwin/Graebe/Salgado, <i>Control System Design</i>.</p>
-      <a class="pdf" href="digital_control.html">📖 開啟大綱（網頁版）</a>
-      <a class="pdf alt" href="digital_control.pdf">📄 PDF 原件</a>
+      <a class="pdf" href="digital_control.html"><span data-l="zh">📖 開啟大綱（網頁版）</span><span data-l="en">📖 Open syllabus (web version)</span></a>
+      <a class="pdf alt" href="digital_control.pdf"><span data-l="zh">📄 PDF 原件</span><span data-l="en">📄 Original PDF</span></a>
     </div>
   </div>
 </section>
 
 <!-- 4 -->
 <section class="pair">
-  <h2>FPGA 系統設計實務 <span class="en">System Design Using FPGA</span></h2>
+  <h2><span data-l="zh">FPGA 系統設計實務</span><span data-l="en">Practical FPGA System Design</span> <span class="en">System Design Using FPGA</span></h2>
   <div class="cols">
     <div class="col">
-      <span class="tag a">本校課程 · NSYSU</span>
+      <span class="tag a"><span data-l="zh">本校課程 · NSYSU</span><span data-l="en">NSYSU course</span></span>
       <img class="shot" src="Screenshot%202026-06-17%20064615.png" alt="FPGA系統設計實務">
       <table class="meta">
-        <tr><td>學程碼</td><td>103 / 2 / 電機碩</td></tr>
-        <tr><td>課號</td><td>EE5702</td></tr>
-        <tr><td>學分</td><td>3　(選修，學期)</td></tr>
-        <tr><td>授課教師</td><td>邱日清</td></tr>
-        <tr><td>教師信箱</td><td><a href="mailto:chiujihc@ee.nsysu.edu.tw">chiujihc@ee.nsysu.edu.tw</a></td></tr>
-        <tr><td>教室 / 人數</td><td>工EC 3012 · 16</td></tr>
-        <tr><td>類別</td><td>《講授類》</td></tr>
+        <tr><td><span data-l="zh">學程碼</span><span data-l="en">Programme code</span></td><td><span data-l="zh">103 / 2 / 電機碩</span><span data-l="en">103 / 2 / Electrical Engineering MSc</span></td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>EE5702</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td><span data-l="zh">3　(選修，學期)</span><span data-l="en">3 (elective, one semester)</span></td></tr>
+        <tr><td><span data-l="zh">授課教師</span><span data-l="en">Instructor</span></td><td>邱日清</td></tr>
+        <tr><td><span data-l="zh">教師信箱</span><span data-l="en">Instructor email</span></td><td><a href="mailto:chiujihc@ee.nsysu.edu.tw">chiujihc@ee.nsysu.edu.tw</a></td></tr>
+        <tr><td><span data-l="zh">教室 / 人數</span><span data-l="en">Classroom / capacity</span></td><td><span data-l="zh">工EC 3012 · 16</span><span data-l="en">Eng. EC 3012 · 16</span></td></tr>
+        <tr><td><span data-l="zh">類別</span><span data-l="en">Category</span></td><td><span data-l="zh">《講授類》</span><span data-l="en">«Lecture course»</span></td></tr>
       </table>
     </div>
     <div class="col">
-      <span class="tag b">對應大綱 · NTU</span>
+      <span class="tag b"><span data-l="zh">對應大綱 · NTU</span><span data-l="en">Corresponding syllabus · NTU</span></span>
       <table class="meta">
-        <tr><td>課名</td><td>DIGITAL CIRCUIT DESIGN</td></tr>
-        <tr><td>課號</td><td>BME5406 (631 U1660) · 97-2</td></tr>
-        <tr><td>學分</td><td>3</td></tr>
+        <tr><td><span data-l="zh">課名</span><span data-l="en">Course title</span></td><td>DIGITAL CIRCUIT DESIGN</td></tr>
+        <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>BME5406 (631 U1660) · 97-2</td></tr>
+        <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td>3</td></tr>
       </table>
-      <h4>課程簡介 / Description</h4>
+      <h4><span data-l="zh">課程簡介 / Description</span><span data-l="en">Description</span></h4>
       <p class="desc">Digital IC / logic design with Verilog, hands-on FPGA implementation using Quartus II and the DE2 board.</p>
-      <h4>涵蓋內容 / Topics</h4>
+      <h4><span data-l="zh">涵蓋內容 / Topics</span><span data-l="en">Topics</span></h4>
       <p class="desc">
         <span class="chip">Verilog HDL</span>
         <span class="chip">Quartus II + DE2</span>
@@ -254,7 +325,7 @@
         <span class="chip">Programmable logic devices</span>
         <span class="chip">Final Verilog project</span>
       </p>
-      <h4>週次進度 / Schedule (selected)</h4>
+      <h4><span data-l="zh">週次進度 / Schedule (selected)</span><span data-l="en">Weekly Schedule (selected)</span></h4>
       <ol class="wk">
         <li>Introduction</li>
         <li>Logic Circuits &amp; Writing Verilog</li>
@@ -275,8 +346,8 @@
         <li>Final project demo</li>
       </ol>
       <p class="ref">Text: Brown &amp; Vranesic, <i>Fundamentals of Digital Logic with Verilog Design</i>, 2e, McGraw-Hill (2008).</p>
-      <a class="pdf" href="digital_ic.html">📖 開啟大綱（網頁版）</a>
-      <a class="pdf alt" href="digital_ic.pdf">📄 PDF 原件</a>
+      <a class="pdf" href="digital_ic.html"><span data-l="zh">📖 開啟大綱（網頁版）</span><span data-l="en">📖 Open syllabus (web version)</span></a>
+      <a class="pdf alt" href="digital_ic.pdf"><span data-l="zh">📄 PDF 原件</span><span data-l="en">📄 Original PDF</span></a>
     </div>
   </div>
 </section>

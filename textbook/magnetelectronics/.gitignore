@@ -1,0 +1,9 @@
+# Credentials / OAuth tokens
+*token*.json
+*.aux
+*.log
+*.out
+~*.tmp
+
+# Large source PDFs (keep build outputs only if needed)
+*.pdf

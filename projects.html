@@ -361,8 +361,79 @@
             }
         }
     </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="en";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"專案 — 昭群科技 JiaoKuan Technology",en:"Projects — 昭群科技 JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
     <div class="diagonal-background">
         <button class="hamburger-menu" id="hamburgerBtn" onclick="toggleMobileMenu()">
             <span></span>
@@ -376,51 +447,74 @@
             </div>
             <div class="title-section">
                 <h1>昭群科技</h1>
-                <h2>Welcome to JiaoKuan Technology</h2>
+                <h2><span data-l="zh">歡迎光臨昭群科技</span><span data-l="en">Welcome to JiaoKuan Technology</span></h2>
             </div>
         </div>
 
         <div class="navigation">
-            <a href="index.html">Home</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="projects.html" class="active">Projects/Web App</a>
-            <a href="patents.html">Patents</a>
-            <a href="#">Project/FOC Motor Drive</a>
+            <a href="index.html"><span data-l="zh">首頁</span><span data-l="en">Home</span></a>
+            <a href="aboutus.html"><span data-l="zh">關於我們</span><span data-l="en">About Us</span></a>
+            <a href="projects.html" class="active"><span data-l="zh">專案 / 網頁應用</span><span data-l="en">Projects/Web App</span></a>
+            <a href="patents.html"><span data-l="zh">專利</span><span data-l="en">Patents</span></a>
+            <a href="#"><span data-l="zh">專案 / FOC 馬達驅動</span><span data-l="en">Project/FOC Motor Drive</span></a>
         </div>
 
         <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
 
         <div class="mobile-menu" id="mobileMenu">
-            <a href="index.html" onclick="closeMobileMenu()">Home</a>
-            <a href="aboutus.html" onclick="closeMobileMenu()">About Us</a>
-            <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
-            <a href="patents.html" onclick="closeMobileMenu()">Patents</a>
-            <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
+            <a href="index.html" onclick="closeMobileMenu()"><span data-l="zh">首頁</span><span data-l="en">Home</span></a>
+            <a href="aboutus.html" onclick="closeMobileMenu()"><span data-l="zh">關於我們</span><span data-l="en">About Us</span></a>
+            <a href="projects.html" onclick="closeMobileMenu()"><span data-l="zh">專案 / 網頁應用</span><span data-l="en">Projects/Web App</span></a>
+            <a href="patents.html" onclick="closeMobileMenu()"><span data-l="zh">專利</span><span data-l="en">Patents</span></a>
+            <a href="#" onclick="closeMobileMenu()"><span data-l="zh">專案 / FOC 馬達驅動</span><span data-l="en">Project/FOC Motor Drive</span></a>
         </div>
 
         <div class="main-content">
-            <h1>Projects</h1>
+            <h1 data-l="zh">專案</h1>
+            <h1 data-l="en">Projects</h1>
 
             <div class="project-item">
-                <h3>國立臺灣海洋大學2022軟體工程教材設計</h3>
-                <ul>
+                <h3 data-l="zh">國立臺灣海洋大學 2022 軟體工程教材設計</h3>
+                <h3 data-l="en">Software Engineering Course Materials, National Taiwan Ocean University (2022)</h3>
+                <ul data-l="zh">
                     <li><a href="https://youtu.be/i6wyojh9ipw">CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part1)</a></li>
                     <li><a href="https://youtu.be/QS7Q4xLmSFY">CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part2)</a></li>
                     <li><a href="https://youtu.be/Ge1wKiyhiok">CI/CD實務案例：以Express、MongoDB、JEST、GitHub Actions、AWS為例 (Part3)</a></li>
                     <li>PS. 請以1.25倍速觀看 因為我聲音頻率比較低沉</li>
                 </ul>
-            </div>
-
-            <div class="project-item">
-                <h3>5945呼叫師傅</h3>
-                <ul>
-                    <li><a href="https://youtu.be/eU_ykROXIp0">以 Python 的 Selenium 控制 container 裡面的 LINE</a></li>
+                <ul data-l="en">
+                    <li><a href="https://youtu.be/i6wyojh9ipw">A practical CI/CD case study with Express, MongoDB, JEST, GitHub Actions and AWS (Part 1)</a></li>
+                    <li><a href="https://youtu.be/QS7Q4xLmSFY">A practical CI/CD case study with Express, MongoDB, JEST, GitHub Actions and AWS (Part 2)</a></li>
+                    <li><a href="https://youtu.be/Ge1wKiyhiok">A practical CI/CD case study with Express, MongoDB, JEST, GitHub Actions and AWS (Part 3)</a></li>
+                    <li>PS. Watch at 1.25× speed — my voice is on the low side.</li>
                 </ul>
             </div>
 
             <div class="project-item">
-                <h3>2009 Master Degree Thesis Project in NTU</h3>
-                <ul>
+                <h3 data-l="zh">5945 呼叫師傅</h3>
+                <h3 data-l="en">5945 Call a Handyman</h3>
+                <ul data-l="zh">
+                    <li><a href="https://youtu.be/eU_ykROXIp0">以 Python 的 Selenium 控制 container 裡面的 LINE</a></li>
+                </ul>
+                <ul data-l="en">
+                    <li><a href="https://youtu.be/eU_ykROXIp0">Driving LINE inside a container with Python and Selenium</a></li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <h3 data-l="zh">2009 年台灣大學碩士論文專題</h3>
+                <h3 data-l="en">2009 Master Degree Thesis Project in NTU</h3>
+                <ul data-l="zh">
+                    <li>
+                        <a href="https://youtu.be/JCCqSnUWHr8">
+                            馬達嵌入後輪之中,引擎傳動齒輪比固定。
+                        </a>
+                        控制器以 Altera FPGA 實作,所有演算法均以定點運算完成。
+                        飛輪則用來模擬機車的線性慣量。
+                        順帶一提,離合器是以磁力方式實作的。
+                    </li>
+                </ul>
+                <ul data-l="en">
                     <li>
                         <a href="https://youtu.be/JCCqSnUWHr8">
                             Motor is embedded in the rear wheel and the engine transmission gear ratio is fixed.
@@ -433,8 +527,18 @@
             </div>
 
             <div class="project-item">
-                <h3>Missile Launcher USB Driver and Userspace Control Panel</h3>
-                <ul>
+                <h3 data-l="zh">飛彈發射器 USB 驅動程式與使用者空間控制面板</h3>
+                <h3 data-l="en">Missile Launcher USB Driver and Userspace Control Panel</h3>
+                <ul data-l="zh">
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=iwWA2m0RWCo">
+                            這是從 ml_driver fork 出來的 GitHub 專案。原版只能在 kernel 3.0 上運作,我修改後讓它可以在 Ubuntu 20.04 x86 上執行。至於 ARM 平台則尚未測試。
+                        </a>
+                        <br>
+                        <a href="https://github.com/jktekComTw/ml-driver">GitHub 原始碼</a>
+                    </li>
+                </ul>
+                <ul data-l="en">
                     <li>
                         <a href="https://www.youtube.com/watch?v=iwWA2m0RWCo">
                             A GitHub project forked from ml_driver. The original one only works on kernel 3.0; I modified it to make it work on Ubuntu 20.04 x86. As for ARM, not tested yet.
@@ -446,8 +550,16 @@
             </div>
 
             <div class="project-item">
-                <h3>IMU 6-axis Web Oscilloscope (Realtime)</h3>
-                <ul>
+                <h3 data-l="zh">IMU 六軸網頁示波器(即時)</h3>
+                <h3 data-l="en">IMU 6-axis Web Oscilloscope (Realtime)</h3>
+                <ul data-l="zh">
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=OH6DFZUKsfw">
+                            以 Node.js 搭配 Arduino BLE nano33 與 Raspberry Pi 實作。
+                        </a>
+                    </li>
+                </ul>
+                <ul data-l="en">
                     <li>
                         <a href="https://www.youtube.com/watch?v=OH6DFZUKsfw">
                             Use Node.js and Arduino BLE nano33 with Raspberry Pi to implement.
@@ -457,8 +569,16 @@
             </div>
 
             <div class="project-item">
-                <h3>Fib Function Calculator with WebAssembly Implementation</h3>
-                <ul>
+                <h3 data-l="zh">以 WebAssembly 實作的費氏數列計算器</h3>
+                <h3 data-l="en">Fib Function Calculator with WebAssembly Implementation</h3>
+                <ul data-l="zh">
+                    <li>
+                        <a href="./webasm.html">
+                            以 WebAssembly 實作的費氏數列計算器,純粹好玩!
+                        </a>
+                    </li>
+                </ul>
+                <ul data-l="en">
                     <li>
                         <a href="./webasm.html">
                             A fib function calculator implemented in WebAssembly. Just for fun!
@@ -470,15 +590,15 @@
             <div class="project-item">
                 <h3>
                     <img src="https://www.nsysu.edu.tw/static/file/0/1000/img/526/logo.png" alt="NSYSU logo" style="height: 1.5em; vertical-align: middle; background: #003e74; padding: 4px 8px; border-radius: 6px;">
-                    2025 國立中山大學 圖資處電力管理與排程系統開發
+                    <span data-l="zh">2025 國立中山大學 圖資處電力管理與排程系統開發</span><span data-l="en">2025 Power Management and Scheduling System, Library &amp; Information Services, NSYSU</span>
                 </h3>
-                <p><strong>通過政府 B 級單位資安驗證</strong></p>
+                <p><strong><span data-l="zh">通過政府 B 級單位資安驗證</span><span data-l="en">Passed government Level-B information security certification</span></strong></p>
             </div>
 
             <div class="project-item">
                 <h3>
                     <img src="https://www.tmu.edu.tw/images/title.png" alt="臺北醫學大學 Taipei Medical University logo" style="height: 1.5em; vertical-align: middle;">
-                    2025 RTOS 嵌入式裝置與 Android App 開發
+                    <span data-l="zh">2025 RTOS 嵌入式裝置與 Android App 開發</span><span data-l="en">2025 RTOS Embedded Device and Android App Development</span>
                 </h3>
             </div>
         </div>

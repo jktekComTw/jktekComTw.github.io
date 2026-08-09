@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp /z/jktek_related/web/jktekComTw.github.io/index.html /z/lab/dcd/)",
+      "Read(//z/lab/dcd/**)",
+      "Bash(command -v magick convert python python3)",
+      "Bash(C:/msys64/usr/bin/python.exe -c \"import PIL; print\\('PIL', PIL.__version__\\)\")",
+      "Bash(C:/msys64/mingw64/bin/python *)",
+      "Bash(where.exe magick *)",
+      "Bash(magick -version)",
+      "Bash(C:/msys64/usr/bin/python.exe -m pip install --quiet Pillow)",
+      "Bash(ls /z)",
+      "Bash(ls /Z)",
+      "Read(//c//**)",
+      "Read(//z/lab/radio_circuit//**)",
+      "Read(//z/lab/radio_circuit/**)",
+      "Bash(C:/msys64/usr/bin/python.exe -)"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//r/company/misc/**)",
+      "Read(//r/company/**)"
+    ]
+  }
+}

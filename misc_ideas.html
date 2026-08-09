@@ -111,19 +111,90 @@
     a.back { color: #ff6600; text-decoration: none; font-weight: bold; }
     a.back:hover { text-decoration: underline; }
 </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="en";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"雜項筆記 — 昭群科技 JiaoKuan Technology",en:"Misc Ideas — 昭群科技 JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
 <div class="wrap">
-    <h1>Misc Ideas</h1>
-    <p class="lead">A running list of side notes and small explorations.</p>
+    <h1><span data-l="zh">雜項筆記</span><span data-l="en">Misc Ideas</span></h1>
+    <p class="lead"><span data-l="zh">持續累積的隨手筆記與小型探索。</span><span data-l="en">A running list of side notes and small explorations.</span></p>
 
     <ul class="list">
         <li>
             <a href="medicine/steady-state-dosing.html">
                 <span class="num">1</span>
                 <span>
-                    <span class="title">Steady-State Dosing: Single vs Split</span>
-                    <div class="desc">Why dividing a daily dose smooths the curve but leaves average exposure unchanged.</div>
+                    <span class="title"><span data-l="zh">穩態給藥:單次與分次</span><span data-l="en">Steady-State Dosing: Single vs Split</span></span>
+                    <div class="desc"><span data-l="zh">為什麼把每日劑量分次服用會讓曲線變平緩,平均暴露量卻維持不變。</span><span data-l="en">Why dividing a daily dose smooths the curve but leaves average exposure unchanged.</span></div>
                 </span>
             </a>
         </li>
@@ -131,8 +202,8 @@
             <a href="textbook/magnetelectronics/electromagnetics_study_book.html">
                 <span class="num">2</span>
                 <span>
-                    <span class="title">Field and Wave Electromagnetics — Cheng</span>
-                    <div class="desc">Study notes for electromagnetics.</div>
+                    <span class="title"><span data-l="zh">場與波電磁學 — Cheng</span><span data-l="en">Field and Wave Electromagnetics — Cheng</span></span>
+                    <div class="desc"><span data-l="zh">電磁學讀書筆記。</span><span data-l="en">Study notes for electromagnetics.</span></div>
                 </span>
             </a>
         </li>
@@ -140,8 +211,8 @@
             <a href="textbook/Signal%26system/signals_and_systems.html">
                 <span class="num">3</span>
                 <span>
-                    <span class="title">Signals &amp; Systems — Oppenheim (Ch1–Ch10)</span>
-                    <div class="desc">Study notes for signals and systems.</div>
+                    <span class="title"><span data-l="zh">訊號與系統 — Oppenheim(第 1–10 章)</span><span data-l="en">Signals &amp; Systems — Oppenheim (Ch1–Ch10)</span></span>
+                    <div class="desc"><span data-l="zh">訊號與系統讀書筆記。</span><span data-l="en">Study notes for signals and systems.</span></div>
                 </span>
             </a>
         </li>
@@ -149,8 +220,8 @@
             <a href="hsmc_pin_map.html">
                 <span class="num">4</span>
                 <span>
-                    <span class="title">HSMC Pin Map</span>
-                    <div class="desc">HSMC &harr; ADA pin mapping for the Terasic DE25 development kit.</div>
+                    <span class="title"><span data-l="zh">HSMC 腳位對照表</span><span data-l="en">HSMC Pin Map</span></span>
+                    <div class="desc"><span data-l="zh">Terasic DE25 開發板的 HSMC &harr; ADA 腳位對應。</span><span data-l="en">HSMC &harr; ADA pin mapping for the Terasic DE25 development kit.</span></div>
                 </span>
             </a>
         </li>
@@ -158,8 +229,8 @@
             <a href="textbook/radio_circuit/index.html">
                 <span class="num">5</span>
                 <span>
-                    <span class="title">RF &amp; Microwave Circuit Design — Study Guides (Ch2–Ch6)</span>
-                    <div class="desc">Chapter index: noise &amp; distortion, low-noise and power amplifiers, mixers, oscillators &amp; synthesizers, and receiver/transmitter architectures.</div>
+                    <span class="title"><span data-l="zh">射頻與微波電路設計 — 學習指南(第 2–6 章)</span><span data-l="en">RF &amp; Microwave Circuit Design — Study Guides (Ch2–Ch6)</span></span>
+                    <div class="desc"><span data-l="zh">章節索引:雜訊與失真、低雜訊與功率放大器、混頻器、振盪器與合成器,以及收發機架構。</span><span data-l="en">Chapter index: noise &amp; distortion, low-noise and power amplifiers, mixers, oscillators &amp; synthesizers, and receiver/transmitter architectures.</span></div>
                 </span>
             </a>
         </li>
@@ -167,8 +238,8 @@
             <a href="dcd/dcd.html">
                 <span class="num">6</span>
                 <span>
-                    <span class="title">Digital Logic &amp; Verilog — Study Guide &amp; Exercises</span>
-                    <div class="desc">Tiered study guide and practice problems for digital circuit design with Verilog.</div>
+                    <span class="title"><span data-l="zh">數位邏輯與 Verilog — 學習指南與習題</span><span data-l="en">Digital Logic &amp; Verilog — Study Guide &amp; Exercises</span></span>
+                    <div class="desc"><span data-l="zh">數位電路設計(Verilog)的分級學習指南與練習題。</span><span data-l="en">Tiered study guide and practice problems for digital circuit design with Verilog.</span></div>
                 </span>
             </a>
         </li>
@@ -176,8 +247,8 @@
             <a href="misc/phd_student.html">
                 <span class="num">7</span>
                 <span>
-                    <span class="title">業界資深工程師轉博士生的指導策略總結</span>
-                    <div class="desc">Mentoring strategies for a senior industry engineer transitioning to a PhD student.</div>
+                    <span class="title"><span data-l="zh">業界資深工程師轉博士生的指導策略總結</span><span data-l="en">Supervising a Senior Industry Engineer Who Became a PhD Student</span></span>
+                    <div class="desc"><span data-l="zh">業界資深工程師轉為博士生時的指導策略整理。</span><span data-l="en">Mentoring strategies for a senior industry engineer transitioning to a PhD student.</span></div>
                 </span>
             </a>
         </li>
@@ -185,8 +256,8 @@
             <a href="misc/URSI%20GASS%202026.html">
                 <span class="num">8</span>
                 <span>
-                    <span class="title">URSI GASS 2026 — Kraków</span>
-                    <div class="desc">Day-by-day session browser for the URSI General Assembly 2026.</div>
+                    <span class="title"><span data-l="zh">URSI GASS 2026 — 克拉科夫</span><span data-l="en">URSI GASS 2026 — Kraków</span></span>
+                    <div class="desc"><span data-l="zh">URSI 2026 年大會的逐日議程瀏覽工具。</span><span data-l="en">Day-by-day session browser for the URSI General Assembly 2026.</span></div>
                 </span>
             </a>
         </li>
@@ -194,8 +265,8 @@
             <a href="misc/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/d143010009%E9%A6%AC%E5%98%89%E9%B4%BB%20%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D/%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html">
                 <span class="num">9</span>
                 <span>
-                    <span class="title">課程內容對應表 / Course Content Mapping</span>
-                    <div class="desc">Credit-transfer course content comparison for d143010009 馬嘉鴻.</div>
+                    <span class="title"><span data-l="zh">課程內容對應表</span><span data-l="en">Course Content Mapping</span></span>
+                    <div class="desc"><span data-l="zh">d143010009 馬嘉鴻的學分抵免課程內容對照。</span><span data-l="en">Credit-transfer course content comparison for d143010009 馬嘉鴻.</span></div>
                 </span>
             </a>
         </li>
@@ -203,8 +274,8 @@
             <a href="misc/SIL_DSIL_Sensitivity_Design_Note.html">
                 <span class="num">10</span>
                 <span>
-                    <span class="title">SIL / DSIL 雷達靈敏度設計</span>
-                    <div class="desc">Design note on SIL / DSIL radar sensitivity.</div>
+                    <span class="title"><span data-l="zh">SIL / DSIL 雷達靈敏度設計</span><span data-l="en">SIL / DSIL Radar Sensitivity Design</span></span>
+                    <div class="desc"><span data-l="zh">SIL / DSIL 雷達靈敏度的設計筆記。</span><span data-l="en">Design note on SIL / DSIL radar sensitivity.</span></div>
                 </span>
             </a>
         </li>
@@ -212,8 +283,8 @@
             <a href="misc/smmu_rbf_load_failure_zh.html">
                 <span class="num">11</span>
                 <span>
-                    <span class="title">為什麼 SDM 無法把 RBF 載入 FPGA</span>
-                    <div class="desc">SMMU 位址轉譯不一致造成 “timeout waiting for svc layer buffers” 的完整分析（Agilex 5 / DE25-Standard）。</div>
+                    <span class="title"><span data-l="zh">為什麼 SDM 無法把 RBF 載入 FPGA</span><span data-l="en">Why the SDM Cannot Load the RBF into the FPGA</span></span>
+                    <div class="desc"><span data-l="zh">SMMU 位址轉譯不一致造成 “timeout waiting for svc layer buffers” 的完整分析（Agilex 5 / DE25-Standard）。</span><span data-l="en">A full analysis of how inconsistent SMMU address translation produces “timeout waiting for svc layer buffers” (Agilex 5 / DE25-Standard).</span></div>
                 </span>
             </a>
         </li>
@@ -221,8 +292,8 @@
             <a href="misc/dt_iommus_svc_qa_zh.html">
                 <span class="num">12</span>
                 <span>
-                    <span class="title">Device Tree 的 iommus、svc 與 method = “smc”</span>
-                    <div class="desc">姊妹篇：phandle 機制、位址空間、SMC conduit、altr,smmu_enable_quirk，以及為什麼「只移除 svc 的 iommus」行不通。</div>
+                    <span class="title"><span data-l="zh">Device Tree 的 iommus、svc 與 method = “smc”</span><span data-l="en">Device Tree iommus, svc and method = “smc”</span></span>
+                    <div class="desc"><span data-l="zh">姊妹篇：phandle 機制、位址空間、SMC conduit、altr,smmu_enable_quirk，以及為什麼「只移除 svc 的 iommus」行不通。</span><span data-l="en">Companion note: the phandle mechanism, address spaces, the SMC conduit, altr,smmu_enable_quirk, and why “just remove svc's iommus” does not work.</span></div>
                 </span>
             </a>
         </li>
@@ -230,8 +301,8 @@
             <a href="misc/vcu118/vcu118-pgood-vccint-diagnostics.html">
                 <span class="num">13</span>
                 <span>
-                    <span class="title">VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動</span>
-                    <div class="desc">隨機上電失敗的證據整理、根因假設排序、診斷決策樹與逐步排查 SOP（VCU118 Rev 2.0 / VU9P，含中英雙語版本）。</div>
+                    <span class="title"><span data-l="zh">VCU118 上電不穩定 — PGOOD 紅燈、VCCINT 未啟動</span><span data-l="en">Unstable VCU118 Power-Up — Red PGOOD, VCCINT Not Coming Up</span></span>
+                    <div class="desc"><span data-l="zh">隨機上電失敗的證據整理、根因假設排序、診斷決策樹與逐步排查 SOP（VCU118 Rev 2.0 / VU9P，含中英雙語版本）。</span><span data-l="en">Evidence for the intermittent power-up failures, ranked root-cause hypotheses, a diagnostic decision tree and a step-by-step troubleshooting SOP (VCU118 Rev 2.0 / VU9P, bilingual).</span></div>
                 </span>
             </a>
         </li>
@@ -239,8 +310,8 @@
             <a href="misc/dsil/Phase_Canceling_SIL_Ultrasonic_Radar_Study_Guide.html">
                 <span class="num">14</span>
                 <span>
-                    <span class="title">相位消除 SIL 超音波雷達 — 學習指南</span>
-                    <div class="desc">Yu &amp; Horng (IEEE TBioCAS 2020) 導讀：用可調延遲線 + PI 回授把 SIL 雷達釘在 &theta;=&pi; 線性工作點，於 14 個波長內線性量測呼吸與心跳；含小訊號模型、控制器設計與 DSIL 對照。</div>
+                    <span class="title"><span data-l="zh">相位消除 SIL 超音波雷達 — 學習指南</span><span data-l="en">Phase-Canceling SIL Ultrasonic Radar — Study Guide</span></span>
+                    <div class="desc"><span data-l="zh">Yu &amp; Horng (IEEE TBioCAS 2020) 導讀：用可調延遲線 + PI 回授把 SIL 雷達釘在 &theta;=&pi; 線性工作點，於 14 個波長內線性量測呼吸與心跳；含小訊號模型、控制器設計與 DSIL 對照。</span><span data-l="en">A walkthrough of Yu &amp; Horng (IEEE TBioCAS 2020): a tunable delay line plus PI feedback locks the SIL radar at the &theta;=&pi; linear operating point, measuring respiration and heartbeat linearly within 14 wavelengths; includes the small-signal model, controller design and the DSIL comparison.</span></div>
                 </span>
             </a>
         </li>
@@ -248,8 +319,8 @@
             <a href="misc/dsil/Phase_Canceling_SIL_Ultrasonic_Radar_Study_Guide_EN.html">
                 <span class="num">15</span>
                 <span>
-                    <span class="title">Phase-Canceling SIL Ultrasonic Radar — Study Guide (English)</span>
-                    <div class="desc">English edition of the Yu &amp; Horng (IEEE TBioCAS 2020) walkthrough: tunable delay line plus PI feedback locking the SIL radar at the &theta;=&pi; linear operating point, with the small-signal model, controller design, and the DSIL comparison.</div>
+                    <span class="title"><span data-l="zh">相位消除 SIL 超音波雷達 — 學習指南(獨立英文版)</span><span data-l="en">Phase-Canceling SIL Ultrasonic Radar — Study Guide (standalone English edition)</span></span>
+                    <div class="desc"><span data-l="zh">Yu &amp; Horng (IEEE TBioCAS 2020) 導讀的獨立英文版頁面;上一則條目已內建中英切換。</span><span data-l="en">Standalone English page for the Yu &amp; Horng (IEEE TBioCAS 2020) walkthrough; the entry above now has a built-in language switch.</span></div>
                 </span>
             </a>
         </li>
@@ -257,15 +328,15 @@
             <a href="misc/dsil/Directional_Coupler_Study_Guide.html">
                 <span class="num">16</span>
                 <span>
-                    <span class="title">The Directional Coupler in an RF Front-End</span>
-                    <div class="desc">Why a wrist-sensing RFFE puts a coupler between the PA and the coil — four-port theory, how directivity arises, reflectometry, and the calibration limit it imposes.</div>
+                    <span class="title"><span data-l="zh">射頻前端中的方向耦合器</span><span data-l="en">The Directional Coupler in an RF Front-End</span></span>
+                    <div class="desc"><span data-l="zh">為什麼腕式感測 RFFE 會在功率放大器與線圈之間放一顆耦合器 — 四埠理論、方向性如何產生、反射量測,以及它帶來的校正極限。</span><span data-l="en">Why a wrist-sensing RFFE puts a coupler between the PA and the coil — four-port theory, how directivity arises, reflectometry, and the calibration limit it imposes.</span></div>
                 </span>
             </a>
         </li>
     </ul>
 
     <div class="footer">
-        <a class="back" href="index.html">&larr; back to JiaoKuan Technology</a>
+        <a class="back" href="index.html"><span data-l="zh">&larr; 回到昭群科技</span><span data-l="en">&larr; back to JiaoKuan Technology</span></a>
     </div>
 </div>
 </body>

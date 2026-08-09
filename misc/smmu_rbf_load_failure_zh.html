@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<html lang="zh-Hant"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>為什麼 SDM 無法把 RBF 載入 FPGA — SMMU 位址轉譯不一致 | 昭群科技 JiaoKuan Technology</title>
   <meta name="description" content="Agilex 5 (DE25-Standard) 上 FPGA bitstream 載入失敗的完整分析：stratix10-svc 位於 arm-smmu-v3 之後，驅動取得的是 IOVA，SDM 卻把它當成實體位址讀取 DRAM，導致 timeout waiting for svc layer buffers。內容涵蓋 VA / PA / DMA address 三種位址空間、MMU 與 SMMU 的差別、失敗流程逐步拆解、已排除的做法與可行的修正方向（altr,smmu_enable_quirk 與 kernel / DTB / ATF 版本對齊）。">
   <meta name="keywords" content="SMMU, arm-smmu-v3, IOMMU, IOVA, DMA address, 位址轉譯, Agilex 5, A5ED013BB32AE4SCS, DE25-Standard, Terasic DE25, FPGA, RBF, bitstream, fpga_manager, stratix10-svc, stratix10-soc, of_fpga_region, SDM, Secure Device Manager, altr smmu_enable_quirk, timeout waiting for svc layer buffers, Linux 6.12.11, linux-socfpga, device tree, SMC, SMCCC, ATF, 昭群科技, JiaoKuan Technology">
@@ -241,12 +240,83 @@
       font-size: .8rem;
     }
   </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="zh";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"為什麼 SDM 無法把 RBF 載入 FPGA | 昭群科技",en:"Why the SDM Cannot Load the RBF into the FPGA | JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
 
 <header>
-  <h1>為什麼 SDM 無法把 RBF 載入 FPGA 的組態 SRAM</h1>
-  <p>SMMU 位址轉譯不一致造成 <code>timeout waiting for svc layer buffers</code> 的完整分析</p>
+  <h1 data-l="zh">為什麼 SDM 無法把 RBF 載入 FPGA 的組態 SRAM</h1><h1 data-l="en">Why the SDM cannot load the RBF into the FPGA configuration SRAM</h1>
+  <p data-l="zh">SMMU 位址轉譯不一致造成 <code>timeout waiting for svc layer buffers</code> 的完整分析</p><p data-l="en">A full analysis of how inconsistent SMMU address translation produces <code>timeout waiting for svc layer buffers</code></p>
   <div>
     <span class="tag">DE25-Standard</span>
     <span class="tag">Agilex 5 (A5ED013BB32AE4SCS)</span>
@@ -258,8 +328,8 @@
 </header>
 
 <section>
-  <h2>0. 一句話結論</h2>
-  <p>
+  <h2 data-l="zh">0. 一句話結論</h2><h2 data-l="en">0. The conclusion in one sentence</h2>
+  <p data-l="zh">
     Bitstream 的<strong>資料本身一直放在正確的位置</strong>；出錯的是
     <strong>傳給 SDM 的那個「位址數字」</strong>。
     因為 <code>stratix10-svc</code> 掛在 SMMU 後面，驅動程式拿到的是
@@ -267,404 +337,404 @@
     但 SDM 不在 SMMU 後面，它把這個數字當成<strong>實體位址（PA）</strong>去讀 DRAM，
     於是讀到完全不相干的記憶體，找不到 bitstream，也就永遠不回應 —
     驅動程式因此卡在等待，最後逾時。
-  </p>
-  <div class="badbox">
+  </p><p data-l="en">The bitstream <strong>data was always in the right place</strong>; what was wrong is <strong>the address number handed to the SDM</strong>. Because <code>stratix10-svc</code> sits behind the SMMU, the driver receives an <strong>IOVA (device virtual address)</strong>, but the SDM is not behind the SMMU — it treats that number as a <strong>physical address (PA)</strong> and reads DRAM with it. It therefore reads completely unrelated memory, never finds the bitstream, and never responds — so the driver waits forever and eventually times out.</p>
+  <div class="badbox" data-l="zh">
     <strong>觀察到的錯誤訊息：</strong>
     <pre><code>[  698.226136] fpga_manager fpga0: writing new40kHz4.core.rbf to Stratix10 SOC FPGA Manager
 [  705.512932] Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout waiting for svc layer buffers</span></code></pre>
     同時 <code>/sys/class/fpga_manager/fpga0/state</code> 卡在 <code>write</code>，
     寫入的行程進入不可中斷睡眠（<code>D</code> state，連 <code>kill -9</code> 都無效）。
-  </div>
+  </div><div class="badbox" data-l="en"><strong>The observed error message:</strong> <pre><code>[ 698.226136] fpga_manager fpga0: writing new40kHz4.core.rbf to Stratix10 SOC FPGA Manager [ 705.512932] Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout waiting for svc layer buffers</span></code></pre> Meanwhile <code>/sys/class/fpga_manager/fpga0/state</code> is stuck at <code>write</code>, and the writing process enters uninterruptible sleep (<code>D</code> state, immune even to <code>kill -9</code>).</div>
 </section>
 
 <section>
-  <h2>1. 三種位址空間：VA、PA、DMA address</h2>
-  <p>
+  <h2 data-l="zh">1. 三種位址空間：VA、PA、DMA address</h2><h2 data-l="en">1. Three address spaces: VA, PA and DMA address</h2>
+  <p data-l="zh">
     要理解這個問題，必須先分清楚三種位址。很多人把它們混為一談，
     但它們是<strong>三個不同的東西</strong>：
-  </p>
+  </p><p data-l="en">To understand this problem you first have to separate three kinds of address. They are frequently conflated, but they are <strong>three different things</strong>:</p>
   <table>
-    <tr>
-      <th style="width:22%">位址型別</th>
-      <th style="width:26%">誰在使用</th>
-      <th>由誰產生 / 轉譯</th>
+    <tbody><tr>
+      <th style="width:22%" data-l="zh">位址型別</th><th style="width:22%" data-l="en">Address type</th>
+      <th style="width:26%" data-l="zh">誰在使用</th><th style="width:26%" data-l="en">Who uses it</th>
+      <th data-l="zh">由誰產生 / 轉譯</th><th data-l="en">Who produces / translates it</th>
     </tr>
     <tr>
       <td><span class="sig">VA</span><br><span class="note">virtual address</span></td>
-      <td>CPU、kernel 程式碼<br><span class="note">（<code>void *</code> 指標）</span></td>
-      <td>由 <strong>CPU 內的 MMU</strong> 轉譯成 PA</td>
+      <td data-l="zh">CPU、kernel 程式碼<br><span class="note">（<code>void *</code> 指標）</span></td><td data-l="en">The CPU and kernel code<br><span class="note">(a <code>void *</code> pointer)</span></td>
+      <td data-l="zh">由 <strong>CPU 內的 MMU</strong> 轉譯成 PA</td><td data-l="en">Translated to a PA by the <strong>MMU inside the CPU</strong></td>
     </tr>
     <tr>
       <td><span class="sig">PA</span><br><span class="note">phys_addr_t</span></td>
-      <td>真實的 DRAM 位置</td>
-      <td>—（這就是實體位置本身）</td>
+      <td data-l="zh">真實的 DRAM 位置</td><td data-l="en">The real location in DRAM</td>
+      <td data-l="zh">—（這就是實體位置本身）</td><td data-l="en">— (this is the physical location itself)</td>
     </tr>
     <tr>
       <td><span class="sig">DMA address</span><br><span class="note">dma_addr_t / IOVA</span></td>
-      <td><strong>裝置</strong>發出匯流排交易時使用</td>
-      <td>由 <code>dma_alloc_coherent()</code> 等 DMA API 回傳；
-          若裝置在 IOMMU 後面則由 <strong>SMMU</strong> 轉譯</td>
+      <td data-l="zh"><strong>裝置</strong>發出匯流排交易時使用</td><td data-l="en">Used by a <strong>device</strong> when it issues a bus transaction</td>
+      <td data-l="zh">由 <code>dma_alloc_coherent()</code> 等 DMA API 回傳；
+          若裝置在 IOMMU 後面則由 <strong>SMMU</strong> 轉譯</td><td data-l="en">Returned by DMA APIs such as <code>dma_alloc_coherent()</code>; translated by the <strong>SMMU</strong> if the device sits behind an IOMMU</td>
     </tr>
-  </table>
-  <div class="infobox">
+  </tbody></table>
+  <div class="infobox" data-l="zh">
     <strong>關鍵觀念：</strong>
     <code>dma_addr_t</code> 回答的問題是
     「<em>裝置</em>要在匯流排上放哪個數字才能存取這塊緩衝區？」，
     這和「這塊緩衝區在 DRAM 的哪裡？」是<strong>兩個不同的問題</strong>。
     兩者不保證相等。
-  </div>
+  </div><div class="infobox" data-l="en"><strong>The key idea:</strong> <code>dma_addr_t</code> answers the question “what number must the <em>device</em> put on the bus to reach this buffer?”, which is a <strong>different question</strong> from “where in DRAM does this buffer live?”. The two are not guaranteed to be equal.</div>
 
-  <h3>什麼情況下 dma_addr_t == PA？</h3>
+  <h3 data-l="zh">什麼情況下 dma_addr_t == PA？</h3><h3 data-l="en">When is dma_addr_t == PA?</h3>
   <table>
-    <tr>
-      <th style="width:52%">情境</th>
-      <th>結果</th>
+    <tbody><tr>
+      <th style="width:52%" data-l="zh">情境</th><th style="width:52%" data-l="en">Situation</th>
+      <th data-l="zh">結果</th><th data-l="en">Result</th>
     </tr>
     <tr>
-      <td>裝置在<strong>會轉譯的</strong> IOMMU 後面</td>
-      <td><span class="bad">dma_addr_t = IOVA ≠ PA</span> ← 本板目前狀況</td>
+      <td data-l="zh">裝置在<strong>會轉譯的</strong> IOMMU 後面</td><td data-l="en">The device sits behind an IOMMU that <strong>translates</strong></td>
+      <td data-l="zh"><span class="bad">dma_addr_t = IOVA ≠ PA</span> ← 本板目前狀況</td><td data-l="en"><span class="bad">dma_addr_t = IOVA ≠ PA</span> ← the current state of this board</td>
     </tr>
     <tr>
-      <td>裝置<strong>沒有</strong> IOMMU 對應（走 <code>dma-direct</code>）</td>
+      <td data-l="zh">裝置<strong>沒有</strong> IOMMU 對應（走 <code>dma-direct</code>）</td><td data-l="en">The device has <strong>no</strong> IOMMU mapping (it uses <code>dma-direct</code>)</td>
       <td><span class="ok">dma_addr_t == PA</span></td>
     </tr>
     <tr>
-      <td>IOMMU 設為 identity / passthrough domain</td>
+      <td data-l="zh">IOMMU 設為 identity / passthrough domain</td><td data-l="en">The IOMMU is set to an identity / passthrough domain</td>
       <td><span class="ok">dma_addr_t == PA</span></td>
     </tr>
     <tr>
-      <td>平台宣告了 <code>dma-ranges</code> 位移</td>
-      <td><span class="bad">dma_addr_t = PA − offset ≠ PA</span>（需另外確認）</td>
+      <td data-l="zh">平台宣告了 <code>dma-ranges</code> 位移</td><td data-l="en">The platform declares a <code>dma-ranges</code> offset</td>
+      <td data-l="zh"><span class="bad">dma_addr_t = PA − offset ≠ PA</span>（需另外確認）</td><td data-l="en"><span class="bad">dma_addr_t = PA − offset ≠ PA</span> (needs separate confirmation)</td>
     </tr>
-  </table>
+  </tbody></table>
 </section>
 
 <section>
-  <h2>2. MMU 與 SMMU 的差別</h2>
-  <p>兩者都是位址轉譯器，差別在於<strong>替誰轉譯</strong>。</p>
+  <h2 data-l="zh">2. MMU 與 SMMU 的差別</h2><h2 data-l="en">2. The difference between the MMU and the SMMU</h2>
+  <p data-l="zh">兩者都是位址轉譯器，差別在於<strong>替誰轉譯</strong>。</p><p data-l="en">Both are address translators; the difference is <strong>who they translate for</strong>.</p>
   <table>
-    <tr>
+    <tbody><tr>
       <th style="width:20%"></th>
       <th style="width:40%">MMU</th>
-      <th>SMMU（ARM 對 IOMMU 的稱法）</th>
+      <th data-l="zh">SMMU（ARM 對 IOMMU 的稱法）</th><th data-l="en">SMMU (ARM's name for an IOMMU)</th>
     </tr>
     <tr>
-      <td><strong>位於</strong></td>
-      <td>CPU 核心內部</td>
-      <td>匯流排上的獨立區塊</td>
+      <td><strong data-l="zh">位於</strong><strong data-l="en">Located</strong></td>
+      <td data-l="zh">CPU 核心內部</td><td data-l="en">Inside the CPU core</td>
+      <td data-l="zh">匯流排上的獨立區塊</td><td data-l="en">A separate block on the bus</td>
     </tr>
     <tr>
-      <td><strong>為誰轉譯</strong></td>
-      <td>軟體 — 行程、kernel</td>
-      <td><strong>做 DMA 的裝置</strong></td>
+      <td><strong data-l="zh">為誰轉譯</strong><strong data-l="en">Translates for</strong></td>
+      <td data-l="zh">軟體 — 行程、kernel</td><td data-l="en">Software — processes and the kernel</td>
+      <td><strong data-l="zh">做 DMA 的裝置</strong><strong data-l="en">Devices performing DMA</strong></td>
     </tr>
     <tr>
-      <td><strong>輸入位址</strong></td>
-      <td>VA（虛擬位址）</td>
-      <td>IOVA（裝置虛擬位址）</td>
+      <td><strong data-l="zh">輸入位址</strong><strong data-l="en">Input address</strong></td>
+      <td data-l="zh">VA（虛擬位址）</td><td data-l="en">VA (virtual address)</td>
+      <td data-l="zh">IOVA（裝置虛擬位址）</td><td data-l="en">IOVA (device virtual address)</td>
     </tr>
     <tr>
-      <td><strong>輸出</strong></td>
+      <td><strong data-l="zh">輸出</strong><strong data-l="en">Output</strong></td>
       <td>PA</td>
       <td>PA</td>
     </tr>
     <tr>
-      <td><strong>分頁表粒度</strong></td>
-      <td>每個行程一份</td>
-      <td>每個裝置（或每個 IOMMU group）一份</td>
+      <td><strong data-l="zh">分頁表粒度</strong><strong data-l="en">Page-table granularity</strong></td>
+      <td data-l="zh">每個行程一份</td><td data-l="en">One per process</td>
+      <td data-l="zh">每個裝置（或每個 IOMMU group）一份</td><td data-l="en">One per device (or per IOMMU group)</td>
     </tr>
     <tr>
-      <td><strong>防護對象</strong></td>
-      <td>行程之間不能亂讀彼此記憶體</td>
-      <td>裝置不能亂寫不該碰的記憶體</td>
+      <td><strong data-l="zh">防護對象</strong><strong data-l="en">Protects against</strong></td>
+      <td data-l="zh">行程之間不能亂讀彼此記憶體</td><td data-l="en">Processes reading each other's memory</td>
+      <td data-l="zh">裝置不能亂寫不該碰的記憶體</td><td data-l="en">Devices writing memory they should not touch</td>
     </tr>
-  </table>
+  </tbody></table>
 
-  <h3>本板開機時 SMMU 的分組</h3>
+  <h3 data-l="zh">本板開機時 SMMU 的分組</h3><h3 data-l="en">How the SMMU groups devices when this board boots</h3>
   <pre><code>arm-smmu-v3 16000000.iommu: ias 48-bit, oas 48-bit (features 0x001c1fef)
 socfpga-dwmac 10810000.ethernet: Adding to iommu group 0
 dwc2 10b00000.usb:               Adding to iommu group 1
 sdhci-cdns 10808000.mmc0:        Adding to iommu group 2
-<span class="fl-bad">stratix10-svc firmware:svc:      Adding to iommu group 3   ← 問題所在</span>
+<span class="fl-bad" data-l="zh">stratix10-svc firmware:svc:      Adding to iommu group 3   ← 問題所在</span><span class="fl-bad" data-l="en">stratix10-svc firmware:svc: Adding to iommu group 3 ← the problem</span>
 dw_axi_dmac_platform 10db0000.dma-controller: Adding to iommu group 4
 dw_axi_dmac_platform 10dc0000.dma-controller: Adding to iommu group 5</code></pre>
 
-  <div class="infobox">
+  <div class="infobox" data-l="zh">
     <strong><code>iommus</code> 只管「裝置主動發起」的存取。</strong>
     方向很重要：
     <table style="margin-top:.6rem">
-      <tr><th style="width:44%">方向</th><th style="width:26%">由誰轉譯</th><th>受 <code>iommus</code> 影響？</th></tr>
+      <tbody><tr><th style="width:44%">方向</th><th style="width:26%">由誰轉譯</th><th>受 <code>iommus</code> 影響？</th></tr>
       <tr><td>CPU → 裝置暫存器（MMIO / <code>ioremap</code>）</td><td><strong>CPU 的 MMU</strong></td><td><span class="bad">否</span></td></tr>
       <tr><td>裝置 → 記憶體（DMA / bus-master）</td><td><strong>SMMU</strong></td><td><span class="ok">是</span></td></tr>
-    </table>
-  </div>
+    </tbody></table>
+  </div><div class="infobox" data-l="en"><strong><code>iommus</code> governs only accesses that the device itself initiates.</strong> Direction matters: <table style="margin-top:.6rem"> <tbody><tr><th style="width:44%">Direction</th><th style="width:26%">Translated by</th><th>Affected by <code>iommus</code>?</th></tr> <tr><td>CPU → device registers (MMIO / <code>ioremap</code>)</td><td><strong>the CPU's MMU</strong></td><td><span class="bad">No</span></td></tr> <tr><td>Device → memory (DMA / bus-master)</td><td><strong>the SMMU</strong></td><td><span class="ok">Yes</span></td></tr> </tbody></table></div>
 </section>
 
 <section>
-  <h2>3. 三個當事人：只有兩個講同一種位址語言</h2>
+  <h2 data-l="zh">3. 三個當事人：只有兩個講同一種位址語言</h2><h2 data-l="en">3. Three parties — only two of them speak the same address language</h2>
   <table>
-    <tr>
-      <th style="width:28%">當事人</th>
-      <th style="width:36%">看得懂的位址</th>
-      <th>在 SMMU 後面嗎？</th>
+    <tbody><tr>
+      <th style="width:28%" data-l="zh">當事人</th><th style="width:28%" data-l="en">Party</th>
+      <th style="width:36%" data-l="zh">看得懂的位址</th><th style="width:36%" data-l="en">Addresses it understands</th>
+      <th data-l="zh">在 SMMU 後面嗎？</th><th data-l="en">Behind the SMMU?</th>
     </tr>
     <tr>
-      <td>CPU / 驅動程式</td>
-      <td>VA，並向 DMA API 取得 <code>dma_addr_t</code></td>
+      <td data-l="zh">CPU / 驅動程式</td><td data-l="en">CPU / driver</td>
+      <td data-l="zh">VA，並向 DMA API 取得 <code>dma_addr_t</code></td><td data-l="en">VA, and obtains a <code>dma_addr_t</code> from the DMA API</td>
       <td>—</td>
     </tr>
     <tr>
-      <td><code>stratix10-svc</code><br><span class="note">（Linux 眼中的「裝置」）</span></td>
-      <td><strong>IOVA</strong> — 因為它有 <code>iommus</code> 屬性</td>
-      <td><span class="ok">是</span>，iommu group 3</td>
+      <td><code>stratix10-svc</code><br><span class="note" data-l="zh">（Linux 眼中的「裝置」）</span><span class="note" data-l="en">(the “device” as Linux sees it)</span></td>
+      <td data-l="zh"><strong>IOVA</strong> — 因為它有 <code>iommus</code> 屬性</td><td data-l="en"><strong>IOVA</strong> — because it has an <code>iommus</code> property</td>
+      <td><span class="ok" data-l="zh">是</span><span class="ok" data-l="en">Yes</span>，iommu group 3</td>
     </tr>
     <tr>
       <td><strong>SDM</strong><br><span class="note">Secure Device Manager</span></td>
-      <td><strong>只認實體位址（PA）</strong></td>
-      <td><span class="bad">不是 — 它根本不是 Linux 裝置</span></td>
+      <td><strong data-l="zh">只認實體位址（PA）</strong><strong data-l="en">Understands physical addresses (PA) only</strong></td>
+      <td><span class="bad" data-l="zh">不是 — 它根本不是 Linux 裝置</span><span class="bad" data-l="en">No — it is not a Linux device at all</span></td>
     </tr>
-  </table>
+  </tbody></table>
 
-  <h3>名詞澄清</h3>
+  <h3 data-l="zh">名詞澄清</h3><h3 data-l="en">Terminology</h3>
   <ul>
-    <li><strong>SDM（Secure Device Manager）</strong>：FPGA 內部一顆獨立的硬化微處理器，
+    <li data-l="zh"><strong>SDM（Secure Device Manager）</strong>：FPGA 內部一顆獨立的硬化微處理器，
         不屬於 fabric 也不屬於 HPS。它掌管<strong>整顆晶片的組態與安全</strong> —
         所有 bitstream（JTAG、QSPI、Avalon-ST、HPS mailbox）都要經過它，
-        HPS 何時解除 reset 也由它決定。</li>
-    <li><strong>SVC（service layer）</strong>：Linux 端與 SDM 溝通的<strong>服務層驅動</strong>，
+        HPS 何時解除 reset 也由它決定。</li><li data-l="en"><strong>SDM (Secure Device Manager)</strong>: a separate hardened microprocessor inside the FPGA, belonging neither to the fabric nor to the HPS. It owns <strong>configuration and security for the whole chip</strong> — every bitstream (JTAG, QSPI, Avalon-ST, HPS mailbox) passes through it, and it also decides when the HPS is released from reset.</li>
+    <li data-l="zh"><strong>SVC（service layer）</strong>：Linux 端與 SDM 溝通的<strong>服務層驅動</strong>，
         即 <code>stratix10-svc</code>（<code>compatible = "intel,agilex5-svc"</code>）。
         它位於 device tree 的 <code>/firmware/svc</code>（注意是 <code>/firmware</code> 而非 <code>/soc</code>，
         因為它是軟體服務，不是記憶體映射週邊）。底下掛了三個服務：
-        <code>fpga-mgr</code>（FPGA 組態）、<code>fcs-hal</code>（加密服務）、<code>hwmon</code>（電壓溫度）。</li>
-    <li><strong>CRAM</strong>：FPGA 的組態 SRAM，存放 fabric 的實際配置。由 SDM 寫入。</li>
+        <code>fpga-mgr</code>（FPGA 組態）、<code>fcs-hal</code>（加密服務）、<code>hwmon</code>（電壓溫度）。</li><li data-l="en"><strong>SVC (service layer)</strong>: the <strong>service-layer driver</strong> through which Linux talks to the SDM, namely <code>stratix10-svc</code> (<code>compatible = "intel,agilex5-svc"</code>). It lives at <code>/firmware/svc</code> in the device tree (note <code>/firmware</code>, not <code>/soc</code>, because it is a software service rather than a memory-mapped peripheral). Three services hang beneath it: <code>fpga-mgr</code> (FPGA configuration), <code>fcs-hal</code> (cryptographic services) and <code>hwmon</code> (voltage and temperature).</li>
+    <li data-l="zh"><strong>CRAM</strong>：FPGA 的組態 SRAM，存放 fabric 的實際配置。由 SDM 寫入。</li><li data-l="en"><strong>CRAM</strong>: the FPGA's configuration SRAM, holding the fabric's actual configuration. Written by the SDM.</li>
   </ul>
 
-  <h3>完整呼叫鏈</h3>
+  <h3 data-l="zh">完整呼叫鏈</h3><h3 data-l="en">The full call chain</h3>
   <div class="flow"><span class="fl-label">of_fpga_region</span> <span class="fl-arrow">→</span> <span class="fl-label">fpga-mgr</span> <span class="fl-arrow">→</span> <span class="fl-label">stratix10-svc</span> <span class="fl-arrow">→</span> <span class="fl-box">SMC call</span> <span class="fl-arrow">→</span> <span class="fl-box">ATF / firmware</span> <span class="fl-arrow">→</span> <span class="fl-label">SDM</span> <span class="fl-arrow">→</span> <span class="fl-sig">CRAM（fabric）</span>
                                    <span class="fl-arrow">│</span>
-                          <span class="fl-sig">svcbuffer@0</span> <span class="fl-note">（bitstream 放在這裡）</span></div>
-  <p class="note">
+                          <span class="fl-sig">svcbuffer@0</span> <span class="fl-note" data-l="zh">（bitstream 放在這裡）</span><span class="fl-note" data-l="en">(the bitstream lives here)</span></div>
+  <p class="note" data-l="zh">
     所以錯誤訊息 <code>firmware:svc:fpga-mgr</code> 其實就是這個階層的字面展開：
     <code>firmware</code> 節點下的 <code>svc</code> 服務層裡的 <code>fpga-mgr</code> 客戶端。
-  </p>
+  </p><p class="note" data-l="en">So the error string <code>firmware:svc:fpga-mgr</code> is simply that hierarchy spelled out: the <code>fpga-mgr</code> client inside the <code>svc</code> service layer under the <code>firmware</code> node.</p>
 </section>
 
 <section>
-  <h2>4. 失敗過程逐步拆解</h2>
+  <h2 data-l="zh">4. 失敗過程逐步拆解</h2><h2 data-l="en">4. The failure, step by step</h2>
 
   <div class="step">
-    <p><span class="step-n">1</span><strong>驅動程式讀檔。</strong>
+    <p data-l="zh"><span class="step-n">1</span><strong>驅動程式讀檔。</strong>
     <code>of_fpga_region</code> 從 <code>/lib/firmware</code> 讀入
-    <code>new40kHz4.core.rbf</code>（1,351,680 bytes）。</p>
+    <code>new40kHz4.core.rbf</code>（1,351,680 bytes）。</p><p data-l="en"><span class="step-n">1</span><strong>The driver reads the file.</strong> <code>of_fpga_region</code> reads <code>new40kHz4.core.rbf</code> (1,351,680 bytes) from <code>/lib/firmware</code>.</p>
   </div>
 
   <div class="step">
-    <p><span class="step-n">2</span><strong>需要一塊 SDM 讀得到的緩衝區</strong>，
-    於是從專用保留區配置：</p>
+    <p data-l="zh"><span class="step-n">2</span><strong>需要一塊 SDM 讀得到的緩衝區</strong>，
+    於是從專用保留區配置：</p><p data-l="en"><span class="step-n">2</span><strong>It needs a buffer the SDM can read</strong>, so it allocates from a dedicated reserved region:</p>
     <pre><code>OF: reserved mem: 0x0000000080000000..0x0000000081ffffff (32768 KiB) <span class="kw">nomap non-reusable</span> svcbuffer@0</code></pre>
-    <p class="note">32 MB，專門切出來讓 firmware 讀取。<code>nomap</code> 表示<strong>不納入 kernel 線性映射</strong>，
-    因為擁有這塊記憶體定址權的是「不參與 Linux 記憶體管理的外部代理人」。</p>
+    <p class="note" data-l="zh">32 MB，專門切出來讓 firmware 讀取。<code>nomap</code> 表示<strong>不納入 kernel 線性映射</strong>，
+    因為擁有這塊記憶體定址權的是「不參與 Linux 記憶體管理的外部代理人」。</p><p class="note" data-l="en">32 MB, carved out specifically for firmware to read. <code>nomap</code> means it is <strong>excluded from the kernel's linear mapping</strong>, because the agent that addresses this memory is an external one that takes no part in Linux memory management.</p>
   </div>
 
   <div class="step">
-    <p><span class="step-n">3</span><strong><code>dma_alloc_coherent()</code> 回傳兩個不同的東西：</strong></p>
-    <pre><code>CPU 指標（VA）  →  用來 memcpy 把 bitstream 複製進去
-dma_addr_t      →  要交給「裝置」的那個數字</code></pre>
+    <p><span class="step-n">3</span><strong data-l="zh"><code>dma_alloc_coherent()</code> 回傳兩個不同的東西：</strong><strong data-l="en"><code>dma_alloc_coherent()</code> returns two different things:</strong></p>
+    <pre><code data-l="zh">CPU 指標（VA）  →  用來 memcpy 把 bitstream 複製進去
+dma_addr_t      →  要交給「裝置」的那個數字</code><code data-l="en">CPU pointer (VA) → used to memcpy the bitstream in dma_addr_t → the number to hand to the “device”</code></pre>
   </div>
 
   <div class="step">
-    <p><span class="step-n">4</span><strong>分歧就發生在這裡。</strong>
-    因為 <code>svc</code> 有 <code>iommus</code> 屬性，SMMU 配置了一個 IOVA。以示意數值說明：</p>
-    <pre><code>bitstream 實際位於   0x8000_0000   <span class="cm">← 資料真正所在</span>
-dma_addr_t 回傳值    0xFFFF_0000   <span class="cm">← IOVA；SMMU 會把它映射到 0x8000_0000</span></code></pre>
-    <p class="note">兩個數字都「正確」— 只是對負責轉譯的那一方而言才正確。</p>
+    <p data-l="zh"><span class="step-n">4</span><strong>分歧就發生在這裡。</strong>
+    因為 <code>svc</code> 有 <code>iommus</code> 屬性，SMMU 配置了一個 IOVA。以示意數值說明：</p><p data-l="en"><span class="step-n">4</span><strong>This is where they diverge.</strong> Because <code>svc</code> has an <code>iommus</code> property, the SMMU allocates an IOVA. Using illustrative numbers:</p>
+    <pre><code data-l="zh">bitstream 實際位於   0x8000_0000   <span class="cm">← 資料真正所在</span>
+dma_addr_t 回傳值    0xFFFF_0000   <span class="cm">← IOVA；SMMU 會把它映射到 0x8000_0000</span></code><code data-l="en">bitstream actually at 0x8000_0000 <span class="cm">← where the data really is</span> dma_addr_t returned 0xFFFF_0000 <span class="cm">← the IOVA; the SMMU maps it to 0x8000_0000</span></code></pre>
+    <p class="note" data-l="zh">兩個數字都「正確」— 只是對負責轉譯的那一方而言才正確。</p><p class="note" data-l="en">Both numbers are “correct” — but each only for the party that does the translating.</p>
   </div>
 
   <div class="step">
-    <p><span class="step-n">5</span><strong>驅動程式送出 mailbox 命令給 SDM：</strong>
-    「bitstream 在 <code>0xFFFF_0000</code>，長度 N。」</p>
+    <p data-l="zh"><span class="step-n">5</span><strong>驅動程式送出 mailbox 命令給 SDM：</strong>
+    「bitstream 在 <code>0xFFFF_0000</code>，長度 N。」</p><p data-l="en"><span class="step-n">5</span><strong>The driver sends a mailbox command to the SDM:</strong> “the bitstream is at <code>0xFFFF_0000</code>, length N.”</p>
   </div>
 
   <div class="step">
-    <p><span class="step-n">6</span><strong>SDM 的路徑上沒有 SMMU。</strong>
+    <p data-l="zh"><span class="step-n">6</span><strong>SDM 的路徑上沒有 SMMU。</strong>
     它不會查任何分頁表，也沒有任何映射為它而設。
-    它把 <code>0xFFFF_0000</code> 當作<strong>字面上的實體位址</strong>去讀 DRAM。</p>
-    <div class="flow">   <span class="fl-bad">SDM 讀取的位置</span>                  <span class="fl-sig">資料真正的位置</span>
-   <span class="fl-bad">0xFFFF_0000（不相干的 DRAM）</span>    <span class="fl-sig">0x8000_0000（bitstream）</span>
+    它把 <code>0xFFFF_0000</code> 當作<strong>字面上的實體位址</strong>去讀 DRAM。</p><p data-l="en"><span class="step-n">6</span><strong>There is no SMMU on the SDM's path.</strong> It consults no page tables and no mapping exists for it. It takes <code>0xFFFF_0000</code> as a <strong>literal physical address</strong> and reads DRAM there.</p>
+    <div class="flow">   <span class="fl-bad" data-l="zh">SDM 讀取的位置</span><span class="fl-bad" data-l="en">Where the SDM reads</span>                  <span class="fl-sig" data-l="zh">資料真正的位置</span><span class="fl-sig" data-l="en">Where the data really is</span>
+   <span class="fl-bad" data-l="zh">0xFFFF_0000（不相干的 DRAM）</span><span class="fl-bad" data-l="en">0xFFFF_0000 (unrelated DRAM)</span>    <span class="fl-sig">0x8000_0000（bitstream）</span>
                 <span class="fl-arrow">▲</span>                                  <span class="fl-arrow">▲</span>
-                <span class="fl-arrow">└──────────── 不一致 ────────────┘</span></div>
+                <span class="fl-arrow" data-l="zh">└──────────── 不一致 ────────────┘</span><span class="fl-arrow" data-l="en">└──────────── mismatch ────────────┘</span></div>
   </div>
 
   <div class="step">
-    <p><span class="step-n">7</span><strong>它找不到有效的 bitstream。</strong>
+    <p data-l="zh"><span class="step-n">7</span><strong>它找不到有效的 bitstream。</strong>
     沒有 section header、沒有 magic、沒有任何它認得的組態資料。
     因此它<strong>不會開始寫入 CRAM</strong>，而且關鍵是 —
-    它<strong>永遠不會回傳「緩衝區處理完畢」的回應</strong>。</p>
+    它<strong>永遠不會回傳「緩衝區處理完畢」的回應</strong>。</p><p data-l="en"><span class="step-n">7</span><strong>It finds no valid bitstream.</strong> No section header, no magic number, no configuration data it recognises. So it <strong>never starts writing CRAM</strong> and — crucially — it <strong>never returns the “buffer processed” response</strong>.</p>
   </div>
 
   <div class="step">
-    <p><span class="step-n">8</span><strong>驅動程式就卡在等那個回應：</strong></p>
+    <p><span class="step-n">8</span><strong data-l="zh">驅動程式就卡在等那個回應：</strong><strong data-l="en">The driver is left waiting for that response:</strong></p>
     <pre><code>fpga_manager fpga0: writing new40kHz4.core.rbf to Stratix10 SOC FPGA Manager
 Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout waiting for svc layer buffers</span></code></pre>
   </div>
 
   <div class="step">
-    <p><span class="step-n">9</span><strong>實際觀察到的後果：</strong></p>
+    <p><span class="step-n">9</span><strong data-l="zh">實際觀察到的後果：</strong><strong data-l="en">The consequences actually observed:</strong></p>
     <ul>
-      <li><code>state</code> 卡在 <code>write</code> — FPGA manager 從未離開寫入階段</li>
-      <li>寫入行程進入 <code>D</code> state（不可中斷睡眠），
-          <code>Ctrl-C</code> 與 <code>kill -9</code> 都無效</li>
-      <li><code>systemd-journald</code> 也一起卡住並觸發 watchdog 失敗</li>
-      <li>需要重開機（甚至 power cycle）才能清除</li>
+      <li data-l="zh"><code>state</code> 卡在 <code>write</code> — FPGA manager 從未離開寫入階段</li><li data-l="en"><code>state</code> stuck at <code>write</code> — the FPGA manager never leaves the write phase</li>
+      <li data-l="zh">寫入行程進入 <code>D</code> state（不可中斷睡眠），
+          <code>Ctrl-C</code> 與 <code>kill -9</code> 都無效</li><li data-l="en">The writing process enters <code>D</code> state (uninterruptible sleep); neither <code>Ctrl-C</code> nor <code>kill -9</code> has any effect</li>
+      <li data-l="zh"><code>systemd-journald</code> 也一起卡住並觸發 watchdog 失敗</li><li data-l="en"><code>systemd-journald</code> hangs alongside it and trips a watchdog failure</li>
+      <li data-l="zh">需要重開機（甚至 power cycle）才能清除</li><li data-l="en">A reboot (sometimes a power cycle) is needed to clear it</li>
     </ul>
-    <p><strong>結論：CRAM 從未被寫入</strong>，fabric 維持原本的組態不變。</p>
+    <p data-l="zh"><strong>結論：CRAM 從未被寫入</strong>，fabric 維持原本的組態不變。</p><p data-l="en"><strong>Conclusion: CRAM was never written</strong>, and the fabric keeps its original configuration.</p>
   </div>
 </section>
 
 <section>
-  <h2>5. 幾個容易誤解的重點</h2>
+  <h2 data-l="zh">5. 幾個容易誤解的重點</h2><h2 data-l="en">5. Points that are easy to misread</h2>
 
-  <div class="keybox">
+  <div class="keybox" data-l="zh">
     <strong>① 資料一直都在正確的位置。</strong><br>
     這是這個 bug 反直覺的地方：<code>memcpy</code> 進 <code>svcbuffer@0</code> 是成功的，
     保留區的實體位置正是 firmware 預期的位置，32 MB 容納 1.35 MB 的檔案綽綽有餘。
     <strong>錯的只有 mailbox 訊息裡的那個數字。</strong>
     因此「把緩衝區搬到別的位址」沒有用 — 兩端會一起搬過去，不一致依然存在。
-  </div>
+  </div><div class="keybox" data-l="en"><strong>① The data was in the right place the whole time.</strong><br> This is the counter-intuitive part of the bug: the <code>memcpy</code> into <code>svcbuffer@0</code> succeeds, the reserved region's physical location is exactly where the firmware expects it, and 32 MB is far more than enough for a 1.35 MB file. <strong>Only the number in the mailbox message is wrong.</strong> So “move the buffer somewhere else” achieves nothing — both ends move together and the mismatch remains.</div>
 
-  <div class="keybox">
+  <div class="keybox" data-l="zh">
     <strong>② 逾時（timeout）而非錯誤（fault），正是診斷指紋。</strong><br>
     如果是超出範圍或未映射的存取，會產生 SMMU fault 或回傳錯誤碼。
     但讀到<strong>合法但錯誤</strong>的 DRAM 兩者都不會發生：
     SDM 看到垃圾資料，判斷沒事可做，然後就安靜了。
     <strong>「沉默」正是位址轉譯不一致的特徵</strong>，而不是權限或範圍問題。
-  </div>
+  </div><div class="keybox" data-l="en"><strong>② A timeout rather than a fault is the diagnostic fingerprint.</strong><br> An out-of-range or unmapped access would raise an SMMU fault or return an error code. Reading <strong>valid but wrong</strong> DRAM does neither: the SDM sees garbage, concludes there is nothing to do, and goes quiet. <strong>That silence is the signature of an address-translation mismatch</strong>, not of a permission or range problem.</div>
 
-  <div class="keybox">
+  <div class="keybox" data-l="zh">
     <strong>③ <code>nomap</code> 是結構性的矛盾。</strong><br>
     這個旗標存在的原因，就是因為有個非 CPU 的代理人以<strong>實體位址</strong>存取這塊區域。
     把這樣的區域放在一個會轉譯的 SMMU 後面，在設計上就是自相矛盾 —
     所以修正方式必須是「讓那一個裝置不要被轉譯」，而不是去調整位址。
-  </div>
+  </div><div class="keybox" data-l="en"><strong>③ <code>nomap</code> is a structural contradiction here.</strong><br> The flag exists precisely because a non-CPU agent accesses this region by <strong>physical address</strong>. Placing such a region behind a translating SMMU is self-contradictory by design — so the fix has to be “stop translating for that one device”, not “adjust the address”.</div>
 
-  <div class="keybox">
+  <div class="keybox" data-l="zh">
     <strong>④ 這也解釋了為什麼 Terasic 自己的 <code>ada.rbf</code> 一樣失敗。</strong><br>
     上述流程完全不依賴 bitstream 的內容、大小，或 HPS-First / FPGA-First 設定。
     失敗發生在<strong>任何一個位元的組態資料被消耗之前</strong>。
     這證明問題與我們的設計無關，而是板子出廠映像檔的問題。
-  </div>
+  </div><div class="keybox" data-l="en"><strong>④ It also explains why Terasic's own <code>ada.rbf</code> fails identically.</strong><br> Nothing in the sequence above depends on the bitstream's content or size, or on the HPS-First / FPGA-First setting. The failure happens <strong>before a single bit of configuration data is consumed</strong>. That proves the problem is unrelated to our design and lies in the board's factory image.</div>
 
-  <div class="warnbox">
+  <div class="warnbox" data-l="zh">
     <strong>⑤ <code>altr,smmu_enable_quirk</code> 的存在是強力線索。</strong><br>
     device tree 的 <code>svc</code> 節點上同時有 <code>iommus</code> 與
     <code>altr,smmu_enable_quirk</code>。後者的存在說明 Altera 知道
     svc 與 SMMU 的組合需要特別處理 — 而逾時說明在這個 kernel build 上，
     負責讀取這個 quirk 的機制並沒有生效。
-  </div>
+  </div><div class="warnbox" data-l="en"><strong>⑤ The presence of <code>altr,smmu_enable_quirk</code> is a strong clue.</strong><br> The device tree's <code>svc</code> node carries both <code>iommus</code> and <code>altr,smmu_enable_quirk</code>. The latter's existence shows Altera knew the svc + SMMU combination needs special handling — and the timeout shows that, on this kernel build, whatever reads that quirk did not take effect.</div>
 </section>
 
 <section>
-  <h2>6. 為什麼「換一個 SDM 能存取的位址」行不通</h2>
-  <p>
+  <h2 data-l="zh">6. 為什麼「換一個 SDM 能存取的位址」行不通</h2><h2 data-l="en">6. Why “just use an address the SDM can reach” does not work</h2>
+  <p data-l="zh">
     DMA API <strong>不允許</strong>驅動程式說「請給我一個數值上等於實體位址的 IOVA」。
     IOVA 是由 SMMU 自己的配置器從它的位址空間分配的，驅動程式只能被動接受。
     沒有任何旋鈕可以要求「請 identity 映射這一塊」。
-  </p>
-  <p>
+  </p><p data-l="en">The DMA API <strong>does not allow</strong> a driver to say “give me an IOVA numerically equal to the physical address”. IOVAs are handed out by the SMMU's own allocator from its address space, and the driver can only accept what it is given. There is no knob for “please identity-map this block”.</p>
+  <p data-l="zh">
     真正能讓 <code>IOVA == PA</code> 的機制就是
     <strong>identity / passthrough domain</strong> —
     也就是我們實測過的 <code>iommu.passthrough=1</code>（全域生效，但弄壞了 SD 卡），
     或是把 <code>svc</code> 節點的 <code>iommus</code> 移除（只對這一個裝置生效）。
-  </p>
+  </p><p data-l="en">The mechanism that genuinely makes <code>IOVA == PA</code> is an <strong>identity / passthrough domain</strong> — that is, the <code>iommu.passthrough=1</code> we tested (global, but it broke the SD card), or removing the <code>iommus</code> property from the <code>svc</code> node (which affects only that one device).</p>
 </section>
 
 <section>
-  <h2>7. 已排除的做法（實測結果）</h2>
+  <h2 data-l="zh">7. 已排除的做法（實測結果）</h2><h2 data-l="en">7. Approaches already ruled out (measured results)</h2>
   <table>
-    <tr>
-      <th style="width:34%">測試</th>
-      <th style="width:20%">參數生效？</th>
-      <th style="width:20%">板子開機？</th>
-      <th>RBF 載入？</th>
+    <tbody><tr>
+      <th style="width:34%" data-l="zh">測試</th><th style="width:34%" data-l="en">Test</th>
+      <th style="width:20%" data-l="zh">參數生效？</th><th style="width:20%" data-l="en">Parameter took effect?</th>
+      <th style="width:20%" data-l="zh">板子開機？</th><th style="width:20%" data-l="en">Board boots?</th>
+      <th data-l="zh">RBF 載入？</th><th data-l="en">RBF loads?</th>
     </tr>
     <tr>
       <td><code>iommu.passthrough=1</code></td>
-      <td><span class="ok">是</span><br><span class="note">Default domain type: Passthrough</span></td>
-      <td><span class="bad">失敗</span><br><span class="note">mmc0: error -5</span></td>
-      <td>無法測試</td>
+      <td><span class="ok" data-l="zh">是</span><span class="ok" data-l="en">Yes</span><br><span class="note">Default domain type: Passthrough</span></td>
+      <td><span class="bad" data-l="zh">失敗</span><span class="bad" data-l="en">Failed</span><br><span class="note">mmc0: error -5</span></td>
+      <td data-l="zh">無法測試</td><td data-l="en">Could not be tested</td>
     </tr>
     <tr>
       <td><code>arm-smmu-v3.disable_bypass=0</code></td>
-      <td><span class="ok">是</span><br><span class="note">但 domain 仍為 Translated</span></td>
-      <td><span class="ok">正常</span></td>
-      <td><span class="bad">相同逾時</span></td>
+      <td><span class="ok" data-l="zh">是</span><span class="ok" data-l="en">Yes</span><br><span class="note" data-l="zh">但 domain 仍為 Translated</span><span class="note" data-l="en">but the domain is still Translated</span></td>
+      <td><span class="ok" data-l="zh">正常</span><span class="ok" data-l="en">Normal</span></td>
+      <td><span class="bad" data-l="zh">相同逾時</span><span class="bad" data-l="en">Same timeout</span></td>
     </tr>
-  </table>
+  </tbody></table>
   <div class="warnbox">
-    <strong>為什麼這兩個都不行：</strong>
+    <strong data-l="zh">為什麼這兩個都不行：</strong><strong data-l="en">Why neither one works:</strong>
     <ul style="margin-bottom:0">
-      <li><code>iommu.passthrough=1</code> 讓<strong>所有</strong>裝置 IOVA == PA。
+      <li data-l="zh"><code>iommu.passthrough=1</code> 讓<strong>所有</strong>裝置 IOVA == PA。
           svc 因此可以運作，但 <code>sdhci-cdns</code> 原本依賴 IOMMU 配置的位址窗，
           改為 identity 映射後它的 descriptor 無法表達那些位址 —
           於是出現 <code>DMA 0x0000000000000000, LEN 0x0000</code> 與
-          <code>mmc0: error -5 whilst initialising SD card</code>，root filesystem 掛不起來。</li>
-      <li><code>arm-smmu-v3.disable_bypass=0</code> 只影響
+          <code>mmc0: error -5 whilst initialising SD card</code>，root filesystem 掛不起來。</li><li data-l="en"><code>iommu.passthrough=1</code> makes IOVA == PA for <strong>every</strong> device. That lets svc work, but <code>sdhci-cdns</code> relied on the address window the IOMMU had allocated; under identity mapping its descriptors cannot express those addresses — hence <code>DMA 0x0000000000000000, LEN 0x0000</code> and <code>mmc0: error -5 whilst initialising SD card</code>, and the root filesystem fails to mount.</li>
+      <li data-l="zh"><code>arm-smmu-v3.disable_bypass=0</code> 只影響
           <strong>沒有</strong> device tree IOMMU 對應的 stream ID。
           <code>stratix10-svc</code> 有明確的 <code>iommus</code> 屬性，
-          所以無論如何都會拿到會轉譯的 domain。</li>
+          所以無論如何都會拿到會轉譯的 domain。</li><li data-l="en"><code>arm-smmu-v3.disable_bypass=0</code> only affects stream IDs that have <strong>no</strong> device-tree IOMMU mapping. <code>stratix10-svc</code> has an explicit <code>iommus</code> property, so it gets a translating domain regardless.</li>
     </ul>
   </div>
-  <p>
+  <p data-l="zh">
     這兩個測試剛好從兩側夾出了問題本質：
     <strong>全域 passthrough 修好 svc 卻弄壞 SDHCI；保留轉譯讓 SDHCI 正常但 svc 仍失敗。</strong>
     沒有任何一個 kernel 命令列參數能同時滿足兩者 —
     因此修正必須是<strong>針對單一裝置</strong>的，也就是改 device tree。
-  </p>
+  </p><p data-l="en">Together the two tests bracket the real issue from both sides: <strong>global passthrough fixes svc but breaks SDHCI; keeping translation keeps SDHCI working but svc still fails.</strong> No kernel command-line parameter satisfies both — so the fix has to be <strong>per-device</strong>, which means changing the device tree.</p>
 </section>
 
 <section>
-  <h2>8. 可行的修正方向</h2>
+  <h2 data-l="zh">8. 可行的修正方向</h2><h2 data-l="en">8. Workable fixes</h2>
   <table>
-    <tr>
-      <th style="width:32%">修正方式</th>
-      <th style="width:38%">改變了什麼</th>
-      <th>代價</th>
+    <tbody><tr>
+      <th style="width:32%" data-l="zh">修正方式</th><th style="width:32%" data-l="en">Fix</th>
+      <th style="width:38%" data-l="zh">改變了什麼</th><th style="width:38%" data-l="en">What it changes</th>
+      <th data-l="zh">代價</th><th data-l="en">Cost</th>
     </tr>
     <tr>
-      <td><span class="bad">✗</span> 移除 <code>svc</code> 節點的 <code>iommus</code>
-          <br><span class="note">（原本以為可行，實際不可行）</span></td>
-      <td><span class="bad">在 Agilex 5 上無效。</span>
+      <td data-l="zh"><span class="bad">✗</span> 移除 <code>svc</code> 節點的 <code>iommus</code>
+          <br><span class="note">（原本以為可行，實際不可行）</span></td><td data-l="en"><span class="bad">✗</span> Remove <code>iommus</code> from the <code>svc</code> node <br><span class="note">(originally believed workable; it is not)</span></td>
+      <td data-l="zh"><span class="bad">在 Agilex 5 上無效。</span>
           <code>intel,agilex5-svc</code> 的 probe 沒有 non-SMMU 分支：
           移除後 <code>iommu_get_dma_domain()</code> 回傳 <code>NULL</code>
-          （或走 <code>else</code>），一律 <code>-ENODEV</code></td>
-      <td><span class="bad">svc 完全不上線</span> —
+          （或走 <code>else</code>），一律 <code>-ENODEV</code></td><td data-l="en"><span class="bad">Ineffective on Agilex 5.</span> The <code>intel,agilex5-svc</code> probe has no non-SMMU branch: with the property removed, <code>iommu_get_dma_domain()</code> returns <code>NULL</code> (or falls to the <code>else</code>), giving <code>-ENODEV</code> every time</td>
+      <td data-l="zh"><span class="bad">svc 完全不上線</span> —
           <code>fpga-mgr</code>、<code>hwmon</code>、<code>fcs-config</code>
-          等子節點全部一起消失</td>
+          等子節點全部一起消失</td><td data-l="en"><span class="bad">svc never comes up at all</span> — the <code>fpga-mgr</code>, <code>hwmon</code> and <code>fcs-config</code> child nodes all disappear with it</td>
     </tr>
     <tr>
-      <td><span class="ok">✓</span> 對齊 kernel + DTB + ATF 版本，
+      <td data-l="zh"><span class="ok">✓</span> 對齊 kernel + DTB + ATF 版本，
           並確認 <code>altr,smmu_enable_quirk</code>
-          在 <code>svc</code> 與 <code>fpga-mgr</code> <strong>兩個節點</strong>都存在</td>
-      <td>SMMU 路徑本來就是<strong>刻意設計</strong>要能運作的：
+          在 <code>svc</code> 與 <code>fpga-mgr</code> <strong>兩個節點</strong>都存在</td><td data-l="en"><span class="ok">✓</span> Align the kernel, DTB and ATF versions, and confirm <code>altr,smmu_enable_quirk</code> is present on <strong>both</strong> the <code>svc</code> and <code>fpga-mgr</code> nodes</td>
+      <td data-l="zh">SMMU 路徑本來就是<strong>刻意設計</strong>要能運作的：
           IOVA domain <code>0x0–0x2000_0000</code>、
           送 SDM 前加 <code>0x8000_0000</code>、
-          並以 SMC funcid 513 關掉 SDM remapper</td>
-      <td>需版本一致；但這是這個平台的正解<br>
-          <span class="note">詳見 <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a> 第 6–8 節</span></td>
+          並以 SMC funcid 513 關掉 SDM remapper</td><td data-l="en">The SMMU path was <strong>deliberately designed</strong> to work: an IOVA domain of <code>0x0–0x2000_0000</code>, adding <code>0x8000_0000</code> before handing the address to the SDM, and disabling the SDM remapper via SMC funcid 513</td>
+      <td data-l="zh">需版本一致；但這是這個平台的正解<br>
+          <span class="note">詳見 <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a> 第 6–8 節</span></td><td data-l="en">Requires matching versions, but this is the correct fix for this platform<br> <span class="note">see sections 6–8 of <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a></span></td>
     </tr>
     <tr>
-      <td>修改 <code>stratix10-svc</code> 驅動，改傳實體位址</td>
-      <td>驅動在 SMC 呼叫前自行轉換</td>
-      <td>需改 kernel 原始碼；但這在上游語意上更正確</td>
+      <td data-l="zh">修改 <code>stratix10-svc</code> 驅動，改傳實體位址</td><td data-l="en">Modify the <code>stratix10-svc</code> driver to pass a physical address</td>
+      <td data-l="zh">驅動在 SMC 呼叫前自行轉換</td><td data-l="en">The driver converts the address itself before the SMC call</td>
+      <td data-l="zh">需改 kernel 原始碼；但這在上游語意上更正確</td><td data-l="en">Requires kernel source changes, but is semantically more correct upstream</td>
     </tr>
     <tr>
-      <td>更新板子的出廠映像檔 / 洽詢 Terasic</td>
-      <td>可能上游已修正</td>
-      <td>風險最低；但需等待</td>
+      <td data-l="zh">更新板子的出廠映像檔 / 洽詢 Terasic</td><td data-l="en">Update the board's factory image / ask Terasic</td>
+      <td data-l="zh">可能上游已修正</td><td data-l="en">It may already be fixed upstream</td>
+      <td data-l="zh">風險最低；但需等待</td><td data-l="en">Lowest risk, but you have to wait</td>
     </tr>
-  </table>
+  </tbody></table>
 
-  <div class="badbox">
+  <div class="badbox" data-l="zh">
     <strong>訂正（依 <code>linux-socfpga-6.12</code> 原始碼，tag <code>QPDS25.3.1_REL_FCS_FIX</code>）：</strong>
     本節原先寫「SDM 根本不是 DMA master、沒有被登錄進 SMMU」，
     並建議移除 <code>iommus</code>。<strong>兩者都不成立。</strong>
@@ -676,9 +746,9 @@ Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout w
           移除 <code>iommus</code> 只會得到 <code>-ENODEV</code>，
           <code>svc</code> 與其所有子節點全部不上線。</li>
     </ul>
-  </div>
+  </div><div class="badbox" data-l="en"><strong>Correction (based on the <code>linux-socfpga-6.12</code> sources, tag <code>QPDS25.3.1_REL_FCS_FIX</code>):</strong> this section originally claimed that “the SDM is not a DMA master at all and is not registered with the SMMU”, and recommended removing <code>iommus</code>. <strong>Neither statement holds.</strong> <ul style="margin-bottom:0"> <li>On Agilex 5 the SDM <strong>does have a translated DRAM access path</strong>, corresponding to <code>StreamID 10</code>; it also has a remapper of its own, which the driver disables with SMC funcid 513 when the SMMU is enabled.</li> <li>The <code>intel,agilex5-svc</code> probe has <strong>no non-SMMU branch</strong> — removing <code>iommus</code> only yields <code>-ENODEV</code>, and <code>svc</code> plus all of its child nodes fail to come up.</li> </ul></div>
 
-  <div class="infobox">
+  <div class="infobox" data-l="zh">
     <strong>正確的理解：</strong>
     SMMU + <code>svc</code> 是<strong>刻意設計要能運作</strong>的組合，由
     <code>altr,smmu_enable_quirk</code> 啟用，需要
@@ -686,59 +756,60 @@ Stratix10 SoC FPGA manager firmware:svc:fpga-mgr: <span class="fl-bad">timeout w
     IOVA domain 為 <code>0x0–0x2000_0000</code>、
     送 SDM 前加上 <code>AGILEX5_SDM_DMA_ADDR_OFFSET = 0x8000_0000</code>、
     並關掉 SDM remapper。三者是同一份協定，混版即失效。
-  </div>
+  </div><div class="infobox" data-l="en"><strong>The correct understanding:</strong> SMMU + <code>svc</code> is a combination <strong>deliberately designed to work</strong>, enabled by <code>altr,smmu_enable_quirk</code> and requiring the <strong>kernel, DTB and ATF to be version-consistent</strong>: an IOVA domain of <code>0x0–0x2000_0000</code>, adding <code>AGILEX5_SDM_DMA_ADDR_OFFSET = 0x8000_0000</code> before handing the address to the SDM, and disabling the SDM remapper. All three are one protocol; mixing versions breaks it.</div>
 
-  <h3>建議的檢查順序</h3>
+  <h3 data-l="zh">建議的檢查順序</h3><h3 data-l="en">Suggested order of checks</h3>
   <ol>
-    <li><code>uname -r</code> — 對照 kernel 樹版本
-        <span class="note">（失效環境 6.12.11；含完整 quirk 支援的樹為 6.12.43）</span></li>
-    <li>確認 quirk 在<strong>兩個節點</strong>都存在：
+    <li data-l="zh"><code>uname -r</code> — 對照 kernel 樹版本
+        <span class="note">（失效環境 6.12.11；含完整 quirk 支援的樹為 6.12.43）</span></li><li data-l="en"><code>uname -r</code> — compare against the kernel tree version <span class="note">(the failing environment is 6.12.11; the tree with full quirk support is 6.12.43)</span></li>
+    <li data-l="zh">確認 quirk 在<strong>兩個節點</strong>都存在：
         <code>ls /proc/device-tree/firmware/svc/altr,smmu_enable_quirk</code> 與
         <code>ls /proc/device-tree/firmware/svc/fpga-mgr/altr,smmu_enable_quirk</code>
         <br><span class="note">只有一個成功 → 這就是根因：fpga-mgr 不做
-        <code>dma_map_single()</code>，svc 卻仍加 <code>0x8000_0000</code></span></li>
-    <li><code>dmesg | grep -i remapper</code> —
+        <code>dma_map_single()</code>，svc 卻仍加 <code>0x8000_0000</code></span></li><li data-l="en">Confirm the quirk is present on <strong>both nodes</strong>: <code>ls /proc/device-tree/firmware/svc/altr,smmu_enable_quirk</code> and <code>ls /proc/device-tree/firmware/svc/fpga-mgr/altr,smmu_enable_quirk</code> <br><span class="note">only one succeeding → that is the root cause: fpga-mgr does not call <code>dma_map_single()</code>, yet svc still adds <code>0x8000_0000</code></span></li>
+    <li data-l="zh"><code>dmesg | grep -i remapper</code> —
         沒有 <code>Failed to configure remapper!</code>（<code>pr_info</code>）
-        表示 ATF 已實作 funcid 513</li>
-    <li>以上都正常才考慮改驅動</li>
+        表示 ATF 已實作 funcid 513</li><li data-l="en"><code>dmesg | grep -i remapper</code> — the absence of <code>Failed to configure remapper!</code> (a <code>pr_info</code>) means ATF implements funcid 513</li>
+    <li data-l="zh">以上都正常才考慮改驅動</li><li data-l="en">Only consider patching the driver once all of the above check out</li>
   </ol>
-  <p class="note">
+  <p class="note" data-l="zh">
     完整的原始碼引用與逐行分析見 <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a> 第 6–8 節。
-  </p>
+  </p><p class="note" data-l="en">Full source citations and a line-by-line analysis are in sections 6–8 of <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a>.</p>
 </section>
 
 <section>
-  <h2>9. 附註：這一切不影響 mailbox 的存取</h2>
-  <p>Linux 存取 <code>fabric_avalon_uart</code> 的路徑是：</p>
-  <div class="flow"><span class="fl-label">CPU</span> <span class="fl-arrow">→</span> <span class="fl-box">LWH2F bridge</span> <span class="fl-arrow">→</span> <span class="fl-sig">Avalon slave @ 0x2000_0000</span>   <span class="fl-note">← MMIO，CPU 主動發起</span></div>
-  <p>
+  <h2 data-l="zh">9. 附註：這一切不影響 mailbox 的存取</h2><h2 data-l="en">9. Footnote: none of this affects mailbox access</h2>
+  <p data-l="zh">Linux 存取 <code>fabric_avalon_uart</code> 的路徑是：</p><p data-l="en">Linux reaches <code>fabric_avalon_uart</code> along this path:</p>
+  <div class="flow"><span class="fl-label">CPU</span> <span class="fl-arrow">→</span> <span class="fl-box">LWH2F bridge</span> <span class="fl-arrow">→</span> <span class="fl-sig">Avalon slave @ 0x2000_0000</span>   <span class="fl-note" data-l="zh">← MMIO，CPU 主動發起</span><span class="fl-note" data-l="en">← MMIO, initiated by the CPU</span></div>
+  <p data-l="zh">
     這是<strong>以 CPU 為發起端</strong>，所以走 MMU 而非 SMMU。因此：
-  </p>
+  </p><p data-l="en">This is <strong>CPU-initiated</strong>, so it goes through the MMU, not the SMMU. Therefore:</p>
   <ul>
-    <li>mailbox 完全不需要 <code>iommus</code> 屬性 — 它不做 bus-master，只被動回應</li>
-    <li>任何對 <code>svc</code> 的 SMMU 設定改動（<code>iommus</code>、
+    <li data-l="zh">mailbox 完全不需要 <code>iommus</code> 屬性 — 它不做 bus-master，只被動回應</li><li data-l="en">The mailbox needs no <code>iommus</code> property at all — it is never a bus master, only a passive responder</li>
+    <li data-l="zh">任何對 <code>svc</code> 的 SMMU 設定改動（<code>iommus</code>、
         <code>altr,smmu_enable_quirk</code>、版本對齊）
-        <strong>都不可能影響</strong>驅動讀寫 <code>DATA</code>/<code>STATUS</code>/<code>CONTROL</code></li>
-    <li>overlay 裡的 <code>reg = &lt;0x0 0x20000000 0x0 0x10&gt;</code>
-        是給 <code>ioremap</code> 用的實體位址，與 SMMU 無關</li>
+        <strong>都不可能影響</strong>驅動讀寫 <code>DATA</code>/<code>STATUS</code>/<code>CONTROL</code></li><li data-l="en">No change to <code>svc</code>'s SMMU configuration (<code>iommus</code>, <code>altr,smmu_enable_quirk</code>, version alignment) <strong>can possibly affect</strong> the driver reading and writing <code>DATA</code>/<code>STATUS</code>/<code>CONTROL</code></li>
+    <li data-l="zh">overlay 裡的 <code>reg = &lt;0x0 0x20000000 0x0 0x10&gt;</code>
+        是給 <code>ioremap</code> 用的實體位址，與 SMMU 無關</li><li data-l="en">The <code>reg = &lt;0x0 0x20000000 0x0 0x10&gt;</code> in the overlay is a physical address for <code>ioremap</code> and has nothing to do with the SMMU</li>
   </ul>
-  <div class="keybox">
+  <div class="keybox" data-l="zh">
     這一點乾淨地把兩個問題分開了：
     <strong>SMMU 的 bug 只侷限於 bitstream 的「載入」階段</strong>（svc → SDM，裝置主動發起）。
     一旦 fabric 完成組態，與 mailbox 通訊純粹是 MMIO，完全不受影響。
     所以修其中一個不會弄壞另一個。
-  </div>
+  </div><div class="keybox" data-l="en">This cleanly separates the two problems: <strong>the SMMU bug is confined to the bitstream “load” phase</strong> (svc → SDM, device-initiated). Once the fabric is configured, talking to the mailbox is pure MMIO and is entirely unaffected. Fixing one cannot break the other.</div>
 </section>
 
 <footer>
-  <p>
+  <p data-l="zh">
     DE25-Standard (Agilex 5 A5ED013BB32AE4SCS) · Linux 6.12.11 ·
     U-Boot 2025.01-ge905465722f4 · Quartus Prime Pro 26.1<br>
     姊妹篇：<a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a>（Device Tree 的 <code>iommus</code>、<code>svc</code> 與 <code>method = "smc"</code> 逐項釋疑）<br>
     相關檔案：<code>build_soc_system.tcl</code>、<code>soc_system.qsys</code>、
     <code>fpga_config_overlay.dts</code>、<code>hps_module/fpga_uart_overlay.dts</code>
-  </p>
+  </p><p data-l="en">DE25-Standard (Agilex 5 A5ED013BB32AE4SCS) · Linux 6.12.11 · U-Boot 2025.01-ge905465722f4 · Quartus Prime Pro 26.1<br> Companion note: <a href="dt_iommus_svc_qa_zh.html"><code>dt_iommus_svc_qa_zh.html</code></a> (a point-by-point explanation of device-tree <code>iommus</code>, <code>svc</code> and <code>method = "smc"</code>)<br> Related files: <code>build_soc_system.tcl</code>, <code>soc_system.qsys</code>, <code>fpga_config_overlay.dts</code>, <code>hps_module/fpga_uart_overlay.dts</code></p>
 </footer>
 
-</body>
-</html>
+
+
+</body></html>

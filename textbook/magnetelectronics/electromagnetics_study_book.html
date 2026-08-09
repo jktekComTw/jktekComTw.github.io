@@ -440,8 +440,79 @@ MathJax = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="en";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"電磁學讀書筆記 — Field and Wave Electromagnetics (Cheng)",en:"Field and Wave Electromagnetics — Cheng | 電磁學 Study Notes"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
 <nav id="toc">
 <div id="toc-header">
 <h2>Contents</h2>
@@ -3036,25 +3107,25 @@ MathJax = {
 
 <h3 id="ch5-theory--intro-types-of-current">5-1 &nbsp; Three Types of Current</h3>
 
-<p>Chapters 3 and 4 dealt with charges <em>at rest</em>. Chapter 5 introduces charges <em>in motion</em> — steady (d.c.) currents. Three mechanisms produce electric current, and it is important to recognise which one applies to a given situation:</p>
+<p data-l="en">Chapters 3 and 4 dealt with charges <em>at rest</em>. Chapter 5 introduces charges <em>in motion</em> — steady (d.c.) currents. Three mechanisms produce electric current, and it is important to recognise which one applies to a given situation:</p>
 
-<ul>
+<ul data-l="en">
 <li><strong>Conduction currents</strong> — drift motion of conduction electrons (or holes) in conductors and semiconductors. Governed by Ohm's law.</li>
 <li><strong>Electrolytic currents</strong> — migration of positive and negative ions in an electrolyte (e.g. a salt solution between electrodes). Electrolytes obey a Laplace-equation model which is the basis of the <em>electrolytic tank</em> used to map hard-to-solve electrostatic potentials.</li>
 <li><strong>Convection currents</strong> — bulk motion of charged particles in a vacuum or rarefied gas (electron beams in a CRT, lightning). Convection currents are a hydrodynamic mass transport and are <em>not</em> governed by Ohm's law.</li>
 </ul>
 
-<p><strong>Drift velocity is tiny.</strong> The average drift velocity of conduction electrons is only \(10^{-4}\) to \(10^{-3}\) m/s — even in excellent conductors — because of continual electron-atom collisions that dissipate kinetic energy as heat. A conductor remains electrically neutral in bulk; electric forces prevent charge accumulation at any interior point.</p>
+<p data-l="en"><strong>Drift velocity is tiny.</strong> The average drift velocity of conduction electrons is only \(10^{-4}\) to \(10^{-3}\) m/s — even in excellent conductors — because of continual electron-atom collisions that dissipate kinetic energy as heat. A conductor remains electrically neutral in bulk; electric forces prevent charge accumulation at any interior point.</p>
 
-<p>第 3、4 章探討的是 at rest 的電荷,第 5 章開始討論 in motion 的電荷 — 即穩態 (d.c.) currents。產生 electric current 的機制有三種,辨識當下情境屬於哪一種非常重要:</p>
+<p data-l="zh">第 3、4 章探討的是 at rest 的電荷,第 5 章開始討論 in motion 的電荷 — 即穩態 (d.c.) currents。產生 electric current 的機制有三種,辨識當下情境屬於哪一種非常重要:</p>
 
-<ul>
+<ul data-l="zh">
 <li><strong>Conduction currents</strong> — conductors 與 semiconductors 內 conduction electrons(或 holes)的 drift motion,遵循 Ohm's law。</li>
 <li><strong>Electrolytic currents</strong> — electrolyte(例如兩 electrodes 間的鹽溶液)中正、負 ions 的遷移。Electrolytes 遵守 Laplace-equation 模型,這也是 <em>electrolytic tank</em> 的原理基礎 — 用以實驗映射難以解析求得的 electrostatic potentials。</li>
 <li><strong>Convection currents</strong> — 真空或稀薄氣體中帶電粒子的整體運動(CRT 中的 electron beams、閃電)。Convection currents 屬於 hydrodynamic mass transport,<em>不</em>遵循 Ohm's law。</li>
 </ul>
 
-<p><strong>Drift velocity 非常小。</strong>即使在極佳的 conductors 中,conduction electrons 的平均 drift velocity 也只有 \(10^{-4}\) 至 \(10^{-3}\) m/s — 原因是 electron 與原子持續碰撞,將動能以熱的形式耗散。Conductor 整體保持電中性;electric forces 會阻止電荷在內部任何一點累積。</p>
+<p data-l="zh"><strong>Drift velocity 非常小。</strong>即使在極佳的 conductors 中,conduction electrons 的平均 drift velocity 也只有 \(10^{-4}\) 至 \(10^{-3}\) m/s — 原因是 electron 與原子持續碰撞,將動能以熱的形式耗散。Conductor 整體保持電中性;electric forces 會阻止電荷在內部任何一點累積。</p>
 
 <hr>
 

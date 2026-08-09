@@ -421,8 +421,79 @@
             background: #fff;
         }
     </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="en";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"專利 — 昭群科技 JiaoKuan Technology",en:"Patents — 昭群科技 JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
     <div class="diagonal-background">
         <button class="hamburger-menu" id="hamburgerBtn" onclick="toggleMobileMenu()">
             <span></span>
@@ -436,36 +507,44 @@
             </div>
             <div class="title-section">
                 <h1>昭群科技</h1>
-                <h2>Welcome to JiaoKuan Technology</h2>
+                <h2><span data-l="zh">歡迎光臨昭群科技</span><span data-l="en">Welcome to JiaoKuan Technology</span></h2>
             </div>
         </div>
 
         <div class="navigation">
-            <a href="index.html">Home</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="projects.html">Projects/Web App</a>
-            <a href="patents.html" class="active">Patents</a>
-            <a href="#">Project/FOC Motor Drive</a>
+            <a href="index.html"><span data-l="zh">首頁</span><span data-l="en">Home</span></a>
+            <a href="aboutus.html"><span data-l="zh">關於我們</span><span data-l="en">About Us</span></a>
+            <a href="projects.html"><span data-l="zh">專案 / 網頁應用</span><span data-l="en">Projects/Web App</span></a>
+            <a href="patents.html" class="active"><span data-l="zh">專利</span><span data-l="en">Patents</span></a>
+            <a href="#"><span data-l="zh">專案 / FOC 馬達驅動</span><span data-l="en">Project/FOC Motor Drive</span></a>
         </div>
 
         <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
 
         <div class="mobile-menu" id="mobileMenu">
-            <a href="index.html" onclick="closeMobileMenu()">Home</a>
-            <a href="aboutus.html" onclick="closeMobileMenu()">About Us</a>
-            <a href="projects.html" onclick="closeMobileMenu()">Projects/Web App</a>
-            <a href="patents.html" onclick="closeMobileMenu()">Patents</a>
-            <a href="#" onclick="closeMobileMenu()">Project/FOC Motor Drive</a>
+            <a href="index.html" onclick="closeMobileMenu()"><span data-l="zh">首頁</span><span data-l="en">Home</span></a>
+            <a href="aboutus.html" onclick="closeMobileMenu()"><span data-l="zh">關於我們</span><span data-l="en">About Us</span></a>
+            <a href="projects.html" onclick="closeMobileMenu()"><span data-l="zh">專案 / 網頁應用</span><span data-l="en">Projects/Web App</span></a>
+            <a href="patents.html" onclick="closeMobileMenu()"><span data-l="zh">專利</span><span data-l="en">Patents</span></a>
+            <a href="#" onclick="closeMobileMenu()"><span data-l="zh">專案 / FOC 馬達驅動</span><span data-l="en">Project/FOC Motor Drive</span></a>
         </div>
 
         <div class="main-content">
-            <h2 style="color: #ff6600; text-align: center;">專利 / Patents</h2>
-            <p style="text-align: center;">昭群科技的專利與申請案。Patents and patent applications of JiaoKuan Technology.</p>
+            <h2 style="color: #ff6600; text-align: center;"><span data-l="zh">專利</span><span data-l="en">Patents</span></h2>
+            <p style="text-align: center;"><span data-l="zh">昭群科技的專利與申請案。</span><span data-l="en">Patents and patent applications of JiaoKuan Technology.</span></p>
 
             <div class="patent-entry">
                 <h3>Cloud Storage Expansion Apparatus of Video Recorder</h3>
-                <p class="patent-status">Granted &middot; 已獲證</p>
-                <ul class="patent-meta">
+                <p class="patent-status"><span data-l="zh">已獲證</span><span data-l="en">Granted</span></p>
+                <ul class="patent-meta" data-l="zh">
+                    <li><strong>專利號:</strong> US 12,279,076 B2</li>
+                    <li><strong>獲證日:</strong> 2025 年 4 月 15 日</li>
+                    <li><strong>申請號:</strong> 18/197,459 &middot; 2023 年 5 月 15 日提出申請</li>
+                    <li><strong>早期公開:</strong> US 2024/0340393 A1(2024 年 10 月 10 日)</li>
+                    <li><strong>發明人:</strong> 馬嘉鴻 (Chia-Hung Ma)</li>
+                    <li><strong>受理單位:</strong> 美國專利商標局 (USPTO)</li>
+                </ul>
+                <ul class="patent-meta" data-l="en">
                     <li><strong>Patent No.:</strong> US 12,279,076 B2</li>
                     <li><strong>Granted:</strong> April 15, 2025</li>
                     <li><strong>Application No.:</strong> 18/197,459 &middot; Filed May 15, 2023</li>
@@ -475,7 +554,7 @@
                 </ul>
                 <p class="patent-links">
                     <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/12279076"
-                       target="_blank" rel="noopener">USPTO full-text PDF</a> &middot;
+                       target="_blank" rel="noopener"><span data-l="zh">USPTO 全文 PDF</span><span data-l="en">USPTO full-text PDF</span></a> &middot;
                     <a href="https://patents.google.com/patent/US12279076B2/en"
                        target="_blank" rel="noopener">Google Patents</a> &middot;
                     <a href="https://patentcenter.uspto.gov/applications/18197459"
@@ -484,9 +563,10 @@
                 <a href="patent_18197459.png" target="_blank" rel="noopener">
                     <img src="patent_18197459.png"
                          alt="USPTO filing header for application 18/197,459, Cloud Storage Expansion Apparatus of Video Recorder, inventor Chia-Hung Ma"
+                         data-i18n='{"zh":{"alt":"美國專利申請案 18/197,459 的申請表頭,名稱為 Cloud Storage Expansion Apparatus of Video Recorder,發明人馬嘉鴻"}}'
                          width="998" height="422" loading="lazy">
                 </a>
-                <p class="patent-caption">Filing header of application 18/197,459, which issued as US 12,279,076 B2.</p>
+                <p class="patent-caption"><span data-l="zh">申請案 18/197,459 的申請表頭,該案已獲證為 US 12,279,076 B2。</span><span data-l="en">Filing header of application 18/197,459, which issued as US 12,279,076 B2.</span></p>
             </div>
         </div>
 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
+<html lang="zh-Hant"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>數位控制系統 DIGITAL CONTROL SYSTEM — NTU ME5247 課程大綱 | 昭群科技</title>
@@ -63,54 +62,125 @@
   .src a{color:var(--accent)}
   a{color:var(--accent)}
 </style>
+<style id="lang-switch-style">
+#lang-switch{position:fixed;top:10px;right:12px;z-index:99999;font:600 12px/1 'DM Sans',
+ -apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;letter-spacing:.06em;
+ display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);border:1px solid #d4cfc7;
+ border-radius:999px;padding:5px 6px;box-shadow:0 2px 10px rgba(0,0,0,.14);backdrop-filter:blur(6px)}
+#lang-switch button{font:inherit;display:inline-block;padding:4px 11px;border:0;border-radius:999px;
+ background:none;color:#4a4a4a;cursor:pointer}
+#lang-switch button:hover{background:#f0ece6;color:#b44a2f}
+html[data-lang="zh"] #lang-switch button[data-set-lang="zh"],
+html[data-lang="en"] #lang-switch button[data-set-lang="en"]{background:#b44a2f;color:#fff}
+@media print{#lang-switch{display:none}}
+@media (max-width:600px){#lang-switch{top:6px;right:6px;font-size:11px}}
+html[data-lang="en"] [data-l="zh"]{display:none !important}
+html[data-lang="zh"] [data-l="en"]{display:none !important}
+</style>
+<script id="lang-switch-init">
+(function(){
+  var DEF="zh";
+  var l=null;
+  try{l=localStorage.getItem("site-lang");}catch(e){}
+  if(l!=="zh"&&l!=="en"){l=DEF;}
+  var d=document.documentElement;
+  d.setAttribute("data-lang",l);
+  d.setAttribute("lang",l==="zh"?"zh-Hant":"en");
+})();
+</script>
 </head>
 <body>
+<div id="lang-switch" role="group" aria-label="Language / 語言">
+<button type="button" data-set-lang="zh" lang="zh-Hant" title="中文版">中文</button>
+<button type="button" data-set-lang="en" lang="en" title="English version">EN</button>
+</div>
+<script id="lang-switch-ctl">
+(function(){
+  var TITLES={zh:"數位控制系統 — NTU 課程大綱 | 昭群科技",en:"Digital Control Systems — NTU Syllabus | JiaoKuan Technology"};
+  function applyAttrs(lang){
+    var nodes=document.querySelectorAll("[data-i18n]");
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i],map;
+      try{map=JSON.parse(el.getAttribute("data-i18n"));}catch(e){continue;}
+      if(!el.__i18nOrig){
+        var o={};
+        for(var k in map){for(var a in map[k]){o[a]=el.getAttribute(a);}}
+        el.__i18nOrig=o;
+      }
+      var want=map[lang];
+      if(want){for(var a2 in want){el.setAttribute(a2,want[a2]);}}
+      else{for(var a3 in el.__i18nOrig){if(el.__i18nOrig[a3]!==null)el.setAttribute(a3,el.__i18nOrig[a3]);}}
+    }
+  }
+  function apply(lang,persist){
+    var d=document.documentElement;
+    d.setAttribute("data-lang",lang);
+    d.setAttribute("lang",lang==="zh"?"zh-Hant":"en");
+    if(TITLES[lang])document.title=TITLES[lang];
+    applyAttrs(lang);
+    if(persist){try{localStorage.setItem("site-lang",lang);}catch(e){}}
+    d.dispatchEvent(new CustomEvent("langchange",{detail:{lang:lang}}));
+  }
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    while(t&&t!==document){
+      if(t.getAttribute&&t.getAttribute("data-set-lang")){
+        apply(t.getAttribute("data-set-lang"),true);
+        return;
+      }
+      t=t.parentNode;
+    }
+  });
+  apply(document.documentElement.getAttribute("data-lang")||"zh",false);
+})();
+</script>
+
 
 <header>
-  <div class="crumb"><a href="%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html">&larr; 回 課程內容對應表</a></div>
-  <h1>數位控制系統
+  <div class="crumb"><a href="%E5%AD%B8%E5%88%86%E6%8A%B5%E5%85%8D%E5%B0%8D%E7%85%A7%E8%A1%A8.html">← <span data-l="zh">回 課程內容對應表</span><span data-l="en">back to Course Content Mapping</span></a></div>
+  <h1><span data-l="zh">數位控制系統</span><span data-l="en">Digital Control Systems</span>
     <span class="en">DIGITAL CONTROL SYSTEM</span>
   </h1>
   <div class="badges">
-    <span class="chip">國立臺灣大學 NTU</span>
+    <span class="chip"><span data-l="zh">國立臺灣大學 NTU</span><span data-l="en">National Taiwan University (NTU)</span></span>
     <span class="chip">ME5247</span>
     <span class="chip">522 U5350</span>
     <span class="chip">95-2</span>
-    <span class="chip">3 學分</span>
+    <span class="chip"><span data-l="zh">3 學分</span><span data-l="en">3 credits</span></span>
   </div>
 </header>
 
 <main>
 
 <section class="block">
-  <h2>課程資訊</h2>
+  <h2><span data-l="zh">課程資訊</span><span data-l="en">Course Information</span></h2>
   <div class="inner">
     <table class="info">
-      <tr><td>課程名稱</td><td>數位控制系統<br>DIGITAL CONTROL SYSTEM</td></tr>
-      <tr><td>開課學期</td><td>95-2</td></tr>
-      <tr><td>授課對象</td><td>工學院　機械工程學研究所</td></tr>
-      <tr><td>授課教師</td><td>陳明新</td></tr>
-      <tr><td>課號</td><td>ME5247</td></tr>
-      <tr><td>課程識別碼</td><td>522 U5350</td></tr>
-      <tr><td>學分</td><td>3</td></tr>
-      <tr><td>全/半年</td><td>半年</td></tr>
-      <tr><td>必/選修</td><td>選修</td></tr>
-      <tr><td>上課時間</td><td>星期四 6,7,8（13:20~16:20）</td></tr>
-      <tr><td>上課地點</td><td>普 405</td></tr>
-      <tr><td>備註</td><td>系統控制知識領域<br>總人數上限：80 人</td></tr>
-    </table>
+      <tbody><tr><td><span data-l="zh">課程名稱</span><span data-l="en">Course title</span></td><td><span data-l="zh">數位控制系統</span><span data-l="en">Digital Control Systems</span><br>DIGITAL CONTROL SYSTEM</td></tr>
+      <tr><td><span data-l="zh">開課學期</span><span data-l="en">Semester</span></td><td>95-2</td></tr>
+      <tr><td><span data-l="zh">授課對象</span><span data-l="en">Offered to</span></td><td><span data-l="zh">工學院　機械工程學研究所</span><span data-l="en">College of Engineering — Graduate Institute of Mechanical Engineering</span></td></tr>
+      <tr><td><span data-l="zh">授課教師</span><span data-l="en">Instructor</span></td><td>陳明新</td></tr>
+      <tr><td><span data-l="zh">課號</span><span data-l="en">Course code</span></td><td>ME5247</td></tr>
+      <tr><td><span data-l="zh">課程識別碼</span><span data-l="en">Course identifier</span></td><td>522 U5350</td></tr>
+      <tr><td><span data-l="zh">學分</span><span data-l="en">Credits</span></td><td>3</td></tr>
+      <tr><td><span data-l="zh">全/半年</span><span data-l="en">Full-year / one semester</span></td><td><span data-l="zh">半年</span><span data-l="en">One semester</span></td></tr>
+      <tr><td><span data-l="zh">必/選修</span><span data-l="en">Required / elective</span></td><td><span data-l="zh"><span data-l="zh">選修</span></span><span data-l="en">Elective</span></td></tr>
+      <tr><td><span data-l="zh">上課時間</span><span data-l="en">Class time</span></td><td><span data-l="zh">星期四 6,7,8（13:20~16:20）</span><span data-l="en">Thursday, periods 6–8 (13:20–16:20)</span></td></tr>
+      <tr><td><span data-l="zh">上課地點</span><span data-l="en">Location</span></td><td><span data-l="zh">普 405</span><span data-l="en">General Teaching Building, Room 405</span></td></tr>
+      <tr><td><span data-l="zh">備註</span><span data-l="en">Notes</span></td><td><span data-l="zh">系統控制知識領域</span><span data-l="en">Systems and Control knowledge area</span><br><span data-l="zh">總人數上限：80 人</span><span data-l="en">Enrolment cap: 80</span></td></tr>
+    </tbody></table>
   </div>
 </section>
 
 <section class="block">
-  <h2>課程大綱</h2>
+  <h2><span data-l="zh">課程大綱</span><span data-l="en">Syllabus</span></h2>
   <div class="inner">
-    <div class="notice">為確保您我的權利，請尊重智慧財產權及不得非法影印。</div>
+    <div class="notice"><span data-l="zh">為確保您我的權利，請尊重智慧財產權及不得非法影印。</span><span data-l="en">To protect everyone's rights, please respect intellectual property and do not photocopy illegally.</span></div>
 
-    <h3>課程概述 / Description</h3>
+    <h3><span data-l="zh">課程概述 / Description</span><span data-l="en">Description</span></h3>
     <p>Since almost every engineering branch (control, signal processing, communications, dynamic system analysis, …) uses computers as their tools to handle the information, knowledge of digital system (or discrete-time system) becomes fundamental for every engineer. This course will introduce the basic skills required for the analysis and control of such systems. It is a course suitable for students who have taken the Automatic Control course. This course is mainly of undergraduate level, but is also suitable for graduate students who are not familiar with digital control.</p>
 
-    <h3>課程目標 / Main Topics</h3>
+    <h3><span data-l="zh">課程目標 / Main Topics</span><span data-l="en">Main Topics</span></h3>
     <ol>
       <li>Z-transform</li>
       <li>Discrete-time model of sampled system</li>
@@ -120,10 +190,10 @@
       <li>Optimal control and optimal observer</li>
     </ol>
 
-    <h3>課程要求 / Requirements</h3>
-    <p>（原大綱此欄重複列出上述六項主題。）</p>
+    <h3><span data-l="zh">課程要求 / Requirements</span><span data-l="en">Requirements</span></h3>
+    <p><span data-l="zh">（原大綱此欄重複列出上述六項主題。）</span><span data-l="en">(In the original syllabus this field simply repeats the six topics listed above.)</span></p>
 
-    <h3>參考書目 / References</h3>
+    <h3><span data-l="zh">參考書目 / References</span><span data-l="en">References</span></h3>
     <ol>
       <li>Franklin, Powell, and Workman, <i>Digital Control of Dynamic Systems</i>, Addison Wesley, 1998.</li>
       <li>K. J. Åström and B. Wittenmark, <i>Computer-Controlled Systems, Theory and Design</i>, 3rd ed., Prentice-Hall, 1997.</li>
@@ -133,29 +203,30 @@
 </section>
 
 <section class="block">
-  <h2>評量方式（僅供參考）</h2>
+  <h2><span data-l="zh">評量方式（僅供參考）</span><span data-l="en">Grading (for reference only)</span></h2>
   <div class="inner">
-    <p class="empty">原大綱未列出配分項目。</p>
+    <p class="empty"><span data-l="zh">原大綱未列出配分項目。</span><span data-l="en">The original syllabus does not list grading components.</span></p>
     <ol style="font-size:12.5px;color:var(--muted);margin-top:10px">
-      <li>本校尚無訂定 A+ 比例上限。</li>
-      <li>本校採用等第制評定成績，學生成績評量辦法中的百分制分數區間與單科成績對照表僅供參考，授課教師可依等第定義調整分數區間。</li>
+      <li><span data-l="zh">本校尚無訂定 A+ 比例上限。</span><span data-l="en">The university has not set an upper limit on the proportion of A+ grades.</span></li>
+      <li><span data-l="zh">本校採用等第制評定成績，學生成績評量辦法中的百分制分數區間與單科成績對照表僅供參考，授課教師可依等第定義調整分數區間。</span><span data-l="en">The university grades on a letter-grade system. The percentage ranges in the student grading regulations are for reference only; instructors may adjust them according to the letter-grade definitions.</span></li>
     </ol>
   </div>
 </section>
 
 <section class="block">
-  <h2>課程進度</h2>
+  <h2><span data-l="zh">課程進度</span><span data-l="en">Course Schedule</span></h2>
   <div class="inner">
-    <p class="empty">無資料（原大綱未提供每週進度）。</p>
+    <p class="empty"><span data-l="zh">無資料（原大綱未提供每週進度）。</span><span data-l="en">No data (the original syllabus does not provide a weekly schedule).</span></p>
   </div>
 </section>
 
 <div class="src">
-  資料來源：國立臺灣大學課程網 (NTU NOL) 課程大綱列印頁，擷取於 2026-06-17。<br>
+  <span data-l="zh">資料來源：國立臺灣大學課程網 (NTU NOL) 課程大綱列印頁，擷取於 2026-06-17。</span><span data-l="en">Source: National Taiwan University Course Information Network (NTU NOL), syllabus print page, retrieved 2026-06-17.</span><br>
   https://nol.ntu.edu.tw/nol/coursesearch/print_table.php?course_id=522 U5350&amp;class=&amp;dpt_code=5220&amp;ser_no=12728&amp;semester=95-2&amp;lang=CH<br>
-  本頁為該課程大綱之網頁重製版本，內容依原始大綱逐項轉錄，僅供學分抵免採計對照參考；著作權仍屬原授課單位所有。
+  <span data-l="zh">本頁為該課程大綱之網頁重製版本，內容依原始大綱逐項轉錄，僅供學分抵免採計對照參考；著作權仍屬原授課單位所有。</span><span data-l="en">This page is a web reproduction of that syllabus, transcribed item by item from the original, and is provided solely for reference in credit-transfer assessment; copyright remains with the original teaching unit.</span>
 </div>
 
 </main>
-</body>
-</html>
+
+
+</body></html>
