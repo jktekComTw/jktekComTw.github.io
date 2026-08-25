@@ -1,89 +1,70 @@
-# 昭群科技 JiaoKuan Technology — 官方網站 / Company Website
+# 昭群科技 JiaoKuan Technology — 已停用 / Retired
 
-公司官網原始碼，以純靜態 HTML 建置，透過 GitHub Pages 發佈。
-Source for the company homepage — a plain static HTML site published via GitHub Pages.
+> **本站已遷移。正式站台為 <https://www.jktek.com.tw>。**
+>
+> **This site has moved. The live site is <https://www.jktek.com.tw>.**
 
-**Live:** <https://jktekComTw.github.io>
+本專案曾透過 GitHub Pages 發佈公司官網。網站已遷至自有網域，內容不再於此維護，
+所有內頁 HTML 均已移除，僅保留 `index.html` 作為指向新網域的入口。
 
-昭群科技位於高雄市鳳山區，專注於 GNU/Linux 與 RTOS 嵌入式系統軟韌體開發、馬達變頻器 FOC
-控制、電力電子產品設計、網頁與手機 App 開發、機構 3D 設計及 FPGA 設計。除公司介紹與專案
-實績外，本站另收錄技術筆記、除錯報告與課程學習指南。
+This repository used to publish the company website via GitHub Pages. The site
+has moved to its own domain and is no longer maintained here. Every content page
+has been removed; only `index.html` remains, pointing at the new domain.
 
-JiaoKuan Technology is a Kaohsiung-based embedded systems and software/firmware team.
-Alongside company and project pages, this site hosts technical notes, debugging
-write-ups, and course study guides.
+請不要在此新增或修改內容 —— 任何變更都應在正式站台的來源庫進行。
+Do not add or edit content here. Changes belong in the live site's repository.
 
-## 網站結構 / Layout
+## 現況 / What is left
 
 | 路徑 Path | 說明 Description |
 |---|---|
-| `index.html` | 首頁 — 服務項目與技術領域 / Homepage |
-| `aboutus.html` | 公司簡介 / About the company |
-| `projects.html` | 專案實績 / Project portfolio |
-| `misc_ideas.html` | 技術筆記與學習指南索引 / Index of notes & study guides |
-| `misc/` | 技術筆記：SIL/dSIL 設計、device-tree IOMMU Q&A、SMMU RBF 載入失敗、VCU118 電源診斷、URSI GASS 2026 |
-| `textbook/` | 課程學習指南 / Study guides — `radio_circuit`、`magnetelectronics`、`Signal&system`、`dcd` |
-| `dcd/` | 數位電路設計與 Verilog 學習指南 / Digital circuit design & Verilog study guide |
-| `medicine/` | 藥物穩態劑量計算 / Steady-state dosing calculator |
-| `hsmc_pin_map.html` | Terasic DE25 FPGA HSMC ↔ ADA 腳位對照表 / Pin map |
-| `webasm.html`, `program.wasm` | WebAssembly Fibonacci 示範 / demo |
-| `webgl_test.html`, `webgl-cube.js` | WebGL 3D 立方體示範 / demo |
+| `index.html` | 指向 <https://www.jktek.com.tw> 的入口頁，含 `rel=canonical` / Landing page carrying a `rel=canonical` to the new domain |
+| `capy.jpg` | `index.html` 使用的標誌 / logo used by `index.html` |
+| `.nojekyll` | 保留，使 GitHub Pages 原樣提供檔案 / kept so GitHub Pages serves files as-is |
 
-## 開發 / Development
+其餘檔案（圖片、PDF、`.md` 原稿、`program.wasm` 等）仍在版本庫中，僅內頁 HTML 被移除。
+完整歷史仍在 Git 中，若需取回任何一頁：
 
-無建置流程、無相依套件 — 直接編輯 HTML 並以瀏覽器開啟即可。
-No build step and no dependencies. Edit the HTML and open it in a browser.
+Other files (images, PDFs, `.md` sources, `program.wasm`) are still tracked; only
+the content HTML was removed. The full history is still in Git, so any page can
+be recovered:
 
 ```bash
-# 本機預覽 / Serve locally (any static server works)
-python -m http.server 8000    # → http://localhost:8000
+# 列出移除該批檔案的提交 / find the commit that removed them
+git log --diff-filter=D --name-only -- '*.html'
+
+# 取回單一檔案 / restore one file
+git checkout <commit>^ -- aboutus.html
 ```
 
-`.nojekyll` 存在，GitHub Pages 會原樣提供檔案，不經 Jekyll 處理 —
-底線開頭的目錄與檔案因此不會被忽略。
-`.nojekyll` makes GitHub Pages serve files as-is, bypassing Jekyll, so paths
-beginning with an underscore are not skipped.
+## 已知後果 / Known consequences
 
-## Git LFS
+移除內頁後，這些網址會回傳 404：`/aboutus.html`、`/projects.html`、`/patents.html`、
+`/misc_ideas.html`、`/textbook/...`、`/misc/...`、`/dcd/...`、`/medicine/...`。
+保留的 `index.html` 其導覽列仍連向其中四頁，因此那些連結目前是斷的。
 
-PDF 以 Git LFS 追蹤（見 `.gitattributes`：`*.pdf filter=lfs diff=lfs merge=lfs -text`）。
-複製本專案前請先安裝 git-lfs，否則取得的 PDF 只會是指標檔。
+These URLs now return 404: `/aboutus.html`, `/projects.html`, `/patents.html`,
+`/misc_ideas.html`, and everything under `/textbook/`, `/misc/`, `/dcd/` and
+`/medicine/`. The surviving `index.html` still has nav links to four of them, so
+those links are currently broken.
 
-PDFs are tracked with Git LFS. Install git-lfs before cloning, or you will get
-pointer files instead of the real PDFs.
+搜尋引擎會在數週內將這些網址移出索引。舊網址並未轉址至新網域，因此原有的搜尋排名
+不會轉移過去 —— 這是移除（而非設定轉址）的預期結果。
 
-```bash
-git lfs install
-git clone <repo-url>
-git lfs pull        # 既有複本 / for an existing clone
-```
-
-Windows/MSYS2 note: `git-lfs` ships with Git for Windows but is not on the MSYS2
-`PATH`. **Append** it — prepending shadows `/usr/bin/git` and breaks repos on
-network shares:
-
-```bash
-export PATH="$PATH:/c/Program Files/Git/mingw64/bin"
-```
+Search engines will drop these URLs over the following weeks. The old URLs are
+not redirected to the new domain, so any accumulated search ranking is not
+carried across. That is the expected outcome of removing them rather than
+redirecting.
 
 ## Remotes
 
 | Remote | URL | 用途 Purpose |
 |---|---|---|
-| `origin` | `git@github.com:jktekComTw/jktekComTw.github.io.git` | 正式站台來源 / publishes the live site |
-| `gitea` | `git@gitea.rflab.lan:chma/company.git` | 內網私有鏡像 / private LAN mirror |
+| `origin` | `git@github.com:jktekComTw/jktekComTw.github.io.git` | 本停用庫 / this retired repository |
 
-推送到 `origin` 即部署；`gitea` 僅作為內部備份。
-Pushing to `origin` deploys the site. `gitea` is an internal backup only.
-
-內網鏡像的反向代理限制請求本體約 1 MB，超過的 LFS 物件會回傳 HTTP 413；
-需直接上傳至 `:3000` 埠繞過代理。
-The LAN mirror sits behind a reverse proxy that caps request bodies at ~1 MB, so
-LFS objects above that fail with HTTP 413 and must be uploaded directly to port
-`:3000`, bypassing the proxy.
+正式站台改由自有主機提供，不再由推送至 `origin` 部署。
+The live site is served from its own host; pushing here no longer deploys it.
 
 ## 授權 / License
 
 © 昭群科技 JiaoKuan Technology. All rights reserved.
-本網站內容與程式碼未經授權不得轉載或再散布。
-Site content and code may not be redistributed without permission.
